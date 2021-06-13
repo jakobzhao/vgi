@@ -4,7 +4,11 @@ the repositoray for the NSF supported project on LGBTQ+ spaces.
 
 ## Queer Design
 
- 1. [Queer X Design highlights 50 years of LGBT+ graphic design](https://www.dezeen.com/2019/10/23/queer-design-andrew-campbell-50-years-lgbt-graphic-design/)
+ 1. [Queer X Design: 50 Years of Signs, Symbols, Banners, Logos, and Graphic Art of LGBTQ](https://www.amazon.com/Queer-Design-Symbols-Banners-Graphic/dp/0762467851)
+
+- [Book previews](https://www.google.com/books/edition/Queer_X_Design/frduDwAAQBAJ?hl=en&gbpv=0)
+
+- [Book highlights](https://www.dezeen.com/2019/10/23/queer-design-andrew-campbell-50-years-lgbt-graphic-design/)
 
 ![](https://static.dezeen.com/uploads/2019/10/queer-by-design-andrew-campbell-queer-graphic-design_dezeen_2364_col_hero.jpg)
 
@@ -84,9 +88,7 @@ usage:
 
 ![](https://s3.envato.com/files/310148551/Pride-LGBT-GraphicRiver%20Icons.jpg)
 
-
 ## basemaps
-
 
 1. light gray
 
