@@ -67,6 +67,7 @@
   <main role="main">
     <div id="map"></div>
     <!-- search box -->
+    <!-- TODO: add search functionalities with the geojson dataset matching values -->
     <div class="map-overlay-top">
       <div class="d-flex">
         <input type="search" id="form1" class="form-control" placeholder="search" />
@@ -77,10 +78,11 @@
         <button class="btn mx-2 btn-custom">damron_code</button>
         <button class="transparent" data-bs-toggle="modal" data-bs-target="#instructions"><i class="fas fa-question-circle fa-2x mx-2"></i></button>
         <!-- Modal -->
+        <!-- TODO <content> : add image and guidance to the website -->
         <div class="modal fade" id="instructions" tabindex="-1">
           <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
-              <div class="modal-header">
+              <div class="modal-heade">
                 <h5 class="modal-title" id="instructions">Instructions</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
               </div>
@@ -96,6 +98,7 @@
       </div>
     </div>
     <!-- timeline -->
+    <!-- TODO: positioning of slider still out of place and does not readjust with screen size -->
     <div class="map-overlay-bottom">
       <div class="bottom">
         <div>
@@ -104,6 +107,18 @@
         <input id="slider" type="range" min="1965" max="1975" step="1" value="1975"  oninput="year_val()">
       </div>
     </div>
+
+    <!-- sidebar -->
+    <div id = "info" class="hidden">
+      <p id="name"></p>
+      <p id="address"></p>
+      <p id="year-info"></p>
+      <p id="city"></p>
+      <p id="state"></p>
+      <p id="code">Damron Code:</p>
+      <button id="info-close" type="button" class= "btn btn-secondary">Close</button>
+    </div>
+
   </main>
 
   <script>
@@ -123,6 +138,8 @@
 
     map.on('load', function() {
 
+      // add data and circles
+      // TODO: substitute circles with respectable icons
       map.addLayer({
         'id': 'data',
         'type': 'circle',
@@ -139,12 +156,39 @@
         'filter': ['==', ['number',['get', 'year']], 1975]
       });
 
+      // slider setting with matching years
+      // TODO: might have to consider changing data files instead of just one single geojson file as input with slider
       document.getElementById('slider').addEventListener('input', function(e) {
         var year = parseInt(e.target.value);
         // update map accordingly
         map.setFilter('data', ['==', ['number', ['get','year']], year]);
         document.getElementById('year').innerText = year;
+      });
+
+      // trigger review/location information on click of location point of map
+      // TODO: construct function to find matching damron codes in e.features[0] (code == 1)
+      map.on('click', 'data', function(e) {
+
+        var dataCanvas= document.getElementById('info');
+
+        // show the left canvas
+        dataCanvas.classList.remove('slide-out');
+        dataCanvas.classList.add('slide-in');
+        dataCanvas.classList.remove('hidden');
+        document.getElementById('name').innerHTML = e.features[0].properties.name;
+        document.getElementById('year-info').innerHTML = e.features[0].properties.year;
+        document.getElementById('address').innerHTML = e.features[0].properties.address;
+        document.getElementById('state').innerHTML = e.features[0].properties.state;
+        document.getElementById('city').innerHTML = e.features[0].properties.city;
+
+        console.log(e.features[0].properties);
+        // button
+        document.getElementById('info-close').onclick = function() {
+          dataCanvas.classList.add('slide-out');
+        }
+
       })
+
 
     })
   </script>
