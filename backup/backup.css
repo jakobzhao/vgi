@@ -60,6 +60,7 @@ html, body, #map { width: 100%; height: 100%; margin: 0; background: #fff;}
     margin-left: 1%;
     margin-top: 1%;
     padding: 10px;
+    z-index: 1;
 }
 
 /** change color scheme here!**/
@@ -80,4 +81,59 @@ html, body, #map { width: 100%; height: 100%; margin: 0; background: #fff;}
 
 #year {
     font-size: 20px;
+}
+
+#info {
+    z-index: 2;
+    position: absolute;
+    width: 500px;
+    top: 15%;
+    bottom: 1%;
+    padding: 40px 15px 200px 15px;
+    border: white;
+    background-color: white;
+    color: black;
+    transform: translateX(-100%);
+    -webkit-transform: translateX(-100%);
+}
+
+.fade {
+    transition: ease-out 1s;
+}
+
+.slide-in {
+    animation: slide-in 0.5s forwards;
+    -webkit-animation: slide-in 0.5s forwards;
+}
+.slide-out {
+    animation: slide-out 0.5s forwards;
+    -webkit-animation: slide-out 0.5s forwards;
+}
+@keyframes slide-in {
+    100% { transform: translateX(0%); }
+}
+
+@-webkit-keyframes slide-in {
+    100% { -webkit-transform: translateX(0%); }
+}
+
+@keyframes slide-out {
+    0% { transform: translateX(0%); }
+    100% { transform: translateX(-100%); }
+}
+
+@-webkit-keyframes slide-out {
+    0% { -webkit-transform: translateX(0%); }
+    100% { -webkit-transform: translateX(-100%); }
+}
+
+.hidden {
+    visibility: hidden;
+}
+
+/** ensure that info object hidden if screen too small  **/
+@media only screen and (max-width: 1026px) {
+    #info {
+        visibility: hidden !important;
+    }
 }
