@@ -1,3 +1,21 @@
+html,
+body,
+main {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background: #fff;
+  display: flex;
+  flex-flow: column;
+}
+
+/* fixed navbar to fix dashboard overlaying on navbar */
+nav {
+    position: absolute;
+    z-index: 999;
+}
+
 .legend {
     line-height: 16px;
     width: 180px;
@@ -81,18 +99,18 @@
 }
 
 #info {
-    flex-grow: 1;
-    z-index: 2;
     position: absolute;
-    border: white;
+    z-index: 1;
     background-color: white;
-    width: 33%;
+    width: 32em;
+    bottom: 0;
+    height: 100%;
     color: black;
     transform: translateX(-100%);
     -webkit-transform: translateX(-100%);
+    padding: 4em 3em 3em 3em;
     /** if information overflows then content is hidden**/
     overflow: auto;
-    padding: 3em 3em 3em 2em;
 }
 
 ::-webkit-scrollbar {
