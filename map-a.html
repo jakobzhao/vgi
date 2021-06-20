@@ -18,6 +18,15 @@
 
   <!-- font awesome kit -->
   <script src="https://use.fontawesome.com/releases/v5.15.3/js/all.js" crossorigin="anonymous"></script>
+
+  <!-- Load the `mapbox-gl-geocoder` plugin. -->
+  <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.min.js"></script>
+  <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.css" type="text/css">
+  <!-- Promise polyfill script is required -->
+  <!-- to use Mapbox GL Geocoder in IE 11. -->
+  <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.min.js"></script>
+
 </head>
 
 <body>
@@ -53,12 +62,17 @@
     <!-- TODO: add search functionalities with the geojson dataset matching values -->
     <div class="map-overlay-top">
       <div class="d-flex">
-        <input type="search" id="form1" class="form-control" placeholder="search" />
-        <button type="button" class="btn btn-custom mx-2">
-          <i class="fas fa-search"></i>
-        </button>
-        <button class="btn mx-2 btn-custom">Type</button>
-        <button class="btn mx-2 btn-custom">damron_code</button>
+        <!-- search box -->
+        <div id="geocoder"></div>
+        <!-- type filter -->
+        <button class="btn mx-2 btn-custom">type</button>
+        <!-- damron code filter -->
+        <div class="dropwdown">
+          <button class="btn mx-2 btn-custom dropdown-toggle" data-bs-toggle="dropdown">damron_code</button>
+          <div class="dropdown-menu">
+            <p class="dropdown-item">hello</p>
+          </div>
+        </div>
         <button class="transparent" data-bs-toggle="modal" data-bs-target="#instructions"><i class="fas fa-question-circle fa-2x mx-2"></i></button>
         <!-- Modal -->
         <!-- TODO <content> : add image and guidance to the website -->
@@ -130,9 +144,17 @@
       zoom: 12 // starting zoom
     });
 
+    // geocoding search bar
+    let geocoder =new MapboxGeocoder({
+      accessToken: mapboxgl.accessToken,
+      mapboxgl: mapboxgl
+    });
+
+    document.getElementById('geocoder').appendChild(geocoder.onAdd(map));
+
     // change the input value in html on the slider
     function year_val() {
-      var year = document.getElementById('slider').value;
+      let year = document.getElementById('slider').value;
       document.getElementById('year').innerHTML = year;
     }
 
@@ -159,7 +181,7 @@
       // slider setting with matching years
       // TODO: might have to consider changing data files instead of just one single geojson file as input with slider
       document.getElementById('slider').addEventListener('input', function(e) {
-        var year = parseInt(e.target.value);
+        let year = parseInt(e.target.value);
         // update map accordingly
         map.setFilter('data', ['==', ['number', ['get','year']], year]);
         document.getElementById('year').innerText = year;
@@ -169,7 +191,7 @@
       // TODO: construct function to find matching damron codes in e.features[0] (code == 1)
       map.on('click', 'data', function(e) {
 
-        var dataCanvas= document.getElementById('info');
+        let dataCanvas = document.getElementById('info');
 
         // show the left canvas
         dataCanvas.classList.remove('slide-out');
