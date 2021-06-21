@@ -95,12 +95,31 @@
       </div>
     </div>
     <!-- timeline -->
-    <div class="map-overlay-bottom">
-      <div class="bottom">
+    <div class="middle">
+      <p class="m-0">Selected Interval:</p>
+      <div class="labels flex">
         <div>
-        <label id="year">1975</label>
+          <label id="left-label" class="fw-bolder">1965</label>
         </div>
-        <input id="slider" type="range" min="1965" max="1975" step="1" value="1975"  oninput="year_val()">
+        <div>
+          <p>&nbsp;to&nbsp;</p>
+        </div>
+        <div>
+          <label id="right-label" class="fw-bolder">1975</label>
+        </div>
+      </div>
+      <div>
+        <div id="slider" class="multi-range-slider">
+          <input type="range" id="input-left" min="1965" max="1975" value="1965" oninput="year_val()">
+          <input type="range" id="input-right" min="1965" max="1975" value="1975" oninput="year_val()">
+
+          <div class="slider">
+            <div class="track"></div>
+            <div class="range"></div>
+            <div class="thumb left"></div>
+            <div class="thumb right"></div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -154,10 +173,79 @@
 
     // change the input value in html on the slider
     function year_val() {
-      let year = document.getElementById('slider').value;
-      document.getElementById('year').innerHTML = year;
+      let left = document.getElementById('input-left').value;
+      let right = document.getElementById('input-right').value;
+      document.getElementById('left-label').innerHTML = left;
+      document.getElementById('right-label').innerHTML = right;
     }
 
+    // slider
+    var inputLeft = document.getElementById("input-left");
+    var inputRight = document.getElementById("input-right");
+
+    var thumbLeft = document.querySelector(".slider > .thumb.left");
+    var thumbRight = document.querySelector(".slider > .thumb.right");
+    var range = document.querySelector(".slider > .range");
+
+    function setLeftValue() {
+      var _this = inputLeft,
+        min = parseInt(_this.min),
+        max = parseInt(_this.max);
+
+      _this.value = Math.min(parseInt(_this.value), parseInt(inputRight.value) - 1);
+
+      var percent = ((_this.value - min) / (max - min)) * 100;
+
+      thumbLeft.style.left = percent + "%";
+      range.style.left = percent + "%";
+    }
+
+    setLeftValue();
+
+    function setRightValue() {
+      var _this = inputRight,
+        min = parseInt(_this.min),
+        max = parseInt(_this.max);
+
+      _this.value = Math.max(parseInt(_this.value), parseInt(inputLeft.value) + 1);
+
+      var percent = ((_this.value - min) / (max - min)) * 100;
+
+      thumbRight.style.right = (100 - percent) + "%";
+      range.style.right = (100 - percent) + "%";
+    }
+    setRightValue();
+
+    inputLeft.addEventListener("input", setLeftValue);
+    inputRight.addEventListener("input", setRightValue);
+
+    inputLeft.addEventListener("mouseover", function() {
+      thumbLeft.classList.add("hover");
+    });
+    inputLeft.addEventListener("mouseout", function() {
+      thumbLeft.classList.remove("hover");
+    });
+    inputLeft.addEventListener("mousedown", function() {
+      thumbLeft.classList.add("active");
+    });
+    inputLeft.addEventListener("mouseup", function() {
+      thumbLeft.classList.remove("active");
+    });
+
+    inputRight.addEventListener("mouseover", function() {
+      thumbRight.classList.add("hover");
+    });
+    inputRight.addEventListener("mouseout", function() {
+      thumbRight.classList.remove("hover");
+    });
+    inputRight.addEventListener("mousedown", function() {
+      thumbRight.classList.add("active");
+    });
+    inputRight.addEventListener("mouseup", function() {
+      thumbRight.classList.remove("active");
+    });
+
+    // map
     map.on('load', function() {
 
       // add data and circles
@@ -179,12 +267,24 @@
       });
 
       // slider setting with matching years
-      // TODO: might have to consider changing data files instead of just one single geojson file as input with slider
-      document.getElementById('slider').addEventListener('input', function(e) {
-        let year = parseInt(e.target.value);
-        // update map accordingly
-        map.setFilter('data', ['==', ['number', ['get','year']], year]);
-        document.getElementById('year').innerText = year;
+      document.getElementById('input-left').addEventListener('input', function(e){
+        let left = parseInt(e.target.value);
+        map.setFilter('data', ['>=', ['number', ['get','year']], left]);
+
+        document.getElementById('input-right').addEventListener('input', function(e) {
+          let right = parseInt(e.target.value);
+          map.setFilter('data', ['<=', ['number', ['get', 'year']], right]);
+        })
+      });
+
+      document.getElementById('input-right').addEventListener('input', function(e){
+        let right = parseInt(e.target.value);
+        map.setFilter('data', ['<=', ['number', ['get','year']], right]);
+
+        document.getElementById('input-left').addEventListener('input', function(e) {
+          let left = parseInt(e.target.value);
+          map.setFilter('data', ['>=', ['number', ['get', 'year']], left]);
+        })
       });
 
       // trigger review/location information on click of location point of map
@@ -226,8 +326,6 @@
       map.on('mouseleave', 'data', function () {
         map.getCanvas().style.cursor = '';
       });
-
-
     })
   </script>
 </body>
