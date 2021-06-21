@@ -64,9 +64,9 @@
       <div class="d-flex">
         <!-- search box -->
         <div id="geocoder"></div>
-        <!-- type filter -->
-        <button class="btn mx-2 btn-custom">type</button>
-        <!-- damron code filter -->
+          <!-- type filter -->
+          <button class="btn mx-2 btn-custom">type</button>
+          <!-- damron code filter -->
         <div class="dropwdown">
           <button class="btn mx-2 btn-custom dropdown-toggle" data-bs-toggle="dropdown">damron_code</button>
           <div class="dropdown-menu">
@@ -94,6 +94,7 @@
         </div>
       </div>
     </div>
+
     <!-- timeline -->
     <div class="middle">
       <p class="m-0">Selected Interval:</p>
@@ -247,6 +248,9 @@
 
     // map
     map.on('load', function() {
+      // added map style toggle
+
+
 
       // add data and circles
       // TODO: substitute circles with respectable icons
