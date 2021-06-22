@@ -64,9 +64,9 @@
       <div class="d-flex">
         <!-- search box -->
         <div id="geocoder"></div>
-          <!-- type filter -->
-          <button class="btn mx-2 btn-custom">type</button>
-          <!-- damron code filter -->
+        <!-- type filter -->
+        <button class="btn mx-2 btn-custom">type</button>
+        <!-- damron code filter -->
         <div class="dropwdown">
           <button class="btn mx-2 btn-custom dropdown-toggle" data-bs-toggle="dropdown">damron_code</button>
           <div class="dropdown-menu">
@@ -92,6 +92,22 @@
             </div>
           </div>
         </div>
+      </div>
+    </div>
+
+    <!-- right side-selection pane -->
+    <div class= "map-overlay-right">
+      <div id= "menu" class="bg-opaque-white">
+        <input id="satellite-v9" type="radio" name="rtoggle" value="satellite" checked="checked">
+        <label for="satellite-v9">satellite</label>
+        <input id="light-v10" type="radio" name="rtoggle" value="light">
+        <label for="light-v10">light</label>
+        <input id="dark-v10" type="radio" name="rtoggle" value="dark">
+        <label for="dark-v10">dark</label>
+        <input id="streets-v11" type="radio" name="rtoggle" value="streets">
+        <label for="streets-v11">streets</label>
+        <input id="outdoors-v11" type="radio" name="rtoggle" value="outdoors">
+        <label for="outdoors-v11">outdoors</label>
       </div>
     </div>
 
@@ -246,20 +262,17 @@
       thumbRight.classList.remove("active");
     });
 
-    // map
-    map.on('load', function() {
-      // added map style toggle
+    // ADD DATA
+    var data = 'assets/seattle-m-testing/combined-data.geojson';
 
-
-
-      // add data and circles
-      // TODO: substitute circles with respectable icons
+    // add data layer onto map
+    function addDataLayer() {
       map.addLayer({
         'id': 'data',
         'type': 'circle',
         'source': {
           type: 'geojson',
-          data: 'assets/seattle-m-testing/combined-data.geojson'
+          data: data
         },
         'paint': {
           'circle-radius': 5,
@@ -269,8 +282,17 @@
         },
         'filter': ['==', ['number',['get', 'year']], 1975]
       });
+    }
 
-      // slider setting with matching years
+    // MAP ON LOAD
+    map.on('load', function() {
+
+      // Load initial data points
+      // TODO: substitute circles with respectable icons
+      addDataLayer();
+
+      // 2. slider setting with matching years
+      // TODO: can be reduced using functions
       document.getElementById('input-left').addEventListener('input', function(e){
         let left = parseInt(e.target.value);
         map.setFilter('data', ['>=', ['number', ['get','year']], left]);
@@ -292,7 +314,6 @@
       });
 
       // trigger review/location information on click of location point of map
-      // TODO: construct function to find matching damron codes in e.features[0] (code == 1)
       map.on('click', 'data', function(e) {
         // fly to point when clicked
         // can alter center to custome coordinates too
@@ -330,6 +351,22 @@
       map.on('mouseleave', 'data', function () {
         map.getCanvas().style.cursor = '';
       });
+
+      var layerList = document.getElementById('menu');
+      var inputs = layerList.getElementsByTagName('input');
+
+      function switchLayer(layer) {
+        var layerId = layer.target.id;
+        map.setStyle('mapbox://styles/mapbox/' + layerId);
+      }
+
+      // load data points if function calls map.setStyle
+      for (var i = 0; i < inputs.length; i++) {
+      inputs[i].onclick = switchLayer;
+      map.on('style.load', function(){
+          addDataLayer();
+        })
+      }
     })
   </script>
 </body>

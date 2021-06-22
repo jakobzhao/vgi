@@ -80,6 +80,23 @@ nav {
     padding-left: 3em;
 }
 
+/* for right side panel */
+.map-overlay-right {
+    position: absolute;
+    right: 0;
+    padding-top: 2em;
+    padding-right: 0.5em;
+}
+
+/* side panel background */
+.bg-opaque-white {
+    width: 100%;
+    height: auto;
+    padding: 10px;
+    position: relative;
+    background: rgba(255, 255, 255, 0.75);
+}
+
 /** change color scheme here!**/
 .btn-custom {
     color: black;
