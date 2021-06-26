@@ -27,6 +27,8 @@
   <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.min.js"></script>
 
+  <script src="js/main.js"></script>
+
 </head>
 
 <body>
@@ -79,9 +81,8 @@
         <div class="modal fade" id="instructions" tabindex="-1">
           <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
-              <div class="modal-heade">
+              <div class="modal-header">
                 <h5 class="modal-title" id="instructions">Instructions</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
               </div>
               <div class="modal-body">
                 enter instructions here
@@ -167,6 +168,46 @@
           <button id="info-close" type="button" class= "btn btn-secondary">Close</button>
         </div>
       </div>
+    </div>
+
+    <!-- add user observation button -->
+    <div class="observation"> 
+        <div class="mx-5">
+          <button class= "btn-add-obs" type="button" data-bs-toggle="modal" data-bs-target="#observation"><i class="fa fa-plus fa-2x"></i></button>
+        </div>
+        <div class="modal fade" id="observation" tabindex="-1">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="instructions">Add Observation</h5>
+              </div>
+              <div class="modal-body">
+                <form id="user-form" class="d-flex flex-column">
+                  <label for="location">Location:</label>
+                  <input id = "location" type="text" placeholder="Enter location name">
+                  <label for="address">Address:</label>
+                  <input id = "address" type="text" placeholder="Enter address">
+                  <label for="city">City:</label>
+                  <input id="city" type="text" placeholder="Enter city of location">
+                  <label for="state">State:</label>
+                  <input id="state" type="text" placeholder="Enter state of location">
+                  <!-- v1 without damron code input -->
+                  <!-- <label for="damron">Damron Code:</label>
+                  <input for="damron" type="text" placeholder="Enter code"> -->
+                  <label for="type">Type:</label>
+                  <input id="type" type="text" placeholder="Enter type">
+                  <lable for="year">Year:</lable>
+                  <input id="submit-year" type="number" placeholder="Enter year">
+
+                  <button id="submit-button" type="submit" class="btn btn-primary">Submit</button>
+              </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
     </div>
 
   </main>

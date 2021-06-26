@@ -144,7 +144,7 @@ nav {
 }
 
 .fade {
-    transition: ease-out 1s;
+    transition: ease-out 0.3s;
 }
 
 .slide-in {
@@ -266,3 +266,29 @@ input[type=range]::-webkit-slider-thumb {
 	background-color: red;
 	-webkit-appearance: none;
 }
+
+/* for observation */
+.observation {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    margin: 5em;
+}
+
+.btn-add-obs {
+    padding: 1.5em;
+    border: transparent;
+    height: auto;
+    border-radius: 50%;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease 0s;
+    cursor: pointer;
+    outline: none;
+}
+
+.btn-add-obs:hover {
+    background-color: #3287f5;
+    box-shadow: 0px 15px 20px rgba(57, 80, 182, 0.4);
+    color: #fff;
+    transform: translateY(-5px);
+  }
