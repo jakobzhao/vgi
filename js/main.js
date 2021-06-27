@@ -42,7 +42,7 @@
         data.append("year", document.getElementById('submit-year').value);
 
         // fetch address currently from given site hosted through ngrok
-        fetch('https://4cadc62d185c.ngrok.io/api/user', {method: 'POST', body: data})
+        fetch('https://lgbtqspaces-api.herokuapp.com/api/user', {method: 'POST', body: data})
             .then(checkStatus)
             .then(response => response.text())
             .then(responseMessage)
