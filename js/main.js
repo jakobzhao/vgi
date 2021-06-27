@@ -34,11 +34,11 @@
 
         // Organize form data
         const data = new URLSearchParams();
-        data.append("location", document.getElementById('location').value);
-        data.append("address", document.getElementById('address').value);
-        data.append("city", document.getElementById('city').value);
-        data.append("state", document.getElementById('state').value);
-        data.append("type", document.getElementById('type').value);
+        data.append("location", document.getElementById('location-api').value);
+        data.append("address", document.getElementById('address-api').value);
+        data.append("city", document.getElementById('city-api').value);
+        data.append("state", document.getElementById('state-api').value);
+        data.append("type", document.getElementById('type-api').value);
         data.append("year", document.getElementById('submit-year').value);
 
         // fetch address currently from given site hosted through ngrok
