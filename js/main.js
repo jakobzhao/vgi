@@ -31,7 +31,6 @@
     // create new user function
     function newUser(event) {
         event.preventDefault();
-
         // Organize form data
         const data = new URLSearchParams();
         data.append("location", document.getElementById('location-api').value);
