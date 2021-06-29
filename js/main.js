@@ -45,7 +45,18 @@
             .then(checkStatus)
             .then(response => response.text())
             .then(responseMessage)
+            .then(clearForm)
             //.catch(handleError);
+    }
+
+    function clearForm() {
+        // clear data form
+        document.getElementById('location-api').value='';
+        document.getElementById('address-api').value='';
+        document.getElementById('city-api').value='';
+        document.getElementById('state-api').value='';
+        document.getElementById('type-api').value='';
+        document.getElementById('submit-year').value='';
     }
 
     function responseMessage() {

@@ -355,15 +355,14 @@
 
       // trigger review/location information on click of location point of map
       map.on('click', 'data', function(e) {
-        // fly to point when clicked
-        // can alter center to custome coordinates too
+        // fly and zoom to point when clicked
         map.flyTo({
           center: e.features[0].geometry.coordinates,
+          zoom: 14,
           essential: true
         });
 
         let dataCanvas = document.getElementById('info');
-
         // show the left canvas
         dataCanvas.classList.remove('slide-out');
         dataCanvas.classList.add('slide-in');
@@ -374,7 +373,6 @@
         document.getElementById('state').innerHTML = e.features[0].properties.state;
         document.getElementById('city').innerHTML = e.features[0].properties.city;
 
-        console.log(e.features[0].properties);
         // button
         document.getElementById('info-close').onclick = function() {
           dataCanvas.classList.add('slide-out');
@@ -400,7 +398,7 @@
         map.setStyle('mapbox://styles/mapbox/' + layerId);
       }
 
-      // load data points if function calls map.setStyle
+      // load data points back if function calls map.setStyle
       for (var i = 0; i < inputs.length; i++) {
       inputs[i].onclick = switchLayer;
       map.on('style.load', function(){
