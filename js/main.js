@@ -1,8 +1,6 @@
 // lgbtqspaces API
 // Utilizes the lgbtqspaces API to be deployed by Heroku to be able to
 // connect with the database
-// CURRENT STATUS: testing locally through ngrok links
-
 "use strict";
 (function() {
     window.addEventListener("load", init);
@@ -18,7 +16,7 @@
 
         document.querySelector("#submit-button").addEventListener('click', newUser);
         // read data
-
+        // readContents();
     };
 
     // function promptLogin(event){
@@ -28,10 +26,9 @@
 
     // };
 
-    // create new user function
-    function newUser(event) {
+    async function newUser(event) {
         event.preventDefault();
-        // Organize form data
+        // Obtain data from user input
         const data = new URLSearchParams();
         data.append("location", document.getElementById('location-api').value);
         data.append("address", document.getElementById('address-api').value);
@@ -39,18 +36,22 @@
         data.append("state", document.getElementById('state-api').value);
         data.append("type", document.getElementById('type-api').value);
         data.append("year", document.getElementById('submit-year').value);
+        // POST fetch request
+        let settings = {
+            method: 'POST',
+            body: data
+        }
 
-        // fetch address currently from given site hosted through ngrok
-        fetch('https://lgbtqspaces-api.herokuapp.com/api/user_observation', {method: 'POST', body: data})
-            .then(checkStatus)
-            .then(response => response.text())
-            .then(responseMessage)
-            .then(clearForm)
-            //.catch(handleError);
+        try {
+            let sendData = await fetch('https://lgbtqspaces-api.herokuapp.com/api/user_observation', settings);
+            clearForm();
+            console.log("User has been added to the database");
+        } catch(error) {
+            console.log(error);
+        }
     }
 
     function clearForm() {
-        // clear data form
         document.getElementById('location-api').value='';
         document.getElementById('address-api').value='';
         document.getElementById('city-api').value='';
@@ -59,9 +60,13 @@
         document.getElementById('submit-year').value='';
     }
 
-    function responseMessage() {
-        console.log("User has been added to the database.");
-    }
+    // read contents in the database
+    // function readContents() {
+
+    //     fetch('https://lgbtqspaces-api.herokuapp.com/api/contents', {method: 'GET'})
+    //         .then(response => response.json())
+    //         .then(data => console.log(data));
+    // }
 
     // delete specified user
     //function deleteUser() {
