@@ -6,7 +6,8 @@
     window.addEventListener("load", init);
 
     // init function
-    function init() {
+    // added init to async (test for bugs!)
+    async function init() {
         // popup to indicate that user needs to be logged in, in order to perform functions
         //let buttonValue = document.getElementsByClassName('btn btn-primary').value;
         // if user selects create button
@@ -15,6 +16,13 @@
         // user asycn functions
 
         document.querySelector("#submit-button").addEventListener('click', newUser);
+        let db_data = await displayData();
+        // only on move of left slider first
+        document.getElementById('input-left').addEventListener('change', function(e) {
+            let left_data = filter_data_left(e, db_data);
+            console.log(left_data);
+        });
+
         // read data
         // readContents();
     };
@@ -47,7 +55,7 @@
             clearForm();
             console.log("User has been added to the database");
         } catch(error) {
-            console.log(error);
+            checkStatus(error);
         }
     }
 
@@ -60,21 +68,56 @@
         document.getElementById('submit-year').value='';
     }
 
-    // read contents in the database
-    // function readContents() {
+    // obtains all the current data in database
+    async function displayData(){
+        try {
+            let readData = await fetch('https://lgbtqspaces-api.herokuapp.com/api/contents', {method: 'GET'});
+            let data = await readData.json();
+            return data;
+        } catch(error) {
+            console.log(error);
+        }
+    }
 
-    //     fetch('https://lgbtqspaces-api.herokuapp.com/api/contents', {method: 'GET'})
-    //         .then(response => response.json())
-    //         .then(data => console.log(data));
-    // }
+    function filter_data_left(e, data) {
+        var resultData = [];
+        // incoming slider input value
+        let left_value = parseInt(e.target.value);
+        // look through data
+        for (let i = 0; i < data.length; i++) {
+            // if data is more than left slider value
+            if(left_value <= data[i].year) {
+                console.log("added");
+                resultData.push(data[i]);
+            }
+        };
+       return resultData;
+    }
 
-    // delete specified user
-    //function deleteUser() {
-        // get ID from form insert data
-        // use id to match with api function call
-        // fetch
-        // console.log status update
-    //}
+    // converts json input  to geojson output
+    function toGEOJSON(){
+        //let feature_list = [];
+        console.log("check");
+        // for loop
+        // for (let i = 0; i  < data.length; i++) {
+
+        // }
+        // let temp = {
+        //     "type": "Feature",
+        //     "geometry": {
+        //         "type":"Point",
+        //         "coordinates" : [lat,long]
+        //     },
+        //     "properties": {
+        //         //everything else goes here
+        //     }
+
+        // }
+
+        // add into feature_list
+        // combine with geojson final format with feature collection and feature as feature list
+
+    }
 
     // status checks
     function checkStatus(response) {
