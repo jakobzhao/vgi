@@ -157,6 +157,13 @@ var inputs = layerList.querySelectorAll('#basemap-selection > input');
 function switchLayer(layer) {
   var layerId = layer.target.id;
   map.setStyle('mapbox://styles/mapbox/' + layerId);
+
+  // adjust slider text color when changing basemaps
+  if(layerId == 'satellite-v9' || layerId == 'dark-v10') {
+    document.getElementById('slider-time').setAttribute("style", "color: white;");
+  } else {
+    document.getElementById('slider-time').setAttribute("style", "color: black;");
+  }
 }
 
 // assign switch layer function for all radio button inputs
@@ -173,7 +180,7 @@ map.on('style.load', async function(){
 // MAP ON LOAD
 map.on('load', async function() {
 
-    // 2. slider setting with matching years
+    // 1. slider setting with matching years
     // TODO: can be reduced using functions
     document.getElementById('input-left').addEventListener('input', function(e){
     let left = parseInt(e.target.value);
@@ -225,11 +232,11 @@ map.on('load', async function() {
 
     // Change the cursor to a pointer when the it enters a feature in the 'circle' layer.
     map.on('mouseenter', 'data', function () {
-    map.getCanvas().style.cursor = 'pointer';
+      map.getCanvas().style.cursor = 'pointer';
     });
 
     // Change it back to a pointer when it leaves.
     map.on('mouseleave', 'data', function () {
-    map.getCanvas().style.cursor = '';
+      map.getCanvas().style.cursor = '';
     });
 })
