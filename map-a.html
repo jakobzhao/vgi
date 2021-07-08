@@ -89,18 +89,36 @@
     </div>
 
     <!-- right side-selection pane -->
-    <div class= "map-overlay-right">
-      <div id= "menu" class="bg-opaque-white">
-        <input id="satellite-v9" type="radio" name="rtoggle" value="satellite" checked="checked">
-        <label for="satellite-v9">satellite</label>
-        <input id="light-v10" type="radio" name="rtoggle" value="light">
-        <label for="light-v10">light</label>
-        <input id="dark-v10" type="radio" name="rtoggle" value="dark">
-        <label for="dark-v10">dark</label>
-        <input id="streets-v11" type="radio" name="rtoggle" value="streets">
-        <label for="streets-v11">streets</label>
-        <input id="outdoors-v11" type="radio" name="rtoggle" value="outdoors">
-        <label for="outdoors-v11">outdoors</label>
+    <div class="map-overlay-right">
+      <div id= "menu" class="bg-opaque-white" style="box-shadow: 0 3px 10px (0 0 0 / 0.2); border-radius: 5px;">
+        <div id="basemap-selection">
+          <p class="light-text-title">Basemap</p>
+          <input id="streets-v11" type="radio" name="rtoggle" value="streets" checked="checked">
+          <label for="streets-v11">Streets</label>
+          <input id="satellite-v9" type="radio" name="rtoggle" value="satellite">
+          <label for="satellite-v9">Satellite</label>
+          <input id="light-v10" type="radio" name="rtoggle" value="light">
+          <label for="light-v10">Light</label>
+          <input id="dark-v10" type="radio" name="rtoggle" value="dark">
+          <label for="dark-v10">Dark</label>
+          <input id="outdoors-v11" type="radio" name="rtoggle" value="outdoors">
+          <label for="outdoors-v11">Outdoors</label>
+          <hr>
+        </div>
+        <div id="gender-selection">
+          <!-- add other selections -->
+          <p class="light-text-title">Venues</p>
+          <input id="male-guide" type="radio" name="venue-gender" value="men">
+          <label for="male-guide">men</label>
+          <input id="female-guide" type="radio" name="venue-gender" value="women">
+          <label for="female-guide">women</label>
+          <hr>
+        </div>
+        <!-- reliability functions -->
+        <div id="confidence-selection">
+          <p class="light-text-title">Confidence</p>
+          <input type="range" name= "reliability" id="reliability" min="0" max="1" step="0.1">
+        </div>
       </div>
     </div>
 
@@ -120,8 +138,8 @@
       </div>
       <div>
         <div id="slider" class="multi-range-slider">
-          <input type="range" id="input-left" min="1965" max="2014" value="1965" oninput="year_val()">
-          <input type="range" id="input-right" min="1965" max="2014" value="2014" oninput="year_val()">
+          <input type="range" class="year-slider" id="input-left" min="1965" max="2014" value="1965" oninput="year_val()">
+          <input type="range" class="year-slider" id="input-right" min="1965" max="2014" value="2014" oninput="year_val()">
 
           <div class="slider">
             <div class="track"></div>
