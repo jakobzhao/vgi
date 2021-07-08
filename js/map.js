@@ -93,8 +93,6 @@ async function displayData(){
     try {
         let low = document.getElementById('input-left').value;
         let high = document.getElementById('input-right').value;
-        console.log(low);
-        console.log(high);
         let readData = await fetch(`https://lgbtqspaces-api.herokuapp.com/api/contents/${low}/${high}`, {method: 'GET'});
         let data = await readData.json();
         return toGEOJSON(data);
@@ -152,12 +150,28 @@ function addDataLayer(data) {
   });
 }
 
+
+var layerList = document.getElementById('menu');
+var inputs = layerList.querySelectorAll('#basemap-selection > input');
+
+function switchLayer(layer) {
+  var layerId = layer.target.id;
+  map.setStyle('mapbox://styles/mapbox/' + layerId);
+}
+
+// assign switch layer function for all radio button inputs
+for (var i = 0; i < inputs.length; i++) {
+  inputs[i].onclick = switchLayer;
+}
+
+// load basemap WHILE also retaining data display
+map.on('style.load', async function(){
+  let temp_data = await displayData();
+  addDataLayer(temp_data);
+})
+
 // MAP ON LOAD
 map.on('load', async function() {
-
-    // Load initial data points
-    let ini_data = await displayData();
-    addDataLayer(ini_data);
 
     // 2. slider setting with matching years
     // TODO: can be reduced using functions
@@ -218,20 +232,4 @@ map.on('load', async function() {
     map.on('mouseleave', 'data', function () {
     map.getCanvas().style.cursor = '';
     });
-
-    var layerList = document.getElementById('menu');
-    var inputs = layerList.getElementsByTagName('input');
-
-    function switchLayer(layer) {
-    var layerId = layer.target.id;
-    map.setStyle('mapbox://styles/mapbox/' + layerId);
-    }
-
-    // reload data points back if function calls map.setStyle
-    for (var i = 0; i < inputs.length; i++) {
-    inputs[i].onclick = switchLayer;
-    map.on('style.load', function(){
-        addDataLayer(ini_data);
-    })
-    }
 })
