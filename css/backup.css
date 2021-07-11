@@ -301,3 +301,38 @@ nav {
     margin-bottom: 0.5em;
 }
 
+/* confidence slider for right dashboard */
+#confidence-slider{
+    margin: 0px;
+    padding: 0px;
+}
+
+#confidence-observation {
+    width: 100%;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+}
+
+.slider:hover {
+    opacity: 1;
+}
+
+.sliderticks {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 10px;
+}
+
+.sliderticks p {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    width: 1px;
+    background: #D3D3D3;
+    height: 10px;
+    line-height: 40px;
+    margin: 0 0 20px 0;
+}

@@ -88,6 +88,31 @@ inputRight.addEventListener("mouseup", function() {
   thumbRight.classList.remove("active");
 });
 
+
+// confidence slider (right dashboard)
+var sliderStep = d3
+  .sliderBottom()
+  .min(0)
+  .max(1)
+  .width(200)
+  .ticks(10)
+  .step(0.1)
+  .default(0.5)
+  .on('onchange', val=> {
+    // add map filter on change of just confidence intervals
+    // d3.select('p#confidence-text').text(d3.format('.00')(val));
+  });
+
+  var gStep = d3
+    .select('div#confidence-slider')
+    .append('svg')
+    .attr('width', 400)
+    .attr('height', 100)
+    .append('g')
+    .attr('transform', 'translate(30,30)');
+
+  gStep.call(sliderStep);
+
 // obtain data from database
 async function displayData(){
     try {
