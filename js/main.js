@@ -14,7 +14,7 @@
         // first prompt signin
         // then allow event listener
         // user asycn functions
-
+        document.querySelector('#addObservationBtn').addEventListener('click', isLoggedIn);
         document.querySelector("#submit-button").addEventListener('click', newUser);
     };
 
@@ -57,6 +57,36 @@
         document.getElementById('state-api').value='';
         document.getElementById('type-api').value='';
         document.getElementById('submit-year').value='';
+    }
+
+    async function isLoggedIn() {
+        // hide modal initially
+        document.getElementById('observation-parent').classList.add('hidden');
+
+        if(gapi.auth2.getAuthInstance().isSignedIn.get()) {
+            // show modal
+            document.getElementById('observation-parent').classList.remove('hidden');
+            console.log("signed in!");
+            document.getElementById('googleSignOutBtn').addEventListener('click', () =>{
+                signOut();
+            })
+        } else {
+            // create a simple modal to notify user have to sign in to add observation
+            console.log("have to sign in to add observation");
+            // prompt google login window screen
+            await gapi.auth2.getAuthInstance().signIn();
+            // show modal
+            document.getElementById('observation-parent').classList.remove('hidden');
+        }
+    }
+
+    function signOut() {
+        var auth2 = gapi.auth2.getAuthInstance();
+        auth2.signOut().then(function () {
+        console.log('User has signed out.');
+      });
+      // disable functionalities
+      // document.getElementById('submit-button').disabled = true;
     }
 
     // status checks

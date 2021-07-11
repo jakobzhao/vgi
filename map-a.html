@@ -5,6 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="google-signin-client_id" content="297181745349-1epdpfne773uu4slprtqq6212v5kumci.apps.googleusercontent.com">
+
   <!-- <link href="css/bootstrap.min.css" rel="stylesheet"> -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
@@ -34,6 +35,7 @@
   <!-- GOOGLE SIGN-IN -->
   <script src="https://apis.google.com/js/api.js?onload=onLibraryLoaded" async defer></script>
   <script src="https://apis.google.com/js/platform.js?onload=init" async defer></script>
+  <script src="https://apis.google.com/js/api.js"></script>
 
   <script src="js/main.js"></script>
 </head>
@@ -63,7 +65,8 @@
             <a class="nav-link active" aria-current="page" href="#">Data</a>
           </li>
           <li>
-            <div class="g-signin2" data-onsuccess="onSuccess"></div>
+            <div id="googleSignInBtn" class="g-signin2" data-onsuccess="onSuccess"></div>
+            <button id="googleSignOutBtn" class="btn btn-secondary">Sign out</button>
           </li>
         </ul>
       </div>
@@ -201,9 +204,9 @@
     </div>
 
     <!-- add user observation button -->
-    <div class="observation">
+    <div id="observation-parent" class="observation">
         <div class="mx-5">
-          <button class= "btn-add-obs" type="button" data-bs-toggle="modal" data-bs-target="#observation"><i class="fa fa-plus fa-2x"></i></button>
+          <button id= "addObservationBtn" class= "btn-add-obs" type="button" data-bs-toggle="modal" data-bs-target="#observation"><i class="fa fa-plus fa-2x"></i></button>
         </div>
         <div class="modal fade" id="observation" tabindex="-1">
           <div class="modal-dialog modal-dialog-centered">
@@ -240,7 +243,6 @@
                       <p>4</p>
                       <p>5</p>
                     </div>
-
                   <button id="submit-button" type="submit" class="btn btn-primary my-3">Submit</button>
                 </form>
               </div>
