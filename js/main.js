@@ -8,14 +8,11 @@
     // init function
     // added init to async (test for bugs!)
     async function init() {
-        // popup to indicate that user needs to be logged in, in order to perform functions
-        //let buttonValue = document.getElementsByClassName('btn btn-primary').value;
-        // if user selects create button
-        // first prompt signin
-        // then allow event listener
-        // user asycn functions
         document.querySelector('#addObservationBtn').addEventListener('click', isLoggedIn);
         document.querySelector("#submit-button").addEventListener('click', newUser);
+        document.getElementById('googleSignOutBtn').addEventListener('click', () => {
+            signOut();
+        })
     };
 
     // function promptLogin(event){
@@ -59,34 +56,41 @@
         document.getElementById('submit-year').value='';
     }
 
+    // isLoggedIn()
+    // Checks if user is logged in already, on button clicked to add observation.
     async function isLoggedIn() {
-        // hide modal initially
-        document.getElementById('observation-parent').classList.add('hidden');
+        try {
+            document.getElementById('observation').classList.add('hidden');
+            if(gapi.auth2.getAuthInstance().isSignedIn.get()) {
+                // show modal
+                document.getElementById('observation').classList.remove('hidden');
+                console.log("signed in!");
+                document.getElementById('googleSignOutBtn').addEventListener('click', () =>{
+                    signOut();
+                })
+            } else {
+                // create a simple modal to notify user have to sign in to add observation
+                console.log("have to sign in to add observation");
+                // prompt google login window screen
+                await gapi.auth2.getAuthInstance().signIn();
+                // show modal
+                document.getElementById('observation').classList.remove('hidden');
+            }
 
-        if(gapi.auth2.getAuthInstance().isSignedIn.get()) {
-            // show modal
-            document.getElementById('observation-parent').classList.remove('hidden');
-            console.log("signed in!");
-            document.getElementById('googleSignOutBtn').addEventListener('click', () =>{
-                signOut();
-            })
-        } else {
-            // create a simple modal to notify user have to sign in to add observation
-            console.log("have to sign in to add observation");
-            // prompt google login window screen
-            await gapi.auth2.getAuthInstance().signIn();
-            // show modal
-            document.getElementById('observation-parent').classList.remove('hidden');
+        } catch(err) {
+            // hide observation if user is not able to log-in
+            $('#observation').modal('hide');
+            console.log(err);
         }
     }
 
     function signOut() {
         var auth2 = gapi.auth2.getAuthInstance();
-        auth2.signOut().then(function () {
-        console.log('User has signed out.');
-      });
-      // disable functionalities
-      // document.getElementById('submit-button').disabled = true;
+        if(gapi.auth2.getAuthInstance().isSignedIn.get()) {
+            auth2.signOut().then(function () {
+                console.log('User has signed out.');
+            });
+        };
     }
 
     // status checks
