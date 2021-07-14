@@ -176,31 +176,59 @@
     </div>
 
     <!-- sidebar -->
-    <div id = "info" class="d-md-flex flex-column hidden rounded">
+    <div id = "info" class="d-flex flex-column hidden rounded">
       <!-- image place-holder for location -->
-      <div class="figure">
-        <img src="assets/imgs/img-placeholder.svg">
+      <div id = "info-default">
+        <div class="figure">
+          <img src="assets/imgs/img-placeholder.svg">
+        </div>
+        <!-- Location information-->
+        <div class="d-flex flex-column rounded">
+          <div class="my-4">
+            <h2 id="name"></h2>
+          </div>
+          <!-- right dashboard - location information on clicked point div -->
+          <div class="my-2 d-md-flex flex-wrap">
+            <div class="fw-bold"> Address: </div>
+            <div id="address"></div>
+            <div class="fw-bold"> Year: </div>
+            <div id="year-info"></div>
+            <div class="fw-bold"> City: </div>
+            <div id="city"></div>
+            <div class="fw-bold"> State: </div>
+            <div id="state"></div>
+            <div class="fw-bold"> Code: </div>
+            <div id="code"></div>
+          </div>
+        </div>
       </div>
-      <!-- Location information-->
-      <div class="d-md-flex flex-column rounded">
-        <div class="my-4">
-          <h2 id="name"></h2>
-        </div>
-        <div class="my-2 d-md-flex flex-wrap">
-          <div class="fw-bold"> Address: </div>
-          <div id="address"></div>
-          <div class="fw-bold"> Year: </div>
-          <div id="year-info"></div>
-          <div class="fw-bold"> City: </div>
-          <div id="city"></div>
-          <div class="fw-bold"> State: </div>
-          <div id="state"></div>
-          <div class="fw-bold"> Code: </div>
-          <div id="code"></div>
-        </div>
-        <div>
-          <button id="info-close" type="button" class= "btn btn-secondary">Close</button>
-        </div>
+
+      <!-- right dashboard - validate observatoin div -->
+      <div id="validate-observation" class="d-flex flex-column d-none">
+        <label>Observed Name:</label>
+        <input id="observed-name-edit" type="text">
+        <label>Address:</label>
+        <input id="address-edit" type="text">
+        <label>City:</label>
+        <input id="city-edit" type="text">
+        <label>State:</label>
+        <input id="state-edit" type="text">
+        <label>ZIP:</label>
+        <input id="zip-edit" type="text">
+        <label>Longitude:</label>
+        <input id="long-edit" type="number">
+        <label>Latitude:</label>
+        <input id="lat-edit" type="number">
+        <label>Additional Notes:</label>
+        <input id="notes-edit" type="text">
+        <label>Confidence:</label>
+        <input id="confidence-edit" type="text">
+        <button id="submit-edit" type="button" class="btn btn-primary">Submit Edit</button>
+      </div>
+      <!-- right dashboard - buttons -->
+      <div>
+        <button id="validate-observation-btn" type="button" class="btn btn-primary" onclick="toggleView(this, 'd-none')" value="a">Validate this Observation</button>
+        <button id="info-close" type="button" class= "btn btn-secondary">Close</button>
       </div>
     </div>
 

@@ -14,7 +14,8 @@ let geocoder =new MapboxGeocoder({
 
 document.getElementById('geocoder').appendChild(geocoder.onAdd(map));
 
-// change the input value in html on the slider
+// Slider functions
+// year_val()
 function year_val() {
   let left = document.getElementById('input-left').value;
   let right = document.getElementById('input-right').value;
@@ -88,8 +89,29 @@ inputRight.addEventListener("mouseup", function() {
   thumbRight.classList.remove("active");
 });
 
+// toggle left dashboard to default and edit view
+function toggleView(element, toggleClass) {
+  let hiddenDiv = document.getElementById('validate-observation');
+  let defaultDiv = document.getElementById('info-default');
+  hiddenDiv.classList.toggle(toggleClass);
+  defaultDiv.classList.toggle(toggleClass);
 
-// confidence slider (right dashboard)
+  // Marker position on clicked location
+  let long = document.getElementById('long-edit').value;
+  let lat = document.getElementById('lat-edit').value;
+
+  if (element.value == 'a') {
+    // change button to "go back"
+    element.innerHTML = 'go back';
+    element.value = 'b';
+  } else { // if clicked on go back
+    // remove marker
+    element.innerHTML = "Valid an observation";
+    element.value = 'a';
+  };
+};
+
+// confidence slider (right dashboard) -testing with d3.js
 var sliderStep = d3
   .sliderBottom()
   .min(0)
@@ -113,7 +135,9 @@ var sliderStep = d3
 
   gStep.call(sliderStep);
 
-// obtain data from database
+// displayData
+// Obtain the data from the database given the input values from the year slider
+// returns a complete GEOJSON data output that is filtered with the matching dates
 async function displayData(){
     try {
         let low = document.getElementById('input-left').value;
@@ -147,6 +171,9 @@ function toGEOJSON(data){
             "features": feature_list};
 }
 
+// getProperties(data)
+// Parameters: data - input array elements from JSON
+// Returns an object that is to be added onto the geoJSON output
 function getProperties(data) {
     let result = {};
     for(const properties in data) {
@@ -157,7 +184,7 @@ function getProperties(data) {
     return result;
 }
 
-// add data layer onto map
+// Add data layer onto map
 function addDataLayer(data) {
     map.addLayer({
     'id': 'data',
@@ -175,7 +202,7 @@ function addDataLayer(data) {
   });
 }
 
-
+// basemap switching/styling
 var layerList = document.getElementById('menu');
 var inputs = layerList.querySelectorAll('#basemap-selection > input');
 
@@ -202,6 +229,9 @@ map.on('style.load', async function(){
   addDataLayer(temp_data);
 })
 
+
+//
+//
 // MAP ON LOAD
 map.on('load', async function() {
 
@@ -237,8 +267,8 @@ map.on('load', async function() {
         essential: true
     });
 
+    // Left Canvas Informaiton
     let dataCanvas = document.getElementById('info');
-    // show the left canvas
     dataCanvas.classList.remove('slide-out');
     dataCanvas.classList.add('slide-in');
     dataCanvas.classList.remove('hidden');
@@ -247,8 +277,20 @@ map.on('load', async function() {
     document.getElementById('address').innerHTML = e.features[0].properties.address;
     document.getElementById('state').innerHTML = e.features[0].properties.state;
     document.getElementById('city').innerHTML = e.features[0].properties.city;
+    console.log(e.features[0].geometry.coordinates[0]);
 
-    // button
+    // Edit observation pre-filled values
+    document.getElementById('observed-name-edit').value = e.features[0].properties.name;
+    document.getElementById('address-edit').value = e.features[0].properties.address;
+    document.getElementById('city-edit').value = e.features[0].properties.city;
+    document.getElementById('state-edit').value = e.features[0].properties.state;
+    document.getElementById('zip-edit').value = e.features[0].properties.zip;
+    document.getElementById('long-edit').value = e.features[0].geometry.coordinates[0];
+    document.getElementById('lat-edit').value = e.features[0].geometry.coordinates[1];
+    document.getElementById('notes-edit').value = e.features[0].properties.notes;
+    document.getElementById('confidence-edit').value = e.features[0].properties.confidence;
+
+    // close button
     document.getElementById('info-close').onclick = function() {
         dataCanvas.classList.add('slide-out');
     }
