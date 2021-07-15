@@ -90,21 +90,18 @@ inputRight.addEventListener("mouseup", function() {
 });
 
 // toggle left dashboard to default and edit view
-function toggleView(element, toggleClass) {
-  let hiddenDiv = document.getElementById('validate-observation');
+function toggleView(toggleClass) {
+  // default location information buttons and div
   let defaultDiv = document.getElementById('info-default');
+  let viewBtn = document.getElementById('validate-observation-btn');
+  // validate observation form buttons and div
+  let hiddenDiv = document.getElementById('validate-observation');
+  let backBtn = document.getElementById('go-back-btn');
+
   hiddenDiv.classList.toggle(toggleClass);
   defaultDiv.classList.toggle(toggleClass);
-
-  if (element.value == 'a') {
-    // change button to "go back"
-    element.innerHTML = 'go back';
-    element.value = 'b';
-  } else { // if clicked on go back
-    // remove marker
-    element.innerHTML = "Valid an observation";
-    element.value = 'a';
-  };
+  viewBtn.classList.toggle(toggleClass);
+  backBtn.classList.toggle(toggleClass);
 };
 
 // confidence slider (right dashboard) -testing with d3.js
@@ -238,10 +235,10 @@ map.on('style.load', async function() {
   map.on('click','data', function(e) {
     let features = map.queryRenderedFeatures(e.point, {layers: ['marker-original']});
 
-    // if (typeof map.getLayer('selectedMarker') !== "undefined" ){
-    //   map.removeLayer('selectedMarker');
-    //   map.removeSource('selectedMarker');
-    // }
+    if (typeof map.getLayer('selectedMarker') !== "undefined" ){
+      map.removeLayer('selectedMarker');
+      map.removeSource('selectedMarker');
+    }
 
     var feature = features[0];
     map.addSource('selectedMarker', {
@@ -282,6 +279,11 @@ map.on('style.load', async function() {
     })
   });
 
+
+  // create temporary marker if user wants to validate a location
+  var marker = new mapboxgl.Marker({
+    draggable:true
+  });
   // trigger review/location information on click of location point of map
   map.on('click', 'data', function(e) {
     // fly and zoom to point when clicked
@@ -315,13 +317,55 @@ map.on('style.load', async function() {
     document.getElementById('notes-edit').value = e.features[0].properties.notes;
     document.getElementById('confidence-edit').value = e.features[0].properties.confidence;
 
-    // close button
-    document.getElementById('info-close').onclick = function() {
-        dataCanvas.classList.add('slide-out');
-        map.removeLayer('selectedMarker');
-        map.removeSource('selectedMarker');
-    }
+    // if validate observation is clicked, display movable marker
+    let validateObservation = document.getElementById('validate-observation-btn');
+    validateObservation.addEventListener('click', function() {
+      marker.setLngLat([ e.lngLat.lng, e.lngLat.lat ]).addTo(map);
+      function onDragEnd() {
+        var lngLat = marker.getLngLat();
+        document.getElementById('long-edit').value = lngLat.lng;
+        document.getElementById('lat-edit').value = lngLat.lat;
+      }
+      marker.on('dragend', onDragEnd);
+      });
+
+  });
+
+  // go back button
+  document.getElementById('go-back-btn').addEventListener('click', function() {
+    toggleView('d-none');
+    marker.remove();
+  });
+
+  // validation button
+  // toggleview
+  document.getElementById('validate-observation-btn').addEventListener('click', function() {
+    toggleView('d-none');
   })
+
+  // close button
+  document.getElementById('info-close').onclick = function() {
+
+    document.getElementById('info').classList.add('slide-out');
+    // reset the form if user closes location information dashboard
+    let defaultDiv = document.getElementById('info-default');
+    let viewBtn = document.getElementById('validate-observation-btn');
+    let hiddenDiv = document.getElementById('validate-observation');
+    let backBtn = document.getElementById('go-back-btn');
+
+    if(defaultDiv.classList.contains('d-none')) {
+      defaultDiv.classList.remove('d-none');
+      viewBtn.classList.remove('d-none');
+      hiddenDiv.classList.add('d-none');
+      backBtn.classList.add('d-none');
+    }
+
+    // clear marker
+    marker.remove();
+    map.removeLayer('selectedMarker');
+    map.removeSource('selectedMarker');
+  }
+
 
   // Change the cursor to a pointer when the it enters a feature in the 'circle' layer.
   map.on('mouseenter', 'data', function () {
