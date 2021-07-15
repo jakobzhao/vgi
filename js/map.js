@@ -96,10 +96,6 @@ function toggleView(element, toggleClass) {
   hiddenDiv.classList.toggle(toggleClass);
   defaultDiv.classList.toggle(toggleClass);
 
-  // Marker position on clicked location
-  let long = document.getElementById('long-edit').value;
-  let lat = document.getElementById('lat-edit').value;
-
   if (element.value == 'a') {
     // change button to "go back"
     element.innerHTML = 'go back';
@@ -192,12 +188,6 @@ function addDataLayer(data) {
     'source': {
       type: 'geojson',
       data: data
-    },
-    'paint': {
-      'circle-radius': 5,
-      'circle-stroke-width': 2,
-      'circle-color': 'red',
-      'circle-stroke-color': 'white'
     }
   });
 }
@@ -223,48 +213,83 @@ for (var i = 0; i < inputs.length; i++) {
   inputs[i].onclick = switchLayer;
 }
 
-// load basemap WHILE also retaining data display
-map.on('style.load', async function(){
+// MAP ON LOAD
+map.on('style.load', async function() {
+
+  // load data
   let temp_data = await displayData();
   addDataLayer(temp_data);
-})
 
+  map.addLayer({
+    'id': 'marker-original',
+    'type': 'circle',
+    'source': 'data',
+    'interactive': true,
+    'layout': {},
+    'paint': {
+      'circle-radius': 5,
+      'circle-stroke-width': 2,
+      'circle-color': 'red',
+      'circle-stroke-color': 'white'
+    }
+  });
 
-//
-//
-// MAP ON LOAD
-map.on('load', async function() {
+  // Marker change when clicked on data point
+  map.on('click','data', function(e) {
+    let features = map.queryRenderedFeatures(e.point, {layers: ['marker-original']});
 
-    // 1. slider setting with matching years
-    // TODO: can be reduced using functions
-    document.getElementById('input-left').addEventListener('input', function(e){
+    // if (typeof map.getLayer('selectedMarker') !== "undefined" ){
+    //   map.removeLayer('selectedMarker');
+    //   map.removeSource('selectedMarker');
+    // }
+
+    var feature = features[0];
+    map.addSource('selectedMarker', {
+      "type": 'geojson',
+      'data': feature
+    })
+
+    map.addLayer({
+      'id':'selectedMarker',
+      'type': 'circle',
+      'source': 'selectedMarker',
+      'paint': {
+        'circle-radius' : 10,
+        'circle-color' : 'pink'
+      }
+    });
+  })
+
+  // slider setting with matching years
+  // TODO: can be reduced using functions
+  document.getElementById('input-left').addEventListener('input', function(e){
     let left = parseInt(e.target.value);
     map.setFilter('data', ['>=', ['number', ['get','year']], left]);
 
     document.getElementById('input-right').addEventListener('input', function(e) {
-        let right = parseInt(e.target.value);
-        map.setFilter('data', ['<=', ['number', ['get', 'year']], right]);
+      let right = parseInt(e.target.value);
+      map.setFilter('data', ['<=', ['number', ['get', 'year']], right]);
     })
-    });
+  });
 
-    document.getElementById('input-right').addEventListener('input', function(e){
+  document.getElementById('input-right').addEventListener('input', function(e){
     let right = parseInt(e.target.value);
     map.setFilter('data', ['<=', ['number', ['get','year']], right]);
 
     document.getElementById('input-left').addEventListener('input', function(e) {
-        let left = parseInt(e.target.value);
-        map.setFilter('data', ['>=', ['number', ['get', 'year']], left]);
+      let left = parseInt(e.target.value);
+      map.setFilter('data', ['>=', ['number', ['get', 'year']], left]);
     })
-    });
+  });
 
-    // trigger review/location information on click of location point of map
-    map.on('click', 'data', function(e) {
+  // trigger review/location information on click of location point of map
+  map.on('click', 'data', function(e) {
     // fly and zoom to point when clicked
     map.flyTo({
-        center: e.features[0].geometry.coordinates,
-        zoom: 14,
-        speed: 0.5,
-        essential: true
+      center: e.features[0].geometry.coordinates,
+      zoom: 14,
+      speed: 0.5,
+      essential: true
     });
 
     // Left Canvas Informaiton
@@ -293,17 +318,18 @@ map.on('load', async function() {
     // close button
     document.getElementById('info-close').onclick = function() {
         dataCanvas.classList.add('slide-out');
+        map.removeLayer('selectedMarker');
+        map.removeSource('selectedMarker');
     }
+  })
 
-    })
+  // Change the cursor to a pointer when the it enters a feature in the 'circle' layer.
+  map.on('mouseenter', 'data', function () {
+    map.getCanvas().style.cursor = 'pointer';
+  });
 
-    // Change the cursor to a pointer when the it enters a feature in the 'circle' layer.
-    map.on('mouseenter', 'data', function () {
-      map.getCanvas().style.cursor = 'pointer';
-    });
-
-    // Change it back to a pointer when it leaves.
-    map.on('mouseleave', 'data', function () {
-      map.getCanvas().style.cursor = '';
-    });
+  // Change it back to a pointer when it leaves.
+  map.on('mouseleave', 'data', function () {
+    map.getCanvas().style.cursor = '';
+  });
 })
