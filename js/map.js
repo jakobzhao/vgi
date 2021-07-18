@@ -104,7 +104,7 @@ function toggleView(toggleClass) {
   backBtn.classList.toggle(toggleClass);
 };
 
-// confidence slider (right dashboard) -testing with d3.js
+// confidence slider (right dashboard)-testing with d3.js
 var sliderStep = d3
   .sliderBottom()
   .min(0)
