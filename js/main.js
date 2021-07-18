@@ -9,16 +9,11 @@
     // added init to async (test for bugs!)
     async function init() {
         document.querySelector('#addObservationBtn').addEventListener('click', isLoggedIn);
+        document.getElementById('submit-edit').addEventListener('click', validateObservation);
         document.querySelector("#submit-button").addEventListener('click', newUser);
         document.getElementById('googleSignOutBtn').addEventListener('click', () => {
             signOut();
         });
-
-        document.getElementById('submit-edit').addEventListener('click', (e) => {
-            // code to check if the submit validation is already in the database
-            // if not then validate observation
-            validateObservation(e);
-        })
     };
 
     // function promptLogin(event){
@@ -101,33 +96,46 @@
     }
 
     async function validateObservation (event) {
-        event.preventDefault();
-        // Obtain data from user input
-        let data = new URLSearchParams();
-        data.append("state", document.getElementById('state-edit').value);
-        data.append("city", document.getElementById('city-edit').value);
-        data.append("year", document.getElementById('year-edit').value);
-        data.append("type", document.getElementById('type-edit').value);
-        data.append("name", document.getElementById('observed-name-edit').value);
-        data.append("address", document.getElementById('address-edit').value);
-        data.append("unit", "");
-        data.append("loc_notes", "");
-        data.append("temp_notes", "");
-        data.append("notes", document.getElementById('notes-edit').value);
-        data.append("latitude", document.getElementById('lat-edit').value);
-        data.append("longitude", document.getElementById('long-edit').value);
-        data.append("codelist", document.getElementById('codelist-edit').value);
-        data.append("geocoder", "mapbox");
-        data.append("createdBy", "9");
-        // POST fetch request
-        let settings = {
-            method: 'POST',
-            body: data
-        }
-
         try {
-            let sendData = await fetch('https://lgbtqspaces-api.herokuapp.com/api/observationtovenue', settings);
-            console.log("Observation has been confirmed. Added to the list of venues.");
+            event.preventDefault();
+            // Obtain data from user input
+            let newVenue = new URLSearchParams();
+            newVenue.append("state", document.getElementById('state-edit').value);
+            newVenue.append("city", document.getElementById('city-edit').value);
+            newVenue.append("year", document.getElementById('year-edit').value);
+            newVenue.append("type", document.getElementById('type-edit').value);
+            newVenue.append("name", document.getElementById('observed-name-edit').value);
+            newVenue.append("address", document.getElementById('address-edit').value);
+            newVenue.append("unit", "null");
+            newVenue.append("loc_notes", "null");
+            newVenue.append("temp_notes", "null");
+            newVenue.append("notes", document.getElementById('notes-edit').value);
+            newVenue.append("latitude", document.getElementById('lat-edit').value);
+            newVenue.append("longitude", document.getElementById('long-edit').value);
+            newVenue.append("codelist", document.getElementById('codelist-edit').value);
+            newVenue.append("geocoder", "mapbox");
+            newVenue.append("createdby", "user");
+
+            // delete the ORIGINAL SELECTED POINT in the observation table
+            let nameYearData = new URLSearchParams();
+            nameYearData.append("name", document.getElementById('name').textContent);
+            nameYearData.append("year", document.getElementById('year-info').textContent);
+
+            // POST fetch request
+            let venueData = {
+                method: 'POST',
+                body: newVenue
+            };
+
+            // DELETE fetch request
+            let nameYear =  {
+                method: 'DELETE',
+                body: nameYearData
+            };
+
+            let deleteObservation = await fetch('https://lgbtqspaces-api.herokuapp.com/api/deleteObservation', nameYear);
+            let sendData = await fetch('https://lgbtqspaces-api.herokuapp.com/api/add-venue', venueData);
+            console.log("Observation has been confirmed. Added to the list of venues. Please refresh the page.");
         } catch(error) {
             checkStatus(error);
         }
