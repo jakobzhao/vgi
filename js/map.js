@@ -304,7 +304,8 @@ map.on('style.load', async function() {
     document.getElementById('address').innerHTML = e.features[0].properties.address;
     document.getElementById('state').innerHTML = e.features[0].properties.state;
     document.getElementById('city').innerHTML = e.features[0].properties.city;
-    console.log(e.features[0].geometry.coordinates[0]);
+    document.getElementById('code').innerHTML = e.features[0].properties.codeList;
+    console.log(e.features[0]);
 
     // Edit observation pre-filled values
     document.getElementById('observed-name-edit').value = e.features[0].properties.name;
@@ -315,6 +316,7 @@ map.on('style.load', async function() {
     document.getElementById('long-edit').value = e.features[0].geometry.coordinates[0];
     document.getElementById('lat-edit').value = e.features[0].geometry.coordinates[1];
     document.getElementById('notes-edit').value = e.features[0].properties.notes;
+    document.getElementById('codelist-edit').value = e.features[0].properties.codeList;
     document.getElementById('confidence-edit').value = e.features[0].properties.confidence;
 
     // if validate observation is clicked, display movable marker
