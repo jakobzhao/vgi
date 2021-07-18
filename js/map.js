@@ -135,12 +135,27 @@ async function displayData(){
     try {
         let low = document.getElementById('input-left').value;
         let high = document.getElementById('input-right').value;
-        let readData = await fetch(`https://lgbtqspaces-api.herokuapp.com/api/contents/${low}/${high}`, {method: 'GET'});
+        let readData = await fetch(`https://lgbtqspaces-api.herokuapp.com/api/observations/${low}/${high}`, {method: 'GET'});
         let data = await readData.json();
         return toGEOJSON(data);
     } catch(error) {
         console.log(error);
     }
+}
+
+// venueData
+// Obtain the data from the venue table in the database given the input values from the year slider
+// returns a complete GEOJSON data output that is filtered with the matching dates
+async function venueData() {
+  try{
+    let low = document.getElementById('input-left').value;
+    let high = document.getElementById('input-right').value;
+    let getVenueData = await fetch(`https://lgbtqspaces-api.herokuapp.com/api/venues/${low}/${high}`, {method: 'GET'});
+    let venueData = await getVenueData.json();
+    return toGEOJSON(venueData);
+  } catch (err) {
+    console.log(err);
+  }
 }
 
 // converts json input  to geojson output
@@ -177,16 +192,30 @@ function getProperties(data) {
     return result;
 }
 
-// Add data layer onto map
-function addDataLayer(data) {
+// Add observation data layer onto map
+function addDataLayer(obsData, venueData) {
     map.addLayer({
-    'id': 'data',
-    'type': 'circle',
-    'source': {
-      type: 'geojson',
-      data: data
-    }
-  });
+      'id': 'data',
+      'type': 'circle',
+      'source': {
+        type: 'geojson',
+        data: obsData
+      }
+    });
+    map.addLayer({
+      'id': 'venue-data',
+      'type': 'circle',
+      'source': {
+        type: 'geojson',
+        data: venueData
+      },
+      'paint':  {
+        'circle-radius': 5,
+        'circle-stroke-width': 2,
+        'circle-color': 'blue',
+        'circle-stroke-color': 'white'
+      }
+    });
 }
 
 // basemap switching/styling
@@ -210,12 +239,14 @@ for (var i = 0; i < inputs.length; i++) {
   inputs[i].onclick = switchLayer;
 }
 
+////////////////////////////////////////////////////////////////////////////////////
 // MAP ON LOAD
 map.on('style.load', async function() {
 
   // load data
-  let temp_data = await displayData();
-  addDataLayer(temp_data);
+  let obs_data = await displayData();
+  let ven_data = await venueData();
+  addDataLayer(obs_data, ven_data);
 
   map.addLayer({
     'id': 'marker-original',
@@ -229,6 +260,33 @@ map.on('style.load', async function() {
       'circle-color': 'red',
       'circle-stroke-color': 'white'
     }
+  });
+
+  // slider setting with matching years
+  // TODO: can be reduced using functions
+  document.getElementById('input-left').addEventListener('input', function(e){
+    let left = parseInt(e.target.value);
+    map.setFilter('data', ['>=', ['number', ['get','year']], left]);
+
+    document.getElementById('input-right').addEventListener('input', function(e) {
+      let right = parseInt(e.target.value);
+      map.setFilter('data', ['<=', ['number', ['get', 'year']], right]);
+    })
+  });
+
+  document.getElementById('input-right').addEventListener('input', function(e){
+    let right = parseInt(e.target.value);
+    map.setFilter('data', ['<=', ['number', ['get','year']], right]);
+
+    document.getElementById('input-left').addEventListener('input', function(e) {
+      let left = parseInt(e.target.value);
+      map.setFilter('data', ['>=', ['number', ['get', 'year']], left]);
+    })
+  });
+
+  // create temporary marker if user wants to validate a location
+  var marker = new mapboxgl.Marker({
+    draggable:true
   });
 
   // Marker change when clicked on data point
@@ -255,37 +313,20 @@ map.on('style.load', async function() {
         'circle-color' : 'pink'
       }
     });
-  })
-
-  // slider setting with matching years
-  // TODO: can be reduced using functions
-  document.getElementById('input-left').addEventListener('input', function(e){
-    let left = parseInt(e.target.value);
-    map.setFilter('data', ['>=', ['number', ['get','year']], left]);
-
-    document.getElementById('input-right').addEventListener('input', function(e) {
-      let right = parseInt(e.target.value);
-      map.setFilter('data', ['<=', ['number', ['get', 'year']], right]);
-    })
-  });
-
-  document.getElementById('input-right').addEventListener('input', function(e){
-    let right = parseInt(e.target.value);
-    map.setFilter('data', ['<=', ['number', ['get','year']], right]);
-
-    document.getElementById('input-left').addEventListener('input', function(e) {
-      let left = parseInt(e.target.value);
-      map.setFilter('data', ['>=', ['number', ['get', 'year']], left]);
-    })
   });
 
 
-  // create temporary marker if user wants to validate a location
-  var marker = new mapboxgl.Marker({
-    draggable:true
-  });
   // trigger review/location information on click of location point of map
   map.on('click', 'data', function(e) {
+    // parse the codes to increase readability
+    let codeString = "";
+    let codes = e.features[0].properties.codeList;
+    for(let i=0; i < codes.length; i++) {
+      if(codes[i] !== '[' && codes [i] !== '"' && codes[i] !== '.' && codes[i] !== ']' && codes[i] !== "'") {
+        codeString += codes[i];
+      }
+    };
+
     // fly and zoom to point when clicked
     map.flyTo({
       center: e.features[0].geometry.coordinates,
@@ -304,19 +345,23 @@ map.on('style.load', async function() {
     document.getElementById('address').innerHTML = e.features[0].properties.address;
     document.getElementById('state').innerHTML = e.features[0].properties.state;
     document.getElementById('city').innerHTML = e.features[0].properties.city;
-    document.getElementById('code').innerHTML = e.features[0].properties.codeList;
-    console.log(e.features[0]);
+    document.getElementById('code').innerHTML = codeString;
+    document.getElementById('type').innerHTML = e.features[0].properties.type;
+    document.getElementById('long').innerHTML = e.features[0].geometry.coordinates[0];
+    document.getElementById('lat').innerHTML = e.features[0].geometry.coordinates[1];
 
     // Edit observation pre-filled values
     document.getElementById('observed-name-edit').value = e.features[0].properties.name;
     document.getElementById('address-edit').value = e.features[0].properties.address;
     document.getElementById('city-edit').value = e.features[0].properties.city;
     document.getElementById('state-edit').value = e.features[0].properties.state;
+    document.getElementById('year-edit').value = e.features[0].properties.year;
     document.getElementById('zip-edit').value = e.features[0].properties.zip;
     document.getElementById('long-edit').value = e.features[0].geometry.coordinates[0];
     document.getElementById('lat-edit').value = e.features[0].geometry.coordinates[1];
+    document.getElementById('type-edit').value = e.features[0].properties.type;
     document.getElementById('notes-edit').value = e.features[0].properties.notes;
-    document.getElementById('codelist-edit').value = e.features[0].properties.codeList;
+    document.getElementById('codelist-edit').value = codeString;
     document.getElementById('confidence-edit').value = e.features[0].properties.confidence;
 
     // if validate observation is clicked, display movable marker
