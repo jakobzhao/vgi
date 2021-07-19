@@ -136,26 +136,14 @@ async function displayData(){
         let low = document.getElementById('input-left').value;
         let high = document.getElementById('input-right').value;
         let readData = await fetch(`https://lgbtqspaces-api.herokuapp.com/api/observations/${low}/${high}`, {method: 'GET'});
+        let getVenueData = await fetch(`https://lgbtqspaces-api.herokuapp.com/api/venues/${low}/${high}`, {method: 'GET'});
+        let venueData = await getVenueData.json();
         let data = await readData.json();
+        data.push(...venueData);
         return toGEOJSON(data);
     } catch(error) {
         console.log(error);
     }
-}
-
-// venueData
-// Obtain the data from the venue table in the database given the input values from the year slider
-// returns a complete GEOJSON data output that is filtered with the matching dates
-async function venueData() {
-  try{
-    let low = document.getElementById('input-left').value;
-    let high = document.getElementById('input-right').value;
-    let getVenueData = await fetch(`https://lgbtqspaces-api.herokuapp.com/api/venues/${low}/${high}`, {method: 'GET'});
-    let venueData = await getVenueData.json();
-    return toGEOJSON(venueData);
-  } catch (err) {
-    console.log(err);
-  }
 }
 
 // converts json input  to geojson output
@@ -238,6 +226,7 @@ map.on('style.load', async function() {
   // on slider change
   let obs_data = await displayData();
   addDataLayer(obs_data);
+  console.log(obs_data);
 
   // slider setting with matching years
   // TODO: can be reduced using functions
