@@ -258,6 +258,7 @@ map.on('style.load', async function() {
   // Marker change when clicked on data point
   map.on('click','data',function(e) {
     let features = e.features[0];
+
     if (typeof map.getLayer('selectedMarker') !== "undefined" ){
       map.removeLayer('selectedMarker');
       map.removeSource('selectedMarker');
@@ -304,6 +305,15 @@ map.on('style.load', async function() {
     dataCanvas.classList.remove('slide-out');
     dataCanvas.classList.add('slide-in');
     dataCanvas.classList.remove('hidden');
+
+    // indicate that this point is a venue
+    let venueIndicator = document.getElementById('venue-indicator');
+    if(e.features[0].properties.v_id !== undefined) {
+      venueIndicator.innerHTML = "this is a confirmed venue";
+    } else {
+      venueIndicator.innerHTML = '';
+    };
+
     document.getElementById('name').innerHTML = e.features[0].properties.name;
     document.getElementById('year-info').innerHTML = e.features[0].properties.year;
     document.getElementById('address').innerHTML = e.features[0].properties.address;
