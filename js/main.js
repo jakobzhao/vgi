@@ -8,13 +8,15 @@
     // init function
     // added init to async (test for bugs!)
     async function init() {
+
         document.querySelector('#addObservationBtn').addEventListener('click', isLoggedIn);
         document.getElementById('submit-edit').addEventListener('click', validateObservation);
         document.querySelector("#submit-button").addEventListener('click', newUser);
         document.getElementById('googleSignOutBtn').addEventListener('click', () => {
             signOut();
         });
-    };
+
+   };
 
     // function promptLogin(event){
     //     event.preventDefault();
@@ -65,6 +67,8 @@
             if(gapi.auth2.getAuthInstance().isSignedIn.get()) {
                 // show modal
                 document.getElementById('observation').classList.remove('hidden');
+                document.getElementById('googleSignInBtn').classList.add('d-none');
+                document.getElementById('googleSignOutBtn').classList.remove('d-none');
                 console.log("signed in!");
                 document.getElementById('googleSignOutBtn').addEventListener('click', () =>{
                     signOut();
@@ -89,6 +93,8 @@
     function signOut() {
         var auth2 = gapi.auth2.getAuthInstance();
         if(gapi.auth2.getAuthInstance().isSignedIn.get()) {
+            document.getElementById('googleSignInBtn').classList.remove('d-none');
+            document.getElementById('googleSignOutBtn').classList.add('d-none');
             auth2.signOut().then(function () {
                 console.log('User has signed out.');
             });
@@ -133,7 +139,7 @@
                 body: nameYearData
             };
 
-            // let deleteObservation = await fetch('https://lgbtqspaces-api.herokuapp.com/api/deleteObservation', nameYear);
+            let deleteObservation = await fetch('https://lgbtqspaces-api.herokuapp.com/api/deleteObservation', nameYear);
             let sendData = await fetch('https://lgbtqspaces-api.herokuapp.com/api/add-venue', venueData);
             console.log("Observation has been confirmed. Added to the list of venues. Please refresh the page.");
         } catch(error) {
