@@ -193,30 +193,22 @@ function getProperties(data) {
 }
 
 // Add observation data layer onto map
-function addDataLayer(obsData, venueData) {
+function addDataLayer(obsData) {
     map.addLayer({
       'id': 'data',
       'type': 'circle',
       'source': {
         type: 'geojson',
         data: obsData
-      }
-    });
-    map.addLayer({
-      'id': 'venue-data',
-      'type': 'circle',
-      'source': {
-        type: 'geojson',
-        data: venueData
       },
-      'paint':  {
+      'paint': {
         'circle-radius': 5,
         'circle-stroke-width': 2,
-        'circle-color': 'blue',
+        'circle-color': 'red',
         'circle-stroke-color': 'white'
       }
     });
-}
+};
 
 // basemap switching/styling
 var layerList = document.getElementById('menu');
@@ -242,25 +234,10 @@ for (var i = 0; i < inputs.length; i++) {
 ////////////////////////////////////////////////////////////////////////////////////
 // MAP ON LOAD
 map.on('style.load', async function() {
-
   // load data
+  // on slider change
   let obs_data = await displayData();
-  let ven_data = await venueData();
-  addDataLayer(obs_data, ven_data);
-
-  map.addLayer({
-    'id': 'marker-original',
-    'type': 'circle',
-    'source': 'data',
-    'interactive': true,
-    'layout': {},
-    'paint': {
-      'circle-radius': 5,
-      'circle-stroke-width': 2,
-      'circle-color': 'red',
-      'circle-stroke-color': 'white'
-    }
-  });
+  addDataLayer(obs_data);
 
   // slider setting with matching years
   // TODO: can be reduced using functions
@@ -290,18 +267,16 @@ map.on('style.load', async function() {
   });
 
   // Marker change when clicked on data point
-  map.on('click','data', function(e) {
-    let features = map.queryRenderedFeatures(e.point, {layers: ['marker-original']});
-
+  map.on('click','data',function(e) {
+    let features = e.features[0];
     if (typeof map.getLayer('selectedMarker') !== "undefined" ){
       map.removeLayer('selectedMarker');
       map.removeSource('selectedMarker');
     }
 
-    var feature = features[0];
     map.addSource('selectedMarker', {
       "type": 'geojson',
-      'data': feature
+      'data': features
     })
 
     map.addLayer({
@@ -317,7 +292,7 @@ map.on('style.load', async function() {
 
 
   // trigger review/location information on click of location point of map
-  map.on('click', 'data', function(e) {
+  map.on('click','data',function(e) {
     // parse the codes to increase readability
     let codeString = "";
     let codes = e.features[0].properties.codeList;
@@ -423,4 +398,5 @@ map.on('style.load', async function() {
   map.on('mouseleave', 'data', function () {
     map.getCanvas().style.cursor = '';
   });
+
 })
