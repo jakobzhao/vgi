@@ -285,7 +285,7 @@ map.on('style.load', async function() {
   map.on('click','data',function(e) {
     // parse the codes to increase readability
     let codeString = "";
-    let codes = e.features[0].properties.codeList;
+    let codes = e.features[0].properties.codelist;
     for(let i=0; i < codes.length; i++) {
       if(codes[i] !== '[' && codes [i] !== '"' && codes[i] !== '.' && codes[i] !== ']' && codes[i] !== "'") {
         codeString += codes[i];
