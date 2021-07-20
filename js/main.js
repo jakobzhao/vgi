@@ -8,7 +8,6 @@
     // init function
     // added init to async (test for bugs!)
     async function init() {
-
         document.querySelector('#addObservationBtn').addEventListener('click', isLoggedIn);
         document.getElementById('submit-edit').addEventListener('click', validateObservation);
         document.querySelector("#submit-button").addEventListener('click', newUser);
@@ -145,7 +144,19 @@
         } catch(error) {
             checkStatus(error);
         }
-    }
+    };
+
+    // // confirmedVenues
+    // // Obtain data from database that contains all the venues in the city
+    // async function confirmedVenues() {
+    //     try {
+    //         let getVenues = await fetch('https://lgbtqspaces-api.herokuapp.com/api/all-venues', {method: 'GET'});
+    //         let venueData = await getVenues.json();
+    //         console.log(venueData);
+    //     } catch (err) {
+    //     console.log(err);
+    //     }
+    // };
 
     // status checks
     function checkStatus(response) {
