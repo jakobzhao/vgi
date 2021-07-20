@@ -104,6 +104,27 @@ function toggleView(toggleClass) {
   backBtn.classList.toggle(toggleClass);
 };
 
+// confirmedVenues
+// Obtain data from database that contains all the venues in the city
+async function confirmedVenues() {
+  try {
+    let getVenues = await fetch('https://lgbtqspaces-api.herokuapp.com/api/all-venues', {method: 'GET'});
+    let venueData = await getVenues.json();
+    venueList(venueData);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+function venueList(data){
+  for (let i=0; i < data.length; i++) {
+    let venueParent = document.getElementById('confirmed-venues');
+    let venueDiv = document.createElement('p');
+    venueDiv.classList.add('ms-2');
+    venueDiv.innerHTML = data[i].name;
+    venueParent.appendChild(venueDiv);
+  }
+}
 
 // displayData
 // Obtain the data from the database given the input values from the year slider
@@ -121,7 +142,7 @@ async function displayData(){
     } catch(error) {
         console.log(error);
     }
-}
+};
 
 // converts json input  to geojson output
 function toGEOJSON(data){
@@ -142,7 +163,7 @@ function toGEOJSON(data){
     // combine with geojson final format with feature collection and feature as feature list
     return {"type" : "FeatureCollection",
             "features": feature_list};
-}
+};
 
 // getProperties(data)
 // Parameters: data - input array elements from JSON
@@ -155,7 +176,7 @@ function getProperties(data) {
         }
     }
     return result;
-}
+};
 
 // Add observation data layer onto map
 function addDataLayer(obsData) {
@@ -189,12 +210,12 @@ function switchLayer(layer) {
   } else {
     document.getElementById('slider-time').setAttribute("style", "color: black;");
   }
-}
+};
 
 // assign switch layer function for all radio button inputs
 for (var i = 0; i < inputs.length; i++) {
   inputs[i].onclick = switchLayer;
-}
+};
 
 ////////////////////////////////////////////////////////////////////////////////////
 // MAP ON LOAD
@@ -204,6 +225,8 @@ map.on('style.load', async function() {
   let obs_data = await displayData();
   addDataLayer(obs_data);
   console.log(obs_data);
+
+  confirmedVenues();
 
   // slider setting with matching years
   // TODO: can be reduced using functions
@@ -255,8 +278,7 @@ map.on('style.load', async function() {
         'circle-color' : 'pink'
       }
     });
-  });
-
+  })
 
   // trigger review/location information on click of location point of map
   map.on('click','data',function(e) {
