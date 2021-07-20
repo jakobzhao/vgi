@@ -114,7 +114,7 @@
 
     <!-- right side-selection pane -->
     <div class="map-overlay-right">
-      <div id= "menu" class="bg-opaque-white" style="box-shadow: 0 3px 10px (0 0 0 / 0.2); border-radius: 5px;">
+      <div id= "menu" class="bg-opaque-white box-shadow-right-info">
         <div id="basemap-selection">
           <p class="light-text-title">Basemap</p>
           <input id="streets-v11" type="radio" name="rtoggle" value="streets" checked="checked">
@@ -131,17 +131,22 @@
         </div>
         <div id="gender-selection">
           <!-- add other selections -->
-          <p class="light-text-title">Venues</p>
+          <p class="light-text-title">Damron Guide</p>
           <input id="male-guide" type="radio" name="venue-gender" value="men">
           <label for="male-guide">men</label>
           <input id="female-guide" type="radio" name="venue-gender" value="women">
           <label for="female-guide">women</label>
-          <hr>
         </div>
         <!-- reliability functions -->
         <div id="confidence-selection">
           <p class="light-text-title">Confidence</p>
           <div id="confidence-slider"></div>
+          <hr>
+        </div>
+        <!-- list of venues -->
+        <div>
+          <p class ="light-text-title">Confirmed Venues</p>
+          <div id="confirmed-venues" class="confirmed-venues"></div>
         </div>
       </div>
     </div>
