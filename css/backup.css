@@ -97,7 +97,7 @@ nav {
     background: rgba(255, 255, 255, 0.85);
 }
 
-/* fix height of right dashboard */
+/* fix height of right panel */
 .box-shadow-right-info {
     box-shadow: 0 3px 10px (0 0 0 / 0.2);
     border-radius: 5px;
@@ -111,6 +111,14 @@ nav {
     border: 1px solid rgba(218, 218, 218, 0.774);
     box-shadow: inset 0em 0em 0.2em 0.1em rgba(218, 218, 218, 0.774);
     overflow: scroll;
+}
+
+/* confirmed venues on-hover */
+.confirmed-venues > div:hover {
+    padding: 0.5em;
+    background: #DBDBDB;
+    box-shadow: 15px 0 0 #DBDBDB, -15px 0 0 #DBDBDB;
+    cursor: pointer;
 }
 
 /** change color scheme here!**/

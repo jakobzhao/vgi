@@ -111,6 +111,7 @@ async function confirmedVenues() {
     let getVenues = await fetch('https://lgbtqspaces-api.herokuapp.com/api/all-venues', {method: 'GET'});
     let venueData = await getVenues.json();
     venueList(venueData);
+    return venueData;
   } catch (err) {
     console.log(err);
   }
@@ -119,11 +120,11 @@ async function confirmedVenues() {
 function venueList(data){
   for (let i=0; i < data.length; i++) {
     let venueParent = document.getElementById('confirmed-venues');
-    let venueDiv = document.createElement('p');
-    venueDiv.classList.add('ms-2');
+    let venueDiv = document.createElement('div');
+    venueDiv.classList.add('m-3');
     venueDiv.innerHTML = data[i].name;
     venueParent.appendChild(venueDiv);
-  }
+  };
 }
 
 // displayData
@@ -217,102 +218,15 @@ for (var i = 0; i < inputs.length; i++) {
   inputs[i].onclick = switchLayer;
 };
 
-////////////////////////////////////////////////////////////////////////////////////
-// MAP ON LOAD
-map.on('style.load', async function() {
-  // load data
-  // on slider change
-  let obs_data = await displayData();
-  addDataLayer(obs_data);
-  console.log(obs_data);
+// function slide-in left panel
+function viewLeftPanel() {
 
-  confirmedVenues();
-
-  // slider setting with matching years
-  // TODO: can be reduced using functions
-  document.getElementById('input-left').addEventListener('input', function(e){
-    let left = parseInt(e.target.value);
-    map.setFilter('data', ['>=', ['number', ['get','year']], left]);
-
-    document.getElementById('input-right').addEventListener('input', function(e) {
-      let right = parseInt(e.target.value);
-      map.setFilter('data', ['<=', ['number', ['get', 'year']], right]);
-    })
-  });
-
-  document.getElementById('input-right').addEventListener('input', function(e){
-    let right = parseInt(e.target.value);
-    map.setFilter('data', ['<=', ['number', ['get','year']], right]);
-
-    document.getElementById('input-left').addEventListener('input', function(e) {
-      let left = parseInt(e.target.value);
-      map.setFilter('data', ['>=', ['number', ['get', 'year']], left]);
-    })
-  });
-
-  // create temporary marker if user wants to validate a location
-  var marker = new mapboxgl.Marker({
-    draggable:true
-  });
-
-  // Marker change when clicked on data point
-  map.on('click','data',function(e) {
-    let features = e.features[0];
-
-    if (typeof map.getLayer('selectedMarker') !== "undefined" ){
-      map.removeLayer('selectedMarker');
-      map.removeSource('selectedMarker');
-    }
-
-    map.addSource('selectedMarker', {
-      "type": 'geojson',
-      'data': features
-    })
-
-    map.addLayer({
-      'id':'selectedMarker',
-      'type': 'circle',
-      'source': 'selectedMarker',
-      'paint': {
-        'circle-radius' : 10,
-        'circle-color' : 'pink'
-      }
-    });
-  })
-
-  // trigger review/location information on click of location point of map
-  map.on('click','data',function(e) {
-    // parse the codes to increase readability
-    let codeString = "";
-    let codes = e.features[0].properties.codelist;
-    for(let i=0; i < codes.length; i++) {
-      if(codes[i] !== '[' && codes [i] !== '"' && codes[i] !== '.' && codes[i] !== ']' && codes[i] !== "'") {
-        codeString += codes[i];
-      }
-    };
-
-    // fly and zoom to point when clicked
-    map.flyTo({
-      center: e.features[0].geometry.coordinates,
-      zoom: 14,
-      speed: 0.5,
-      essential: true
-    });
-
-    // Left Canvas Informaiton
     let dataCanvas = document.getElementById('info');
     dataCanvas.classList.remove('slide-out');
     dataCanvas.classList.add('slide-in');
     dataCanvas.classList.remove('hidden');
 
-    // indicate that this point is a venue
-    let venueIndicator = document.getElementById('venue-indicator');
-    if(e.features[0].properties.v_id !== undefined) {
-      venueIndicator.innerHTML = "this is a confirmed venue";
-    } else {
-      venueIndicator.innerHTML = '';
-    };
-
+    // left panel location information
     document.getElementById('name').innerHTML = e.features[0].properties.name;
     document.getElementById('year-info').innerHTML = e.features[0].properties.year;
     document.getElementById('address').innerHTML = e.features[0].properties.address;
@@ -347,7 +261,113 @@ map.on('style.load', async function() {
         document.getElementById('lat-edit').value = lngLat.lat;
       }
       marker.on('dragend', onDragEnd);
-      });
+    });
+
+};
+
+////////////////////////////////////////////////////////////////////////////////////
+// MAP ON LOAD
+map.on('style.load', async function() {
+  // load data
+  // on slider change
+  let obs_data = await displayData();
+  addDataLayer(obs_data);
+
+  await confirmedVenues();
+
+  // slider setting with matching years
+  // TODO: can be reduced using functions
+  document.getElementById('input-left').addEventListener('input', function(e){
+    let left = parseInt(e.target.value);
+    map.setFilter('data', ['>=', ['number', ['get','year']], left]);
+
+    document.getElementById('input-right').addEventListener('input', function(e) {
+      let right = parseInt(e.target.value);
+      map.setFilter('data', ['<=', ['number', ['get', 'year']], right]);
+    })
+  });
+
+  document.getElementById('input-right').addEventListener('input', function(e){
+    let right = parseInt(e.target.value);
+    map.setFilter('data', ['<=', ['number', ['get','year']], right]);
+
+    document.getElementById('input-left').addEventListener('input', function(e) {
+      let left = parseInt(e.target.value);
+      map.setFilter('data', ['>=', ['number', ['get', 'year']], left]);
+    })
+  });
+
+  // create temporary marker if user wants to validate a location
+  var marker = new mapboxgl.Marker({
+    draggable:true
+  });
+
+  // confirmed venues on click - match by vid (once the sample db is connected)
+  // if vid between venueslice and observation data matches then open up left information panel
+  // var features = map.queryRenderedFeatures({ layers: ['data'] });
+  // console.log(features);
+  // var getConfirmedVenues = document.querySelectorAll('#confirmed-venues > div');
+  // getConfirmedVenues.forEach(item => {
+  //   item.addEventListener('click', (e) => {
+  //     console.log(e.target.innerText);
+  //   });
+  // });
+
+  // Marker change when clicked on data point
+  map.on('click','data',function(e) {
+    let features = e.features[0];
+
+    if (typeof map.getLayer('selectedMarker') !== "undefined" ){
+      map.removeLayer('selectedMarker');
+      map.removeSource('selectedMarker');
+    }
+
+    map.addSource('selectedMarker', {
+      "type": 'geojson',
+      'data': features
+    })
+
+    map.addLayer({
+      'id':'selectedMarker',
+      'type': 'circle',
+      'source': 'selectedMarker',
+      'paint': {
+        'circle-radius' : 10,
+        'circle-color' : 'pink'
+      }
+    });
+  });
+
+  // trigger review/location information on click of location point of map
+  map.on('click','data',function(e) {
+    // parse the codes to increase readability
+    let codeString = "";
+    let codes = e.features[0].properties.codelist;
+    for(let i=0; i < codes.length; i++) {
+      if(codes[i] !== '[' && codes [i] !== '"' && codes[i] !== '.' && codes[i] !== ']' && codes[i] !== "'") {
+        codeString += codes[i];
+      }
+    };
+
+    // fly and zoom to point when clicked
+    map.flyTo({
+      center: e.features[0].geometry.coordinates,
+      zoom: 14,
+      speed: 0.5,
+      essential: true
+    });
+
+    // indicate that this point is a venue
+    let venueIndicator = document.getElementById('venue-indicator');
+    if(e.features[0].properties.v_id !== undefined) {
+      venueIndicator.innerHTML = "this is a confirmed venue";
+    } else {
+      venueIndicator.innerHTML = '';
+    };
+
+    // view left panel on data click
+    viewLeftPanel(e);
+
 
   });
 
