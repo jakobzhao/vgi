@@ -219,12 +219,21 @@ for (var i = 0; i < inputs.length; i++) {
 };
 
 // function slide-in left panel
-function viewLeftPanel() {
+function viewLeftPanel(e) {
 
     let dataCanvas = document.getElementById('info');
     dataCanvas.classList.remove('slide-out');
     dataCanvas.classList.add('slide-in');
     dataCanvas.classList.remove('hidden');
+
+    // parse the codes to increase readability
+    let codeString = "";
+    let codes = e.features[0].properties.codelist;
+    for(let i=0; i < codes.length; i++) {
+      if(codes[i] !== '[' && codes [i] !== '"' && codes[i] !== '.' && codes[i] !== ']' && codes[i] !== "'") {
+        codeString += codes[i];
+      }
+    };
 
     // left panel location information
     document.getElementById('name').innerHTML = e.features[0].properties.name;
@@ -250,18 +259,6 @@ function viewLeftPanel() {
     document.getElementById('notes-edit').value = e.features[0].properties.notes;
     document.getElementById('codelist-edit').value = codeString;
     document.getElementById('confidence-edit').value = e.features[0].properties.confidence;
-
-    // if validate observation is clicked, display movable marker
-    let validateObservation = document.getElementById('validate-observation-btn');
-    validateObservation.addEventListener('click', function() {
-      marker.setLngLat([ e.lngLat.lng, e.lngLat.lat ]).addTo(map);
-      function onDragEnd() {
-        var lngLat = marker.getLngLat();
-        document.getElementById('long-edit').value = lngLat.lng;
-        document.getElementById('lat-edit').value = lngLat.lat;
-      }
-      marker.on('dragend', onDragEnd);
-    });
 
 };
 
@@ -340,14 +337,7 @@ map.on('style.load', async function() {
 
   // trigger review/location information on click of location point of map
   map.on('click','data',function(e) {
-    // parse the codes to increase readability
-    let codeString = "";
-    let codes = e.features[0].properties.codelist;
-    for(let i=0; i < codes.length; i++) {
-      if(codes[i] !== '[' && codes [i] !== '"' && codes[i] !== '.' && codes[i] !== ']' && codes[i] !== "'") {
-        codeString += codes[i];
-      }
-    };
+
 
     // fly and zoom to point when clicked
     map.flyTo({
@@ -367,6 +357,18 @@ map.on('style.load', async function() {
 
     // view left panel on data click
     viewLeftPanel(e);
+
+    // if validate observation is clicked, display movable marker
+    let validateObservation = document.getElementById('validate-observation-btn');
+    validateObservation.addEventListener('click', function() {
+      marker.setLngLat([ e.lngLat.lng, e.lngLat.lat ]).addTo(map);
+      function onDragEnd() {
+        var lngLat = marker.getLngLat();
+        document.getElementById('long-edit').value = lngLat.lng;
+        document.getElementById('lat-edit').value = lngLat.lat;
+      }
+      marker.on('dragend', onDragEnd);
+    });
 
 
   });
