@@ -65,12 +65,6 @@ nav {
 /* .mapboxgl-ctrl-geocoder { min-width:100%; } */
 
 /** map overlay in percentages (change to better positioning?) **/
-.map-overlay-bottom {
-    font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
-    position: absolute;
-    bottom: 0;
-    padding: 5em;
-}
 
 /* for search bar  */
 .map-overlay-top {
@@ -83,17 +77,16 @@ nav {
 /* for right side panel */
 .map-overlay-right {
     position: absolute;
-    right: 0;
+    right: 0.5%;
     padding-top: 2em;
     padding-right: 0.5em;
 }
 
 /* side panel background */
 .bg-opaque-white {
-    width: 100%;
-    height: auto;
-    padding: 10px;
     position: relative;
+    width: 100%;
+    padding: 10px;
     background: rgba(255, 255, 255, 0.85);
 }
 
@@ -101,7 +94,6 @@ nav {
 .box-shadow-right-info {
     box-shadow: 0 3px 10px (0 0 0 / 0.2);
     border-radius: 5px;
-    height: 35em;
 }
 
 /* fix height of confirmed venues box */
@@ -203,7 +195,7 @@ nav {
 
 /** ensure that info object hidden if screen too small  **/
 @media only screen and (max-width: 1026px) {
-    #info {
+    #info, #menu {
         visibility: hidden !important;
     }
 }
