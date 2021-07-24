@@ -1,7 +1,7 @@
 mapboxgl.accessToken = 'pk.eyJ1Ijoia2V2aW5rb2NodW55dSIsImEiOiJja3BkdDRkMzYxaHJiMnBvMWNlZ21iZm12In0.EgOe8AAJuApJrrEDtc62IQ';
 var map = new mapboxgl.Map({
   container: 'map', // container ID
-  style: 'mapbox://styles/mapbox/streets-v11', // style URL
+  style: 'mapbox://styles/mapbox/light-v10', // style URL
   center: [-122.33, 47.60], // starting position [lng, lat]
   zoom: 12 // starting zoom
 });
@@ -181,18 +181,29 @@ function getProperties(data) {
 
 // Add observation data layer onto map
 function addDataLayer(obsData) {
+    map.loadImage('./assets/imgs/marker.png', function(error, image){
+      if (error) throw error;
+      map.addImage('marker', image);
+    });
+    map.loadImage('./assets/imgs/red-marker.png', function(error, image){
+      if (error) throw error;
+      map.addImage('red-marker', image);
+    });
+
     map.addLayer({
       'id': 'data',
-      'type': 'circle',
+      'type': 'symbol',
       'source': {
         type: 'geojson',
         data: obsData
       },
-      'paint': {
-        'circle-radius': 5,
-        'circle-stroke-width': 2,
-        'circle-color': 'red',
-        'circle-stroke-color': 'white'
+      'layout': {
+        'icon-image': 'marker',
+        'icon-size': 1.5,
+        'icon-allow-overlap': true
+      },
+      'paint':{
+        'icon-opacity': 0.5
       }
     });
 };
@@ -318,19 +329,17 @@ map.on('style.load', async function() {
 
     map.addLayer({
       'id':'selectedMarker',
-      'type': 'circle',
+      'type': 'symbol',
       'source': 'selectedMarker',
-      'paint': {
-        'circle-radius' : 10,
-        'circle-color' : 'pink'
+      'layout': {
+        'icon-image': 'red-marker',
+        'icon-allow-overlap': true
       }
     });
   });
 
   // trigger review/location information on click of location point of map
   map.on('click','data',function(e) {
-
-
     // fly and zoom to point when clicked
     map.flyTo({
       center: e.features[0].geometry.coordinates,
@@ -361,8 +370,6 @@ map.on('style.load', async function() {
       }
       marker.on('dragend', onDragEnd);
     });
-
-
   });
 
   // go back button
