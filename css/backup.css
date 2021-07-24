@@ -96,6 +96,13 @@ nav {
     border-radius: 5px;
 }
 
+/* map views */
+/* damron guides */
+#menu {
+    display:flex;
+    flex-direction: column;
+}
+
 /* fix height of confirmed venues box */
 .confirmed-venues {
     height: 17em;
@@ -315,12 +322,6 @@ nav {
     font-size: 20px;
     padding: 0em;
     margin-bottom: 0.5em;
-}
-
-/* confidence slider for right dashboard */
-#confidence-slider{
-    margin: 0px;
-    padding: 0px;
 }
 
 #confidence-observation {

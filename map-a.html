@@ -117,34 +117,42 @@
       <div id= "menu" class="bg-opaque-white box-shadow-right-info">
         <div id="basemap-selection">
           <p class="light-text-title">Basemap</p>
-          <input id="streets-v11" type="radio" name="rtoggle" value="streets" checked="checked">
+          <input id="light-v10" type="radio" name="rtoggle" value="light" checked="checked">
+          <label for="light-v10">Light</label>
+          <input id="streets-v11" type="radio" name="rtoggle" value="streets">
           <label for="streets-v11">Streets</label>
           <input id="satellite-v9" type="radio" name="rtoggle" value="satellite">
           <label for="satellite-v9">Satellite</label>
-          <input id="light-v10" type="radio" name="rtoggle" value="light">
-          <label for="light-v10">Light</label>
           <input id="dark-v10" type="radio" name="rtoggle" value="dark">
           <label for="dark-v10">Dark</label>
           <input id="outdoors-v11" type="radio" name="rtoggle" value="outdoors">
           <label for="outdoors-v11">Outdoors</label>
           <hr>
         </div>
-        <div id="gender-selection">
+        <div id="views">
           <!-- add other selections -->
-          <p class="light-text-title">Damron Guide</p>
-          <input id="male-guide" type="radio" name="venue-gender" value="men">
-          <label for="male-guide">men</label>
-          <input id="female-guide" type="radio" name="venue-gender" value="women">
-          <label for="female-guide">women</label>
-        </div>
-        <!-- reliability functions -->
-        <div id="confidence-selection">
-          <p class="light-text-title">Confidence</p>
-          <div id="confidence-slider"></div>
-          <hr>
+          <p class="light-text-title">Views</p>
+          <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" id="men-guide" name="a">
+            <label class="form-check-label" for="men-guide">Damron's Men Guide</label>
+          </div>
+          <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" id="women-guide" name="a">
+            <label class="form-check-label" for="women-guide">Damron's Women Guide</label>
+          </div>
+          <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" id="local-experts">
+            <label class="form-check-label" for="local-experts">Local Experts</label>
+          </div>
+          <p class=light-text-title>Location Accuracy</p>
+          <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" id="confidence-levels" name="a">
+            <label class="form-check-label" for="confidence-levels">Confidence Levels</label>
+          </div>
         </div>
         <!-- list of venues -->
         <div>
+          <hr>
           <p class ="light-text-title">Confirmed Venues</p>
           <div id="confirmed-venues" class="confirmed-venues"></div>
         </div>
