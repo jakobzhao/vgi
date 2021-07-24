@@ -236,13 +236,13 @@ function viewLeftPanel(e) {
     };
 
     // left panel location information
-    document.getElementById('name').innerHTML = e.features[0].properties.name;
+    document.getElementById('name').innerHTML = e.features[0].properties.observedvenuename;
     document.getElementById('year-info').innerHTML = e.features[0].properties.year;
     document.getElementById('address').innerHTML = e.features[0].properties.address;
     document.getElementById('state').innerHTML = e.features[0].properties.state;
     document.getElementById('city').innerHTML = e.features[0].properties.city;
     document.getElementById('code').innerHTML = codeString;
-    document.getElementById('type').innerHTML = e.features[0].properties.type;
+    document.getElementById('type').innerHTML = e.features[0].properties.category;
     document.getElementById('long').innerHTML = e.features[0].geometry.coordinates[0];
     document.getElementById('lat').innerHTML = e.features[0].geometry.coordinates[1];
 
@@ -255,7 +255,7 @@ function viewLeftPanel(e) {
     document.getElementById('zip-edit').value = e.features[0].properties.zip;
     document.getElementById('long-edit').value = e.features[0].geometry.coordinates[0];
     document.getElementById('lat-edit').value = e.features[0].geometry.coordinates[1];
-    document.getElementById('type-edit').value = e.features[0].properties.type;
+    document.getElementById('type-edit').value = e.features[0].properties.category;
     document.getElementById('notes-edit').value = e.features[0].properties.notes;
     document.getElementById('codelist-edit').value = codeString;
     document.getElementById('confidence-edit').value = e.features[0].properties.confidence;
@@ -268,31 +268,23 @@ map.on('style.load', async function() {
   // load data
   // on slider change
   let obs_data = await displayData();
+  console.log(obs_data);
   addDataLayer(obs_data);
 
+  // filter data based upon input
+  let years = document.querySelectorAll('.year-slider');
+  years.forEach(item => {
+    item.addEventListener('input', async function(e) {
+      let left = parseInt(document.getElementById('input-left').value);
+      let right = parseInt(document.getElementById('input-right').value);
+      map.setFilter('data', ["all",
+        [">=", ['number', ['get','year']], left],
+        ["<=", ['number', ['get', 'year']], right]
+      ])
+    })
+  });
+
   await confirmedVenues();
-
-  // slider setting with matching years
-  // TODO: can be reduced using functions
-  document.getElementById('input-left').addEventListener('input', function(e){
-    let left = parseInt(e.target.value);
-    map.setFilter('data', ['>=', ['number', ['get','year']], left]);
-
-    document.getElementById('input-right').addEventListener('input', function(e) {
-      let right = parseInt(e.target.value);
-      map.setFilter('data', ['<=', ['number', ['get', 'year']], right]);
-    })
-  });
-
-  document.getElementById('input-right').addEventListener('input', function(e){
-    let right = parseInt(e.target.value);
-    map.setFilter('data', ['<=', ['number', ['get','year']], right]);
-
-    document.getElementById('input-left').addEventListener('input', function(e) {
-      let left = parseInt(e.target.value);
-      map.setFilter('data', ['>=', ['number', ['get', 'year']], left]);
-    })
-  });
 
   // create temporary marker if user wants to validate a location
   var marker = new mapboxgl.Marker({
