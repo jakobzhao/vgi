@@ -134,7 +134,8 @@ async function displayData(){
     try {
         let low = document.getElementById('input-left').value;
         let high = document.getElementById('input-right').value;
-        let readData = await fetch(`https://lgbtqspaces-api.herokuapp.com/api/observations/${low}/${high}`, {method: 'GET'});
+        let city = "Seattle";
+        let readData = await fetch(`https://lgbtqspaces-api.herokuapp.com/api/observations/${low}/${high}/${city}`, {method: 'GET'});
         let getVenueData = await fetch(`https://lgbtqspaces-api.herokuapp.com/api/venues/${low}/${high}`, {method: 'GET'});
         let venueData = await getVenueData.json();
         let data = await readData.json();
@@ -197,6 +198,7 @@ function addDataLayer(obsData) {
         type: 'geojson',
         data: obsData
       },
+      'tolerance': 0,
       'layout': {
         'icon-image': 'marker',
         'icon-size': 1.5,
@@ -204,8 +206,7 @@ function addDataLayer(obsData) {
       },
       'paint':{
         'icon-opacity': 0.5
-      },
-      'tolerance': 0
+      }
     });
 };
 
@@ -333,6 +334,7 @@ map.on('style.load', async function() {
       'id':'selectedMarker',
       'type': 'symbol',
       'source': 'selectedMarker',
+      'tolerance': 0,
       'layout': {
         'icon-image': 'red-marker',
         'icon-allow-overlap': true
