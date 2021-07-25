@@ -204,7 +204,8 @@ function addDataLayer(obsData) {
       },
       'paint':{
         'icon-opacity': 0.5
-      }
+      },
+      'tolerance': 0
     });
 };
 
@@ -324,7 +325,8 @@ map.on('style.load', async function() {
 
     map.addSource('selectedMarker', {
       "type": 'geojson',
-      'data': features
+      'data': features,
+      'tolerance': 0
     })
 
     map.addLayer({
