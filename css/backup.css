@@ -76,8 +76,11 @@ nav {
 
 /* for right side panel */
 .map-overlay-right {
-    position: absolute;
+    width: 20%;
+    height: 75%;
+    overflow-x: scroll;
     right: 0.5%;
+    position: absolute;
     padding-top: 2em;
     padding-right: 0.5em;
 }
@@ -109,7 +112,8 @@ nav {
     background-color: rgba(255, 255, 255, 0.2);
     border: 1px solid rgba(218, 218, 218, 0.774);
     box-shadow: inset 0em 0em 0.2em 0.1em rgba(218, 218, 218, 0.774);
-    overflow: scroll;
+    overflow-x: scroll;
+    overflow-y: scroll;
 }
 
 /* confirmed venues on-hover */

@@ -138,7 +138,6 @@
                 body: nameYearData
             };
 
-            let deleteObservation = await fetch('https://lgbtqspaces-api.herokuapp.com/api/deleteObservation', nameYear);
             let sendData = await fetch('https://lgbtqspaces-api.herokuapp.com/api/add-venue', venueData);
             console.log("Observation has been confirmed. Added to the list of venues. Please refresh the page.");
         } catch(error) {

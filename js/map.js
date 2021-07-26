@@ -183,7 +183,7 @@ function getProperties(data) {
 function addDataLayer(obsData) {
     map.loadImage('./assets/imgs/marker.png', function(error, image){
       if (error) throw error;
-      map.addImage('marker', image);
+      map.addImage('init-marker', image);
     });
     map.loadImage('./assets/imgs/red-marker.png', function(error, image){
       if (error) throw error;
@@ -199,9 +199,10 @@ function addDataLayer(obsData) {
       },
       'tolerance': 0,
       'layout': {
-        'icon-image': 'marker',
+        'icon-image': 'init-marker',
         'icon-size': 1.5,
-        'icon-allow-overlap': true
+        'icon-allow-overlap': true,
+        'text-allow-overlap': true
       },
       'paint':{
         'icon-opacity': 0.5
@@ -240,7 +241,7 @@ function viewLeftPanel(e) {
 
     // parse the codes to increase readability
     let codeString = "";
-    let codes = e.features[0].properties.codelist;
+    let codes = e.properties.codelist;
     for(let i=0; i < codes.length; i++) {
       if(codes[i] !== '[' && codes [i] !== '"' && codes[i] !== '.' && codes[i] !== ']' && codes[i] !== "'") {
         codeString += codes[i];
@@ -248,29 +249,79 @@ function viewLeftPanel(e) {
     };
 
     // left panel location information
-    document.getElementById('name').innerHTML = e.features[0].properties.observedvenuename;
-    document.getElementById('year-info').innerHTML = e.features[0].properties.year;
-    document.getElementById('address').innerHTML = e.features[0].properties.address;
-    document.getElementById('state').innerHTML = e.features[0].properties.state;
-    document.getElementById('city').innerHTML = e.features[0].properties.city;
+    document.getElementById('name').innerHTML = e.properties.observedvenuename;
+    document.getElementById('year-info').innerHTML = e.properties.year;
+    document.getElementById('address').innerHTML = e.properties.address;
+    document.getElementById('state').innerHTML = e.properties.state;
+    document.getElementById('city').innerHTML = e.properties.city;
     document.getElementById('code').innerHTML = codeString;
-    document.getElementById('type').innerHTML = e.features[0].properties.category;
-    document.getElementById('long').innerHTML = e.features[0].geometry.coordinates[0];
-    document.getElementById('lat').innerHTML = e.features[0].geometry.coordinates[1];
+    document.getElementById('type').innerHTML = e.properties.category;
+    document.getElementById('long').innerHTML = e.geometry.coordinates[0];
+    document.getElementById('lat').innerHTML = e.geometry.coordinates[1];
 
     // Edit observation pre-filled values
-    document.getElementById('observed-name-edit').value = e.features[0].properties.observedvenuename;
-    document.getElementById('address-edit').value = e.features[0].properties.address;
-    document.getElementById('city-edit').value = e.features[0].properties.city;
-    document.getElementById('state-edit').value = e.features[0].properties.state;
-    document.getElementById('year-edit').value = e.features[0].properties.year;
-    document.getElementById('zip-edit').value = e.features[0].properties.zip;
-    document.getElementById('long-edit').value = e.features[0].geometry.coordinates[0];
-    document.getElementById('lat-edit').value = e.features[0].geometry.coordinates[1];
-    document.getElementById('type-edit').value = e.features[0].properties.category;
-    document.getElementById('notes-edit').value = e.features[0].properties.notes;
+    document.getElementById('observed-name-edit').value = e.properties.observedvenuename;
+    document.getElementById('address-edit').value = e.properties.address;
+    document.getElementById('city-edit').value = e.properties.city;
+    document.getElementById('state-edit').value = e.properties.state;
+    document.getElementById('year-edit').value = e.properties.year;
+    document.getElementById('zip-edit').value = e.properties.zip;
+    document.getElementById('long-edit').value = e.geometry.coordinates[0];
+    document.getElementById('lat-edit').value = e.geometry.coordinates[1];
+    document.getElementById('type-edit').value = e.properties.category;
+    document.getElementById('notes-edit').value = e.properties.notes;
     document.getElementById('codelist-edit').value = codeString;
-    document.getElementById('confidence-edit').value = e.features[0].properties.confidence;
+    document.getElementById('confidence-edit').value = e.properties.confidence;
+
+};
+
+// left panel functionalities (validate observation marker view, selected marker view, map zoom to selected point)
+function addLeftPanelActions(feature, marker) {
+  console.log(feature);
+  map.flyTo({
+    center: feature.geometry.coordinates,
+    zoom: 14,
+    speed: 0.5,
+    essential: true
+  });
+
+  if (typeof map.getLayer('selectedMarker') !== "undefined" ){
+    map.removeLayer('selectedMarker');
+    map.removeSource('selectedMarker');
+  };
+
+  map.addSource('selectedMarker', {
+    "type": 'geojson',
+    'data': feature,
+    'tolerance': 0
+  });
+
+  map.addLayer({
+    'id':'selectedMarker',
+    'type': 'symbol',
+    'source': 'selectedMarker',
+    'tolerance': 0,
+    'layout': {
+      'icon-image': 'red-marker',
+      'icon-allow-overlap': true,
+      'text-allow-overlap': true
+    }
+  });
+
+  // if validate observation is clicked, display movable marker
+  let validateObservation = document.getElementById('validate-observation-btn');
+  var coordinates = feature.geometry.coordinates.slice();
+
+  validateObservation.addEventListener('click', function() {
+    marker.setLngLat(coordinates).addTo(map);
+
+    function onDragEnd() {
+      var lngLat = marker.getLngLat();
+      document.getElementById('long-edit').value = lngLat.lng;
+      document.getElementById('lat-edit').value = lngLat.lat;
+    }
+    marker.on('dragend', onDragEnd);
+  });
 
 };
 
@@ -280,7 +331,6 @@ map.on('style.load', async function() {
   // load data
   // on slider change
   let obs_data = await displayData();
-  console.log(obs_data);
   addDataLayer(obs_data);
 
   // filter data based upon input
@@ -301,83 +351,59 @@ map.on('style.load', async function() {
     draggable:true
   });
 
-  // confirmed venues on click - match by vid (once the sample db is connected)
-  // if vid between venueslice and observation data matches then open up left information panel
-  // var features = map.queryRenderedFeatures({ layers: ['data'] });
-  // console.log(features);
-  // var getConfirmedVenues = document.querySelectorAll('#confirmed-venues > div');
-  // getConfirmedVenues.forEach(item => {
-  //   item.addEventListener('click', (e) => {
-  //     console.log(e.target.innerText);
-  //   });
-  // });
-
-  map.on('movestart', 'data', function(e) {
-    // clear everything in confirmed venue right panel
+  // on screen move match data layer with screen size
+  // initially clears everything in the confirmed venues panel to display nothing
+  map.on('movestart', 'data', function() {
+    // // clear everything in confirmed venue right panel
     let venueParent = document.getElementById('confirmed-venues');
     while(venueParent.firstChild) {
       venueParent.removeChild(venueParent.lastChild);
     };
   });
 
-  map.on('moveend', 'data',function (e) {
-    // var checkFeatures = e.features;
-    let featureCheck = e.features;
+  map.on('moveend', function () {
+    let nearbyFeatures = map.queryRenderedFeatures({layer: 'data'});
     let venueParent = document.getElementById('confirmed-venues');
 
-    for (let i = 0; i < featureCheck.length;i ++) {
-      if(typeof featureCheck[i].properties.v_id !== "undefined") {
-        let venueDiv = document.createElement('div');
-        venueDiv.classList.add('m-3');
-        venueDiv.innerHTML = featureCheck[i].properties.observedvenuename;
-        venueParent.appendChild(venueDiv);
-      };
+    // for all feature within map view
+    for (let i = 0; i < nearbyFeatures.length; i++) {
+       // if does not have v_id (or vsid in the future) then is not a confirmed venue
+      //  if(typeof featureCheck[i].properties.v_id !== "undefined") {
+      //    let venueDiv = document.createElement('div');
+      //    venueDiv.classList.add('m-3');
+      //    venueDiv.innerHTML = featureCheck[i].properties.observedvenuename;
+      //    venueParent.appendChild(venueDiv);
+      //  };
+       if(nearbyFeatures[i].properties.confidence < 0.85) {
+         let venueDiv = document.createElement('div');
+         venueDiv.classList.add('m-3');
+         venueDiv.innerHTML = nearbyFeatures[i].properties.observedvenuename + " (" + nearbyFeatures[i].properties.year + ", " + nearbyFeatures[i].properties.confidence + " )";
+         venueParent.appendChild(venueDiv);
+
+         venueDiv.addEventListener('click', function() {
+           viewLeftPanel(nearbyFeatures[i]);
+           addLeftPanelActions(nearbyFeatures[i], marker);
+         });
+       }
+
     };
 
     if(venueParent.firstChild == null) {
       let venuePar = document.createElement('div');
       venuePar.classList.add('m-3');
-      venuePar.innerHTML = "No validated observations nearby."
+      venuePar.innerHTML = "No low confidence location nearby."
       venueParent.appendChild(venuePar);
-    }
-  });
+    };
 
-  // Marker change when clicked on data point
-  map.on('click','data',function(e) {
-    let features = e.features[0];
-
-    if (typeof map.getLayer('selectedMarker') !== "undefined" ){
-      map.removeLayer('selectedMarker');
-      map.removeSource('selectedMarker');
-    }
-
-    map.addSource('selectedMarker', {
-      "type": 'geojson',
-      'data': features,
-      'tolerance': 0
-    })
-
-    map.addLayer({
-      'id':'selectedMarker',
-      'type': 'symbol',
-      'source': 'selectedMarker',
-      'tolerance': 0,
-      'layout': {
-        'icon-image': 'red-marker',
-        'icon-allow-overlap': true
-      }
-    });
   });
 
   // trigger review/location information on click of location point of map
   map.on('click','data',function(e) {
-    // fly and zoom to point when clicked
-    map.flyTo({
-      center: e.features[0].geometry.coordinates,
-      zoom: 14,
-      speed: 0.5,
-      essential: true
-    });
+    // add all left panel actions (including zoom and adding data points)
+    let feature = e.features[0];
+    // view left panel on data click
+    viewLeftPanel(e.features[0]);
+    addLeftPanelActions(feature, marker);
 
     // indicate that this point is a venue
     let venueIndicator = document.getElementById('venue-indicator');
@@ -387,20 +413,6 @@ map.on('style.load', async function() {
       venueIndicator.innerHTML = '';
     };
 
-    // view left panel on data click
-    viewLeftPanel(e);
-
-    // if validate observation is clicked, display movable marker
-    let validateObservation = document.getElementById('validate-observation-btn');
-    validateObservation.addEventListener('click', function() {
-      marker.setLngLat([ e.lngLat.lng, e.lngLat.lat ]).addTo(map);
-      function onDragEnd() {
-        var lngLat = marker.getLngLat();
-        document.getElementById('long-edit').value = lngLat.lng;
-        document.getElementById('lat-edit').value = lngLat.lat;
-      }
-      marker.on('dragend', onDragEnd);
-    });
   });
 
   // go back button
