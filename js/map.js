@@ -110,7 +110,6 @@ async function confirmedVenues() {
   try {
     let getVenues = await fetch('https://lgbtqspaces-api.herokuapp.com/api/all-venues', {method: 'GET'});
     let venueData = await getVenues.json();
-    venueList(venueData);
     return venueData;
   } catch (err) {
     console.log(err);
@@ -260,7 +259,7 @@ function viewLeftPanel(e) {
     document.getElementById('lat').innerHTML = e.features[0].geometry.coordinates[1];
 
     // Edit observation pre-filled values
-    document.getElementById('observed-name-edit').value = e.features[0].properties.name;
+    document.getElementById('observed-name-edit').value = e.features[0].properties.observedvenuename;
     document.getElementById('address-edit').value = e.features[0].properties.address;
     document.getElementById('city-edit').value = e.features[0].properties.city;
     document.getElementById('state-edit').value = e.features[0].properties.state;
@@ -297,8 +296,6 @@ map.on('style.load', async function() {
     })
   });
 
-  await confirmedVenues();
-
   // create temporary marker if user wants to validate a location
   var marker = new mapboxgl.Marker({
     draggable:true
@@ -314,6 +311,36 @@ map.on('style.load', async function() {
   //     console.log(e.target.innerText);
   //   });
   // });
+
+  map.on('movestart', 'data', function(e) {
+    // clear everything in confirmed venue right panel
+    let venueParent = document.getElementById('confirmed-venues');
+    while(venueParent.firstChild) {
+      venueParent.removeChild(venueParent.lastChild);
+    };
+  });
+
+  map.on('moveend', 'data',function (e) {
+    // var checkFeatures = e.features;
+    let featureCheck = e.features;
+    let venueParent = document.getElementById('confirmed-venues');
+
+    for (let i = 0; i < featureCheck.length;i ++) {
+      if(typeof featureCheck[i].properties.v_id !== "undefined") {
+        let venueDiv = document.createElement('div');
+        venueDiv.classList.add('m-3');
+        venueDiv.innerHTML = featureCheck[i].properties.observedvenuename;
+        venueParent.appendChild(venueDiv);
+      };
+    };
+
+    if(venueParent.firstChild == null) {
+      let venuePar = document.createElement('div');
+      venuePar.classList.add('m-3');
+      venuePar.innerHTML = "No validated observations nearby."
+      venueParent.appendChild(venuePar);
+    }
+  });
 
   // Marker change when clicked on data point
   map.on('click','data',function(e) {
