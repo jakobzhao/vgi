@@ -277,7 +277,6 @@ function viewLeftPanel(e) {
 
 // left panel functionalities (validate observation marker view, selected marker view, map zoom to selected point)
 function addLeftPanelActions(feature, marker) {
-  console.log(feature);
   map.flyTo({
     center: feature.geometry.coordinates,
     zoom: 14,
@@ -362,9 +361,8 @@ map.on('style.load', async function() {
   });
 
   map.on('moveend', function () {
-    let nearbyFeatures = map.queryRenderedFeatures({layer: 'data'});
+    let nearbyFeatures = map.queryRenderedFeatures({layers: ['data']});
     let venueParent = document.getElementById('confirmed-venues');
-
     // for all feature within map view
     for (let i = 0; i < nearbyFeatures.length; i++) {
        // if does not have v_id (or vsid in the future) then is not a confirmed venue
@@ -399,6 +397,11 @@ map.on('style.load', async function() {
 
   // trigger review/location information on click of location point of map
   map.on('click','data',function(e) {
+    // marker.remove();
+    // // clear 3-D year object
+    // map.removeLayer('year-block');
+    // map.removeSource('year-block');
+
     // add all left panel actions (including zoom and adding data points)
     let feature = e.features[0];
     // view left panel on data click
@@ -412,6 +415,58 @@ map.on('style.load', async function() {
     } else {
       venueIndicator.innerHTML = '';
     };
+
+
+    // create 3-D year information
+
+
+    // get all points within the same location
+    // if contains layer then remove and then add (make sure to add if else loop here to check)
+
+    // get the data points that stack on top of each other within the selected year range
+    let layerData = map.queryRenderedFeatures([e.point.x, e.point.y], {layers: ['data']});
+    const polygonRadius = 0.001;
+
+    let yearBlockData = {
+      'type': 'FeatureCollection',
+      'features': layerData.map( (location,index) => ({
+        'type':'Feature',
+        'properties': {'name': location.properties.observedvenuename, 'year': location.properties.year, 'height': (((index == 0) ?  100 : (index+1)*150-45) + 145 ), 'base': ((index == 0) ?  100 : (index+1)*150-10) },
+        'geometry': {
+          'type': 'Polygon',
+          'coordinates': [
+            [
+              [location.geometry.coordinates[0] - polygonRadius, location.geometry.coordinates[1] - polygonRadius],
+              [location.geometry.coordinates[0] + polygonRadius, location.geometry.coordinates[1] - polygonRadius],
+              [location.geometry.coordinates[0] + polygonRadius, location.geometry.coordinates[1] + polygonRadius],
+              [location.geometry.coordinates[0] - polygonRadius, location.geometry.coordinates[1] + polygonRadius],
+              [location.geometry.coordinates[0] - polygonRadius, location.geometry.coordinates[1] - polygonRadius]
+            ]
+          ]
+        }
+      }))
+    };
+
+    console.log(yearBlockData);
+    // console.log(yearBlockData);
+    // for ( let i = 0; i < layerData.length; i++) {
+      
+    // }
+    map.addLayer({
+      'id': 'year-block',
+      'type': 'fill-extrusion',
+      'source': {'type':'geojson', 'data': yearBlockData, 'tolerance': 0},
+      'paint': {
+        'fill-extrusion-color': 'blue',
+        'fill-extrusion-base': {'type': 'identity', 'property': 'base'},
+        'fill-extrusion-height': {'type': 'identity', 'property': 'height'},
+        'fill-extrusion-opacity': 0.8,
+        'fill-extrusion-vertical-gradient': false,
+      }
+    });
+    // add source here
+
+
 
   });
 
@@ -448,6 +503,10 @@ map.on('style.load', async function() {
     marker.remove();
     map.removeLayer('selectedMarker');
     map.removeSource('selectedMarker');
+
+    // clear 3-D year object
+    map.removeLayer('year-block');
+    map.removeSource('year-block');
   }
 
 
