@@ -201,7 +201,8 @@ function addDataLayer(obsData) {
       'layout': {
         'icon-image': 'init-marker',
         'icon-size': 1.3,
-        'icon-allow-overlap': true
+        'icon-allow-overlap': true,
+        'text-allow-overlap': true
       },
       'paint':{
         'icon-opacity': 0.8,
