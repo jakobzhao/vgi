@@ -206,9 +206,9 @@ function addDataLayer(obsData) {
       },
       'paint':{
         'icon-opacity': 0.8,
-        'icon-color': '#c6aee7',
-        'icon-halo-color': 'black',
-        'icon-halo-width': 5
+        'icon-color': '#c6aee7'
+        // 'icon-halo-color': 'black',
+        // 'icon-halo-width': 5
       }
     });
 };
