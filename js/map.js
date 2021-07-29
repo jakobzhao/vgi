@@ -205,7 +205,7 @@ function addDataLayer(obsData) {
         'text-allow-overlap': true
       },
       'paint':{
-        'icon-opacity': 0.5
+        'icon-opacity': 1
       }
     });
 };
