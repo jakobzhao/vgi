@@ -301,9 +301,9 @@ function addLeftPanelActions(feature, marker) {
     'source': 'selectedMarker',
     'tolerance': 0,
     'layout': {
-      'icon-image': 'red-marker',
-      'icon-allow-overlap': true,
-      'text-allow-overlap': true
+      'icon-image': 'red-marker'
+      // 'icon-allow-overlap': true,
+      // 'text-allow-overlap': true
     }
   });
 
@@ -424,14 +424,23 @@ map.on('style.load', async function() {
     // if contains layer then remove and then add (make sure to add if else loop here to check)
 
     // get the data points that stack on top of each other within the selected year range
+    console.log(e);
     let layerData = map.queryRenderedFeatures([e.point.x, e.point.y], {layers: ['data']});
     const polygonRadius = 0.001;
+
+    var scaleTest = chroma.scale('OrRd').colors(12);
 
     let yearBlockData = {
       'type': 'FeatureCollection',
       'features': layerData.map( (location,index) => ({
         'type':'Feature',
-        'properties': {'name': location.properties.observedvenuename, 'year': location.properties.year, 'height': (((index == 0) ?  100 : (index+1)*150-45) + 145 ), 'base': ((index == 0) ?  100 : (index+1)*150-10) },
+        'properties': {
+          'name': location.properties.observedvenuename,
+          'year': location.properties.year,
+          'height': (((index == 0) ?  100 : (index+1)*150-45) + 145 ),
+          'base': ((index == 0) ?  100 : (index+1)*150-10),
+          'paint': scaleTest[index]
+        },
         'geometry': {
           'type': 'Polygon',
           'coordinates': [
@@ -447,17 +456,12 @@ map.on('style.load', async function() {
       }))
     };
 
-    console.log(yearBlockData);
-    // console.log(yearBlockData);
-    // for ( let i = 0; i < layerData.length; i++) {
-      
-    // }
     map.addLayer({
       'id': 'year-block',
       'type': 'fill-extrusion',
       'source': {'type':'geojson', 'data': yearBlockData, 'tolerance': 0},
       'paint': {
-        'fill-extrusion-color': 'blue',
+        'fill-extrusion-color': {'type': 'identity', 'property': 'paint'},
         'fill-extrusion-base': {'type': 'identity', 'property': 'base'},
         'fill-extrusion-height': {'type': 'identity', 'property': 'height'},
         'fill-extrusion-opacity': 0.8,
