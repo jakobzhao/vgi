@@ -424,8 +424,12 @@ map.on('style.load', async function() {
     // if contains layer then remove and then add (make sure to add if else loop here to check)
 
     // get the data points that stack on top of each other within the selected year range
-    console.log(e);
     let layerData = map.queryRenderedFeatures([e.point.x, e.point.y], {layers: ['data']});
+    // sort data by year (from lowest to highest)
+    layerData.sort( (a,b) => {
+      return parseFloat(a.properties.year) - parseFloat(b.properties.year);
+    });
+
     const polygonRadius = 0.001;
 
     var scaleTest = chroma.scale('OrRd').colors(12);
@@ -468,10 +472,6 @@ map.on('style.load', async function() {
         'fill-extrusion-vertical-gradient': false,
       }
     });
-    // add source here
-
-
-
   });
 
   // go back button
