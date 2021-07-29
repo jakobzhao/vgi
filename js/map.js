@@ -281,6 +281,8 @@ function addLeftPanelActions(feature, marker) {
     center: feature.geometry.coordinates,
     zoom: 14,
     speed: 0.5,
+    pitch: 60,
+    bearing: -15,
     essential: true
   });
 
@@ -418,8 +420,6 @@ map.on('style.load', async function() {
 
 
     // create 3-D year information
-
-
     // get all points within the same location
     // if contains layer then remove and then add (make sure to add if else loop here to check)
 
@@ -468,7 +468,7 @@ map.on('style.load', async function() {
         'fill-extrusion-color': {'type': 'identity', 'property': 'paint'},
         'fill-extrusion-base': {'type': 'identity', 'property': 'base'},
         'fill-extrusion-height': {'type': 'identity', 'property': 'height'},
-        'fill-extrusion-opacity': 0.8,
+        'fill-extrusion-opacity': 1,
         'fill-extrusion-vertical-gradient': false,
       }
     });
