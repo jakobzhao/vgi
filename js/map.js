@@ -183,7 +183,7 @@ function getProperties(data) {
 function addDataLayer(obsData) {
     map.loadImage('./assets/imgs/marker.png', function(error, image){
       if (error) throw error;
-      map.addImage('init-marker', image);
+      map.addImage('init-marker', image, {sdf:true});
     });
     map.loadImage('./assets/imgs/red-marker.png', function(error, image){
       if (error) throw error;
@@ -200,12 +200,14 @@ function addDataLayer(obsData) {
       'tolerance': 0,
       'layout': {
         'icon-image': 'init-marker',
-        'icon-size': 1.5,
-        'icon-allow-overlap': true,
-        'text-allow-overlap': true
+        'icon-size': 1.3,
+        'icon-allow-overlap': true
       },
       'paint':{
-        'icon-opacity': 1
+        'icon-opacity': 0.8,
+        'icon-color': '#c6aee7',
+        'icon-halo-color': 'black',
+        'icon-halo-width': 5
       }
     });
 };
@@ -280,9 +282,9 @@ function addLeftPanelActions(feature, marker) {
   map.flyTo({
     center: feature.geometry.coordinates,
     zoom: 14,
-    speed: 0.5,
-    pitch: 60,
-    bearing: -15,
+    speed: 0.3,
+    pitch: 75,
+    bearing: -25,
     essential: true
   });
 
@@ -385,7 +387,6 @@ map.on('style.load', async function() {
            addLeftPanelActions(nearbyFeatures[i], marker);
          });
        }
-
     };
 
     if(venueParent.firstChild == null) {
@@ -394,13 +395,16 @@ map.on('style.load', async function() {
       venuePar.innerHTML = "No low confidence location nearby."
       venueParent.appendChild(venuePar);
     };
-
   });
 
   // trigger review/location information on click of location point of map
   map.on('click','data',function(e) {
     // marker.remove();
     // // clear 3-D year object
+    if (typeof map.getLayer('year-block') !== "undefined" ){
+      map.removeLayer('year-block');
+      map.removeSource('year-block');
+    };
     // map.removeLayer('year-block');
     // map.removeSource('year-block');
 
@@ -472,6 +476,8 @@ map.on('style.load', async function() {
         'fill-extrusion-vertical-gradient': false,
       }
     });
+
+
   });
 
   // go back button
