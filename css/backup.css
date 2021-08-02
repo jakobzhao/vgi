@@ -124,6 +124,28 @@ nav {
     cursor: pointer;
 }
 
+#screen-view {
+    flex-grow: 1;
+    text-align: center;
+}
+
+#screen-view:hover {
+    background: #DBDBDB;
+}
+
+#locality-view {
+    flex-grow: 1;
+    text-align: center;
+}
+
+#locality-view:hover {
+    background: #DBDBDB;
+}
+
+.gray-background {
+    background: #DBDBDB;
+}
+
 /** change color scheme here!**/
 .btn-custom {
     color: black;
