@@ -236,7 +236,7 @@ for (var i = 0; i < inputs.length; i++) {
 
 // function slide-in left panel
 function viewLeftPanel(e) {
-
+    console.log(e);
     let dataCanvas = document.getElementById('info');
     dataCanvas.classList.remove('slide-out');
     dataCanvas.classList.add('slide-in');
@@ -355,39 +355,89 @@ map.on('style.load', async function() {
     draggable:true
   });
 
+  // create button toggle feature
+  let confirmedVenues = document.getElementById('confirmed-venues');
+  let localityVenues = document.getElementById('locality-venues');
+
+  let localityView = document.getElementById('locality-view');
+  let screenView = document.getElementById('screen-view');
+
+  localityView.addEventListener('click', () => {
+    localityView.style.background = '#DBDBDB';
+    screenView.classList.remove('gray-background');
+    localityVenues.classList.remove('d-none');
+    confirmedVenues.classList.add('d-none'); 
+  });
+  screenView.addEventListener('click', () => {
+    screenView.classList.add('gray-background');
+    localityView.style.removeProperty('background');
+    localityVenues.classList.add('d-none');
+    confirmedVenues.classList.remove('d-none');
+  });
+
   // on screen move match data layer with screen size
   // initially clears everything in the confirmed venues panel to display nothing
   map.on('movestart', 'data', function() {
     // // clear everything in confirmed venue right panel
     let venueParent = document.getElementById('confirmed-venues');
-    while(venueParent.firstChild) {
-      venueParent.removeChild(venueParent.lastChild);
+    let localityParent = document.getElementById('locality-venues');
+    while(venueParent.firstChild || localityParent.firstChild) {
+      if(venueParent.firstChild) {
+        venueParent.removeChild(venueParent.lastChild);
+      } else if (localityParent.firstChild) {
+        localityParent.removeChild(localityParent.lastChild);
+      }
     };
   });
 
   map.on('moveend', function () {
+    // split obs data to matching years
+    let yearLeft = document.getElementById('input-left').value;
+    let yearRight = document.getElementById('input-right').value;
+    let localityParent = document.getElementById('locality-venues');
+    let localityFeatures = obs_data.features;
+    for(let i = 0; i < obs_data.features.length; i++) {
+      if(localityFeatures[i].properties.year >= yearLeft && localityFeatures[i].properties.year <= yearRight) {
+        if(localityFeatures[i].properties.confidence < 0.85) {
+          let localityDiv = document.createElement('div');
+          localityDiv.classList.add('m-3');
+
+          localityDiv.innerHTML = localityFeatures[i].properties.observedvenuename + " (" + localityFeatures[i].properties.year + ", " + localityFeatures[i].properties.confidence + " )";
+          localityParent.appendChild(localityDiv);
+
+          localityDiv.addEventListener('click', function() {
+            viewLeftPanel(localityFeatures[i]);
+            addLeftPanelActions(localityFeatures[i], marker);
+          });
+        }
+      }
+    }
+
+    if(localityParent.firstChild == null) {
+      let localityPar = document.createElement('div');
+      localityPar.classList.add('m-3');
+      localityPar.innerHTML = "No low confidence location nearby."
+      localityParent.appendChild(localityPar);
+    };
+
+    // check style, if is not gray, then add information for just screen
+    // else add all locality venues
     let nearbyFeatures = map.queryRenderedFeatures({layers: ['data']});
     let venueParent = document.getElementById('confirmed-venues');
+
     // for all feature within map view
     for (let i = 0; i < nearbyFeatures.length; i++) {
-       // if does not have v_id (or vsid in the future) then is not a confirmed venue
-      //  if(typeof featureCheck[i].properties.v_id !== "undefined") {
-      //    let venueDiv = document.createElement('div');
-      //    venueDiv.classList.add('m-3');
-      //    venueDiv.innerHTML = featureCheck[i].properties.observedvenuename;
-      //    venueParent.appendChild(venueDiv);
-      //  };
-       if(nearbyFeatures[i].properties.confidence < 0.85) {
-         let venueDiv = document.createElement('div');
-         venueDiv.classList.add('m-3');
-         venueDiv.innerHTML = nearbyFeatures[i].properties.observedvenuename + " (" + nearbyFeatures[i].properties.year + ", " + nearbyFeatures[i].properties.confidence + " )";
-         venueParent.appendChild(venueDiv);
+      if(nearbyFeatures[i].properties.confidence < 0.85) {
+        let venueDiv = document.createElement('div');
+        venueDiv.classList.add('m-3');
+        venueDiv.innerHTML = nearbyFeatures[i].properties.observedvenuename + " (" + nearbyFeatures[i].properties.year + ", " + nearbyFeatures[i].properties.confidence + " )";
+        venueParent.appendChild(venueDiv);
 
-         venueDiv.addEventListener('click', function() {
-           viewLeftPanel(nearbyFeatures[i]);
-           addLeftPanelActions(nearbyFeatures[i], marker);
-         });
-       }
+        venueDiv.addEventListener('click', function() {
+          viewLeftPanel(nearbyFeatures[i]);
+          addLeftPanelActions(nearbyFeatures[i], marker);
+        });
+      }
     };
 
     if(venueParent.firstChild == null) {
