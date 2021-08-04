@@ -117,8 +117,7 @@
     </div>
 
     <!-- right side-selection pane -->
-    <div class="map-overlay-right">
-      <div id= "menu" class="bg-opaque-white box-shadow-right-info">
+    <div id="menu" class="map-overlay-right bg-opaque-white box-shadow-right-info">
         <div id="basemap-selection">
           <p class="light-text-title">Basemap</p>
           <input id="light-v10" type="radio" name="rtoggle" value="light" checked="checked">
@@ -162,11 +161,9 @@
             <div id= "screen-view" class= "gray-background">Screen View</div>
             <div id= "locality-view">Locality View</div>
           </div>
-
           <div id="confirmed-venues" class="confirmed-venues"></div>
           <div id="locality-venues" class="confirmed-venues d-none"></div>
         </div>
-      </div>
     </div>
 
     <!-- timeline -->
@@ -261,7 +258,8 @@
         <input id="confidence-edit" type="text">
         <button id="submit-edit" type="button" class="btn btn-primary my-3">Submit Validation</button>
       </div>
-      <!-- right dashboard - buttons -->
+
+      <!-- left dashboard - buttons -->
       <div>
         <button id="validate-observation-btn" type="button" class="btn btn-primary">Validate this Observation</button>
         <button id="go-back-btn" type="button" class="btn btn-primary d-none"> go back</button>
