@@ -355,39 +355,12 @@ map.on('style.load', async function() {
     draggable:true
   });
 
-  // create button toggle feature
-  // let confirmedVenues = document.getElementById('confirmed-venues');
-  // let localityVenues = document.getElementById('locality-venues');
-
-  // let localityView = document.getElementById('locality-view');
-  // let screenView = document.getElementById('screen-view');
-
-  // localityView.addEventListener('click', () => {
-  //   localityView.style.background = '#DBDBDB';
-  //   screenView.classList.remove('gray-background');
-  //   localityVenues.classList.remove('d-none');
-  //   confirmedVenues.classList.add('d-none'); 
-  // });
-  // screenView.addEventListener('click', () => {
-  //   screenView.classList.add('gray-background');
-  //   localityView.style.removeProperty('background');
-  //   localityVenues.classList.add('d-none');
-  //   confirmedVenues.classList.remove('d-none');
-  // });
-
-  // on screen move match data layer with screen size
   // initially clears everything in the confirmed venues panel to display nothing
   map.on('movestart', 'data', function() {
-    // // clear everything in confirmed venue right panel
-    // let venueParent = document.getElementById('confirmed-venues');
+    // clear everything in confirmed venue right panel
     let localityParent = document.getElementById('locality-venues');
-    // venueParent.firstChild ||
     while(localityParent.firstChild) {
-      // if(venueParent.firstChild) {
-      //   venueParent.removeChild(venueParent.lastChild);
-      // } else if (localityParent.firstChild) {
         localityParent.removeChild(localityParent.lastChild);
-      // }
     };
   });
 
@@ -397,6 +370,20 @@ map.on('style.load', async function() {
     let yearRight = document.getElementById('input-right').value;
     let localityParent = document.getElementById('locality-venues');
     let localityFeatures = obs_data.features;
+
+    // sort locality features
+    localityFeatures.sort( (a,b) => {
+      let firstYear = parseFloat(a.properties.year);
+      let secondYear = parseFloat(b.properties.year);
+      let difference = firstYear - secondYear;
+      // if ( difference  == 0 ) {
+      //   difference = a.properties.observedvenuename.localeCompare(b.properties.observedvenuename);
+      // }
+      return difference;
+    })
+
+    console.log(localityFeatures);
+
     for(let i = 0; i < obs_data.features.length; i++) {
       if(localityFeatures[i].properties.year >= yearLeft && localityFeatures[i].properties.year <= yearRight) {
         if(localityFeatures[i].properties.confidence < 0.85) {
@@ -420,33 +407,6 @@ map.on('style.load', async function() {
       localityPar.innerHTML = "No low confidence location nearby."
       localityParent.appendChild(localityPar);
     };
-
-    // // check style, if is not gray, then add information for just screen
-    // // else add all locality venues
-    // let nearbyFeatures = map.queryRenderedFeatures({layers: ['data']});
-    // let venueParent = document.getElementById('confirmed-venues');
-
-    // // for all feature within map view
-    // for (let i = 0; i < nearbyFeatures.length; i++) {
-    //   if(nearbyFeatures[i].properties.confidence < 0.85) {
-    //     let venueDiv = document.createElement('div');
-    //     venueDiv.classList.add('m-3');
-    //     venueDiv.innerHTML = nearbyFeatures[i].properties.observedvenuename + " (" + nearbyFeatures[i].properties.year + ", " + nearbyFeatures[i].properties.confidence + " )";
-    //     venueParent.appendChild(venueDiv);
-
-    //     venueDiv.addEventListener('click', function() {
-    //       viewLeftPanel(nearbyFeatures[i]);
-    //       addLeftPanelActions(nearbyFeatures[i], marker);
-    //     });
-    //   }
-    // };
-
-    // if(venueParent.firstChild == null) {
-    //   let venuePar = document.createElement('div');
-    //   venuePar.classList.add('m-3');
-    //   venuePar.innerHTML = "No low confidence location nearby."
-    //   venueParent.appendChild(venuePar);
-    // };
   });
 
   // trigger review/location information on click of location point of map
