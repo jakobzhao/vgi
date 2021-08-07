@@ -79,7 +79,7 @@ nav {
     position: absolute;
     top: 9%;
     right: 50%;
-    width: 20%;
+    width: 23%;
     height: 85%;
     overflow-x: scroll;
     right: 0.5%;
@@ -178,6 +178,10 @@ nav {
     padding: 4em 3em 3em 3em;
     /** if information overflows then content is hidden**/
     overflow: auto;
+}
+
+.title-font {
+    font-family: 'Noto Sans JP', sans-serif;
 }
 
 ::-webkit-scrollbar {
@@ -321,7 +325,7 @@ nav {
     position: absolute;
     right: 0;
     bottom: 0;
-    margin-right: 20%;
+    margin-right: 22%;
     margin-bottom: 3%;
     /* bottom: 0; */
     /* margin: 15em; */

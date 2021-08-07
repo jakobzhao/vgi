@@ -234,7 +234,6 @@ for (var i = 0; i < inputs.length; i++) {
 
 // function slide-in left panel
 function viewLeftPanel(e) {
-    console.log(e);
     let dataCanvas = document.getElementById('info');
     dataCanvas.classList.remove('slide-out');
     dataCanvas.classList.add('slide-in');
@@ -324,8 +323,61 @@ function addLeftPanelActions(feature, marker) {
     }
     marker.on('dragend', onDragEnd);
   });
-
 };
+
+// add 3-D extrusions
+function addExtrusions(e) {
+
+  // get the data points that stack on top of each other within the selected year range
+  let layerData = map.queryRenderedFeatures([e.point.x, e.point.y], {layers: ['data']});
+  // sort data by year (from lowest to highest)
+  layerData.sort( (a,b) => {
+    return parseFloat(a.properties.year) - parseFloat(b.properties.year);
+  });
+
+  const polygonRadius = 0.001;
+
+  var scaleTest = chroma.scale('OrRd').colors(12);
+
+  let yearBlockData = {
+    'type': 'FeatureCollection',
+    'features': layerData.map( (location,index) => ({
+      'type':'Feature',
+      'properties': {
+        'name': location.properties.observedvenuename,
+        'year': location.properties.year,
+        'height': (((index == 0) ?  100 : (index+1)*150-45) + 145 ),
+        'base': ((index == 0) ?  100 : (index+1)*150-10),
+        'paint': scaleTest[index]
+      },
+      'geometry': {
+        'type': 'Polygon',
+        'coordinates': [
+          [
+            [location.geometry.coordinates[0] - polygonRadius, location.geometry.coordinates[1] - polygonRadius],
+            [location.geometry.coordinates[0] + polygonRadius, location.geometry.coordinates[1] - polygonRadius],
+            [location.geometry.coordinates[0] + polygonRadius, location.geometry.coordinates[1] + polygonRadius],
+            [location.geometry.coordinates[0] - polygonRadius, location.geometry.coordinates[1] + polygonRadius],
+            [location.geometry.coordinates[0] - polygonRadius, location.geometry.coordinates[1] - polygonRadius]
+          ]
+        ]
+      }
+    }))
+  };
+
+  map.addLayer({
+    'id': 'year-block',
+    'type': 'fill-extrusion',
+    'source': {'type':'geojson', 'data': yearBlockData, 'tolerance': 0},
+    'paint': {
+      'fill-extrusion-color': {'type': 'identity', 'property': 'paint'},
+      'fill-extrusion-base': {'type': 'identity', 'property': 'base'},
+      'fill-extrusion-height': {'type': 'identity', 'property': 'height'},
+      'fill-extrusion-opacity': 1,
+      'fill-extrusion-vertical-gradient': false,
+    }
+  });
+}
 
 ////////////////////////////////////////////////////////////////////////////////////
 // MAP ON LOAD
@@ -367,6 +419,7 @@ map.on('style.load', async function() {
     let yearLeft = document.getElementById('input-left').value;
     let yearRight = document.getElementById('input-right').value;
     let localityParent = document.getElementById('locality-venues');
+
     let localityFeatures = obs_data.features;
 
     // sort locality features
@@ -380,9 +433,7 @@ map.on('style.load', async function() {
       return difference;
     })
 
-    console.log(localityFeatures);
-
-    for(let i = 0; i < obs_data.features.length; i++) {
+    for(let i = 0; i < localityFeatures.length; i++) {
       if(localityFeatures[i].properties.year >= yearLeft && localityFeatures[i].properties.year <= yearRight) {
         if(localityFeatures[i].properties.confidence < 0.85) {
           let localityDiv = document.createElement('div');
@@ -394,6 +445,7 @@ map.on('style.load', async function() {
           localityDiv.addEventListener('click', function() {
             viewLeftPanel(localityFeatures[i]);
             addLeftPanelActions(localityFeatures[i], marker);
+            // addExtrusions(localityFeatures[i]);
           });
         }
       }
@@ -432,61 +484,8 @@ map.on('style.load', async function() {
       venueIndicator.innerHTML = '';
     };
 
-
-    // create 3-D year information
-    // get all points within the same location
-    // if contains layer then remove and then add (make sure to add if else loop here to check)
-
-    // get the data points that stack on top of each other within the selected year range
-    let layerData = map.queryRenderedFeatures([e.point.x, e.point.y], {layers: ['data']});
-    // sort data by year (from lowest to highest)
-    layerData.sort( (a,b) => {
-      return parseFloat(a.properties.year) - parseFloat(b.properties.year);
-    });
-
-    const polygonRadius = 0.001;
-
-    var scaleTest = chroma.scale('OrRd').colors(12);
-
-    let yearBlockData = {
-      'type': 'FeatureCollection',
-      'features': layerData.map( (location,index) => ({
-        'type':'Feature',
-        'properties': {
-          'name': location.properties.observedvenuename,
-          'year': location.properties.year,
-          'height': (((index == 0) ?  100 : (index+1)*150-45) + 145 ),
-          'base': ((index == 0) ?  100 : (index+1)*150-10),
-          'paint': scaleTest[index]
-        },
-        'geometry': {
-          'type': 'Polygon',
-          'coordinates': [
-            [
-              [location.geometry.coordinates[0] - polygonRadius, location.geometry.coordinates[1] - polygonRadius],
-              [location.geometry.coordinates[0] + polygonRadius, location.geometry.coordinates[1] - polygonRadius],
-              [location.geometry.coordinates[0] + polygonRadius, location.geometry.coordinates[1] + polygonRadius],
-              [location.geometry.coordinates[0] - polygonRadius, location.geometry.coordinates[1] + polygonRadius],
-              [location.geometry.coordinates[0] - polygonRadius, location.geometry.coordinates[1] - polygonRadius]
-            ]
-          ]
-        }
-      }))
-    };
-
-    map.addLayer({
-      'id': 'year-block',
-      'type': 'fill-extrusion',
-      'source': {'type':'geojson', 'data': yearBlockData, 'tolerance': 0},
-      'paint': {
-        'fill-extrusion-color': {'type': 'identity', 'property': 'paint'},
-        'fill-extrusion-base': {'type': 'identity', 'property': 'base'},
-        'fill-extrusion-height': {'type': 'identity', 'property': 'height'},
-        'fill-extrusion-opacity': 1,
-        'fill-extrusion-vertical-gradient': false,
-      }
-    });
-
+    // add extrusions
+    addExtrusions(e);
 
   });
 

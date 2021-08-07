@@ -35,6 +35,10 @@
   <!-- chroma.js for color scales -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/chroma-js/2.1.2/chroma.min.js"></script>
 
+  <!-- google font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap" rel="stylesheet">
 
   <!-- GOOGLE SIGN-IN -->
   <script src="https://apis.google.com/js/api.js?onload=onLibraryLoaded" async defer></script>
@@ -118,7 +122,7 @@
 
   <!-- right side-selection pane -->
     <div id="menu" class="map-overlay-right bg-opaque-white box-shadow-right-info">
-      <div id="basemap-selection">
+      <div id="basemap-selection" style="font-size: 15px;">
         <p class="light-text-title">Basemap</p>
         <input id="light-v10" type="radio" name="rtoggle" value="light" checked="checked">
         <label for="light-v10">Light</label>
@@ -129,32 +133,37 @@
         <input id="dark-v10" type="radio" name="rtoggle" value="dark">
         <label for="dark-v10">Dark</label>
         <input id="outdoors-v11" type="radio" name="rtoggle" value="outdoors">
-        <label for="outdoors-v11">Outdoors</label>
+        <label for="outdoors-v11">Outdoor</label>
         <hr>
       </div>
-      <div id="views">
+      <div id="views" style="font-size: 15px;">
         <!-- add other selections -->
         <p class="light-text-title">Sources</p>
-        <div class="form-check form-switch">
-          <input class="form-check-input" type="checkbox" id="men-guide" name="a">
-          <label class="form-check-label" for="men-guide">Damron's Men Guide</label>
-        </div>
-        <div class="form-check form-switch">
-          <input class="form-check-input" type="checkbox" id="women-guide" name="a">
-          <label class="form-check-label" for="women-guide">Damron's Women Guide</label>
-        </div>
-        <div class="form-check form-switch">
-          <input class="form-check-input" type="checkbox" id="local-experts">
-          <label class="form-check-label" for="local-experts">Local Experts</label>
-        </div>
-        <div class="form-check form-switch">
-          <input class="form-check-input" type="checkbox" id="observations-switch">
-          <label class="form-check-label" for="observations-switch">Observations</label>
-        </div>
-        <p class=light-text-title>Location Accuracy</p>
-        <div class="form-check form-switch">
-          <input class="form-check-input" type="checkbox" id="confidence-levels" name="a">
-          <label class="form-check-label" for="confidence-levels">Confidence Levels</label>
+        <div class="d-flex flex-wrap flex-row justify-content-around">
+          <div class="d-flex flex-column">
+            <div class="form-check form-switch">
+              <input class="form-check-input" type="checkbox" id="men-guide" name="a">
+              <label class="form-check-label" for="men-guide">Damron's Men Guide</label>
+            </div>
+            <div class="form-check form-switch">
+              <input class="form-check-input" type="checkbox" id="women-guide" name="a">
+              <label class="form-check-label" for="women-guide">Damron's Women Guide</label>
+            </div>
+            <div class="form-check form-switch">
+              <input class="form-check-input" type="checkbox" id="local-experts">
+              <label class="form-check-label" for="local-experts">Local Experts</label>
+            </div>
+          </div>
+          <div class="d-flex flex-column">
+            <div class="form-check form-switch">
+              <input class="form-check-input" type="checkbox" id="observations-switch">
+              <label class="form-check-label" for="observations-switch">Observations</label>
+            </div>
+            <div class="form-check form-switch">
+              <input class="form-check-input" type="checkbox" id="confidence-levels" name="a">
+              <label class="form-check-label" for="confidence-levels">Confidence Levels</label>
+            </div>
+          </div>
         </div>
       </div>
       <!-- list of venues -->
@@ -204,32 +213,32 @@
     <div id = "info" class="d-flex flex-column hidden rounded">
       <!-- image place-holder for location -->
       <div id = "info-default">
-        <div class="figure">
-          <img src="assets/imgs/img-placeholder.svg">
-        </div>
         <!-- Location information-->
         <div class="d-flex flex-column rounded">
-          <div class="my-4">
+          <hr>
+          <div class="my-2">
             <h2 id="name"></h2>
             <p id="venue-indicator"></p>
           </div>
           <!-- left dashboard - location information on clicked point div -->
           <div class="my-2 d-md-flex flex-wrap">
-            <div class="fw-bold"> Address: </div>
+            <div class="fw-bold title-font"> Address: </div>
             <div id="address"></div>
-            <div class="fw-bold"> Year: </div>
+            <div class="fw-bold title-font"> Formal Address: </div>
+            <div id="formal-address"></div>
+            <div class="fw-bold title-font"> Year: </div>
             <div id="year-info"></div>
-            <div class="fw-bold"> City: </div>
+            <div class="fw-bold title-font"> City: </div>
             <div id="city"></div>
-            <div class="fw-bold"> State: </div>
+            <div class="fw-bold title-font"> State: </div>
             <div id="state"></div>
-            <div class="fw-bold"> Code: </div>
+            <div class="fw-bold title-font"> Code: </div>
             <div id="code"></div>
-            <div class="fw-bold"> Category: </div>
+            <div class="fw-bold title-font"> Category: </div>
             <div id="type"></div>
-            <div class="fw-bold"> Longitude: </div>
+            <div class="fw-bold title-font"> Longitude: </div>
             <div id="long"></div>
-            <div class="fw-bold"> Latitude: </div>
+            <div class="fw-bold title-font"> Latitude: </div>
             <div id="lat"></div>
           </div>
         </div>
