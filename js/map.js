@@ -124,7 +124,36 @@ function venueList(data){
     venueDiv.innerHTML = data[i].name;
     venueParent.appendChild(venueDiv);
   };
+};
+
+// allCodes
+// Obtain data from database containing information for all the damron codes that appear in
+// given years according to issued Damron book
+async function allCodes() {
+  try {
+    let getCodes = await fetch('https://lgbtqspaces-api.herokuapp.com/api/all-codes', {method: 'GET'});
+    let codeData = await getCodes.json();
+    let sortedData = await sortCodes(codeData);
+    console.log(sortedData);
+  } catch (err) {
+    console.log(err);
+  }
 }
+
+// organize all codes to data format: cid, code, name, years
+function sortCodes(data) {
+  let sortedResult = {};
+  for (let i = 0; i < data.length; i++) {
+    sortedResult[i] = {
+      'c_id': data[i].CID,
+      'name': data[i].Name,
+      'code': data[i].Code,
+      'note': data[i].Note,
+      'years': Object.keys(data[i]).filter(function(key) {return data[i][key] == 1})
+    };
+  }
+  return sortedResult;
+};
 
 // displayData
 // Obtain the data from the database given the input values from the year slider
@@ -399,6 +428,15 @@ map.on('style.load', async function() {
       ])
     })
   });
+
+  // filter damron codes based on input
+  // construct array of codes in corresponding year (API data)
+
+  // 1. load in allcode data
+  // 2. filter on input change of slider of containing damron codes
+  // 3. Create div of each damron code AVAILABLE
+  // 4. div on click, then filter the whole map view
+  // 5. add option to revert and remove all filter (map.setFilter('myLayer', null))
 
   // create temporary marker if user wants to validate a location
   var marker = new mapboxgl.Marker({
