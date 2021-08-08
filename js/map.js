@@ -207,8 +207,6 @@ function addDataLayer(obsData) {
       'paint':{
         'icon-opacity': 0.8,
         'icon-color': '#c6aee7'
-        // 'icon-halo-color': 'black',
-        // 'icon-halo-width': 5
       }
     });
 };
@@ -236,7 +234,6 @@ for (var i = 0; i < inputs.length; i++) {
 
 // function slide-in left panel
 function viewLeftPanel(e) {
-    console.log(e);
     let dataCanvas = document.getElementById('info');
     dataCanvas.classList.remove('slide-out');
     dataCanvas.classList.add('slide-in');
@@ -326,7 +323,6 @@ function addLeftPanelActions(feature, marker) {
     }
     marker.on('dragend', onDragEnd);
   });
-
 };
 
 //////////////////////////////////////////////////////////////////////////////////
@@ -355,38 +351,12 @@ map.on('style.load', async function() {
     draggable:true
   });
 
-  // create button toggle feature
-  let confirmedVenues = document.getElementById('confirmed-venues');
-  let localityVenues = document.getElementById('locality-venues');
-
-  let localityView = document.getElementById('locality-view');
-  let screenView = document.getElementById('screen-view');
-
-  localityView.addEventListener('click', () => {
-    localityView.style.background = '#DBDBDB';
-    screenView.classList.remove('gray-background');
-    localityVenues.classList.remove('d-none');
-    confirmedVenues.classList.add('d-none'); 
-  });
-  screenView.addEventListener('click', () => {
-    screenView.classList.add('gray-background');
-    localityView.style.removeProperty('background');
-    localityVenues.classList.add('d-none');
-    confirmedVenues.classList.remove('d-none');
-  });
-
-  // on screen move match data layer with screen size
   // initially clears everything in the confirmed venues panel to display nothing
   map.on('movestart', 'data', function() {
-    // // clear everything in confirmed venue right panel
-    let venueParent = document.getElementById('confirmed-venues');
+    // clear everything in confirmed venue right panel
     let localityParent = document.getElementById('locality-venues');
-    while(venueParent.firstChild || localityParent.firstChild) {
-      if(venueParent.firstChild) {
-        venueParent.removeChild(venueParent.lastChild);
-      } else if (localityParent.firstChild) {
+    while(localityParent.firstChild) {
         localityParent.removeChild(localityParent.lastChild);
-      }
     };
   });
 
@@ -395,8 +365,21 @@ map.on('style.load', async function() {
     let yearLeft = document.getElementById('input-left').value;
     let yearRight = document.getElementById('input-right').value;
     let localityParent = document.getElementById('locality-venues');
+
     let localityFeatures = obs_data.features;
-    for(let i = 0; i < obs_data.features.length; i++) {
+
+    // sort locality features
+    localityFeatures.sort( (a,b) => {
+      let firstYear = parseFloat(a.properties.year);
+      let secondYear = parseFloat(b.properties.year);
+      let difference = firstYear - secondYear;
+      // if ( difference  == 0 ) {
+      //   difference = a.properties.observedvenuename.localeCompare(b.properties.observedvenuename);
+      // }
+      return difference;
+    })
+
+    for(let i = 0; i < localityFeatures.length; i++) {
       if(localityFeatures[i].properties.year >= yearLeft && localityFeatures[i].properties.year <= yearRight) {
         if(localityFeatures[i].properties.confidence < 0.85) {
           let localityDiv = document.createElement('div');
@@ -408,6 +391,7 @@ map.on('style.load', async function() {
           localityDiv.addEventListener('click', function() {
             viewLeftPanel(localityFeatures[i]);
             addLeftPanelActions(localityFeatures[i], marker);
+            // addExtrusions(localityFeatures[i]);
           });
         }
       }
@@ -418,33 +402,6 @@ map.on('style.load', async function() {
       localityPar.classList.add('m-3');
       localityPar.innerHTML = "No low confidence location nearby."
       localityParent.appendChild(localityPar);
-    };
-
-    // check style, if is not gray, then add information for just screen
-    // else add all locality venues
-    let nearbyFeatures = map.queryRenderedFeatures({layers: ['data']});
-    let venueParent = document.getElementById('confirmed-venues');
-
-    // for all feature within map view
-    for (let i = 0; i < nearbyFeatures.length; i++) {
-      if(nearbyFeatures[i].properties.confidence < 0.85) {
-        let venueDiv = document.createElement('div');
-        venueDiv.classList.add('m-3');
-        venueDiv.innerHTML = nearbyFeatures[i].properties.observedvenuename + " (" + nearbyFeatures[i].properties.year + ", " + nearbyFeatures[i].properties.confidence + " )";
-        venueParent.appendChild(venueDiv);
-
-        venueDiv.addEventListener('click', function() {
-          viewLeftPanel(nearbyFeatures[i]);
-          addLeftPanelActions(nearbyFeatures[i], marker);
-        });
-      }
-    };
-
-    if(venueParent.firstChild == null) {
-      let venuePar = document.createElement('div');
-      venuePar.classList.add('m-3');
-      venuePar.innerHTML = "No low confidence location nearby."
-      venueParent.appendChild(venuePar);
     };
   });
 
@@ -473,61 +430,8 @@ map.on('style.load', async function() {
       venueIndicator.innerHTML = '';
     };
 
-
-    // create 3-D year information
-    // get all points within the same location
-    // if contains layer then remove and then add (make sure to add if else loop here to check)
-
-    // get the data points that stack on top of each other within the selected year range
-    let layerData = map.queryRenderedFeatures([e.point.x, e.point.y], {layers: ['data']});
-    // sort data by year (from lowest to highest)
-    layerData.sort( (a,b) => {
-      return parseFloat(a.properties.year) - parseFloat(b.properties.year);
-    });
-
-    const polygonRadius = 0.001;
-
-    var scaleTest = chroma.scale('OrRd').colors(12);
-
-    let yearBlockData = {
-      'type': 'FeatureCollection',
-      'features': layerData.map( (location,index) => ({
-        'type':'Feature',
-        'properties': {
-          'name': location.properties.observedvenuename,
-          'year': location.properties.year,
-          'height': (((index == 0) ?  100 : (index+1)*150-45) + 145 ),
-          'base': ((index == 0) ?  100 : (index+1)*150-10),
-          'paint': scaleTest[index]
-        },
-        'geometry': {
-          'type': 'Polygon',
-          'coordinates': [
-            [
-              [location.geometry.coordinates[0] - polygonRadius, location.geometry.coordinates[1] - polygonRadius],
-              [location.geometry.coordinates[0] + polygonRadius, location.geometry.coordinates[1] - polygonRadius],
-              [location.geometry.coordinates[0] + polygonRadius, location.geometry.coordinates[1] + polygonRadius],
-              [location.geometry.coordinates[0] - polygonRadius, location.geometry.coordinates[1] + polygonRadius],
-              [location.geometry.coordinates[0] - polygonRadius, location.geometry.coordinates[1] - polygonRadius]
-            ]
-          ]
-        }
-      }))
-    };
-
-    map.addLayer({
-      'id': 'year-block',
-      'type': 'fill-extrusion',
-      'source': {'type':'geojson', 'data': yearBlockData, 'tolerance': 0},
-      'paint': {
-        'fill-extrusion-color': {'type': 'identity', 'property': 'paint'},
-        'fill-extrusion-base': {'type': 'identity', 'property': 'base'},
-        'fill-extrusion-height': {'type': 'identity', 'property': 'height'},
-        'fill-extrusion-opacity': 1,
-        'fill-extrusion-vertical-gradient': false,
-      }
-    });
-
+    // add extrusions
+    addExtrusions(e);
 
   });
 
