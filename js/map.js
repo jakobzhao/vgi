@@ -409,21 +409,43 @@ function addExtrusions(e) {
 };
 
 // add div for the codes corresponding to selected year on the map
-function code_div(data) {
-  let code_parent = document.getElementById('dropdown-code');
+function code_div(data, year) {
+  let code_parent = document.getElementById('dropdown');
+
   // clear everything in div first (in case already populated with existing data)
   while(code_parent.firstChild) {
     code_parent.removeChild(code_parent.lastChild);
   };
+
+
+  let standard = document.createElement('div');
+  standard.innerHTML = "[BACK] Revert back to no code filter";
+  standard.addEventListener('click', function() {
+    map.setFilter('data', undefined);
+    // change map filter to just single year to revert to original filtered year state
+    map.setFilter('data', ["all",
+      [">=", ['number', ['get','year']], year]
+    ]);
+  });
+
+  standard.classList.add('dropdown-item');
+  code_parent.appendChild(standard);
+
   // for each object in data
   for(let code in data){
     let single_code = data[code];
     let code_div = document.createElement('div');
-    code_div.innerHTML = single_code.code + " " + single_code.name + " ( " +  single_code.years + " ) ";
+    code_div.innerHTML = single_code.code + " -   " + single_code.name;
+
+    // for each code_div add event listener on click to add filter features of the map
+    code_div.addEventListener('click', function() {
+      map.setFilter('data', ['in', single_code.code, ['get', 'codelist']]);
+    })
 
     // add corresponding style here
-
+    code_div.classList.add('dropdown-item');
     code_parent.appendChild(code_div);
+
   };
 }
 
@@ -434,7 +456,7 @@ map.on('style.load', async function() {
   // on slider change
   let obs_data = await displayData();
   addDataLayer(obs_data);
-
+  console.log(obs_data);
   let code_data = await allCodes();
   code_div(code_data);
 
@@ -461,7 +483,7 @@ map.on('style.load', async function() {
       }
 
       // construct div for each damron code available
-      code_div(result);
+      code_div(result, left);
     })
   });
 

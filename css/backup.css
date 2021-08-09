@@ -320,6 +320,14 @@ nav {
 	-webkit-appearance: none;
 }
 
+/* for damron code filter */
+.dropdown-style {
+    width: 300%;
+    height: 600%;
+    background: white;
+    overflow-y: scroll;
+}
+
 /* for observation */
 .observation {
     position: absolute;
