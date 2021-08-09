@@ -377,6 +377,19 @@ function code_div(data, year) {
   };
 }
 
+// obtain damron codes of corresponding year
+function codeIncludes(codeData, year){
+  let result = {};
+  // Obtain damron codes of corresponding year
+  for(let codeInfo in codeData) {
+    let codeObj = codeData[codeInfo];
+    if(codeObj.years.includes(year.toString())){
+      result[codeInfo] = codeObj;
+    }
+  }
+  return result;
+}
+
 ////////////////////////////////////////////////////////////////////////////////////
 // MAP ON LOAD
 map.on('style.load', async function() {
@@ -387,10 +400,10 @@ map.on('style.load', async function() {
   let obs_data = await displayData();
   addDataLayer(obs_data);
   map.setFilter('data', ["==", ['number', ['get', 'year'] ], defaultYear]);
-
   // load all code data from database
   let code_data = await allCodes();
-  code_div(code_data, defaultYear);
+  let defaultCodes = codeIncludes(code_data, defaultYear)
+  code_div(defaultCodes, defaultYear);
 
   // filter data based upon input
   // let years = document.querySelectorAll('.year-slider');
@@ -402,14 +415,7 @@ map.on('style.load', async function() {
     // filter map view to selected year
     map.setFilter('data', ["==", ['number', ['get', 'year'] ], selectYear ]);
 
-    let result = {};
-    // Obtain damron codes of corresponding year
-    for(let code_info in code_data) {
-      let code_obj = code_data[code_info];
-      if(code_obj.years.includes(selectYear.toString())){
-        result[code_info] = code_obj;
-      }
-    }
+    let result = codeIncludes(code_data, selectYear);
     // construct div for each damron code available
     code_div(result, selectYear);
   })
