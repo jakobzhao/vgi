@@ -134,7 +134,7 @@ async function allCodes() {
     let getCodes = await fetch('https://lgbtqspaces-api.herokuapp.com/api/all-codes', {method: 'GET'});
     let codeData = await getCodes.json();
     let sortedData = await sortCodes(codeData);
-    console.log(sortedData);
+    return sortedData;
   } catch (err) {
     console.log(err);
   }
@@ -406,6 +406,25 @@ function addExtrusions(e) {
       'fill-extrusion-vertical-gradient': false,
     }
   });
+};
+
+// add div for the codes corresponding to selected year on the map
+function code_div(data) {
+  let code_parent = document.getElementById('dropdown-code');
+  // clear everything in div first (in case already populated with existing data)
+  while(code_parent.firstChild) {
+    code_parent.removeChild(code_parent.lastChild);
+  };
+  // for each object in data
+  for(let code in data){
+    let single_code = data[code];
+    let code_div = document.createElement('div');
+    code_div.innerHTML = single_code.code + " " + single_code.name + " ( " +  single_code.years + " ) ";
+
+    // add corresponding style here
+
+    code_parent.appendChild(code_div);
+  };
 }
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -416,24 +435,39 @@ map.on('style.load', async function() {
   let obs_data = await displayData();
   addDataLayer(obs_data);
 
+  let code_data = await allCodes();
+  code_div(code_data);
+
   // filter data based upon input
   let years = document.querySelectorAll('.year-slider');
   years.forEach(item => {
     item.addEventListener('input', async function(e) {
       let left = parseInt(document.getElementById('input-left').value);
       let right = parseInt(document.getElementById('input-right').value);
+      
+      // filter map view to input year range
       map.setFilter('data', ["all",
         [">=", ['number', ['get','year']], left],
         ["<=", ['number', ['get', 'year']], right]
-      ])
+      ]);
+
+      let result = {};
+      // Obtain damron codes of corresponding year
+      for(let code_info in code_data) {
+        let code_obj = code_data[code_info];
+        if(code_obj.years.includes(left.toString())){
+          result[code_info] = code_obj;
+        }
+      }
+
+      // construct div for each damron code available
+      code_div(result);
     })
   });
 
   // filter damron codes based on input
   // construct array of codes in corresponding year (API data)
 
-  // 1. load in allcode data
-  // 2. filter on input change of slider of containing damron codes
   // 3. Create div of each damron code AVAILABLE
   // 4. div on click, then filter the whole map view
   // 5. add option to revert and remove all filter (map.setFilter('myLayer', null))
