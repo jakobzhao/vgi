@@ -93,10 +93,9 @@
         <!-- type filter -->
         <button class="btn mx-2 btn-custom">type</button>
         <!-- damron code filter -->
-        <div class="dropwdown">
-          <button class="btn mx-2 btn-custom dropdown-toggle" data-bs-toggle="dropdown">damron_code</button>
-          <div class="dropdown-menu">
-            <p class="dropdown-item">hello</p>
+        <div class="dropdown">
+          <button class="btn mx-2 btn-custom dropdown-toggle" data-bs-toggle="dropdown">Damron Code</button>
+          <div id = "dropdown" class="dropdown-menu dropdown-style">
           </div>
         </div>
         <button class="transparent" data-bs-toggle="modal" data-bs-target="#instructions"><i class="fas fa-question-circle fa-2x mx-2"></i></button>
@@ -182,29 +181,16 @@
 
     <!-- timeline -->
     <div id = "slider-time" class="middle">
-      <p class="m-0">Selected Interval:</p>
+      <p class="m-0">Selected Year:</p>
       <div id="timeline-labels" class="labels flex">
         <div>
-          <label id="left-label" class="fw-bolder">1965</label>
-        </div>
-        <div>
-          <p>&nbsp;to&nbsp;</p>
-        </div>
-        <div>
-          <label id="right-label" class="fw-bolder">2014</label>
+          <label id="left-label" class="fw-bolder">1987</label>
         </div>
       </div>
       <div>
-        <div id="slider" class="multi-range-slider">
-          <input type="range" class="year-slider" id="input-left" min="1965" max="2014" value="1965" oninput="year_val()">
-          <input type="range" class="year-slider" id="input-right" min="1965" max="2014" value="2014" oninput="year_val()">
-
-          <div class="slider">
-            <div class="track"></div>
-            <div class="range"></div>
-            <div class="thumb left"></div>
-            <div class="thumb right"></div>
-          </div>
+        <div id="slider">
+          <!-- new single slider -->
+          <input type="range" class="single-slider" id="single-input" min="1965" max="2014" value="1987" oninput="year_val()">
         </div>
       </div>
     </div>
