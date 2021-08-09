@@ -14,80 +14,12 @@ let geocoder =new MapboxGeocoder({
 
 document.getElementById('geocoder').appendChild(geocoder.onAdd(map));
 
-// Slider functions
 // year_val()
+// changes the label of the current selected year for the user to see
 function year_val() {
-  let left = document.getElementById('input-left').value;
-  let right = document.getElementById('input-right').value;
-  document.getElementById('left-label').innerHTML = left;
-  document.getElementById('right-label').innerHTML = right;
+  let selectedYear = document.getElementById('single-input').value;
+  document.getElementById('left-label').innerHTML = selectedYear;
 }
-
-// slider
-var inputLeft = document.getElementById("input-left");
-var inputRight = document.getElementById("input-right");
-
-var thumbLeft = document.querySelector(".slider > .thumb.left");
-var thumbRight = document.querySelector(".slider > .thumb.right");
-var range = document.querySelector(".slider > .range");
-
-function setLeftValue() {
-  var _this = inputLeft,
-    min = parseInt(_this.min),
-    max = parseInt(_this.max);
-
-  _this.value = Math.min(parseInt(_this.value), parseInt(inputRight.value) - 1);
-
-  var percent = ((_this.value - min) / (max - min)) * 100;
-
-  thumbLeft.style.left = percent + "%";
-  range.style.left = percent + "%";
-}
-
-setLeftValue();
-
-function setRightValue() {
-  var _this = inputRight,
-    min = parseInt(_this.min),
-    max = parseInt(_this.max);
-
-  _this.value = Math.max(parseInt(_this.value), parseInt(inputLeft.value) + 1);
-
-  var percent = ((_this.value - min) / (max - min)) * 100;
-
-  thumbRight.style.right = (100 - percent) + "%";
-  range.style.right = (100 - percent) + "%";
-}
-setRightValue();
-
-inputLeft.addEventListener("input", setLeftValue);
-inputRight.addEventListener("input", setRightValue);
-
-inputLeft.addEventListener("mouseover", function() {
-  thumbLeft.classList.add("hover");
-});
-inputLeft.addEventListener("mouseout", function() {
-  thumbLeft.classList.remove("hover");
-});
-inputLeft.addEventListener("mousedown", function() {
-  thumbLeft.classList.add("active");
-});
-inputLeft.addEventListener("mouseup", function() {
-  thumbLeft.classList.remove("active");
-});
-
-inputRight.addEventListener("mouseover", function() {
-  thumbRight.classList.add("hover");
-});
-inputRight.addEventListener("mouseout", function() {
-  thumbRight.classList.remove("hover");
-});
-inputRight.addEventListener("mousedown", function() {
-  thumbRight.classList.add("active");
-});
-inputRight.addEventListener("mouseup", function() {
-  thumbRight.classList.remove("active");
-});
 
 // toggle left dashboard to default and edit view
 function toggleView(toggleClass) {
@@ -160,15 +92,14 @@ function sortCodes(data) {
 // returns a complete GEOJSON data output that is filtered with the matching dates
 async function displayData(){
     try {
-        let low = document.getElementById('input-left').value;
-        let high = document.getElementById('input-right').value;
-        let city = "Seattle";
-        let readData = await fetch(`https://lgbtqspaces-api.herokuapp.com/api/observations/${low}/${high}/${city}`, {method: 'GET'});
-        let getVenueData = await fetch(`https://lgbtqspaces-api.herokuapp.com/api/venues/${low}/${high}`, {method: 'GET'});
-        let venueData = await getVenueData.json();
-        let data = await readData.json();
-        data.push(...venueData);
-        return toGEOJSON(data);
+      // current city only seattle - expand to user input in the future
+      let city = "Seattle";
+      let readData = await fetch(`https://lgbtqspaces-api.herokuapp.com/api/observations/${city}`, {method: 'GET'});
+      let getVenueData = await fetch(`https://lgbtqspaces-api.herokuapp.com/api/venues/${city}`, {method: 'GET'});
+      let venueData = await getVenueData.json();
+      let data = await readData.json();
+      data.push(...venueData);
+      return toGEOJSON(data);
     } catch(error) {
         console.log(error);
     }
@@ -356,7 +287,6 @@ function addLeftPanelActions(feature, marker) {
 
 // add 3-D extrusions
 function addExtrusions(e) {
-
   // get the data points that stack on top of each other within the selected year range
   let layerData = map.queryRenderedFeatures([e.point.x, e.point.y], {layers: ['data']});
   // sort data by year (from lowest to highest)
@@ -417,15 +347,13 @@ function code_div(data, year) {
     code_parent.removeChild(code_parent.lastChild);
   };
 
-
   let standard = document.createElement('div');
   standard.innerHTML = "[BACK] Revert back to no code filter";
   standard.addEventListener('click', function() {
     map.setFilter('data', undefined);
-    // change map filter to just single year to revert to original filtered year state
-    map.setFilter('data', ["all",
-      [">=", ['number', ['get','year']], year]
-    ]);
+    // map filter of single year selected by the user
+    map.setFilter('data', ["==", ['number', ['get', 'year'] ], year ]);
+
   });
 
   standard.classList.add('dropdown-item');
@@ -454,45 +382,37 @@ function code_div(data, year) {
 map.on('style.load', async function() {
   // load data
   // on slider change
+  let defaultYear = parseInt(document.getElementById('single-input').value);
+
   let obs_data = await displayData();
   addDataLayer(obs_data);
-  console.log(obs_data);
+  map.setFilter('data', ["==", ['number', ['get', 'year'] ], defaultYear]);
+
+  // load all code data from database
   let code_data = await allCodes();
-  code_div(code_data);
+  code_div(code_data, defaultYear);
 
   // filter data based upon input
-  let years = document.querySelectorAll('.year-slider');
-  years.forEach(item => {
-    item.addEventListener('input', async function(e) {
-      let left = parseInt(document.getElementById('input-left').value);
-      let right = parseInt(document.getElementById('input-right').value);
-      
-      // filter map view to input year range
-      map.setFilter('data', ["all",
-        [">=", ['number', ['get','year']], left],
-        ["<=", ['number', ['get', 'year']], right]
-      ]);
+  // let years = document.querySelectorAll('.year-slider');
+  let years = document.getElementById('single-input');
 
-      let result = {};
-      // Obtain damron codes of corresponding year
-      for(let code_info in code_data) {
-        let code_obj = code_data[code_info];
-        if(code_obj.years.includes(left.toString())){
-          result[code_info] = code_obj;
-        }
+  years.addEventListener('input', async function(e) {
+    let selectYear = parseInt(years.value);
+
+    // filter map view to selected year
+    map.setFilter('data', ["==", ['number', ['get', 'year'] ], selectYear ]);
+
+    let result = {};
+    // Obtain damron codes of corresponding year
+    for(let code_info in code_data) {
+      let code_obj = code_data[code_info];
+      if(code_obj.years.includes(selectYear.toString())){
+        result[code_info] = code_obj;
       }
-
-      // construct div for each damron code available
-      code_div(result, left);
-    })
-  });
-
-  // filter damron codes based on input
-  // construct array of codes in corresponding year (API data)
-
-  // 3. Create div of each damron code AVAILABLE
-  // 4. div on click, then filter the whole map view
-  // 5. add option to revert and remove all filter (map.setFilter('myLayer', null))
+    }
+    // construct div for each damron code available
+    code_div(result, selectYear);
+  })
 
   // create temporary marker if user wants to validate a location
   var marker = new mapboxgl.Marker({
@@ -510,8 +430,8 @@ map.on('style.load', async function() {
 
   map.on('moveend', function () {
     // split obs data to matching years
-    let yearLeft = document.getElementById('input-left').value;
-    let yearRight = document.getElementById('input-right').value;
+    let selectYear = document.getElementById('single-input').value;
+    // let yearRight = document.getElementById('input-right').value;
     let localityParent = document.getElementById('locality-venues');
 
     let localityFeatures = obs_data.features;
@@ -528,7 +448,7 @@ map.on('style.load', async function() {
     })
 
     for(let i = 0; i < localityFeatures.length; i++) {
-      if(localityFeatures[i].properties.year >= yearLeft && localityFeatures[i].properties.year <= yearRight) {
+      if(localityFeatures[i].properties.year == selectYear) {
         if(localityFeatures[i].properties.confidence < 0.85) {
           let localityDiv = document.createElement('div');
           localityDiv.classList.add('m-3');
