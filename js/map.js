@@ -283,6 +283,25 @@ function addLeftPanelActions(feature, marker) {
     }
     marker.on('dragend', onDragEnd);
   });
+
+  // if add review button is clicked, display add review div box
+  let addReview = document.getElementById('add-review-btn');
+  addReview.addEventListener('click', () =>{
+    let reviewBox = document.getElementById('type-review-box');
+    reviewBox.classList.remove('d-none');
+  })
+  // show div
+  // event listener:: addReview.classList.remove('d-none');
+  
+  let reviewCloseBtn = document.getElementById('cancel-review-btn');
+  reviewCloseBtn.addEventListener('click', () => {
+    let reviewBox = document.getElementById('type-review-box');
+    reviewBox.classList.add('d-none');
+  })
+
+  // if cancel button clicked, add back d-none to the textarea div
+
+
 };
 
 // add 3-D extrusions

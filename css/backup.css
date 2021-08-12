@@ -93,7 +93,7 @@ nav {
 }
 
 /* fix height of right panel */
-.box-shadow-right-info {
+.box-shadow-info {
     box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
     border-radius: 5px;
 }
@@ -164,6 +164,7 @@ nav {
     border-color: transparent;
 }
 
+
 #year {
     font-size: 20px;
 }
@@ -181,6 +182,52 @@ nav {
     padding: 4em 3em 3em 3em;
     /** if information overflows then content is hidden**/
     overflow: auto;
+}
+
+/* close button on left dashboard */
+#info-close-btn {
+    position: absolute;
+    width: 10%;
+    text-align: center;
+    background: #6c757d;
+    border-radius: 5%;
+    right: 0;
+    margin-right: 1.5em;
+}
+
+/* info review box  */
+.info-review-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 100%;
+    height: 30%;
+    margin-top: 2em;
+    box-shadow: inset 0em 0em 0.2em 0.1em rgba(218, 218, 218, 0.774);
+}
+
+/* textbox div */
+.textbox-div {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 0.5em;
+    width: 100%;
+    height: 75%;
+}
+
+/* textarea of review */
+#user-review-input {
+    width: 95%;
+    resize: none;
+    border: transparent;
+}
+
+/* review box button div */
+.button-review-div {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
 }
 
 .title-font {
