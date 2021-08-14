@@ -234,6 +234,13 @@ nav {
     border: transparent;
 }
 
+/* vid review font sizes */
+#vid-review {
+    font-size: 11px;
+    color: gray;
+    opacity: 0.2;
+}
+
 /* review box button div */
 .button-review-div {
     display: flex;

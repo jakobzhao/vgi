@@ -89,9 +89,9 @@ function sortCodes(data) {
 
 // getReviews
 // Obtain data from database containing information for all the reviews of a specific location
-async function getReviews(feature) {
+async function getReviews(vid) {
   try {
-    let id = feature.properties.vid;
+    let id = vid;
     let getReview = await fetch(`https://lgbtqspaces-api.herokuapp.com/api/comment/${id}`, {method: 'GET'});
     let reviewData = await getReview.json();
     return(reviewData);
@@ -255,6 +255,9 @@ function viewLeftPanel(e) {
     document.getElementById('long').innerHTML = e.geometry.coordinates[0];
     document.getElementById('lat').innerHTML = e.geometry.coordinates[1];
 
+    //vid for comment
+    document.getElementById('vid-review').innerHTML = e.properties.vid;
+
     // Edit observation pre-filled values
     document.getElementById('observed-name-edit').value = e.properties.observedvenuename;
     document.getElementById('address-edit').value = e.properties.address;
@@ -335,7 +338,6 @@ function constructReviews(reviewData){
     reviewDiv.classList.add('review-box');
     reviewParent.append(reviewDiv);
   }
-  console.log(reviewData);
 }
 
 // add 3-D extrusions
@@ -453,6 +455,7 @@ map.on('style.load', async function() {
   let obs_data = await displayData();
   addDataLayer(obs_data);
   map.setFilter('data', ["==", ['number', ['get', 'year'] ], defaultYear]);
+
   // load all code data from database
   let code_data = await allCodes();
   let defaultCodes = codeIncludes(code_data, defaultYear)
@@ -579,16 +582,23 @@ map.on('style.load', async function() {
 
     // update frontend with new divs for each comment
     // publish comment on click
-    document.getElementById('publish-btn').addEventListener('click', function() {
-      addNewReview(e, feature.properties.vid);
-      console.log(feature.properties.vid);
-    });
+    let vid = parseInt(document.getElementById('vid-review').innerHTML);
+
+    document.getElementById('publish-btn').removeEventListener('click', submitNewReview);
+    document.getElementById('publish-btn').addEventListener('click', submitNewReview);
+    // addNewReview);
 
     // get all comments of the location
-    let reviewData = await getReviews(feature);
+    let reviewData = await getReviews(vid);
     constructReviews(reviewData);
 
   });
+  
+  function submitNewReview(e){
+    let vid = parseInt(document.getElementById('vid-review').innerHTML);
+    addNewReview(e, vid);
+
+  };
 
   // go back button
   document.getElementById('go-back-btn').addEventListener('click', function() {
