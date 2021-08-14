@@ -324,6 +324,7 @@ async function addLeftPanelActions(feature, marker) {
   });
 };
 
+// create and style all incoming reviews from API request
 function constructReviews(reviewData){
   // clear all existing reviews
   let reviewParent = document.getElementById('reviews-container');
@@ -586,18 +587,16 @@ map.on('style.load', async function() {
 
     document.getElementById('publish-btn').removeEventListener('click', submitNewReview);
     document.getElementById('publish-btn').addEventListener('click', submitNewReview);
-    // addNewReview);
 
     // get all comments of the location
     let reviewData = await getReviews(vid);
     constructReviews(reviewData);
-
   });
-  
+
+  // helper function to submit new review
   function submitNewReview(e){
     let vid = parseInt(document.getElementById('vid-review').innerHTML);
     addNewReview(e, vid);
-
   };
 
   // go back button
