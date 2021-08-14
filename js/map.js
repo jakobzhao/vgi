@@ -572,12 +572,16 @@ map.on('style.load', async function() {
     let addReview = document.getElementById('add-review-btn');
     addReview.addEventListener('click', () =>{
       let reviewBox = document.getElementById('type-review-box');
+      let textBox = document.getElementById('user-review-input');
+      textBox.value = '';
       reviewBox.classList.remove('d-none');
     });
 
     let reviewCloseBtn = document.getElementById('cancel-review-btn');
     reviewCloseBtn.addEventListener('click', () => {
       let reviewBox = document.getElementById('type-review-box');
+      let textBox = document.getElementById('user-review-input');
+      textBox.value = '';
       reviewBox.classList.add('d-none');
     });
 
@@ -596,7 +600,13 @@ map.on('style.load', async function() {
   // helper function to submit new review
   function submitNewReview(e){
     let vid = parseInt(document.getElementById('vid-review').innerHTML);
-    addNewReview(e, vid);
+    let submitCheck = document.getElementById('user-review-input').value;
+    // check if
+    if (/^\s*$/g.test(submitCheck)) {
+      alert('Invalid comment. No text detected!');
+    } else {
+      addNewReview(e, vid);
+    }
   };
 
   // go back button
