@@ -231,10 +231,12 @@ nav {
 /* textarea of review */
 #user-review-input {
     width: 95%;
+    height: 95%;
     resize: none;
     border: transparent;
 }
 
+/* confirmation div after user publish comment */
 .icon-center{
     display: flex;
     flex-direction: column;
@@ -255,6 +257,8 @@ nav {
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
+    margin-bottom: 0.5em;
+    margin-right: 0.5em;
 }
 
 .title-font {
