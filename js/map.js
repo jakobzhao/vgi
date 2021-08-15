@@ -116,12 +116,27 @@ async function addNewReview(event, id) {
 
   try {
      let sendData = await fetch('https://lgbtqspaces-api.herokuapp.com/api/add-comment', settings);
-     console.log("Comment has been added!");
+     confirmationReview();
   } catch (err) {
       checkStatus(err);
   }
 }
 
+// confirmationReview
+// Display user reaction screen when review is confirmed and is submitted into database
+function confirmationReview() {
+  // hide and remove comment textarea
+  let reviewBox = document.getElementById('type-review-box');
+  let textBox = document.getElementById('user-review-input');
+  textBox.value = '';
+  reviewBox.classList.add('d-none');
+
+  // display user reaction confirmation screen
+  let reviewCheck = document.getElementById('reviews-confirmation');
+  reviewCheck.classList.remove('d-none');
+  let timeOutID = setTimeout( function() {reviewCheck.classList.add('d-none')}, 3000);
+  timeOutID;
+}
 
 // displayData
 // Obtain the data from the database given the input values from the year slider
@@ -605,6 +620,7 @@ map.on('style.load', async function() {
     if (/^\s*$/g.test(submitCheck)) {
       alert('Invalid comment. No text detected!');
     } else {
+      // add new review
       addNewReview(e, vid);
     }
   };
