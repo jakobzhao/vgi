@@ -94,7 +94,7 @@ async function getReviews(vid) {
     let id = vid;
     let getReview = await fetch(`https://lgbtqspaces-api.herokuapp.com/api/comment/${id}`, {method: 'GET'});
     let reviewData = await getReview.json();
-    return(reviewData);
+    constructReviews(reviewData);
   } catch (err) {
     console.log(err);
   }
@@ -117,6 +117,7 @@ async function addNewReview(event, id) {
   try {
      let sendData = await fetch('https://lgbtqspaces-api.herokuapp.com/api/add-comment', settings);
      confirmationReview();
+     getReviews(id);
   } catch (err) {
       checkStatus(err);
   }
@@ -608,8 +609,8 @@ map.on('style.load', async function() {
     document.getElementById('publish-btn').addEventListener('click', submitNewReview);
 
     // get all comments of the location
-    let reviewData = await getReviews(vid);
-    constructReviews(reviewData);
+    await getReviews(vid);
+    // constructReviews(reviewData);
   });
 
   // helper function to submit new review
