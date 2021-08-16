@@ -14,7 +14,6 @@
         document.getElementById('googleSignOutBtn').addEventListener('click', () => {
             signOut();
         });
-
    };
 
     // function promptLogin(event){

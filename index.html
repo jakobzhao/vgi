@@ -120,7 +120,7 @@
     </div>
 
   <!-- right side-selection pane -->
-    <div id="menu" class="map-overlay-right bg-opaque-white box-shadow-right-info">
+    <div id="menu" class="map-overlay-right bg-opaque-white box-shadow-info">
       <div id="basemap-selection" style="font-size: 15px;">
         <p class="light-text-title">Basemap</p>
         <input id="light-v10" type="radio" name="rtoggle" value="light" checked="checked">
@@ -262,9 +262,37 @@
       <!-- left dashboard - buttons -->
       <div>
         <button id="validate-observation-btn" type="button" class="btn btn-primary">Validate this Observation</button>
+        <button id="add-review-btn" type="button" class="btn btn-primary">Add a Review</button>
         <button id="go-back-btn" type="button" class="btn btn-primary d-none"> go back</button>
-        <button id="info-close" type="button" class= "btn btn-secondary">Close</button>
       </div>
+      <!-- close panel button -->
+      <div id="info-close-btn">
+        <button id="info-close" type="button" class="btn btn-secondary"><i class="fas fa-angle-left"></i></button>
+      </div>
+
+      <!-- start a review box -->
+      <div id="type-review-box" class="info-review-box box-shadow-info d-none">
+        <!-- textbox div -->
+        <div class="textbox-div">
+          <textarea id = "user-review-input" rows="6" placeholder="Type review here..."></textarea>
+        </div>
+        <div class="button-review-div">
+          <p id="vid-review"></p>
+          <button id="cancel-review-btn" type="button" class="btn btn-secondary mx-1">Cancel</button>
+          <button id="publish-btn" type="button" class="btn btn-primary mx-1">Publish</button>
+        </div>
+        <!-- close and publish buttons -->
+      </div>
+
+      <!-- submitted review confirm -->
+      <div id="reviews-confirmation" class="icon-center d-none">
+        <i class="fas fa-check-circle fa-2x text-success"></i>
+        <p>Review has been submitted.</p>
+      </div>
+
+
+      <!-- all reviews container -->
+      <div id="reviews-container"></div>
     </div>
 
     <!-- add user observation button -->

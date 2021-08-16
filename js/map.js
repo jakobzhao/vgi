@@ -87,6 +87,58 @@ function sortCodes(data) {
   return sortedResult;
 };
 
+// getReviews
+// Obtain data from database containing information for all the reviews of a specific location
+async function getReviews(vid) {
+  try {
+    let id = vid;
+    let getReview = await fetch(`https://lgbtqspaces-api.herokuapp.com/api/comment/${id}`, {method: 'GET'});
+    let reviewData = await getReview.json();
+    constructReviews(reviewData);
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+// addNewReview
+// Insert data into database and adds a new review to the corresponding VID
+async function addNewReview(event, id) {
+  event.preventDefault();
+  // obtain data from user input form
+  let newReview = new URLSearchParams();
+  newReview.append('vid', id);
+  newReview.append('review',document.getElementById('user-review-input').value);
+
+  let settings = {
+    method: 'POST',
+    body: newReview
+  }
+
+  try {
+     let sendData = await fetch('https://lgbtqspaces-api.herokuapp.com/api/add-comment', settings);
+     confirmationReview();
+     getReviews(id);
+  } catch (err) {
+      checkStatus(err);
+  }
+}
+
+// confirmationReview
+// Display user reaction screen when review is confirmed and is submitted into database
+function confirmationReview() {
+  // hide and remove comment textarea
+  let reviewBox = document.getElementById('type-review-box');
+  let textBox = document.getElementById('user-review-input');
+  textBox.value = '';
+  reviewBox.classList.add('d-none');
+
+  // display user reaction confirmation screen
+  let reviewCheck = document.getElementById('reviews-confirmation');
+  reviewCheck.classList.remove('d-none');
+  let timeOutID = setTimeout( function() {reviewCheck.classList.add('d-none')}, 3000);
+  timeOutID;
+}
+
 // displayData
 // Obtain the data from the database given the input values from the year slider
 // returns a complete GEOJSON data output that is filtered with the matching dates
@@ -219,6 +271,9 @@ function viewLeftPanel(e) {
     document.getElementById('long').innerHTML = e.geometry.coordinates[0];
     document.getElementById('lat').innerHTML = e.geometry.coordinates[1];
 
+    //vid for comment
+    document.getElementById('vid-review').innerHTML = e.properties.vid;
+
     // Edit observation pre-filled values
     document.getElementById('observed-name-edit').value = e.properties.observedvenuename;
     document.getElementById('address-edit').value = e.properties.address;
@@ -236,7 +291,7 @@ function viewLeftPanel(e) {
 };
 
 // left panel functionalities (validate observation marker view, selected marker view, map zoom to selected point)
-function addLeftPanelActions(feature, marker) {
+async function addLeftPanelActions(feature, marker) {
   map.flyTo({
     center: feature.geometry.coordinates,
     zoom: 14,
@@ -284,6 +339,23 @@ function addLeftPanelActions(feature, marker) {
     marker.on('dragend', onDragEnd);
   });
 };
+
+// create and style all incoming reviews from API request
+function constructReviews(reviewData){
+  // clear all existing reviews
+  let reviewParent = document.getElementById('reviews-container');
+
+  while(reviewParent.firstChild) {
+    reviewParent.removeChild(reviewParent.lastChild);
+  };
+
+  for(let i = 0; i < reviewData.length; i++) {
+    let reviewDiv = document.createElement('div');
+    reviewDiv.innerHTML = reviewData[i].review;
+    reviewDiv.classList.add('review-box');
+    reviewParent.append(reviewDiv);
+  }
+}
 
 // add 3-D extrusions
 function addExtrusions(e) {
@@ -400,6 +472,7 @@ map.on('style.load', async function() {
   let obs_data = await displayData();
   addDataLayer(obs_data);
   map.setFilter('data', ["==", ['number', ['get', 'year'] ], defaultYear]);
+
   // load all code data from database
   let code_data = await allCodes();
   let defaultCodes = codeIncludes(code_data, defaultYear)
@@ -480,20 +553,23 @@ map.on('style.load', async function() {
   });
 
   // trigger review/location information on click of location point of map
-  map.on('click','data',function(e) {
+  map.on('click','data', async function(e) {
     // marker.remove();
     // // clear 3-D year object
     if (typeof map.getLayer('year-block') !== "undefined" ){
       map.removeLayer('year-block');
       map.removeSource('year-block');
     };
+
+    let reviewBox = document.getElementById('type-review-box');
+    reviewBox.classList.add('d-none');
     // map.removeLayer('year-block');
     // map.removeSource('year-block');
 
     // add all left panel actions (including zoom and adding data points)
     let feature = e.features[0];
     // view left panel on data click
-    viewLeftPanel(e.features[0]);
+    viewLeftPanel(feature);
     addLeftPanelActions(feature, marker);
 
     // indicate that this point is a venue
@@ -507,7 +583,48 @@ map.on('style.load', async function() {
     // add extrusions
     addExtrusions(e);
 
+    // add reviews
+    // if add review button is clicked, display add review div box
+    let addReview = document.getElementById('add-review-btn');
+    addReview.addEventListener('click', () =>{
+      let reviewBox = document.getElementById('type-review-box');
+      let textBox = document.getElementById('user-review-input');
+      textBox.value = '';
+      reviewBox.classList.remove('d-none');
+    });
+
+    let reviewCloseBtn = document.getElementById('cancel-review-btn');
+    reviewCloseBtn.addEventListener('click', () => {
+      let reviewBox = document.getElementById('type-review-box');
+      let textBox = document.getElementById('user-review-input');
+      textBox.value = '';
+      reviewBox.classList.add('d-none');
+    });
+
+    // update frontend with new divs for each comment
+    // publish comment on click
+    let vid = parseInt(document.getElementById('vid-review').innerHTML);
+
+    document.getElementById('publish-btn').removeEventListener('click', submitNewReview);
+    document.getElementById('publish-btn').addEventListener('click', submitNewReview);
+
+    // get all comments of the location
+    await getReviews(vid);
+    // constructReviews(reviewData);
   });
+
+  // helper function to submit new review
+  function submitNewReview(e){
+    let vid = parseInt(document.getElementById('vid-review').innerHTML);
+    let submitCheck = document.getElementById('user-review-input').value;
+    // check if
+    if (/^\s*$/g.test(submitCheck)) {
+      alert('Invalid comment. No text detected!');
+    } else {
+      // add new review
+      addNewReview(e, vid);
+    }
+  };
 
   // go back button
   document.getElementById('go-back-btn').addEventListener('click', function() {
