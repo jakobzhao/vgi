@@ -197,7 +197,8 @@
 
     <!-- sidebar -->
     <div id = "info" class="d-flex flex-column hidden rounded">
-      <!-- image place-holder for location -->
+      <!-- image holder for location -->
+      <div id="imgs-container"></div>
       <div id = "info-default">
         <!-- Location information-->
         <div class="d-flex flex-column rounded">
@@ -347,6 +348,11 @@
     </div>
   </main>
   <script src="js/map.js"></script>
+  
+  <!-- GOOGLE IMAGES DEFAULT -->
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC7zg5Rb4UJNKsiXIol35wzC0uZmHddj0Q&callback=getPhotos&libraries=places"
+  async></script>
+
 </body>
 
 </html>

@@ -462,6 +462,52 @@ function codeIncludes(codeData, year){
   return result;
 }
 
+// getPhotos
+// Function that utilizes the Google Maps and Places Javascript Library to obtain a default image of a location
+// Requets uses a location bias and location names to search (similar to a google search)
+// Parameters:
+//  feature: javascript object that contains complete data of a clicked location
+function getPhotos(feature){
+  // data on click
+  let imgParent = document.getElementById('imgs-container');
+  // set location bias
+  let locationBias = new google.maps.LatLng(feature.geometry.coordinates[1] , feature.geometry.coordinates[0]);
+  // set request data location name and set location bias
+  let request = {
+    query: feature.properties.observedvenuename,
+    fields: ["place_id"],
+    locationBias: locationBias
+  }
+  let placeId;
+  // send request to get placeid
+  let service = new google.maps.places.PlacesService(imgParent);
+  service.findPlaceFromQuery(request, (results, status) => {
+    console.log(results);
+    placeId = results[0].place_id;
+    console.log(placeId);
+    // call another function to set
+    let imgChild = setImgURL(service, placeId);
+    imgParent.appendChild(imgChild);
+  });
+};
+
+function setImgURL(service, placeId){
+  // new request to get imageURL
+  let newRequest = {
+    placeId : placeId,
+    fields: ["photos"]
+  };
+  // get details of location
+  let imgDiv = document.createElement('img');
+  service.getDetails(newRequest, (result, status) => {
+   let imgUrl = result.photos[0].getUrl(({maxWidth: 1000, maxHeight: 1250}));
+   imgDiv.src = imgUrl;
+  });
+  return imgDiv;
+};
+
+
+
 ////////////////////////////////////////////////////////////////////////////////////
 // MAP ON LOAD
 map.on('style.load', async function() {
@@ -610,6 +656,7 @@ map.on('style.load', async function() {
 
     // get all comments of the location
     await getReviews(vid);
+    getPhotos(feature);
     // constructReviews(reviewData);
   });
 

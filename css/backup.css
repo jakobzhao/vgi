@@ -184,6 +184,10 @@ nav {
     overflow: auto;
 }
 
+#imgs-container > img {
+    width: 100%;
+    height: auto;
+}
 /* close button on left dashboard */
 #info-close-btn {
     position: absolute;
