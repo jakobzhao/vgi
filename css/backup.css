@@ -173,20 +173,27 @@ nav {
     position: absolute;
     z-index: 1;
     background-color: white;
-    width: 32em;
+    width: 26em;
     bottom: 0;
     height: 100%;
     color: black;
     transform: translateX(-100%);
     -webkit-transform: translateX(-100%);
-    padding: 4em 3em 3em 3em;
     /** if information overflows then content is hidden**/
     overflow: auto;
+    box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
 }
 
+/* image container */
+#imgs-container {
+    border: 1px solid black;
+}
+
+/* image element in imgs container */
 #imgs-container > img {
     width: 100%;
-    height: auto;
+    height: 20em;
+    object-fit: cover;
 }
 /* close button on left dashboard */
 #info-close-btn {

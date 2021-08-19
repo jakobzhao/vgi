@@ -468,9 +468,7 @@ function codeIncludes(codeData, year){
 // Parameters:
 //  feature: javascript object that contains complete data of a clicked location
 function getPhotos(feature){
-  // data on click
   let imgParent = document.getElementById('imgs-container');
-  // set location bias
   let locationBias = new google.maps.LatLng(feature.geometry.coordinates[1] , feature.geometry.coordinates[0]);
   // set request data location name and set location bias
   let request = {
@@ -498,12 +496,12 @@ function setImgURL(service, placeId){
     fields: ["photos"]
   };
   // get details of location
-  let imgDiv = document.createElement('img');
+  let imgElement = document.createElement('img');
   service.getDetails(newRequest, (result, status) => {
    let imgUrl = result.photos[0].getUrl(({maxWidth: 1000, maxHeight: 1250}));
-   imgDiv.src = imgUrl;
+   imgElement.src = imgUrl;
   });
-  return imgDiv;
+  return imgElement;
 };
 
 
