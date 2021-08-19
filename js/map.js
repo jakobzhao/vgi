@@ -244,6 +244,29 @@ for (var i = 0; i < inputs.length; i++) {
   inputs[i].onclick = switchLayer;
 };
 
+function leftPanelClearCheck(checkType) {
+  // remove d-none from imgs container, info-default, hide add-observation, validation-btns
+  let imgsContainer = document.getElementById('imgs-container');
+  let infoDefault  = document.getElementById('info-default');
+  let validationBtns = document.getElementById('validation-btns');
+  let addObservation = document.getElementById('add-observation');
+
+  if (checkType == "remove") {
+    imgsContainer.classList.remove('d-none');
+    infoDefault.classList.remove('d-none');
+    validationBtns.classList.remove('d-none');
+    // add d-none from add-observation
+    addObservation.classList.add('d-none');
+  } else {
+    imgsContainer.classList.add('d-none');
+    infoDefault.classList.add('d-none');
+    validationBtns.classList.add('d-none');
+    // add d-none from add-observation
+    addObservation.classList.remove('d-none');
+  };
+};
+
+
 // function slide-in left panel
 function viewLeftPanel(e) {
     let dataCanvas = document.getElementById('info');
@@ -469,6 +492,7 @@ function codeIncludes(codeData, year){
 //  feature: javascript object that contains complete data of a clicked location
 function getPhotos(feature){
   let imgParent = document.getElementById('imgs-container');
+
   let locationBias = new google.maps.LatLng(feature.geometry.coordinates[1] , feature.geometry.coordinates[0]);
   // set request data location name and set location bias
   let request = {
@@ -480,7 +504,7 @@ function getPhotos(feature){
   // send request to get placeid
   let service = new google.maps.places.PlacesService(imgParent);
   service.findPlaceFromQuery(request, (results, status) => {
-    if (status == google.maps.places.PlacesServiceStatus.OK && results) { 
+    if (status == google.maps.places.PlacesServiceStatus.OK && results) {
       placeId = results[0].place_id;
       // call another function to set
       let imgChild = setImgURL(service, placeId);
@@ -506,8 +530,6 @@ function setImgURL(service, placeId){
   let imgElement = document.createElement('img');
   service.getDetails(newRequest, (result, status) => {
     if(status == google.maps.places.PlacesServiceStatus.OK && result.hasOwnProperty('photos') ){
-      console.log(result);
-      console.log(status);
       let imgUrl = result.photos[0].getUrl(({maxWidth: 1000, maxHeight: 1250}));
       imgElement.src = imgUrl;
     } else {
@@ -621,6 +643,9 @@ map.on('style.load', async function() {
     // map.removeLayer('year-block');
     // map.removeSource('year-block');
 
+    // check for left panel elements still lingering
+    leftPanelClearCheck('remove');
+
     // add all left panel actions (including zoom and adding data points)
     let feature = e.features[0];
     // view left panel on data click
@@ -682,6 +707,16 @@ map.on('style.load', async function() {
     }
   };
 
+  // add new observation
+  document.getElementById('addObservationBtn').addEventListener('click', function() {
+    // allow left panel to slide in;
+    let dataCanvas = document.getElementById('info');
+    dataCanvas.classList.remove('slide-out');
+    dataCanvas.classList.add('slide-in');
+    dataCanvas.classList.remove('hidden');
+    leftPanelClearCheck('add');
+  });
+
   // go back button
   document.getElementById('go-back-btn').addEventListener('click', function() {
     toggleView('d-none');
@@ -703,12 +738,14 @@ map.on('style.load', async function() {
     let viewBtn = document.getElementById('validate-observation-btn');
     let hiddenDiv = document.getElementById('validate-observation');
     let backBtn = document.getElementById('go-back-btn');
+    let addObs = document.getElementById('add-observation');
 
     if(defaultDiv.classList.contains('d-none')) {
       defaultDiv.classList.remove('d-none');
       viewBtn.classList.remove('d-none');
       hiddenDiv.classList.add('d-none');
       backBtn.classList.add('d-none');
+      addObs.classList.add('d-none');
     }
 
     // clear marker

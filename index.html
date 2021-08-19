@@ -195,7 +195,7 @@
       </div>
     </div>
 
-    <!-- sidebar -->
+    <!-- left dashboard -->
     <div id = "info" class="d-flex flex-column hidden rounded">
       <!-- image holder for location -->
       <div id="imgs-container"></div>
@@ -260,8 +260,42 @@
         <button id="submit-edit" type="button" class="btn btn-primary my-3">Submit Validation</button>
       </div>
 
+      <!-- left dashboard - add observation div -->
+      <div id="add-observation" class= "d-none mx-4">
+        <form id="user-form" class="d-flex flex-column">
+          <label for="location-api">Location:</label>
+          <input id = "location-api" type="text" placeholder="Enter location name">
+          <label for="address-api">Address:</label>
+          <input id = "address-api" type="text" placeholder="Enter address">
+          <label for="city-api">City:</label>
+          <input id="city-api" type="text" placeholder="Enter city of location">
+          <label for="state-api">State:</label>
+          <input id="state-api" type="text" placeholder="Enter state of location">
+          <!-- v1 without damron code input -->
+          <!-- <label for="damron">Damron Code:</label>
+          <input for="damron" type="text" placeholder="Enter code"> -->
+          <label for="type-api">Type:</label>
+          <input id="type-api" type="text" placeholder="Enter type">
+          <lable for="submit-year">Year:</lable>
+          <input id="submit-year" type="number" placeholder="Enter year">
+          <label for="type-note">Notes:</label>
+          <input id="type-note" type="text" placeholder="Enter additional notes">
+          <label for="confidence-observation">Confidence:</label>
+          <div id="confidence-observation"></div>
+            <input type="range" min="1" max="5" step="1">
+            <div class="sliderticks">
+              <p>1</p>
+              <p>2</p>
+              <p>3</p>
+              <p>4</p>
+              <p>5</p>
+            </div>
+          <button id="submit-button" type="submit" class="btn btn-primary my-3">Submit</button>
+        </form>
+      </div>
+
       <!-- left dashboard - buttons -->
-      <div class="mx-3">
+      <div id="validation-btns" class="mx-3">
         <button id="validate-observation-btn" type="button" class="btn btn-primary">Validate this Observation</button>
         <button id="add-review-btn" type="button" class="btn btn-primary">Add a Review</button>
         <button id="go-back-btn" type="button" class="btn btn-primary d-none"> go back</button>
@@ -301,54 +335,9 @@
         <div class="mx-5">
           <button id= "addObservationBtn" class= "btn-add-obs" type="button" data-bs-toggle="modal" data-bs-target="#observation"><i class="fa fa-plus fa-2x"></i><span>Add an Observation</span></button>
         </div>
-        <div class="modal fade" id="observation" tabindex="-1">
-          <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="instructions">Add a new observation</h5>
-              </div>
-              <div class="modal-body">
-                <form id="user-form" class="d-flex flex-column">
-                  <label for="location-api">Location:</label>
-                  <input id = "location-api" type="text" placeholder="Enter location name">
-                  <label for="address-api">Address:</label>
-                  <input id = "address-api" type="text" placeholder="Enter address">
-                  <label for="city-api">City:</label>
-                  <input id="city-api" type="text" placeholder="Enter city of location">
-                  <label for="state-api">State:</label>
-                  <input id="state-api" type="text" placeholder="Enter state of location">
-                  <!-- v1 without damron code input -->
-                  <!-- <label for="damron">Damron Code:</label>
-                  <input for="damron" type="text" placeholder="Enter code"> -->
-                  <label for="type-api">Type:</label>
-                  <input id="type-api" type="text" placeholder="Enter type">
-                  <lable for="submit-year">Year:</lable>
-                  <input id="submit-year" type="number" placeholder="Enter year">
-                  <label for="type-note">Notes:</label>
-                  <input id="type-note" type="text" placeholder="Enter additional notes">
-                  <label for="confidence-observation">Confidence:</label>
-                  <div id="confidence-observation"></div>
-                    <input type="range" min="1" max="5" step="1">
-                    <div class="sliderticks">
-                      <p>1</p>
-                      <p>2</p>
-                      <p>3</p>
-                      <p>4</p>
-                      <p>5</p>
-                    </div>
-                  <button id="submit-button" type="submit" class="btn btn-primary my-3">Submit</button>
-                </form>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              </div>
-            </div>
-          </div>
-        </div>
     </div>
   </main>
   <script src="js/map.js"></script>
-  
   <!-- GOOGLE IMAGES DEFAULT -->
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC7zg5Rb4UJNKsiXIol35wzC0uZmHddj0Q&callback=getPhotos&libraries=places"
   async></script>

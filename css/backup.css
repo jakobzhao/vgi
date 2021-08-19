@@ -184,11 +184,6 @@ nav {
     box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
 }
 
-/* image container */
-#imgs-container {
-    border: 1px solid black;
-}
-
 /* image element in imgs container */
 #imgs-container > img {
     width: 100%;
@@ -397,6 +392,11 @@ nav {
     bottom: 0;
     margin-right: 22%;
     margin-bottom: 3%;
+}
+
+/* add observation */
+#add-observation {
+    margin-top: 5em;
 }
 
 .btn-add-obs {
