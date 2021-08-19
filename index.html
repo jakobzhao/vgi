@@ -196,12 +196,12 @@
     </div>
 
     <!-- sidebar -->
-    <div id = "info" class="d-flex flex-column hidden rounded" style="border: 1px solid black;">
+    <div id = "info" class="d-flex flex-column hidden rounded">
       <!-- image holder for location -->
       <div id="imgs-container"></div>
-      <div id = "info-default" style="border: 1px solid black;">
+      <div id = "info-default">
         <!-- Location information-->
-        <div class="d-flex flex-column rounded">
+        <div class="d-flex flex-column rounded mx-3">
           <hr>
           <div class="my-2">
             <h2 id="name"></h2>
@@ -232,7 +232,7 @@
       </div>
 
       <!-- left dashboard - validate observatoin div -->
-      <div id="validate-observation" class="d-flex flex-column d-none">
+      <div id="validate-observation" class="d-flex flex-column d-none mx-3">
         <label>Observed Name:</label>
         <input id="observed-name-edit" type="text">
         <label>Address:</label>
@@ -261,7 +261,7 @@
       </div>
 
       <!-- left dashboard - buttons -->
-      <div>
+      <div class="mx-3">
         <button id="validate-observation-btn" type="button" class="btn btn-primary">Validate this Observation</button>
         <button id="add-review-btn" type="button" class="btn btn-primary">Add a Review</button>
         <button id="go-back-btn" type="button" class="btn btn-primary d-none"> go back</button>
@@ -293,7 +293,7 @@
 
 
       <!-- all reviews container -->
-      <div id="reviews-container"></div>
+      <div id="reviews-container mx-3"></div>
     </div>
 
     <!-- add user observation button -->
