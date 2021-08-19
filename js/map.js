@@ -480,12 +480,19 @@ function getPhotos(feature){
   // send request to get placeid
   let service = new google.maps.places.PlacesService(imgParent);
   service.findPlaceFromQuery(request, (results, status) => {
-    console.log(results);
-    placeId = results[0].place_id;
-    console.log(placeId);
-    // call another function to set
-    let imgChild = setImgURL(service, placeId);
-    imgParent.appendChild(imgChild);
+    if (status == google.maps.places.PlacesServiceStatus.OK && results) { 
+      placeId = results[0].place_id;
+      // call another function to set
+      let imgChild = setImgURL(service, placeId);
+      imgParent.appendChild(imgChild);
+    } else {
+      // TODO: replace error with display of image in frontend
+      let imgChildError = document.createElement('img');
+      imgChildError.src = './assets/imgs/img-placeholder.svg';
+      imgParent.appendChild(imgChildError);
+      console.log(status);
+    }
+
   });
 };
 
@@ -498,13 +505,17 @@ function setImgURL(service, placeId){
   // get details of location
   let imgElement = document.createElement('img');
   service.getDetails(newRequest, (result, status) => {
-   let imgUrl = result.photos[0].getUrl(({maxWidth: 1000, maxHeight: 1250}));
-   imgElement.src = imgUrl;
+    if(status == google.maps.places.PlacesServiceStatus.OK && result.hasOwnProperty('photos') ){
+      console.log(result);
+      console.log(status);
+      let imgUrl = result.photos[0].getUrl(({maxWidth: 1000, maxHeight: 1250}));
+      imgElement.src = imgUrl;
+    } else {
+      imgElement.src = './assets/imgs/img-placeholder.svg';
+    }
   });
   return imgElement;
 };
-
-
 
 ////////////////////////////////////////////////////////////////////////////////////
 // MAP ON LOAD
