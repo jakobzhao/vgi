@@ -185,11 +185,19 @@ nav {
 }
 
 /* image element in imgs container */
+#imgs-container {
+    width: 100%;
+    height: 20em;
+    background: url('/assets/gifs/loading.gif') no-repeat;
+    background-position: center;
+}
+
 #imgs-container > img {
     width: 100%;
     height: 20em;
     object-fit: cover;
 }
+
 /* close button on left dashboard */
 #info-close-btn {
     position: absolute;
