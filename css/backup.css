@@ -180,7 +180,7 @@ nav {
     transform: translateX(-100%);
     -webkit-transform: translateX(-100%);
     /** if information overflows then content is hidden**/
-    overflow-x: visible;
+    overflow-x: scroll;
     box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
 }
 
