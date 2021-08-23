@@ -6,6 +6,8 @@ var map = new mapboxgl.Map({
   zoom: 12 // starting zoom
 });
 
+
+
 // geocoding search bar
 let geocoder =new MapboxGeocoder({
   accessToken: mapboxgl.accessToken,
@@ -25,11 +27,13 @@ function year_val() {
 function toggleView(toggleClass) {
   // default location information buttons and div
   let defaultDiv = document.getElementById('info-default');
+  let imgDiv = document.getElementById('imgs-container');
   let viewBtn = document.getElementById('validate-observation-btn');
   // validate observation form buttons and div
   let hiddenDiv = document.getElementById('validate-observation');
   let backBtn = document.getElementById('go-back-btn');
 
+  imgDiv.classList.toggle(toggleClass);
   hiddenDiv.classList.toggle(toggleClass);
   defaultDiv.classList.toggle(toggleClass);
   viewBtn.classList.toggle(toggleClass);
@@ -276,7 +280,7 @@ function viewLeftPanel(e) {
 
     // parse the codes to increase readability
     let codeString = "";
-    let codes = e.properties.codelist;
+    let codes = e.properties.codedescriptorlist;
     for(let i=0; i < codes.length; i++) {
       if(codes[i] !== '[' && codes [i] !== '"' && codes[i] !== '.' && codes[i] !== ']' && codes[i] !== "'") {
         codeString += codes[i];
@@ -284,15 +288,14 @@ function viewLeftPanel(e) {
     };
 
     // left panel location information
-    document.getElementById('name').innerHTML = e.properties.observedvenuename;
-    document.getElementById('year-info').innerHTML = e.properties.year;
-    document.getElementById('address').innerHTML = e.properties.address;
-    document.getElementById('state').innerHTML = e.properties.state;
-    document.getElementById('city').innerHTML = e.properties.city;
-    document.getElementById('code').innerHTML = codeString;
-    document.getElementById('type').innerHTML = e.properties.category;
-    document.getElementById('long').innerHTML = e.geometry.coordinates[0];
-    document.getElementById('lat').innerHTML = e.geometry.coordinates[1];
+    document.getElementById('name').innerHTML = infoNullCheck(e.properties.observedvenuename);
+    document.getElementById('address').innerHTML = infoNullCheck(e.properties.address);
+    document.getElementById('formal-address').innerHTML = infoNullCheck(e.properties.formaladdress);
+    document.getElementById('year-info').innerHTML = infoNullCheck(e.properties.year);
+    document.getElementById('city').innerHTML = infoNullCheck(e.properties.city);
+    document.getElementById('state').innerHTML = infoNullCheck(e.properties.state);
+    document.getElementById('code').innerHTML = infoNullCheck(codeString);
+    document.getElementById('type').innerHTML = infoNullCheck(e.properties.category);
 
     //vid for comment
     document.getElementById('vid-review').innerHTML = e.properties.vid;
@@ -313,6 +316,9 @@ function viewLeftPanel(e) {
 
 };
 
+function infoNullCheck(string) {
+  return ( (string != "null") ? string : 'data unavailable');
+};
 // left panel functionalities (validate observation marker view, selected marker view, map zoom to selected point)
 async function addLeftPanelActions(feature, marker) {
   map.flyTo({
@@ -365,16 +371,11 @@ async function addLeftPanelActions(feature, marker) {
 
 // create and style all incoming reviews from API request
 function constructReviews(reviewData){
-  // clear all existing reviews
   let reviewParent = document.getElementById('reviews-container');
-
-  while(reviewParent.firstChild) {
-    reviewParent.removeChild(reviewParent.lastChild);
-  };
 
   for(let i = 0; i < reviewData.length; i++) {
     let reviewDiv = document.createElement('div');
-    reviewDiv.innerHTML = reviewData[i].review;
+    reviewDiv.innerHTML = reviewData[i].content;
     reviewDiv.classList.add('review-box');
     reviewParent.append(reviewDiv);
   }
@@ -638,6 +639,9 @@ map.on('style.load', async function() {
       map.removeSource('year-block');
     };
 
+    // Show close button
+    document.getElementById('info-close-btn').classList.remove('d-none');
+
     let reviewBox = document.getElementById('type-review-box');
     reviewBox.classList.add('d-none');
     // map.removeLayer('year-block');
@@ -683,15 +687,20 @@ map.on('style.load', async function() {
 
     // update frontend with new divs for each comment
     // publish comment on click
+    // ** database only supports location with existing vids
     let vid = parseInt(document.getElementById('vid-review').innerHTML);
+    let reviewParent = document.getElementById('reviews-container');
+
+    while(reviewParent.firstChild) {
+      reviewParent.removeChild(reviewParent.lastChild);
+    };
 
     document.getElementById('publish-btn').removeEventListener('click', submitNewReview);
     document.getElementById('publish-btn').addEventListener('click', submitNewReview);
-
     // get all comments of the location
     await getReviews(vid);
+
     getPhotos(feature);
-    // constructReviews(reviewData);
   });
 
   // helper function to submit new review
@@ -714,6 +723,7 @@ map.on('style.load', async function() {
     dataCanvas.classList.remove('slide-out');
     dataCanvas.classList.add('slide-in');
     dataCanvas.classList.remove('hidden');
+    document.getElementById('info-close-btn').classList.remove('d-none');
     leftPanelClearCheck('add');
   });
 
@@ -730,8 +740,8 @@ map.on('style.load', async function() {
   })
 
   // close button
-  document.getElementById('info-close').onclick = function() {
-
+  document.getElementById('info-close').addEventListener('click', function(e) {
+    document.getElementById('info-close-btn').classList.add('d-none');
     document.getElementById('info').classList.add('slide-out');
     // reset the form if user closes location information dashboard
     let defaultDiv = document.getElementById('info-default');
@@ -756,7 +766,7 @@ map.on('style.load', async function() {
     // clear 3-D year object
     map.removeLayer('year-block');
     map.removeSource('year-block');
-  }
+  });
 
 
   // Change the cursor to a pointer when the it enters a feature in the 'circle' layer.
