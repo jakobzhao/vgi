@@ -180,7 +180,7 @@ nav {
     transform: translateX(-100%);
     -webkit-transform: translateX(-100%);
     /** if information overflows then content is hidden**/
-    overflow-x: scroll;
+    overflow: scroll;
     box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
 }
 
@@ -202,9 +202,9 @@ nav {
 #info-close-btn {
     position: absolute;
     text-align: center;
-    top: 50%;
+    top: 37%;
     bottom: 50%;
-    margin-left: 26em;
+    margin-left: 22.5em;
 }
 
 #info-close > span {
