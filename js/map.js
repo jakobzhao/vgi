@@ -639,9 +639,6 @@ map.on('style.load', async function() {
       map.removeSource('year-block');
     };
 
-    // Show close button
-    document.getElementById('info-close-btn').classList.remove('d-none');
-
     let reviewBox = document.getElementById('type-review-box');
     reviewBox.classList.add('d-none');
     // map.removeLayer('year-block');
@@ -655,6 +652,10 @@ map.on('style.load', async function() {
     // view left panel on data click
     viewLeftPanel(feature);
     addLeftPanelActions(feature, marker);
+    // Show close button
+    setTimeout(function() {
+      document.getElementById('info-close-btn').classList.remove('d-none');
+    }, 275);
 
     // indicate that this point is a venue
     let venueIndicator = document.getElementById('venue-indicator');
@@ -741,6 +742,7 @@ map.on('style.load', async function() {
 
   // close button
   document.getElementById('info-close').addEventListener('click', function(e) {
+    // trigger slide out function
     document.getElementById('info-close-btn').classList.add('d-none');
     document.getElementById('info').classList.add('slide-out');
     // reset the form if user closes location information dashboard
