@@ -700,7 +700,6 @@ map.on('style.load', async function() {
 
     // add all left panel actions (including zoom and adding data points)
     let feature = e.features[0];
-    console.log(feature);
     // view left panel on data click
     viewLeftPanel(feature);
     addLeftPanelActions(feature, marker);
