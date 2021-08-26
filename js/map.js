@@ -6,7 +6,10 @@ var map = new mapboxgl.Map({
   zoom: 12 // starting zoom
 });
 
+// add map navigation controls
+map.addControl(new mapboxgl.NavigationControl());
 
+document.getElementsByClassName('mapboxgl-ctrl-top-right')[0].classList.add('navi-ctrls');
 
 // geocoding search bar
 let geocoder =new MapboxGeocoder({
@@ -680,22 +683,24 @@ map.on('style.load', async function() {
   // trigger review/location information on click of location point of map
   map.on('click','data', async function(e) {
     // marker.remove();
+    // check for left panel elements still lingering
+    leftPanelClearCheck('remove');
+
     // // clear 3-D year object
     if (typeof map.getLayer('year-block') !== "undefined" ){
       map.removeLayer('year-block');
       map.removeSource('year-block');
     };
 
+    // clear review box is open
     let reviewBox = document.getElementById('type-review-box');
     reviewBox.classList.add('d-none');
     // map.removeLayer('year-block');
     // map.removeSource('year-block');
 
-    // check for left panel elements still lingering
-    leftPanelClearCheck('remove');
-
     // add all left panel actions (including zoom and adding data points)
     let feature = e.features[0];
+    console.log(feature);
     // view left panel on data click
     viewLeftPanel(feature);
     addLeftPanelActions(feature, marker);
@@ -747,7 +752,7 @@ map.on('style.load', async function() {
     document.getElementById('publish-btn').addEventListener('click', submitNewReview);
     // get all comments of the location
     await getReviews(vid);
-
+    // get all photos of the location by the google API
     getPhotos(feature);
   });
 

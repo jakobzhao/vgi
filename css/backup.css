@@ -168,6 +168,11 @@ nav {
     font-size: 20px;
 }
 
+.navi-ctrls {
+    margin-right: 25%;
+    margin-top: 3vh;
+}
+
 #info {
     position: absolute;
     z-index: 1;
