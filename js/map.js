@@ -211,7 +211,8 @@ function addDataLayer(obsData) {
       'type': 'symbol',
       'source': {
         type: 'geojson',
-        data: obsData
+        data: obsData,
+        generateId: true
       },
       'tolerance': 0,
       'layout': {
@@ -380,9 +381,8 @@ function constructReviews(reviewData){
     reviewParent.append(reviewDiv);
   }
 }
-
 // add 3-D extrusions
-function addExtrusions(e) {
+function addExtrusions(e, hover) {
   // get the data points that stack on top of each other within the selected year range
   let layerData = map.queryRenderedFeatures([e.point.x, e.point.y], {layers: ['data']});
   // sort data by year (from lowest to highest)
@@ -390,10 +390,9 @@ function addExtrusions(e) {
     return parseFloat(a.properties.year) - parseFloat(b.properties.year);
   });
 
-  const polygonRadius = 0.001;
+  const polygonRadius = 0.0003;
 
   var scaleTest = chroma.scale('OrRd').colors(12);
-
   let yearBlockData = {
     'type': 'FeatureCollection',
     'features': layerData.map( (location,index) => ({
@@ -416,16 +415,22 @@ function addExtrusions(e) {
             [location.geometry.coordinates[0] - polygonRadius, location.geometry.coordinates[1] - polygonRadius]
           ]
         ]
-      }
+      },
+      'id': layerData[0].id
     }))
   };
 
   map.addLayer({
     'id': 'year-block',
     'type': 'fill-extrusion',
-    'source': {'type':'geojson', 'data': yearBlockData, 'tolerance': 0},
+    'source': {'type':'geojson', 'data': yearBlockData, generateId: true, 'tolerance': 0},
     'paint': {
-      'fill-extrusion-color': {'type': 'identity', 'property': 'paint'},
+      'fill-extrusion-color': [
+        'case',
+        ['boolean', ['feature-state', 'hover'], false],
+        'red',
+        'pink'
+        ],
       'fill-extrusion-base': {'type': 'identity', 'property': 'base'},
       'fill-extrusion-height': {'type': 'identity', 'property': 'height'},
       'fill-extrusion-opacity': 1,
@@ -628,6 +633,48 @@ map.on('style.load', async function() {
       localityPar.innerHTML = "No low confidence location nearby."
       localityParent.appendChild(localityPar);
     };
+  });
+
+  // when click on extrusion
+  map.on('click', 'year-block', function(e) {
+    console.log(e.lngLat);
+    new mapboxgl.Popup()
+    .setLngLat(e.lngLat)
+    .setHTML(e.features[0].properties.name)
+    .addTo(map);
+    // highlight extrusion on hover
+    // display popup for location information of extrusion
+    // might have to create API function call to retrieve all the possible years
+    // once click on extrusion add left panel commands to display possible information?
+  })
+
+  // update block color on hover
+  let hoveredStateId = null;
+  map.on('mousemove', 'year-block', function(e) {
+    if (e.features.length > 0) {
+      if (hoveredStateId !== null) {
+        map.setFeatureState(
+          { source: 'year-block', id: hoveredStateId },
+          { hover: false }
+          );
+      }
+      hoveredStateId = e.features[0].id;
+        map.setFeatureState(
+          { source: 'year-block', id: hoveredStateId },
+          { hover: true }
+        );
+      }
+  });
+
+  // change color of extrusion back after mouse leaves
+  map.on('mouseleave', 'year-block', () => {
+    if (hoveredStateId !== null) {
+      map.setFeatureState(
+        { source: 'year-block', id: hoveredStateId },
+        { hover: false }
+      );
+    }
+    hoveredStateId = null;
   });
 
   // trigger review/location information on click of location point of map
