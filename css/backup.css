@@ -164,9 +164,13 @@ nav {
     border-color: transparent;
 }
 
-
 #year {
     font-size: 20px;
+}
+
+.navi-ctrls {
+    margin-right: 25%;
+    margin-top: 3vh;
 }
 
 #info {
@@ -180,26 +184,45 @@ nav {
     transform: translateX(-100%);
     -webkit-transform: translateX(-100%);
     /** if information overflows then content is hidden**/
-    overflow: auto;
+    overflow-y: scroll;
     box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
 }
 
 /* image element in imgs container */
+#imgs-container {
+    width: 100%;
+    height: 20em;
+    background: url('/assets/gifs/loading.gif') no-repeat;
+    background-position: center;
+}
+
 #imgs-container > img {
     width: 100%;
     height: 20em;
     object-fit: cover;
 }
+
 /* close button on left dashboard */
 #info-close-btn {
     position: absolute;
-    width: 10%;
     text-align: center;
-    background: #6c757d;
-    border-radius: 5%;
     top: 50%;
     bottom: 50%;
-    margin-left: 23em;
+    margin-left: 26em;
+}
+
+#info-close > span {
+    display: none;
+}
+
+#info-close:hover {
+    width: 70%;
+}
+
+#info-close:hover span{
+    font-size: 12px;
+    display: flex;
+    flex-direction: row;
 }
 
 /* info review box  */
@@ -296,6 +319,7 @@ nav {
     animation: slide-out 0.5s forwards;
     -webkit-animation: slide-out 0.5s forwards;
 }
+
 @keyframes slide-in {
     100% { transform: translateX(0%); }
 }
@@ -385,6 +409,18 @@ nav {
     overflow-y: scroll;
 }
 
+/* codelist border outline */
+.border-outline {
+    border: 1px solid rgb(211, 211, 211);
+    border-radius: 3%;
+}
+
+.border-outline > label {
+    padding-left: 1em;
+    font-size: 14px;
+    color: gray;
+}
+
 /* for observation */
 .observation {
     position: absolute;
@@ -393,6 +429,13 @@ nav {
     margin-right: 22%;
     margin-bottom: 3%;
 }
+
+/* description  */
+.description-form {
+    font-size: 13px;
+    text-align: right;
+}
+
 
 /* add observation */
 #add-observation {
@@ -413,7 +456,7 @@ nav {
 .btn-add-obs:hover {
     background-color: #3287f5;
     padding-right: 15px;
-    border-radius: 3%;
+    border-radius: 0%;
     box-shadow: 0px 15px 20px rgba(57, 80, 182, 0.4);
     color: #fff;
     transform: translateY(-5px);
