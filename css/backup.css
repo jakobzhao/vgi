@@ -10,10 +10,11 @@ main {
   flex-flow: column;
 }
 
-/* fixed navbar to fix dashboard overlaying on navbar */
-nav {
+.nav-container{
     position: absolute;
-    z-index: 999;
+    z-index: 1000;
+    right: 0;
+    margin-top: 1%;
 }
 
 .legend {
@@ -170,7 +171,7 @@ nav {
 
 .navi-ctrls {
     margin-right: 25%;
-    margin-top: 3vh;
+    margin-top: 8vh;
 }
 
 #info {

@@ -206,7 +206,7 @@ function addDataLayer(obsData) {
     });
     map.loadImage('./assets/imgs/red-marker.png', function(error, image){
       if (error) throw error;
-      map.addImage('red-marker', image);
+      map.addImage('red-marker', image, {sdf: true});
     });
 
     map.addLayer({
@@ -226,7 +226,7 @@ function addDataLayer(obsData) {
       },
       'paint':{
         'icon-opacity': 0.8,
-        'icon-color': '#c6aee7'
+        'icon-color': '#08acd5'
       }
     });
 };
@@ -351,9 +351,12 @@ async function addLeftPanelActions(feature, marker) {
     'source': 'selectedMarker',
     'tolerance': 0,
     'layout': {
-      'icon-image': 'red-marker'
+      'icon-image': 'red-marker',
       // 'icon-allow-overlap': true,
       // 'text-allow-overlap': true
+    },
+    'paint': {
+      'icon-color': '#7b2941'
     }
   });
 

@@ -14,6 +14,10 @@
         document.getElementById('googleSignOutBtn').addEventListener('click', () => {
             signOut();
         });
+
+        $( ".nav-container" ).hover(function() {
+            $( "#navbar" ).toggle("slide");
+        });
    };
 
     // function promptLogin(event){
