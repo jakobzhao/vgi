@@ -15,9 +15,23 @@
             signOut();
         });
 
-        $( ".nav-container" ).hover(function() {
-            $( "#navbar" ).toggle("slide");
-        });
+        let basemapDisplay = document.getElementById('basemap-selection');
+        let layersDisplay = document.getElementById('layers-container');
+        layersDisplay.addEventListener('mouseenter', function(e) {
+            basemapDisplay.classList.remove('d-none');
+        })
+
+        basemapDisplay.addEventListener('mouseleave', function(e){
+            basemapDisplay.classList.add('d-none');
+        })
+
+        // damron code dropdown toggle
+        let dmCodeBtn = document.getElementById('damron-code-btn');
+        dmCodeBtn.addEventListener('click', function(e){
+            let selectionDiv = document.getElementById('dropdown-container');
+            selectionDiv.classList.toggle('d-none');
+        })
+
    };
 
     // function promptLogin(event){

@@ -232,8 +232,7 @@ function addDataLayer(obsData) {
 };
 
 // basemap switching/styling
-var layerList = document.getElementById('menu');
-var inputs = layerList.querySelectorAll('#basemap-selection > input');
+var layerList = document.getElementsByClassName('layers-input-container');
 
 function switchLayer(layer) {
   var layerId = layer.target.id;
@@ -248,8 +247,8 @@ function switchLayer(layer) {
 };
 
 // assign switch layer function for all radio button inputs
-for (var i = 0; i < inputs.length; i++) {
-  inputs[i].onclick = switchLayer;
+for (var i = 0; i < layerList.length; i++) {
+  layerList[i].onclick = switchLayer;
 };
 
 function leftPanelClearCheck(checkType) {
@@ -455,30 +454,34 @@ function code_div(data, year) {
   };
 
   let standard = document.createElement('div');
-  standard.innerHTML = "[BACK] Revert back to no code filter";
+  standard.innerHTML = "CLEAR";
   standard.addEventListener('click', function() {
     map.setFilter('data', undefined);
     // map filter of single year selected by the user
     map.setFilter('data', ["==", ['number', ['get', 'year'] ], year ]);
-
+    let selectionDiv = document.getElementById('dropdown-container');
+    selectionDiv.classList.toggle('d-none');
   });
 
-  standard.classList.add('dropdown-item');
+  standard.classList.add('dropdown-div');
   code_parent.appendChild(standard);
 
   // for each object in data
   for(let code in data){
     let single_code = data[code];
     let code_div = document.createElement('div');
-    code_div.innerHTML = single_code.code + " -   " + single_code.name;
+    code_div.innerHTML = single_code.code;
+    code_div.title = single_code.name;
 
     // for each code_div add event listener on click to add filter features of the map
     code_div.addEventListener('click', function() {
       map.setFilter('data', ['in', single_code.code, ['get', 'codelist']]);
+      let selectionDiv = document.getElementById('dropdown-container');
+      selectionDiv.classList.toggle('d-none');
     })
 
     // add corresponding style here
-    code_div.classList.add('dropdown-item');
+    code_div.classList.add('dropdown-div');
     code_parent.appendChild(code_div);
 
   };

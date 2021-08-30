@@ -14,58 +14,8 @@ main {
     position: absolute;
     z-index: 1000;
     right: 0;
-    margin-top: 1%;
+    margin-top: 0.5%;
 }
-
-.legend {
-    line-height: 16px;
-    width: 180px;
-    color: #333333;
-    font-family: 'Titillium Web', sans-serif;
-    padding: 6px 8px;
-    background: white;
-    background: rgba(255,255,255,0.5);
-    box-shadow: 0 0 15px rgba(0,0,0,0.2);
-    border-radius: 5px;
-    font-family: 'Titillium Web', sans-serif;
-
-}
-
-.legend i {
-    width: 16px;
-    height: 16px;
-    float: left;
-    margin-right: 8px;
-    opacity: 0.9;
-}
-
-.legend img {
-    width: 16px;
-    height: 16px;
-    margin-right: 3px;
-    float: left;
-}
-
-.legend p {
-    font-size: 12px;
-    line-height: 16px;
-    margin: 0;
-}
-
-.leaflet-tooltip.feature-label {
-    background-color: transparent;
-    border: transparent;
-    box-shadow: none;
-    font-weight: bold;
-    font-size: 12px;
-    font-family: 'Titillium Web', sans-serif;
-    text-shadow: 0 0 2px #FFFFFF;
-    color: rgba(35, 35, 35, 0.78)
-}
-
-/* .mapboxgl-ctrl-geocoder { min-width:100%; } */
-
-/** map overlay in percentages (change to better positioning?) **/
 
 /* for search bar  */
 .map-overlay-top {
@@ -97,6 +47,45 @@ main {
 .box-shadow-info {
     box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
     border-radius: 5px;
+}
+
+/* damron code filter */
+#damron-code-filter {
+    margin-top: 5em;
+    margin-left: 47vh;
+}
+
+#dropdown-container {
+    width: 50%;
+    height: 250px;
+    margin-left: 0.5em;
+    margin-top: 0.5em;
+    border-radius: 3%;
+    overflow-y:scroll;
+    background-color: white;
+}
+
+/* for damron code filter */
+.dropdown-style {
+    margin-top: 0.5em;
+    margin-left: 0.5em;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.dropdown-div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-basis: 21%;
+    margin: 10px;
+    height: 100px;
+    font-weight: 500;
+}
+
+.dropdown-div:hover {
+    border-radius: 3%;
+    background: #8bd5ee;
 }
 
 /* map views */
@@ -399,15 +388,7 @@ main {
 }
 
 .single-slider:focus::-webkit-slider-runnable-track {
-    background: rgb(94, 92, 219)
-}
-
-/* for damron code filter */
-.dropdown-style {
-    width: 300%;
-    height: 600%;
-    background: white;
-    overflow-y: scroll;
+    background: rgb(94, 92, 219);
 }
 
 /* codelist border outline */
@@ -510,4 +491,63 @@ main {
     height: 10px;
     line-height: 40px;
     margin: 0 0 20px 0;
+}
+
+#layers {
+    bottom: 0;
+    margin-bottom: 2%;
+    margin-left: 30%;
+}
+
+#basemap-selection {
+    background-color: #c5c5c5;
+    border-radius: 3%;
+    margin-left: 1em;
+}
+
+.basemap-input-container {
+    height: 100px;
+    width: 100px;
+    border: 2px solid black;
+}
+
+
+/* basemap layers section */
+.layers-container {
+    width: 100px;
+    height: 100px;
+    border: 3px solid #ffffff;
+    border-radius: 3%;
+    overflow: hidden;
+    text-align: center;
+}
+
+/* input img set width and height */
+.input-container {
+    width: 75px;
+    height: 75px;
+    object-fit: cover;
+    border-radius: 3%;
+}
+
+.layers-input-container {
+    width: 85px;
+    height: 85px;
+    border-radius: 3%;
+    overflow: hidden;
+    margin: auto;
+    top: 0; left: 0; bottom: 0; right: 0;
+}
+
+.layers-input-container:hover {
+    border: 3px solid #085a73;
+}
+
+#layers-default {
+    position: absolute;
+    bottom: 0;
+}
+#layers-default > img {
+    width: 100%;
+    height: 1em;
 }
