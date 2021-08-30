@@ -3,14 +3,14 @@ var map = new mapboxgl.Map({
   container: 'map', // container ID
   style: 'mapbox://styles/mapbox/light-v10', // style URL
   center: [-122.33, 47.60], // starting position [lng, lat]
-  zoom: 12 // starting zoom
+  zoom: 12, // starting zoom
+  logoPosition: 'bottom-right'
 });
 
 // add map navigation controls
 map.addControl(new mapboxgl.NavigationControl());
 
 document.getElementsByClassName('mapboxgl-ctrl-top-right')[0].classList.add('navi-ctrls');
-
 // geocoding search bar
 let geocoder =new MapboxGeocoder({
   accessToken: mapboxgl.accessToken,
@@ -455,6 +455,7 @@ function code_div(data, year) {
 
   let standard = document.createElement('div');
   standard.innerHTML = "CLEAR";
+  standard.title = "Clear all selected filters";
   standard.addEventListener('click', function() {
     map.setFilter('data', undefined);
     // map filter of single year selected by the user
