@@ -67,7 +67,7 @@ main {
 }
 
 #dropdown-container {
-    width: 50%;
+    width: 30%;
     height: 250px;
     margin-left: 0.5em;
     margin-top: 0.5em;
@@ -92,7 +92,7 @@ main {
     justify-content: center;
     flex-basis: 21%;
     margin: 1px;
-    height: 100px;
+    height: 70px;
     font-weight: 500;
 }
 
