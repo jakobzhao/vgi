@@ -30,9 +30,33 @@
         dmCodeBtn.addEventListener('click', function(e){
             let selectionDiv = document.getElementById('dropdown-container');
             selectionDiv.classList.toggle('d-none');
-        })
+        });
+
+        openLeftPanel();
 
    };
+
+   // opens the default view of the left panel displaying the accordion with explanations
+    function openLeftPanel() {
+        let openBtn = document.getElementById('info-open-btn');
+        let leftPanel = document.getElementById('info');
+        let imgsContainer = document.getElementById('imgs-container');
+        let infoDefault  = document.getElementById('info-default');
+        let validationBtns = document.getElementById('validation-btns');
+        let referencesContainer = document.getElementById('references-container');
+        openBtn.addEventListener('click', function(e) {
+            referencesContainer.classList.remove('d-none');
+            leftPanel.classList.remove('slide-out');
+            leftPanel.classList.add('slide-in');
+            leftPanel.classList.remove('hidden');
+
+            imgsContainer.classList.add('d-none');
+            infoDefault.classList.add('d-none');
+            validationBtns.classList.add('d-none');
+            // show close panel button
+            document.getElementById('info-close-btn').classList.remove('d-none');
+        })
+    };
 
     // function promptLogin(event){
     //     event.preventDefault();

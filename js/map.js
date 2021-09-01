@@ -704,6 +704,9 @@ map.on('style.load', async function() {
       map.removeSource('year-block');
     };
 
+    // clear default user accordion view
+    document.getElementById('references-container').classList.add('d-none');
+
     // clear review box is open
     let reviewBox = document.getElementById('type-review-box');
     reviewBox.classList.add('d-none');
@@ -805,7 +808,7 @@ map.on('style.load', async function() {
 
   // close button
   document.getElementById('info-close').addEventListener('click', function(e) {
-    // trigger slide out function
+    // trigger slideout/slide-in btn
     document.getElementById('info-close-btn').classList.add('d-none');
     document.getElementById('info').classList.add('slide-out');
     // reset the form if user closes location information dashboard

@@ -141,76 +141,6 @@
         </div>
       </div>
     </div>
-
-  <!-- right side-selection pane -->
-    <div id="menu" class="map-overlay-left bg-opaque-white box-shadow-info accordion accordion-flush">
-      <div id="views" style="font-size: 15px;">
-        <div class="accordion-item">
-          <h2 class="accordion-header">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseSources">Sources</button>
-          </h2>
-          <div id="flush-collapseSources" class="accordion-collapse collapse">
-            <div class="accordion-body">
-              <!-- add other selections -->
-              <p class="light-text-title">Sources</p>
-              <div class="d-flex flex-wrap flex-row">
-                <div class="d-flex flex-column">
-                  <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" id="men-guide" name="a">
-                    <label class="form-check-label" for="men-guide">Damron's Men</label>
-                  </div>
-                  <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" id="women-guide" name="a">
-                    <label class="form-check-label" for="women-guide">Damron's Women</label>
-                  </div>
-                  <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" id="local-experts">
-                    <label class="form-check-label" for="local-experts">Local Experts</label>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="accordion-item">
-          <h2 class="accordion-header">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo">Venues</button>
-          </h2>
-          <div id="flush-collapseTwo" class="accordion-collapse collapse">
-            <div class = "accordion-body">
-              <!-- list of venues -->
-              <p class ="light-text-title">Venues</p>
-              <div class="form-check form-switch">
-                <input class="form-check-input" type="checkbox" id="reliability-switch">
-                <label class="form-check-label" for="reliability-switch">Reliability</label>
-              </div>
-              <div id="locality-venues" class="confirmed-venues"></div>
-            </div>
-          </div>
-        </div>
-
-        <div class="accordion-item">
-          <h2 class="accordion-header">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne">Observations</button>
-          </h2>
-          <div id="flush-collapseOne" class="accordion-collapse collapse">
-            <div class="accordion-body">
-              <hr>
-              <!-- list of observations -->
-              <p class="light-text-title">User-contributed Observations</p>
-              <div class="form-check form-switch">
-                <input class="form-check-input" type="checkbox" id="observations-switch">
-                <label class="form-check-label" for="observations-switch">Confidence Levels</label>
-              </div>
-              <div id = "observation-venues" class="confirmed-venues"></div>
-            </div>
-          </div>
-        </div>
-    </div>
-
-    </div>
-
     <!-- timeline -->
     <div id = "slider-time" class="middle">
       <p class="m-0">Selected Year:</p>
@@ -230,14 +160,77 @@
     <!-- left dashboard -->
     <div id = "info" class="d-flex flex-column hidden rounded">
       <!-- references - basemap,sources, venues to be confirmed, user-contributed observations -->
-      <div id="references-container">
+      <div id="references-container" class="accordion accordion-flush">
+        <div id="views" style="font-size: 15px;">
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseSources">Sources</button>
+            </h2>
+            <div id="flush-collapseSources" class="accordion-collapse collapse">
+              <div class="accordion-body">
+                <!-- add other selections -->
+                <p class="light-text-title">Sources</p>
+                <div class="d-flex flex-wrap flex-row">
+                  <div class="d-flex flex-column">
+                    <div class="form-check form-switch">
+                      <input class="form-check-input" type="checkbox" id="men-guide" name="a">
+                      <label class="form-check-label" for="men-guide">Damron's Men</label>
+                    </div>
+                    <div class="form-check form-switch">
+                      <input class="form-check-input" type="checkbox" id="women-guide" name="a">
+                      <label class="form-check-label" for="women-guide">Damron's Women</label>
+                    </div>
+                    <div class="form-check form-switch">
+                      <input class="form-check-input" type="checkbox" id="local-experts">
+                      <label class="form-check-label" for="local-experts">Local Experts</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
 
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo">Venues</button>
+            </h2>
+            <div id="flush-collapseTwo" class="accordion-collapse collapse">
+              <div class = "accordion-body">
+                <!-- list of venues -->
+                <p class ="light-text-title">Venues</p>
+                <div class="form-check form-switch">
+                  <input class="form-check-input" type="checkbox" id="reliability-switch">
+                  <label class="form-check-label" for="reliability-switch">Reliability</label>
+                </div>
+                <div id="locality-venues" class="confirmed-venues"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne">Observations</button>
+            </h2>
+            <div id="flush-collapseOne" class="accordion-collapse collapse">
+              <div class="accordion-body">
+                <hr>
+                <!-- list of observations -->
+                <p class="light-text-title">User-contributed Observations</p>
+                <div class="form-check form-switch">
+                  <input class="form-check-input" type="checkbox" id="observations-switch">
+                  <label class="form-check-label" for="observations-switch">Confidence Levels</label>
+                </div>
+                <div id = "observation-venues" class="confirmed-venues"></div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
       <!-- image holder for location -->
-      <div id="imgs-container">
+      <div id="imgs-container" class="d-none">
       </div>
-      <div id = "info-default">
+      <div id = "info-default" class="d-none">
         <!-- Location information-->
         <div class="d-flex flex-column rounded mx-3">
           <hr>
@@ -404,7 +397,7 @@
       </div>
 
       <!-- left dashboard - buttons -->
-      <div id="validation-btns" class="mx-3 d-flex flex-row flex-wrap">
+      <div id="validation-btns" class="mx-3 d-flex flex-row flex-wrap d-none">
         <button id="validate-observation-btn" type="button" class="btn btn-primary mx-2">Validate</button>
         <button id="add-review-btn" type="button" class="btn btn-primary mx-2">Add a Review</button>
         <button id="go-back-btn" type="button" class="btn btn-primary d-none mx-2"> go back</button>
@@ -432,6 +425,13 @@
 
       <!-- all reviews container -->
       <div id="reviews-container" class="mx-3"></div>
+    </div>
+
+    <!-- open button -->
+    <div id="info-open-btn">
+      <button id="info-open" type="button" class="btn">
+        <img src ="assets/imgs/open-arrow.svg">
+      </button>
     </div>
 
     <!-- close panel button -->

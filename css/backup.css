@@ -193,11 +193,11 @@ main {
     bottom: 0;
     height: 100%;
     color: black;
-    transform: translateX(-100%);
-    -webkit-transform: translateX(-100%);
     /** if information overflows then content is hidden**/
     overflow-y: scroll;
     box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+    transform: translateX(-100%);
+    -webkit-transform: translateX(-100%);
 }
 
 /* image element in imgs container */
@@ -212,6 +212,13 @@ main {
     width: 100%;
     height: 20em;
     object-fit: cover;
+}
+
+/* open button for left panel */
+#info-open-btn {
+    position: absolute;
+    top: 50%;
+    bottom: 50%;
 }
 
 /* close button on left dashboard */
@@ -313,12 +320,7 @@ main {
     background: transparent;  /* scrollbar invisible */
 }
 
-/** to all children that has flex-wrap class **/
-/** currently only used in dashboard design! **/
-.flex-wrap >* {
-    flex: 0 0 45%;
-}
-
+/* TRANSITIONS */
 .fade {
     transition: ease-out 0.3s;
 }
