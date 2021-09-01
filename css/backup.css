@@ -21,19 +21,19 @@ main {
 .map-overlay-top {
     position: absolute;
     top: 0;
+    right: 0;
     padding-top: 5em;
-    padding-left: 3em;
+    padding-right: 3em;
 }
 
 /* for right side panel */
-.map-overlay-right {
+.map-overlay-left {
     position: absolute;
-    top: 9%;
-    right: 50%;
     width: 23%;
     max-height: 85vh;
     overflow-x: scroll;
-    right: 0.5%;
+    top: 8.5%;
+    left: 0.5%;
     background: rgba(255, 255, 255, 0.85);
 }
 
@@ -51,14 +51,16 @@ main {
 
 /* damron code filter */
 #damron-code-filter {
+    right: 0;
     margin-top: 5em;
-    margin-left: 26em;
+    margin-right: 27em;
 }
 
 /* category default filter */
 #category-filter {
+    right: 0;
     margin-top: 5em;
-    margin-left: 19em;
+    margin-right: 20em;
 }
 
 #instructions-info {
@@ -67,7 +69,8 @@ main {
 }
 
 #dropdown-container {
-    width: 30%;
+    position: absolute;
+    width: 250%;
     height: 250px;
     margin-left: 0.5em;
     margin-top: 0.5em;
@@ -75,6 +78,12 @@ main {
     overflow-y:scroll;
     background-color: white;
     box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+}
+
+/* help text font-size and style */
+.help-text {
+    font-size: 12px;
+    font-style: italic;
 }
 
 /* for damron code filter */
@@ -172,8 +181,8 @@ main {
 }
 
 .navi-ctrls {
-    margin-right: 25%;
-    margin-top: 8vh;
+    margin-right: 10%;
+    margin-top: 80vh;
 }
 
 #info {

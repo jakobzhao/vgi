@@ -114,6 +114,7 @@
     <div id="damron-code-filter" class="position-absolute">
       <button id="damron-code-btn" class="btn mx-2 btn-custom">Damron Code</button>
       <div id = "dropdown-container" class="d-none">
+        <p class="m-3 help-text">The Damron Code are listings from the Damron Guides for each year. These listings are used to filter specific locations. Hover on each code to see an explanation.</p>
         <div id = "dropdown" class="dropdown-style">
         </div>
       </div>
@@ -142,7 +143,7 @@
     </div>
 
   <!-- right side-selection pane -->
-    <div id="menu" class="map-overlay-right bg-opaque-white box-shadow-info accordion accordion-flush">
+    <div id="menu" class="map-overlay-left bg-opaque-white box-shadow-info accordion accordion-flush">
       <div id="views" style="font-size: 15px;">
         <div class="accordion-item">
           <h2 class="accordion-header">
@@ -174,6 +175,23 @@
 
         <div class="accordion-item">
           <h2 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo">Venues</button>
+          </h2>
+          <div id="flush-collapseTwo" class="accordion-collapse collapse">
+            <div class = "accordion-body">
+              <!-- list of venues -->
+              <p class ="light-text-title">Venues</p>
+              <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="reliability-switch">
+                <label class="form-check-label" for="reliability-switch">Reliability</label>
+              </div>
+              <div id="locality-venues" class="confirmed-venues"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <h2 class="accordion-header">
             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne">Observations</button>
           </h2>
           <div id="flush-collapseOne" class="accordion-collapse collapse">
@@ -186,23 +204,6 @@
                 <label class="form-check-label" for="observations-switch">Confidence Levels</label>
               </div>
               <div id = "observation-venues" class="confirmed-venues"></div>
-            </div>
-          </div>
-        </div>
-
-        <div class="accordion-item">
-          <h2 class="accordion-header">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo">Venues</button>
-          </h2>
-          <div id="flush-collapseTwo" class="accordion-collapse collapse">
-            <div class = "accordion-body">
-              <!-- list of venues -->
-              <p class ="light-text-title">Venues</p>
-              <div class="form-check form-switch">
-                <input class="form-check-input" type="checkbox" id="reliability-switch">
-                <label class="form-check-label" for="reliability-switch">Reliability</label>
-              </div>
-              <div id="locality-venues" class="confirmed-venues"></div>
             </div>
           </div>
         </div>

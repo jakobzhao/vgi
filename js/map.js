@@ -192,7 +192,12 @@ function getProperties(data) {
     let result = {};
     for(const properties in data) {
         if(properties != 'longitude' && properties != 'latitude') {
+            // convert code string to javascript array
+            if(properties == 'codedescriptorlist' && data.codedescriptorlist != null) {
+              result[properties] = data[properties].split(', ');
+            } else {
             result[properties] = data[properties];
+            }
         }
     }
     return result;
@@ -459,7 +464,7 @@ function code_div(data, year) {
   standard.addEventListener('click', function() {
     map.setFilter('data', undefined);
     // map filter of single year selected by the user
-    map.setFilter('data', ["==", ['number', ['get', 'year'] ], year ]);
+    map.setFilter('data', ["==", ['number', ['get', 'year'] ], year]);
     let selectionDiv = document.getElementById('dropdown-container');
     selectionDiv.classList.toggle('d-none');
   });
@@ -476,7 +481,7 @@ function code_div(data, year) {
 
     // for each code_div add event listener on click to add filter features of the map
     code_div.addEventListener('click', function() {
-      map.setFilter('data', ['in', single_code.code, ['get', 'codelist']]);
+      map.setFilter('data', ['in', single_code.code, ['get', 'codedescriptorlist']]);
       let selectionDiv = document.getElementById('dropdown-container');
       selectionDiv.classList.toggle('d-none');
     })
