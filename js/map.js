@@ -594,7 +594,9 @@ map.on('style.load', async function() {
         let geometry = new THREE.ConeGeometry(20, 40, 64);
 
         let material = new THREE.MeshNormalMaterial( {
-            flatShading: true
+            flatShading: true,
+            transparent: true,
+            opacity: 0.5
         });
 
         let coneTemplate = new THREE.Mesh(geometry, material);
