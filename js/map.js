@@ -331,7 +331,7 @@ function infoNullCheck(string) {
 async function addLeftPanelActions(feature, marker) {
   map.flyTo({
     center: feature.geometry.coordinates,
-    zoom: 14,
+    zoom: 16.5,
     speed: 0.3,
     pitch: 75,
     bearing: -25,
@@ -400,7 +400,7 @@ function addExtrusions(e, hover) {
     return parseFloat(a.properties.year) - parseFloat(b.properties.year);
   });
 
-  const polygonRadius = 0.0003;
+  const polygonRadius = 0.0002;
 
   var scaleTest = chroma.scale('OrRd').colors(12);
   let yearBlockData = {
@@ -410,8 +410,8 @@ function addExtrusions(e, hover) {
       'properties': {
         'name': location.properties.observedvenuename,
         'year': location.properties.year,
-        'height': (((index == 0) ?  100 : (index+1)*150-45) + 145 ),
-        'base': ((index == 0) ?  100 : (index+1)*150-10),
+        'height': (((index == 0) ?  50 : (index+1)*150-45) + 145 ),
+        'base': ((index == 0) ?  50 : (index+1)*150-10),
         'paint': scaleTest[index]
       },
       'geometry': {
@@ -531,7 +531,6 @@ function getPhotos(feature){
       let imgChild = setImgURL(service, placeId);
       imgParent.appendChild(imgChild);
     } else {
-      // TODO: replace error with display of image in frontend
       let imgChildError = document.createElement('img');
       imgChildError.src = './assets/imgs/img-placeholder.svg';
       imgParent.appendChild(imgChildError);
@@ -830,6 +829,7 @@ map.on('style.load', async function() {
       reviewParent.removeChild(reviewParent.lastChild);
     };
 
+
     document.getElementById('publish-btn').removeEventListener('click', submitNewReview);
     document.getElementById('publish-btn').addEventListener('click', submitNewReview);
     // get all comments of the location
@@ -859,6 +859,7 @@ map.on('style.load', async function() {
     dataCanvas.classList.add('slide-in');
     dataCanvas.classList.remove('hidden');
     document.getElementById('info-close-btn').classList.remove('d-none');
+    document.getElementById('references-container').classList.add('d-none');
     leftPanelClearCheck('add');
   });
 

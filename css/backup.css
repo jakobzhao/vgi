@@ -65,7 +65,8 @@ main {
 
 #instructions-info {
     margin-top: 5em;
-    margin-left: 34.5em;
+    right: 0;
+    margin-right: 35em;
 }
 
 #dropdown-container {
@@ -181,8 +182,8 @@ main {
 }
 
 .navi-ctrls {
-    margin-right: 10%;
-    margin-top: 80vh;
+    margin-right: 1em;
+    margin-top: 10em;
 }
 
 #info {
@@ -442,7 +443,7 @@ main {
     color: gray;
 }
 
-/* for observation */
+/* for observation button */
 .observation {
     position: absolute;
     right: 0;
@@ -466,7 +467,7 @@ main {
     padding: 1em;
     border: transparent;
     height: auto;
-    border-radius: 15%;
+    border-radius: 10%;
     box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease 0s;
     cursor: pointer;
@@ -476,7 +477,7 @@ main {
 .btn-add-obs:hover {
     background-color: #3287f5;
     padding-right: 15px;
-    border-radius: 0%;
+    border-radius: 2%;
     box-shadow: 0px 15px 20px rgba(57, 80, 182, 0.4);
     color: #fff;
     transform: translateY(-5px);
@@ -489,8 +490,7 @@ main {
 .btn-add-obs:hover span{
     font-size: 20px;
     display: inline-flex;
-    align-items: center;
-    padding-left: 1em;
+    padding-left: 0.5em;
 }
 
 /* right panel text */
