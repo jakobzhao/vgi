@@ -1,4 +1,4 @@
-mapboxgl.accessToken = 'pk.eyJ1Ijoia2V2aW5rb2NodW55dSIsImEiOiJja3BkdDRkMzYxaHJiMnBvMWNlZ21iZm12In0.EgOe8AAJuApJrrEDtc62IQ';
+mapboxgl.accessToken = config.accessToken;
 var map = new mapboxgl.Map({
   container: 'map', // container ID
   style: 'mapbox://styles/mapbox/light-v10', // style URL
@@ -575,6 +575,74 @@ map.on('style.load', async function() {
   let code_data = await allCodes();
   let defaultCodes = codeIncludes(code_data, defaultYear)
   code_div(defaultCodes, defaultYear);
+
+  let active = false;
+  // three js 3D object
+  let onScreenData = map.querySourceFeatures('data', {filter: ['==', 'year', defaultYear]});
+  map.addLayer({
+    id: 'custom-layer',
+    type: 'custom',
+    tolerance: 0,
+    onAdd: function(map, mbxContext){
+
+        window.tb = new Threebox(
+            map,
+            mbxContext,
+            {defaultLights: true}
+        );
+
+        // initialize geometry and material of our cube object
+        let geometry = new THREE.ConeGeometry(20, 40, 64);
+
+        let material = new THREE.MeshNormalMaterial( {
+            flatShading: true
+        });
+
+        let coneTemplate = new THREE.Mesh(geometry, material);
+        coneTemplate = tb.Object3D({obj:coneTemplate, units:'meters'})
+            .setCoords([-122.33, 47.60]).set({rotation :  {x: -90, y: 0, z: 0} });
+
+        onScreenData.forEach(function (feature) {
+          let cone = coneTemplate.duplicate().setCoords(feature.geometry.coordinates);
+          tb.add(cone)
+        })
+
+        var highlighted = [];
+
+        //add mousing interactions
+        map.on('click', function(e){
+
+            // Clear old objects
+            highlighted.forEach(function(h) {
+                h.material = material;
+            });
+            highlighted.length = 0;
+
+
+            // calculate objects intersecting the picking ray
+            var intersect = tb.queryRenderedFeatures(e.point)[0]
+            console.log(intersect);
+            var intersectionExists = typeof intersect == "object"
+
+            // if intersect exists, highlight it
+            if (intersect) {
+                var nearestObject = intersect.object;
+                nearestObject.material = material;
+                highlighted.push(nearestObject)
+            }
+
+            // on state change, fire a repaint
+            if (active !== intersectionExists) {
+                active = intersectionExists;
+                tb.repaint();
+            }
+        });
+    },
+
+    render: function(gl, matrix){
+        tb.update();
+    }
+  });
 
   // filter data based upon input
   // let years = document.querySelectorAll('.year-slider');

@@ -221,6 +221,21 @@ main {
     bottom: 50%;
 }
 
+#info-open > span {
+    display: none;
+}
+
+#info-open:hover {
+    width: 90%;
+}
+
+#info-open:hover span {
+    display: flex;
+    flex-direction: row;
+    font-size: 12px;
+}
+
+
 /* close button on left dashboard */
 #info-close-btn {
     position: absolute;
