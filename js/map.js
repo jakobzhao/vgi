@@ -4,11 +4,16 @@ var map = new mapboxgl.Map({
   style: 'mapbox://styles/mapbox/light-v10', // style URL
   center: [-122.33, 47.60], // starting position [lng, lat]
   zoom: 12, // starting zoom
-  logoPosition: 'bottom-right'
+  logoPosition: 'bottom-right',
+  attributionControl: false,
 });
+
 
 // add map navigation controls
 map.addControl(new mapboxgl.NavigationControl());
+map.addControl(new mapboxgl.AttributionControl({
+  customAttribution: 'University of Washington | HGIS Lab'
+}));
 
 document.getElementsByClassName('mapboxgl-ctrl-top-right')[0].classList.add('navi-ctrls');
 // geocoding search bar
@@ -230,7 +235,7 @@ function addDataLayer(obsData) {
         'text-allow-overlap': true
       },
       'paint':{
-        'icon-opacity': 0.8,
+        'icon-opacity': 0,
         'icon-color': '#08acd5'
       }
     });
@@ -360,6 +365,7 @@ async function addLeftPanelActions(feature, marker) {
       // 'text-allow-overlap': true
     },
     'paint': {
+      'opacity': 0,
       'icon-color': '#7b2941'
     }
   });
@@ -559,25 +565,7 @@ function setImgURL(service, placeId){
   return imgElement;
 };
 
-////////////////////////////////////////////////////////////////////////////////////
-// MAP ON LOAD
-map.on('style.load', async function() {
-  // load data
-  // on slider change
-  let defaultYear = parseInt(document.getElementById('single-input').value);
-
-  let obs_data = await displayData();
-  addDataLayer(obs_data);
-  map.setFilter('data', ["==", ['number', ['get', 'year'] ], defaultYear]);
-
-  // load all code data from database
-  let code_data = await allCodes();
-  let defaultCodes = codeIncludes(code_data, defaultYear)
-  code_div(defaultCodes, defaultYear);
-
-  let active = false;
-  // three js 3D object
-  let onScreenData = map.querySourceFeatures('data', {filter: ['==', 'year', defaultYear]});
+function addCones(data, active) {
   map.addLayer({
     id: 'custom-layer',
     type: 'custom',
@@ -589,7 +577,6 @@ map.on('style.load', async function() {
             mbxContext,
             {defaultLights: true}
         );
-
         // initialize geometry and material of our cube object
         let geometry = new THREE.ConeGeometry(20, 40, 64);
 
@@ -603,7 +590,7 @@ map.on('style.load', async function() {
         coneTemplate = tb.Object3D({obj:coneTemplate, units:'meters'})
             .setCoords([-122.33, 47.60]).set({rotation :  {x: -90, y: 0, z: 0} });
 
-        onScreenData.forEach(function (feature) {
+        data.forEach(function (feature) {
           let cone = coneTemplate.duplicate().setCoords(feature.geometry.coordinates);
           tb.add(cone)
         })
@@ -644,6 +631,28 @@ map.on('style.load', async function() {
         tb.update();
     }
   });
+};
+
+////////////////////////////////////////////////////////////////////////////////////
+// MAP ON LOAD
+map.on('style.load', async function() {
+  // load data
+  // on slider change
+  let defaultYear = parseInt(document.getElementById('single-input').value);
+
+  let obs_data = await displayData();
+  addDataLayer(obs_data);
+  map.setFilter('data', ["==", ['number', ['get', 'year'] ], defaultYear]);
+
+  // load all code data from database
+  let code_data = await allCodes();
+  let defaultCodes = codeIncludes(code_data, defaultYear)
+  code_div(defaultCodes, defaultYear);
+
+  let active = false;
+  // three js 3D object
+  let onScreenData = map.querySourceFeatures('data', {filter: ['==', 'year', defaultYear]});
+  addCones(onScreenData, active);
 
   // filter data based upon input
   // let years = document.querySelectorAll('.year-slider');
@@ -651,9 +660,17 @@ map.on('style.load', async function() {
 
   years.addEventListener('input', async function(e) {
     let selectYear = parseInt(years.value);
-
     // filter map view to selected year
     map.setFilter('data', ["==", ['number', ['get', 'year'] ], selectYear ]);
+
+    let onScreenData = map.querySourceFeatures('data', {filter: ['==', 'year', selectYear]});
+    // add 3-d shapes and remove previous existing shapes
+    if(map.getLayer('custom-layer')) {
+      map.removeLayer('custom-layer');
+    };
+
+    // add new custom layer
+    addCones(onScreenData, true)
 
     let result = codeIncludes(code_data, selectYear);
     // construct div for each damron code available
