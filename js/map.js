@@ -48,18 +48,6 @@ function toggleView(toggleClass) {
   backBtn.classList.toggle(toggleClass);
 };
 
-// confirmedVenues
-// Obtain data from database that contains all the venues in the city
-async function confirmedVenues() {
-  try {
-    let getVenues = await fetch('https://lgbtqspaces-api.herokuapp.com/api/all-venues', {method: 'GET'});
-    let venueData = await getVenues.json();
-    return venueData;
-  } catch (err) {
-    console.log(err);
-  }
-};
-
 function venueList(data){
   for (let i=0; i < data.length; i++) {
     let venueParent = document.getElementById('confirmed-venues');
@@ -158,15 +146,29 @@ async function displayData(){
     try {
       // current city only seattle - expand to user input in the future
       let city = "Seattle";
-      let readData = await fetch(`https://lgbtqspaces-api.herokuapp.com/api/observations/${city}`, {method: 'GET'});
+      // let readData = await fetch(`https://lgbtqspaces-api.herokuapp.com/api/observations/${city}`, {method: 'GET'});
       let getVenueData = await fetch(`https://lgbtqspaces-api.herokuapp.com/api/venues/${city}`, {method: 'GET'});
       let venueData = await getVenueData.json();
-      let data = await readData.json();
-      data.push(...venueData);
-      return toGEOJSON(data);
+      // let data = await readData.json();
+      // data.push(...venueData);
+      return toGEOJSON(venueData);
     } catch(error) {
         console.log(error);
     }
+};
+
+// getVenueSlice
+// Obtain data from database that contains all the venue slices in database
+async function getVenueSlice() {
+  try {
+    let city = 'Seattle';
+    let getVenueSlice = await fetch(`https://lgbtqspaces-api.herokuapp.com/api/venueSlice/${city}`, {method: 'GET'});
+    let venueSliceData = await getVenueSlice.json();
+    return toGEOJSON(venueSliceData);
+    // return toGEOJSON(venueSliceData);
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 // converts json input  to geojson output
@@ -208,7 +210,7 @@ function getProperties(data) {
     return result;
 };
 
-// Add observation data layer onto map
+// Add observation and venueSliceData data layer onto map
 function addDataLayer(obsData) {
     map.loadImage('./assets/imgs/marker.png', function(error, image){
       if (error) throw error;
@@ -236,9 +238,30 @@ function addDataLayer(obsData) {
       },
       'paint':{
         'icon-opacity': 0,
-        'icon-color': '#08acd5'
+        'icon-color': '#ff6262'
       }
     });
+
+    // map.addLayer({
+    //   'id': 'venueSliceData',
+    //   'type': 'symbol',
+    //   'source': {
+    //     type: 'geojson',
+    //     data: venueSliceData,
+    //     generateId: true
+    //   },
+    //   'tolerance': 0,
+    //   'layout': {
+    //     'icon-image': 'init-marker',
+    //     'icon-size': 1.3,
+    //     'icon-allow-overlap': true,
+    //     'text-allow-overlap': true
+    //   },
+    //   'paint':{
+    //     'icon-opacity': 0.5,
+    //     'icon-color': '#08acd5'
+    //   }
+    // });
 };
 
 // basemap switching/styling
@@ -473,6 +496,12 @@ function code_div(data, year) {
     map.setFilter('data', ["==", ['number', ['get', 'year'] ], year]);
     let selectionDiv = document.getElementById('dropdown-container');
     selectionDiv.classList.toggle('d-none');
+    // remove 3D layer
+    if(map.getLayer('custom-layer')) {
+      map.removeLayer('custom-layer');
+    };
+    let onScreenData = map.querySourceFeatures('data', {filter: ["==", ['number', ['get', 'year'] ], year]});
+    addCones(onScreenData, true);
   });
 
   standard.classList.add('dropdown-div');
@@ -490,6 +519,13 @@ function code_div(data, year) {
       map.setFilter('data', ['in', single_code.code, ['get', 'codedescriptorlist']]);
       let selectionDiv = document.getElementById('dropdown-container');
       selectionDiv.classList.toggle('d-none');
+
+      // remove 3D layer
+      if(map.getLayer('custom-layer')) {
+        map.removeLayer('custom-layer');
+      };
+      let onScreenData = map.querySourceFeatures('data', {filter: ['in', single_code.code, ['get', 'codedescriptorlist']]});
+      addCones(onScreenData, true);
     })
 
     // add corresponding style here
@@ -641,8 +677,11 @@ map.on('style.load', async function() {
   let defaultYear = parseInt(document.getElementById('single-input').value);
 
   let obs_data = await displayData();
+  // let venueSliceData = await getVenueSlice();
+  // console.log(obs_data);
   addDataLayer(obs_data);
   map.setFilter('data', ["==", ['number', ['get', 'year'] ], defaultYear]);
+  // map.setFilter('venueSliceData', ["==", ['number', ['get', 'year'] ], defaultYear]);
 
   // load all code data from database
   let code_data = await allCodes();
