@@ -605,16 +605,16 @@ function addCones(data, active) {
   map.addLayer({
     id: 'custom-layer',
     type: 'custom',
+    renderingMode: '3d',
     tolerance: 0,
     onAdd: function(map, mbxContext){
-
         window.tb = new Threebox(
             map,
             mbxContext,
             {defaultLights: true}
         );
         // initialize geometry and material of our cube object
-        let geometry = new THREE.ConeGeometry(20, 40, 64);
+        let geometry = new THREE.ConeGeometry(20, 40, 32);
 
         let material = new THREE.MeshNormalMaterial( {
             flatShading: true,
@@ -623,11 +623,11 @@ function addCones(data, active) {
         });
 
         let coneTemplate = new THREE.Mesh(geometry, material);
-        coneTemplate = tb.Object3D({obj:coneTemplate, units:'meters'})
-            .setCoords([-122.33, 47.60]).set({rotation :  {x: -90, y: 0, z: 0} });
+        coneTemplate = tb.Object3D({obj:coneTemplate, units:'meters'}).set({rotation :  {x: -90, y: 0, z: 0}});
 
         data.forEach(function (feature) {
-          let cone = coneTemplate.duplicate().setCoords(feature.geometry.coordinates);
+          let cone = coneTemplate.duplicate().setCoords([feature.geometry.coordinates[0], feature.geometry.coordinates[1], 20] );
+
           tb.add(cone)
         })
 
