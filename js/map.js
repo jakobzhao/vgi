@@ -6,14 +6,17 @@ var map = new mapboxgl.Map({
   zoom: 12, // starting zoom
   logoPosition: 'bottom-right',
   attributionControl: false,
+  antialias: true,
+  hash: true
 });
 
 
 // add map navigation controls
-map.addControl(new mapboxgl.NavigationControl());
 map.addControl(new mapboxgl.AttributionControl({
   customAttribution: 'University of Washington | HGIS Lab'
 }));
+map.addControl(new mapboxgl.NavigationControl());
+
 
 document.getElementsByClassName('mapboxgl-ctrl-top-right')[0].classList.add('navi-ctrls');
 // geocoding search bar
@@ -606,18 +609,19 @@ function addCones(data, active) {
     id: 'custom-layer',
     type: 'custom',
     renderingMode: '3d',
-    tolerance: 0,
     onAdd: function(map, mbxContext){
+        mbxContext = mbxContext;
         window.tb = new Threebox(
             map,
-            mbxContext,
+            map.getCanvas().getContext('webgl'),
             {defaultLights: true}
         );
         // initialize geometry and material of our cube object
         let geometry = new THREE.ConeGeometry(20, 40, 32);
 
-        let material = new THREE.MeshNormalMaterial( {
+        let material = new THREE.MeshPhysicalMaterial( {
             flatShading: true,
+            color: '#8bd5ee',
             transparent: true,
             opacity: 0.5
         });
@@ -626,6 +630,7 @@ function addCones(data, active) {
         coneTemplate = tb.Object3D({obj:coneTemplate, units:'meters'}).set({rotation :  {x: -90, y: 0, z: 0}});
 
         data.forEach(function (feature) {
+          // longitude, latitude, altitude
           let cone = coneTemplate.duplicate().setCoords([feature.geometry.coordinates[0], feature.geometry.coordinates[1], 20] );
 
           tb.add(cone)
