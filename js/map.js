@@ -149,11 +149,8 @@ async function displayData(){
     try {
       // current city only seattle - expand to user input in the future
       let city = "Seattle";
-      // let readData = await fetch(`https://lgbtqspaces-api.herokuapp.com/api/observations/${city}`, {method: 'GET'});
       let getVenueData = await fetch(`https://lgbtqspaces-api.herokuapp.com/api/venues/${city}`, {method: 'GET'});
       let venueData = await getVenueData.json();
-      // let data = await readData.json();
-      // data.push(...venueData);
       return toGEOJSON(venueData);
     } catch(error) {
         console.log(error);
@@ -244,27 +241,6 @@ function addDataLayer(obsData) {
         'icon-color': '#ff6262'
       }
     });
-
-    // map.addLayer({
-    //   'id': 'venueSliceData',
-    //   'type': 'symbol',
-    //   'source': {
-    //     type: 'geojson',
-    //     data: venueSliceData,
-    //     generateId: true
-    //   },
-    //   'tolerance': 0,
-    //   'layout': {
-    //     'icon-image': 'init-marker',
-    //     'icon-size': 1.3,
-    //     'icon-allow-overlap': true,
-    //     'text-allow-overlap': true
-    //   },
-    //   'paint':{
-    //     'icon-opacity': 0.5,
-    //     'icon-color': '#08acd5'
-    //   }
-    // });
 };
 
 // basemap switching/styling
@@ -674,19 +650,21 @@ function addCones(data, active) {
   });
 };
 
+// resizes map so that ensures threebox objects do not disappear in changing angles
+map.on('idle',function(){
+  map.resize();
+});
 ////////////////////////////////////////////////////////////////////////////////////
 // MAP ON LOAD
 map.on('style.load', async function() {
+
   // load data
   // on slider change
   let defaultYear = parseInt(document.getElementById('single-input').value);
 
   let obs_data = await displayData();
-  // let venueSliceData = await getVenueSlice();
-  // console.log(obs_data);
   addDataLayer(obs_data);
   map.setFilter('data', ["==", ['number', ['get', 'year'] ], defaultYear]);
-  // map.setFilter('venueSliceData', ["==", ['number', ['get', 'year'] ], defaultYear]);
 
   // load all code data from database
   let code_data = await allCodes();
