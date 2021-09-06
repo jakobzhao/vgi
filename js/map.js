@@ -610,10 +610,10 @@ function addCones(data, active) {
     type: 'custom',
     renderingMode: '3d',
     onAdd: function(map, mbxContext){
-        mbxContext = mbxContext;
+        mbxContext = map.getCanvas().getContext('webgl');
         window.tb = new Threebox(
             map,
-            map.getCanvas().getContext('webgl'),
+            mbxContext,
             {defaultLights: true}
         );
         // initialize geometry and material of our cube object
