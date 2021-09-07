@@ -1,16 +1,24 @@
-mapboxgl.accessToken = 'pk.eyJ1Ijoia2V2aW5rb2NodW55dSIsImEiOiJja3BkdDRkMzYxaHJiMnBvMWNlZ21iZm12In0.EgOe8AAJuApJrrEDtc62IQ';
+mapboxgl.accessToken = config.accessToken;
 var map = new mapboxgl.Map({
   container: 'map', // container ID
   style: 'mapbox://styles/mapbox/light-v10', // style URL
   center: [-122.33, 47.60], // starting position [lng, lat]
-  zoom: 12 // starting zoom
+  zoom: 13, // starting zoom
+  logoPosition: 'bottom-right',
+  attributionControl: false,
+  antialias: true,
+  hash: true
 });
 
+
 // add map navigation controls
+map.addControl(new mapboxgl.AttributionControl({
+  customAttribution: 'University of Washington | HGIS Lab'
+}));
 map.addControl(new mapboxgl.NavigationControl());
 
-document.getElementsByClassName('mapboxgl-ctrl-top-right')[0].classList.add('navi-ctrls');
 
+document.getElementsByClassName('mapboxgl-ctrl-top-right')[0].classList.add('navi-ctrls');
 // geocoding search bar
 let geocoder =new MapboxGeocoder({
   accessToken: mapboxgl.accessToken,
@@ -41,18 +49,6 @@ function toggleView(toggleClass) {
   defaultDiv.classList.toggle(toggleClass);
   viewBtn.classList.toggle(toggleClass);
   backBtn.classList.toggle(toggleClass);
-};
-
-// confirmedVenues
-// Obtain data from database that contains all the venues in the city
-async function confirmedVenues() {
-  try {
-    let getVenues = await fetch('https://lgbtqspaces-api.herokuapp.com/api/all-venues', {method: 'GET'});
-    let venueData = await getVenues.json();
-    return venueData;
-  } catch (err) {
-    console.log(err);
-  }
 };
 
 function venueList(data){
@@ -153,15 +149,26 @@ async function displayData(){
     try {
       // current city only seattle - expand to user input in the future
       let city = "Seattle";
-      let readData = await fetch(`https://lgbtqspaces-api.herokuapp.com/api/observations/${city}`, {method: 'GET'});
       let getVenueData = await fetch(`https://lgbtqspaces-api.herokuapp.com/api/venues/${city}`, {method: 'GET'});
       let venueData = await getVenueData.json();
-      let data = await readData.json();
-      data.push(...venueData);
-      return toGEOJSON(data);
+      return toGEOJSON(venueData);
     } catch(error) {
         console.log(error);
     }
+};
+
+// getVenueSlice
+// Obtain data from database that contains all the venue slices in database
+async function getVenueSlice() {
+  try {
+    let city = 'Seattle';
+    let getVenueSlice = await fetch(`https://lgbtqspaces-api.herokuapp.com/api/venueSlice/${city}`, {method: 'GET'});
+    let venueSliceData = await getVenueSlice.json();
+    return toGEOJSON(venueSliceData);
+    // return toGEOJSON(venueSliceData);
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 // converts json input  to geojson output
@@ -192,13 +199,18 @@ function getProperties(data) {
     let result = {};
     for(const properties in data) {
         if(properties != 'longitude' && properties != 'latitude') {
+            // convert code string to javascript array
+            if(properties == 'codedescriptorlist' && data.codedescriptorlist != null) {
+              result[properties] = data[properties].split(', ');
+            } else {
             result[properties] = data[properties];
+            }
         }
     }
     return result;
 };
 
-// Add observation data layer onto map
+// Add observation and venueSliceData data layer onto map
 function addDataLayer(obsData) {
     map.loadImage('./assets/imgs/marker.png', function(error, image){
       if (error) throw error;
@@ -225,15 +237,14 @@ function addDataLayer(obsData) {
         'text-allow-overlap': true
       },
       'paint':{
-        'icon-opacity': 0.8,
-        'icon-color': '#08acd5'
+        'icon-opacity': 0,
+        'icon-color': '#ff6262'
       }
     });
 };
 
 // basemap switching/styling
-var layerList = document.getElementById('menu');
-var inputs = layerList.querySelectorAll('#basemap-selection > input');
+var layerList = document.getElementsByClassName('layers-input-container');
 
 function switchLayer(layer) {
   var layerId = layer.target.id;
@@ -248,8 +259,8 @@ function switchLayer(layer) {
 };
 
 // assign switch layer function for all radio button inputs
-for (var i = 0; i < inputs.length; i++) {
-  inputs[i].onclick = switchLayer;
+for (var i = 0; i < layerList.length; i++) {
+  layerList[i].onclick = switchLayer;
 };
 
 function leftPanelClearCheck(checkType) {
@@ -327,7 +338,7 @@ function infoNullCheck(string) {
 async function addLeftPanelActions(feature, marker) {
   map.flyTo({
     center: feature.geometry.coordinates,
-    zoom: 14,
+    zoom: 16.5,
     speed: 0.3,
     pitch: 75,
     bearing: -25,
@@ -356,6 +367,7 @@ async function addLeftPanelActions(feature, marker) {
       // 'text-allow-overlap': true
     },
     'paint': {
+      'opacity': 0,
       'icon-color': '#7b2941'
     }
   });
@@ -396,7 +408,7 @@ function addExtrusions(e, hover) {
     return parseFloat(a.properties.year) - parseFloat(b.properties.year);
   });
 
-  const polygonRadius = 0.0003;
+  const polygonRadius = 0.0002;
 
   var scaleTest = chroma.scale('OrRd').colors(12);
   let yearBlockData = {
@@ -406,8 +418,8 @@ function addExtrusions(e, hover) {
       'properties': {
         'name': location.properties.observedvenuename,
         'year': location.properties.year,
-        'height': (((index == 0) ?  100 : (index+1)*150-45) + 145 ),
-        'base': ((index == 0) ?  100 : (index+1)*150-10),
+        'height': (((index == 0) ?  50 : (index+1)*150-45) + 145 ),
+        'base': ((index == 0) ?  50 : (index+1)*150-10),
         'paint': scaleTest[index]
       },
       'geometry': {
@@ -455,30 +467,48 @@ function code_div(data, year) {
   };
 
   let standard = document.createElement('div');
-  standard.innerHTML = "[BACK] Revert back to no code filter";
+  standard.innerHTML = "CLEAR";
+  standard.title = "Clear all selected filters";
   standard.addEventListener('click', function() {
     map.setFilter('data', undefined);
     // map filter of single year selected by the user
-    map.setFilter('data', ["==", ['number', ['get', 'year'] ], year ]);
-
+    map.setFilter('data', ["==", ['number', ['get', 'year'] ], year]);
+    let selectionDiv = document.getElementById('dropdown-container');
+    selectionDiv.classList.toggle('d-none');
+    // remove 3D layer
+    if(map.getLayer('custom-layer')) {
+      map.removeLayer('custom-layer');
+    };
+    let onScreenData = map.querySourceFeatures('data', {filter: ["==", ['number', ['get', 'year'] ], year]});
+    addCones(onScreenData, true);
   });
 
-  standard.classList.add('dropdown-item');
+  standard.classList.add('dropdown-div');
   code_parent.appendChild(standard);
 
   // for each object in data
   for(let code in data){
     let single_code = data[code];
     let code_div = document.createElement('div');
-    code_div.innerHTML = single_code.code + " -   " + single_code.name;
+    code_div.innerHTML = single_code.code;
+    code_div.title = single_code.name;
 
     // for each code_div add event listener on click to add filter features of the map
     code_div.addEventListener('click', function() {
-      map.setFilter('data', ['in', single_code.code, ['get', 'codelist']]);
+      map.setFilter('data', ['in', single_code.code, ['get', 'codedescriptorlist']]);
+      let selectionDiv = document.getElementById('dropdown-container');
+      selectionDiv.classList.toggle('d-none');
+
+      // remove 3D layer
+      if(map.getLayer('custom-layer')) {
+        map.removeLayer('custom-layer');
+      };
+      let onScreenData = map.querySourceFeatures('data', {filter: ['in', single_code.code, ['get', 'codedescriptorlist']]});
+      addCones(onScreenData, true);
     })
 
     // add corresponding style here
-    code_div.classList.add('dropdown-item');
+    code_div.classList.add('dropdown-div');
     code_parent.appendChild(code_div);
 
   };
@@ -522,7 +552,6 @@ function getPhotos(feature){
       let imgChild = setImgURL(service, placeId);
       imgParent.appendChild(imgChild);
     } else {
-      // TODO: replace error with display of image in frontend
       let imgChildError = document.createElement('img');
       imgChildError.src = './assets/imgs/img-placeholder.svg';
       imgParent.appendChild(imgChildError);
@@ -551,9 +580,81 @@ function setImgURL(service, placeId){
   return imgElement;
 };
 
+function addCones(data, active) {
+  map.addLayer({
+    id: 'custom-layer',
+    type: 'custom',
+    renderingMode: '3d',
+    onAdd: function(map, mbxContext){
+        mbxContext = map.getCanvas().getContext('webgl');
+        window.tb = new Threebox(
+            map,
+            mbxContext,
+            {defaultLights: true}
+        );
+        // initialize geometry and material of our cube object
+        let geometry = new THREE.ConeGeometry(20, 40, 32);
+
+        let material = new THREE.MeshPhysicalMaterial( {
+            flatShading: true,
+            color: '#8bd5ee',
+            transparent: true,
+            opacity: 0.5
+        });
+
+        let coneTemplate = new THREE.Mesh(geometry, material);
+        coneTemplate = tb.Object3D({obj:coneTemplate, units:'meters'}).set({rotation :  {x: -90, y: 0, z: 0}});
+
+        data.forEach(function (feature) {
+          // longitude, latitude, altitude
+          let cone = coneTemplate.duplicate().setCoords([feature.geometry.coordinates[0], feature.geometry.coordinates[1], 20] );
+
+          tb.add(cone)
+        })
+
+        var highlighted = [];
+
+        //add mousing interactions
+        map.on('click', function(e){
+
+            // Clear old objects
+            highlighted.forEach(function(h) {
+                h.material = material;
+            });
+            highlighted.length = 0;
+
+
+            // calculate objects intersecting the picking ray
+            var intersect = tb.queryRenderedFeatures(e.point)[0]
+            console.log(intersect);
+            var intersectionExists = typeof intersect == "object"
+
+            // if intersect exists, highlight it
+            if (intersect) {
+                var nearestObject = intersect.object;
+                nearestObject.material = material;
+                highlighted.push(nearestObject)
+            }
+
+            // on state change, fire a repaint
+            if (active !== intersectionExists) {
+                active = intersectionExists;
+                tb.repaint();
+            }
+        });
+    },
+
+    render: function(gl, matrix){
+        tb.update();
+    }
+  });
+};
+
+
 ////////////////////////////////////////////////////////////////////////////////////
 // MAP ON LOAD
 map.on('style.load', async function() {
+
   // load data
   // on slider change
   let defaultYear = parseInt(document.getElementById('single-input').value);
@@ -567,15 +668,28 @@ map.on('style.load', async function() {
   let defaultCodes = codeIncludes(code_data, defaultYear)
   code_div(defaultCodes, defaultYear);
 
+  let active = false;
+  // three js 3D object
+  let onScreenData = map.querySourceFeatures('data', {filter: ['==', 'year', defaultYear]});
+  addCones(onScreenData, active);
+
   // filter data based upon input
   // let years = document.querySelectorAll('.year-slider');
   let years = document.getElementById('single-input');
 
   years.addEventListener('input', async function(e) {
     let selectYear = parseInt(years.value);
-
     // filter map view to selected year
     map.setFilter('data', ["==", ['number', ['get', 'year'] ], selectYear ]);
+
+    let onScreenData = map.querySourceFeatures('data', {filter: ['==', 'year', selectYear]});
+    // add 3-d shapes and remove previous existing shapes
+    if(map.getLayer('custom-layer')) {
+      map.removeLayer('custom-layer');
+    };
+
+    // add new custom layer
+    addCones(onScreenData, true)
 
     let result = codeIncludes(code_data, selectYear);
     // construct div for each damron code available
@@ -695,6 +809,9 @@ map.on('style.load', async function() {
       map.removeSource('year-block');
     };
 
+    // clear default user accordion view
+    document.getElementById('references-container').classList.add('d-none');
+
     // clear review box is open
     let reviewBox = document.getElementById('type-review-box');
     reviewBox.classList.add('d-none');
@@ -750,6 +867,7 @@ map.on('style.load', async function() {
       reviewParent.removeChild(reviewParent.lastChild);
     };
 
+
     document.getElementById('publish-btn').removeEventListener('click', submitNewReview);
     document.getElementById('publish-btn').addEventListener('click', submitNewReview);
     // get all comments of the location
@@ -779,6 +897,7 @@ map.on('style.load', async function() {
     dataCanvas.classList.add('slide-in');
     dataCanvas.classList.remove('hidden');
     document.getElementById('info-close-btn').classList.remove('d-none');
+    document.getElementById('references-container').classList.add('d-none');
     leftPanelClearCheck('add');
   });
 
@@ -796,7 +915,7 @@ map.on('style.load', async function() {
 
   // close button
   document.getElementById('info-close').addEventListener('click', function(e) {
-    // trigger slide out function
+    // trigger slideout/slide-in btn
     document.getElementById('info-close-btn').classList.add('d-none');
     document.getElementById('info').classList.add('slide-out');
     // reset the form if user closes location information dashboard

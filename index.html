@@ -11,6 +11,10 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
   <link href='https://api.mapbox.com/mapbox-gl-js/v2.3.0/mapbox-gl.css' rel='stylesheet' />
 
+  <!-- threebox -->
+  <script src="./js/threebox.js"></script>
+  <script src="./js/config.js"></script>
+
   <!-- Custom CSS Styling -->
   <link href="css/main.css" rel='stylesheet' />
   <link href="css/backup.css" rel='stylesheet' />
@@ -58,41 +62,40 @@
 </head>
 
 <body>
-  <div class="nav-container">
-    <nav class="navbar navbar-expand-md py-1 navbar-light bg-transparent">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="#">lgbtqspaces</a>
-        <div id="navbar-tabs">
-          <ul class="navbar-nav me-auto mb-2 mb-md-0">
-            <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#">Home</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link active" href="#">About</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#">Team</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" aria-current="page" href="#">Map</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#">Methodology</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#">Data</a>
-            </li>
-            <li>
-              <div id="googleSignInBtn" class="g-signin2" data-onsuccess="onSuccess"></div>
-            </li>
-            <li>
-              <button id="googleSignOutBtn" class="btn btn-outline-light d-none">Sign out</button>
-            </li>
-          </ul>
-        </div>
+  <nav class="navbar navbar-expand-md py-1 navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">lgbtqspaces</a>
+      <div id="navbar-tabs">
+        <ul class="navbar-nav me-auto mb-2 mb-md-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="#">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">Team</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="#">Map</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">Methodology</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">Data</a>
+          </li>
+          <li>
+            <div id="googleSignInBtn" class="g-signin2" data-onsuccess="onSuccess"></div>
+          </li>
+          <li>
+            <button id="googleSignOutBtn" class="btn btn-outline-light d-none">Sign out</button>
+          </li>
+        </ul>
       </div>
-    </nav>
-  </div>
+    </div>
+  </nav>
+
   <main role="main">
     <!-- MAP -->
     <div id="map"></div>
@@ -101,117 +104,117 @@
       <div class="d-flex">
         <!-- search box -->
         <div id="geocoder"></div>
-        <!-- type filter -->
-        <button class="btn mx-2 btn-custom">type</button>
-        <!-- damron code filter -->
-        <div class="dropdown">
-          <button class="btn mx-2 btn-custom dropdown-toggle" data-bs-toggle="dropdown">Damron Code</button>
-          <div id = "dropdown" class="dropdown-menu dropdown-style">
-          </div>
+
+      </div>
+    </div>
+
+    <!-- Category Filter -->
+    <div id="category-filter" class="position-absolute">
+      <button class="btn mx-2 btn-custom">Category</button>
+    </div>
+
+    <!-- Damron Code Filter -->
+    <div id="damron-code-filter" class="position-absolute">
+      <button id="damron-code-btn" class="btn mx-2 btn-custom">Damron Code</button>
+      <div id = "dropdown-container" class="d-none">
+        <p class="m-3 help-text">The Damron Code are listings from the Damron Guides for each year. These listings are used to filter specific locations. Hover on each code to see an explanation.</p>
+        <div id = "dropdown" class="dropdown-style">
         </div>
-        <button class="transparent" data-bs-toggle="modal" data-bs-target="#instructions"><i class="fas fa-question-circle fa-2x mx-2"></i></button>
-        <!-- Modal -->
-        <!-- TODO <content> : add image and guidance to the website -->
-        <div class="modal fade" id="instructions" tabindex="-1">
-          <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="instructions">Instructions</h5>
-              </div>
-              <div class="modal-body">
-                enter instructions here
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              </div>
+      </div>
+    </div>
+
+    <!-- instructions icon on default landing page -->
+    <div id="instructions-info" class="position-absolute">
+      <button class="transparent" data-bs-toggle="modal" data-bs-target="#instructions"><i class="fas fa-question-circle fa-2x mx-2"></i></button>
+      <!-- Modal -->
+      <!-- TODO <content> : add image and guidance to the website -->
+      <div class="modal fade" id="instructions" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="instructions">Instructions</h5>
+            </div>
+            <div class="modal-body">
+              enter instructions here
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
           </div>
         </div>
       </div>
     </div>
-
-  <!-- right side-selection pane -->
-    <div id="menu" class="map-overlay-right bg-opaque-white box-shadow-info">
-      <div id="basemap-selection" style="font-size: 15px;">
-        <p class="light-text-title">Basemap</p>
-        <input id="light-v10" type="radio" name="rtoggle" value="light" checked="checked">
-        <label for="light-v10">Light</label>
-        <input id="streets-v11" type="radio" name="rtoggle" value="streets">
-        <label for="streets-v11">Streets</label>
-        <input id="satellite-v9" type="radio" name="rtoggle" value="satellite">
-        <label for="satellite-v9">Satellite</label>
-        <input id="dark-v10" type="radio" name="rtoggle" value="dark">
-        <label for="dark-v10">Dark</label>
-        <input id="outdoors-v11" type="radio" name="rtoggle" value="outdoors">
-        <label for="outdoors-v11">Outdoor</label>
-        <hr>
-      </div>
-      <div id="views" style="font-size: 15px;">
-        <!-- add other selections -->
-        <p class="light-text-title">Sources</p>
-        <div class="d-flex flex-wrap flex-row justify-content-around">
-          <div class="d-flex flex-column">
-            <div class="form-check form-switch">
-              <input class="form-check-input" type="checkbox" id="men-guide" name="a">
-              <label class="form-check-label" for="men-guide">Damron's Men</label>
-            </div>
-            <div class="form-check form-switch">
-              <input class="form-check-input" type="checkbox" id="women-guide" name="a">
-              <label class="form-check-label" for="women-guide">Damron's Women</label>
-            </div>
-            <div class="form-check form-switch">
-              <input class="form-check-input" type="checkbox" id="local-experts">
-              <label class="form-check-label" for="local-experts">Local Experts</label>
-            </div>
-          </div>
-          <div class="d-flex flex-column">
-            <div class="form-check form-switch">
-              <input class="form-check-input" type="checkbox" id="observations-switch">
-              <label class="form-check-label" for="observations-switch">Observations</label>
-            </div>
-            <div class="form-check form-switch">
-              <input class="form-check-input" type="checkbox" id="confidence-levels" name="a">
-              <label class="form-check-label" for="confidence-levels">Confidence Levels</label>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- list of venues -->
-      <div>
-        <hr>
-        <p class ="light-text-title">Venues to be confirmed</p>
-        <div id="locality-venues" class="confirmed-venues"></div>
-      </div>
-      <!-- list of observations -->
-      <div>
-        <hr>
-        <p class="light-text-title">User-contributed Observations</p>
-        <div id = "observation-venues" class="confirmed-venues"></div>
-      </div>
-    </div>
-
     <!-- timeline -->
     <div id = "slider-time" class="middle">
       <p class="m-0">Selected Year:</p>
       <div id="timeline-labels" class="labels flex">
         <div>
-          <label id="left-label" class="fw-bolder">1987</label>
+          <label id="left-label" class="fw-bolder">2005</label>
         </div>
       </div>
       <div>
         <div id="slider">
           <!-- new single slider -->
-          <input type="range" class="single-slider" id="single-input" min="1965" max="2014" value="1987" oninput="year_val()">
+          <input type="range" class="single-slider" id="single-input" min="1965" max="2014" value="2005" oninput="year_val()">
         </div>
       </div>
     </div>
 
     <!-- left dashboard -->
     <div id = "info" class="d-flex flex-column hidden rounded">
-      <!-- image holder for location -->
-      <div id="imgs-container">
+      <!-- references - basemap,sources, venues to be confirmed, user-contributed observations -->
+      <div id="references-container">
+        <div id="views" class="m-2" style="font-size: 15px;">
+
+          <div class="my-2">
+            <!-- add other selections -->
+            <p class="light-text-title">Sources</p>
+            <div class="d-flex flex-wrap flex-row">
+              <div class="d-flex flex-column">
+                <div class="form-check form-switch">
+                  <input class="form-check-input" type="checkbox" id="men-guide" name="a">
+                  <label class="form-check-label" for="men-guide">Damron's Men</label>
+                </div>
+                <div class="form-check form-switch">
+                  <input class="form-check-input" type="checkbox" id="women-guide" name="a">
+                  <label class="form-check-label" for="women-guide">Damron's Women</label>
+                </div>
+                <div class="form-check form-switch">
+                  <input class="form-check-input" type="checkbox" id="local-experts">
+                  <label class="form-check-label" for="local-experts">Local Experts</label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <!-- list of venues -->
+            <p class ="light-text-title">Venues</p>
+            <div class="form-check form-switch">
+              <input class="form-check-input" type="checkbox" id="reliability-switch">
+              <label class="form-check-label" for="reliability-switch">Reliability</label>
+            </div>
+            <div id="locality-venues" class="confirmed-venues"></div>
+          </div>
+      
+          <div>
+            <hr>
+            <!-- list of observations -->
+            <p class="light-text-title">User-contributed Observations</p>
+            <div class="form-check form-switch">
+              <input class="form-check-input" type="checkbox" id="observations-switch">
+              <label class="form-check-label" for="observations-switch">Confidence Levels</label>
+            </div>
+            <div id = "observation-venues" class="confirmed-venues"></div>
+          </div>
+
+        </div>
       </div>
-      <div id = "info-default">
+
+      <!-- image holder for location -->
+      <div id="imgs-container" class="d-none">
+      </div>
+      <div id = "info-default" class="d-none">
         <!-- Location information-->
         <div class="d-flex flex-column rounded mx-3">
           <hr>
@@ -378,7 +381,7 @@
       </div>
 
       <!-- left dashboard - buttons -->
-      <div id="validation-btns" class="mx-3 d-flex flex-row flex-wrap">
+      <div id="validation-btns" class="mx-3 d-flex flex-row flex-wrap d-none">
         <button id="validate-observation-btn" type="button" class="btn btn-primary mx-2">Validate</button>
         <button id="add-review-btn" type="button" class="btn btn-primary mx-2">Add a Review</button>
         <button id="go-back-btn" type="button" class="btn btn-primary d-none mx-2"> go back</button>
@@ -408,6 +411,14 @@
       <div id="reviews-container" class="mx-3"></div>
     </div>
 
+    <!-- open button -->
+    <div id="info-open-btn">
+      <button id="info-open" type="button" class="btn">
+        <img src ="assets/imgs/open-arrow.svg">
+        <span>Open Panel</span>
+      </button>
+    </div>
+
     <!-- close panel button -->
     <div id="info-close-btn" class="d-none">
       <button id="info-close" type="button" class="btn">
@@ -416,13 +427,70 @@
       </button>
     </div>
 
-
     <!-- add user observation button -->
     <div id="observation-parent" class="observation">
         <div class="mx-5">
-          <button id= "addObservationBtn" class= "btn-add-obs" type="button" data-bs-toggle="modal" data-bs-target="#observation"><i class="fa fa-plus fa-2x"></i><span>Add an Observation</span></button>
+          <button id= "addObservationBtn" class= "btn-add-obs" type="button" data-bs-toggle="modal" data-bs-target="#observation">
+            <i class="fa fa-plus fa-2x"></i>
+            <span>Add an Observation</span>
+          </button>
         </div>
     </div>
+
+    <!-- layers change -->
+    <div id="layers" class="d-flex flex-row position-absolute">
+      <!-- opened up layer selection menu -->
+      <div id="basemap-selection" class="d-flex flex-row box-shadow-default d-none">
+        <div class="layers-container m-1">
+          <div class="layers-input-container">
+            <div>
+              <label for="light-v10">Light</label>
+            </div>
+            <div>
+              <input id="light-v10" class="input-container" type="image" src="assets/imgs/light.PNG" name="rtoggle">
+            </div>
+          </div>
+        </div>
+        <div class="layers-container m-1">
+          <div class="layers-input-container">
+            <label for="streets-v11">Streets</label>
+            <input id="streets-v11" class="input-container" type="image" src="assets/imgs/streets.PNG" name="rtoggle">
+          </div>
+          </div>
+        <div class="layers-container m-1">
+          <div class="layers-input-container">
+            <label for="satellite-v9">Satellite</label>
+            <input id="satellite-v9"  class="input-container" type="image" src="assets/imgs/satellite.PNG" name="rtoggle">
+          </div>
+        </div>
+        <div class="layers-container m-1">
+          <div class="layers-input-container">
+            <label for="dark-v10">Dark</label>
+            <input id="dark-v10"  class="input-container"type="image" src="assets/imgs/dark.PNG" name="rtoggle" >
+          </div>
+        </div>
+        <div class="layers-container m-1">
+          <div class="layers-input-container">
+            <label for="outdoors-v11">Outdoor</label>
+            <input id="outdoors-v11"  class="input-container"type="image" src="assets/imgs/outdoor.PNG" name="rtoggle">
+          </div>
+        </div>
+      </div>
+
+      <!-- layers first container -->
+      <div id="layers-container" class="layers-container box-shadow-default m-1">
+        <!-- layer image -->
+        <img src="assets/imgs/streets.PNG">
+        <!-- layer svg and text -->
+        <div>
+          <div id="layers-default" class="d-flex flex-row mx-2">
+            <img src="assets/imgs/layers.svg">
+            <p class="light-text-title">Layers</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </main>
   <script src="js/map.js"></script>
   <!-- GOOGLE IMAGES DEFAULT -->
