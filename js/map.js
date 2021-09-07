@@ -623,10 +623,8 @@ function addCones(data, active) {
             });
             highlighted.length = 0;
 
-
             // calculate objects intersecting the picking ray
             var intersect = tb.queryRenderedFeatures(e.point)[0]
-            console.log(intersect);
             var intersectionExists = typeof intersect == "object"
 
             // if intersect exists, highlight it
@@ -732,13 +730,28 @@ map.on('style.load', async function() {
     for(let i = 0; i < localityFeatures.length; i++) {
       if(localityFeatures[i].properties.year == selectYear) {
         if(localityFeatures[i].properties.confidence < 0.85) {
-          let localityDiv = document.createElement('div');
-          localityDiv.classList.add('m-3');
+          // bootstrap row
+          let rowDiv = document.createElement('div');
+          rowDiv.classList.add('row', "m-1");
+          let venueName = document.createElement('div');
+          let venueYear = document.createElement('div');
+          let venueConfidence = document.createElement('div');
+          venueName.classList.add('col');
+          venueYear.classList.add('col-md-auto');
+          venueConfidence.classList.add("col", "col-lg-2");
 
-          localityDiv.innerHTML = localityFeatures[i].properties.observedvenuename + " (" + localityFeatures[i].properties.year + ", " + localityFeatures[i].properties.confidence + " )";
-          localityParent.appendChild(localityDiv);
+          let confidence =  parseFloat(localityFeatures[i].properties.confidence);
 
-          localityDiv.addEventListener('click', function() {
+          venueName.innerHTML = localityFeatures[i].properties.observedvenuename;
+          venueYear.innerHTML = localityFeatures[i].properties.year;
+          venueConfidence.innerHTML = confidence.toFixed(2);
+
+          rowDiv.appendChild(venueName);
+          rowDiv.appendChild(venueYear);
+          rowDiv.appendChild(venueConfidence);
+
+          localityParent.appendChild(rowDiv);
+          rowDiv.addEventListener('click', function() {
             viewLeftPanel(localityFeatures[i]);
             addLeftPanelActions(localityFeatures[i], marker);
             // addExtrusions(localityFeatures[i]);
