@@ -3,7 +3,7 @@ var map = new mapboxgl.Map({
   container: 'map', // container ID
   style: 'mapbox://styles/mapbox/light-v10', // style URL
   center: [-122.33, 47.60], // starting position [lng, lat]
-  zoom: 12, // starting zoom
+  zoom: 13, // starting zoom
   logoPosition: 'bottom-right',
   attributionControl: false,
   antialias: true,
@@ -650,10 +650,7 @@ function addCones(data, active) {
   });
 };
 
-// resizes map so that ensures threebox objects do not disappear in changing angles
-map.on('idle',function(){
-  map.resize();
-});
+
 ////////////////////////////////////////////////////////////////////////////////////
 // MAP ON LOAD
 map.on('style.load', async function() {

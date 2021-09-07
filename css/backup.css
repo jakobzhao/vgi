@@ -10,11 +10,10 @@ main {
   flex-flow: column;
 }
 
-.nav-container{
+/* fixed navbar to fix dashboard overlaying on navbar */
+nav {
     position: absolute;
-    z-index: 1000;
-    right: 0;
-    margin-top: 0.5%;
+    z-index: 999;
 }
 
 /* for search bar  */
@@ -52,19 +51,19 @@ main {
 /* damron code filter */
 #damron-code-filter {
     right: 0;
-    margin-top: 5em;
+    margin-top: 2em;
     margin-right: 27em;
 }
 
 /* category default filter */
 #category-filter {
     right: 0;
-    margin-top: 5em;
+    margin-top: 2em;
     margin-right: 20em;
 }
 
 #instructions-info {
-    margin-top: 5em;
+    margin-top: 2em;
     right: 0;
     margin-right: 35em;
 }
@@ -553,8 +552,8 @@ main {
 
 /* basemap layers section */
 .layers-container {
-    width: 100px;
-    height: 100px;
+    width: 85px;
+    height: 85px;
     border-radius: 3%;
     overflow: hidden;
     text-align: center;
@@ -571,10 +570,8 @@ main {
 .layers-input-container {
     width: 85px;
     height: 85px;
+    font-size: 13px;
     border-radius: 3%;
-    overflow: hidden;
-    margin: auto;
-    top: 0; left: 0; bottom: 0; right: 0;
 }
 
 .layers-container:hover {
@@ -593,4 +590,8 @@ main {
 /* references */
 .box-shadow-default {
     box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+}
+
+#references-container {
+    margin-top: 5em;
 }
