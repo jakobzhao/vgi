@@ -266,6 +266,7 @@ function leftPanelClearCheck(checkType) {
   let infoDefault  = document.getElementById('info-default');
   let validationBtns = document.getElementById('validation-btns');
   let addObservation = document.getElementById('add-observation');
+  let yearSlider = document.getElementById('slider-time');
 
   if (checkType == "remove") {
     imgsContainer.classList.remove('d-none');
@@ -273,6 +274,7 @@ function leftPanelClearCheck(checkType) {
     validationBtns.classList.remove('d-none');
     // add d-none from add-observation
     addObservation.classList.add('d-none');
+    yearSlider.classList.add('d-none');
   } else {
     imgsContainer.classList.add('d-none');
     infoDefault.classList.add('d-none');
@@ -938,6 +940,8 @@ map.on('style.load', async function() {
     let hiddenDiv = document.getElementById('validate-observation');
     let backBtn = document.getElementById('go-back-btn');
     let addObs = document.getElementById('add-observation');
+    let yearSlider = document.getElementById('slider-time');
+    yearSlider.classList.remove('d-none');
 
     if(defaultDiv.classList.contains('d-none')) {
       defaultDiv.classList.remove('d-none');
