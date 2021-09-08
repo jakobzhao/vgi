@@ -1,4 +1,5 @@
 mapboxgl.accessToken = config.accessToken;
+
 var map = new mapboxgl.Map({
   container: 'map', // container ID
   style: 'mapbox://styles/mapbox/light-v10', // style URL
@@ -232,7 +233,7 @@ function addDataLayer(obsData) {
       'tolerance': 0,
       'layout': {
         'icon-image': 'init-marker',
-        'icon-size': 1.3,
+        'icon-size': 3,
         'icon-allow-overlap': true,
         'text-allow-overlap': true
       },
@@ -251,11 +252,7 @@ function switchLayer(layer) {
   map.setStyle('mapbox://styles/mapbox/' + layerId);
 
   // adjust slider text color when changing basemaps
-  if(layerId == 'satellite-v9' || layerId == 'dark-v10') {
-    document.getElementById('slider-time').setAttribute("style", "color: white;");
-  } else {
-    document.getElementById('slider-time').setAttribute("style", "color: black;");
-  }
+    // document.getElementById('slider-time').setAttribute("style", "color: black;");
 };
 
 // assign switch layer function for all radio button inputs
@@ -367,7 +364,7 @@ async function addLeftPanelActions(feature, marker) {
       // 'text-allow-overlap': true
     },
     'paint': {
-      'opacity': 0,
+      'icon-opacity': 0,
       'icon-color': '#7b2941'
     }
   });
@@ -458,9 +455,8 @@ function addExtrusions(e, hover) {
 };
 
 // add div for the codes corresponding to selected year on the map
-function code_div(data, year) {
+function code_div(data, locationData, year) {
   let code_parent = document.getElementById('dropdown');
-
   // clear everything in div first (in case already populated with existing data)
   while(code_parent.firstChild) {
     code_parent.removeChild(code_parent.lastChild);
@@ -479,8 +475,11 @@ function code_div(data, year) {
     if(map.getLayer('custom-layer')) {
       map.removeLayer('custom-layer');
     };
-    let onScreenData = map.querySourceFeatures('data', {filter: ["==", ['number', ['get', 'year'] ], year]});
-    addCones(onScreenData, true);
+    let onScreenData = locationData.features.filter(function(feature) {
+      return feature.properties.year == year
+    });
+    console.log(onScreenData);
+    addCones(onScreenData, false);
   });
 
   standard.classList.add('dropdown-div');
@@ -488,14 +487,14 @@ function code_div(data, year) {
 
   // for each object in data
   for(let code in data){
-    let single_code = data[code];
-    let code_div = document.createElement('div');
-    code_div.innerHTML = single_code.code;
-    code_div.title = single_code.name;
+    let singleCode = data[code];
+    let codeDiv = document.createElement('div');
+    codeDiv.innerHTML = singleCode.code;
+    codeDiv.title = singleCode.name;
 
     // for each code_div add event listener on click to add filter features of the map
-    code_div.addEventListener('click', function() {
-      map.setFilter('data', ['in', single_code.code, ['get', 'codedescriptorlist']]);
+    codeDiv.addEventListener('click', function() {
+      map.setFilter('data', ['in', singleCode.code, ['get', 'codedescriptorlist']]);
       let selectionDiv = document.getElementById('dropdown-container');
       selectionDiv.classList.toggle('d-none');
 
@@ -503,13 +502,19 @@ function code_div(data, year) {
       if(map.getLayer('custom-layer')) {
         map.removeLayer('custom-layer');
       };
-      let onScreenData = map.querySourceFeatures('data', {filter: ['in', single_code.code, ['get', 'codedescriptorlist']]});
-      addCones(onScreenData, true);
+
+      let result = [];
+      locationData.features.filter(function(feature) {
+        if(Array.isArray(feature.properties.codedescriptorlist) && feature.properties.codedescriptorlist.includes(singleCode.code)) {
+          result.push(feature);
+        }
+      });
+      addCones(result, false);
     })
 
     // add corresponding style here
-    code_div.classList.add('dropdown-div');
-    code_parent.appendChild(code_div);
+    codeDiv.classList.add('dropdown-div');
+    code_parent.appendChild(codeDiv);
 
   };
 }
@@ -592,6 +597,7 @@ function addCones(data, active) {
             mbxContext,
             {defaultLights: true}
         );
+
         // initialize geometry and material of our cube object
         let geometry = new THREE.ConeGeometry(20, 40, 32);
 
@@ -600,6 +606,13 @@ function addCones(data, active) {
             color: '#8bd5ee',
             transparent: true,
             opacity: 0.5
+        });
+
+        let materialOnClick = new THREE.MeshPhysicalMaterial( {
+          flatShading: true,
+          color: '#ff6262',
+          transparent: true,
+          opacity: 0.5
         });
 
         let coneTemplate = new THREE.Mesh(geometry, material);
@@ -629,9 +642,11 @@ function addCones(data, active) {
 
             // if intersect exists, highlight it
             if (intersect) {
-                var nearestObject = intersect.object;
-                nearestObject.material = material;
-                highlighted.push(nearestObject)
+              var nearestObject = intersect.object;
+              nearestObject.material = materialOnClick;
+              highlighted.push(nearestObject);
+            } else {
+              console.log("change back");
             }
 
             // on state change, fire a repaint
@@ -643,7 +658,7 @@ function addCones(data, active) {
     },
 
     render: function(gl, matrix){
-        tb.update();
+      tb.update();
     }
   });
 };
@@ -664,11 +679,11 @@ map.on('style.load', async function() {
   // load all code data from database
   let code_data = await allCodes();
   let defaultCodes = codeIncludes(code_data, defaultYear)
-  code_div(defaultCodes, defaultYear);
+  code_div(defaultCodes, obs_data, defaultYear);
 
   let active = false;
   // three js 3D object
-  let onScreenData = map.querySourceFeatures('data', {filter: ['==', 'year', defaultYear]});
+  let onScreenData = map.getSource('data')._data.features;
   addCones(onScreenData, active);
 
   // filter data based upon input
@@ -680,18 +695,19 @@ map.on('style.load', async function() {
     // filter map view to selected year
     map.setFilter('data', ["==", ['number', ['get', 'year'] ], selectYear ]);
 
-    let onScreenData = map.querySourceFeatures('data', {filter: ['==', 'year', selectYear]});
+    let filteredYearData = obs_data.features.filter(function(feature) {
+      return feature.properties.year == selectYear
+    });
     // add 3-d shapes and remove previous existing shapes
     if(map.getLayer('custom-layer')) {
       map.removeLayer('custom-layer');
     };
-
     // add new custom layer
-    addCones(onScreenData, true)
+    addCones(filteredYearData, false);
 
     let result = codeIncludes(code_data, selectYear);
     // construct div for each damron code available
-    code_div(result, selectYear);
+    code_div(result, obs_data, selectYear);
   })
 
   // create temporary marker if user wants to validate a location
@@ -699,78 +715,63 @@ map.on('style.load', async function() {
     draggable:true
   });
 
-  // initially clears everything in the confirmed venues panel to display nothing
-  map.on('movestart', 'data', function() {
-    // clear everything in confirmed venue right panel
-    let localityParent = document.getElementById('locality-venues');
-    while(localityParent.firstChild) {
-        localityParent.removeChild(localityParent.lastChild);
-    };
-  });
+  // venue- left dashboard add venues from database
+  // split obs data to matching years
+  let selectYear = document.getElementById('single-input').value;
+  // let yearRight = document.getElementById('input-right').value;
+  let localityParent = document.getElementById('locality-venues');
 
-  map.on('moveend', function () {
-    // split obs data to matching years
-    let selectYear = document.getElementById('single-input').value;
-    // let yearRight = document.getElementById('input-right').value;
-    let localityParent = document.getElementById('locality-venues');
+  let localityFeatures = obs_data.features;
 
-    let localityFeatures = obs_data.features;
+  // sort locality features
+  localityFeatures.sort( (a,b) => {
+    let firstYear = parseFloat(a.properties.year);
+    let secondYear = parseFloat(b.properties.year);
+    let difference = firstYear - secondYear;
+    // if ( difference  == 0 ) {
+    //   difference = a.properties.observedvenuename.localeCompare(b.properties.observedvenuename);
+    // }
+    return difference;
+  })
 
-    // sort locality features
-    localityFeatures.sort( (a,b) => {
-      let firstYear = parseFloat(a.properties.year);
-      let secondYear = parseFloat(b.properties.year);
-      let difference = firstYear - secondYear;
-      // if ( difference  == 0 ) {
-      //   difference = a.properties.observedvenuename.localeCompare(b.properties.observedvenuename);
-      // }
-      return difference;
-    })
+  for(let i = 0; i < localityFeatures.length; i++) {
+    if(localityFeatures[i].properties.year == selectYear) {
+      if(localityFeatures[i].properties.confidence < 0.85) {
+        // bootstrap row
+        let rowDiv = document.createElement('div');
+        rowDiv.classList.add('row', "m-1");
+        let venueName = document.createElement('div');
+        let venueConfidence = document.createElement('div');
+        venueName.classList.add('col');
+        venueConfidence.classList.add("col", "col-sm-3");
 
-    for(let i = 0; i < localityFeatures.length; i++) {
-      if(localityFeatures[i].properties.year == selectYear) {
-        if(localityFeatures[i].properties.confidence < 0.85) {
-          // bootstrap row
-          let rowDiv = document.createElement('div');
-          rowDiv.classList.add('row', "m-1");
-          let venueName = document.createElement('div');
-          let venueYear = document.createElement('div');
-          let venueConfidence = document.createElement('div');
-          venueName.classList.add('col');
-          venueYear.classList.add('col-md-auto');
-          venueConfidence.classList.add("col", "col-lg-2");
+        let confidence =  parseFloat(localityFeatures[i].properties.confidence);
 
-          let confidence =  parseFloat(localityFeatures[i].properties.confidence);
+        venueName.innerHTML = localityFeatures[i].properties.observedvenuename;
+        venueConfidence.innerHTML = confidence.toFixed(2);
 
-          venueName.innerHTML = localityFeatures[i].properties.observedvenuename;
-          venueYear.innerHTML = localityFeatures[i].properties.year;
-          venueConfidence.innerHTML = confidence.toFixed(2);
+        rowDiv.appendChild(venueName);
+        rowDiv.appendChild(venueConfidence);
 
-          rowDiv.appendChild(venueName);
-          rowDiv.appendChild(venueYear);
-          rowDiv.appendChild(venueConfidence);
-
-          localityParent.appendChild(rowDiv);
-          rowDiv.addEventListener('click', function() {
-            viewLeftPanel(localityFeatures[i]);
-            addLeftPanelActions(localityFeatures[i], marker);
-            // addExtrusions(localityFeatures[i]);
-          });
-        }
+        localityParent.appendChild(rowDiv);
+        rowDiv.addEventListener('click', function() {
+          viewLeftPanel(localityFeatures[i]);
+          addLeftPanelActions(localityFeatures[i], marker);
+          // addExtrusions(localityFeatures[i]);
+        });
       }
     }
+  }
 
-    if(localityParent.firstChild == null) {
-      let localityPar = document.createElement('div');
-      localityPar.classList.add('m-3');
-      localityPar.innerHTML = "No low confidence location nearby."
-      localityParent.appendChild(localityPar);
-    };
-  });
+  if(localityParent.firstChild == null) {
+    let localityPar = document.createElement('div');
+    localityPar.classList.add('m-3');
+    localityPar.innerHTML = "No low confidence location nearby."
+    localityParent.appendChild(localityPar);
+  };
 
   // when click on extrusion
   map.on('click', 'year-block', function(e) {
-    console.log(e.lngLat);
     new mapboxgl.Popup()
     .setLngLat(e.lngLat)
     .setHTML(e.features[0].properties.name)
@@ -947,13 +948,19 @@ map.on('style.load', async function() {
     }
 
     // clear marker
-    marker.remove();
-    map.removeLayer('selectedMarker');
-    map.removeSource('selectedMarker');
 
-    // clear 3-D year object
-    map.removeLayer('year-block');
-    map.removeSource('year-block');
+    if (typeof map.getLayer('selectedMarker') !== "undefined" ){
+      marker.remove();
+      map.removeLayer('selectedMarker');
+      map.removeSource('selectedMarker');
+    };
+
+    if (typeof map.getLayer('year-block') !== 'undefined') {
+      // clear 3-D year object
+      map.removeLayer('year-block');
+      map.removeSource('year-block');
+    };
+
   });
 
 

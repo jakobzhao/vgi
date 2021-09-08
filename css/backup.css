@@ -196,8 +196,6 @@ nav {
     /** if information overflows then content is hidden**/
     overflow-y: scroll;
     box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
-    transform: translateX(-100%);
-    -webkit-transform: translateX(-100%);
 }
 
 /* image element in imgs container */
@@ -381,21 +379,27 @@ nav {
 /* slider label */
 .labels {
     display: flex;
+    justify-content: space-between;
     font-size: 2em;
+}
+
+/* base year selection */
+.base-year {
+    font-size: 15px;
+    position: absolute;
+    right: 0;
+    margin-right: 1em;
+    margin-top: 1em;
 }
 
 /* single input slider */
 .middle {
-	position: absolute;
-    bottom: 0;
-	width: 15%;
-    margin: 3em;
+    margin: 5em 1em 0em 1em;
 }
 
 .single-slider {
     -webkit-appearance: none;
     background: transparent;
-    position: absolute;
     z-index:1;
     width: 100%;
 }
@@ -593,5 +597,5 @@ nav {
 }
 
 #references-container {
-    margin-top: 5em;
+    margin-top: 2em;
 }

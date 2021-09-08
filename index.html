@@ -144,24 +144,28 @@
         </div>
       </div>
     </div>
-    <!-- timeline -->
-    <div id = "slider-time" class="middle">
-      <p class="m-0">Selected Year:</p>
-      <div id="timeline-labels" class="labels flex">
-        <div>
-          <label id="left-label" class="fw-bolder">2005</label>
-        </div>
-      </div>
-      <div>
-        <div id="slider">
-          <!-- new single slider -->
-          <input type="range" class="single-slider" id="single-input" min="1965" max="2014" value="2005" oninput="year_val()">
-        </div>
-      </div>
-    </div>
 
     <!-- left dashboard -->
-    <div id = "info" class="d-flex flex-column hidden rounded">
+    <div id = "info" class="d-flex flex-column rounded slide-in">
+      <!-- timeline -->
+      <div id = "slider-time" class="middle">
+        <p class="m-0">Selected Year:</p>
+        <div id="timeline-labels" class="labels">
+          <div>
+            <label id="left-label" class="fw-bolder">2005</label>
+          </div>
+          <div class="form-check form-switch base-year">
+            <input class="form-check-input" type="checkbox" id="base-year-selection">
+            <label class="form-check-label" for="base-year-selection">Base Year</label>
+          </div>
+        </div>
+        <div>
+          <div id="slider">
+            <!-- new single slider -->
+            <input type="range" class="single-slider" id="single-input" min="1965" max="2014" value="2005" oninput="year_val()">
+          </div>
+        </div>
+      </div>
       <!-- references - basemap,sources, venues to be confirmed, user-contributed observations -->
       <div id="references-container">
         <div id="views" class="m-2" style="font-size: 15px;">
@@ -189,7 +193,10 @@
 
           <div>
             <!-- list of venues -->
-            <p class ="light-text-title">Venues</p>
+            <div class="form-check form-switch">
+              <input class="form-check-input" type="checkbox" id="venues-switch">
+              <label class="form-check-label light-text-title" for="venues-switch">Venues</label>
+            </div>
             <div class="form-check form-switch">
               <input class="form-check-input" type="checkbox" id="reliability-switch">
               <label class="form-check-label" for="reliability-switch">Reliability</label>
@@ -197,8 +204,7 @@
             <div class="container">
               <div class="row m-1" style="font-size: 13px;">
                 <div class="col">Name</div>
-                <div class="col-md-auto">Year</div>
-                <div class="col col-lg-2">Reliability</div>
+                <div class="col col-sm-3">Reliability</div>
               </div>
             </div>
             <div id="locality-venues" class="confirmed-venues container">
@@ -207,7 +213,10 @@
           <div>
             <hr>
             <!-- list of observations -->
-            <p class="light-text-title">User-contributed Observations</p>
+            <div class="form-check form-switch">
+              <input class="form-check-input" type="checkbox" id="user-obs-switch">
+              <label class="form-check-label light-text-title" for="user-obs-switch">User-contributed Observations</label>
+            </div>
             <div class="form-check form-switch">
               <input class="form-check-input" type="checkbox" id="observations-switch">
               <label class="form-check-label" for="observations-switch">Confidence Levels</label>
@@ -215,8 +224,7 @@
             <div class="container">
               <div class="row m-1" style="font-size: 13px;">
                 <div class="col">Name</div>
-                <div class="col-md-auto">Year</div>
-                <div class="col col-lg-2">Confidence</div>
+                <div class="col col-sm-3">Confidence</div>
               </div>
             </div>
             <div id = "observation-venues" class="confirmed-venues"></div>
@@ -434,7 +442,7 @@
     </div>
 
     <!-- close panel button -->
-    <div id="info-close-btn" class="d-none">
+    <div id="info-close-btn">
       <button id="info-close" type="button" class="btn">
         <img src="assets/imgs/back-btn.svg">
         <span>Close Panel</span>
