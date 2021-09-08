@@ -86,7 +86,11 @@
             <a class="nav-link active" aria-current="page" href="#">Data</a>
           </li>
           <li>
-            <div id="googleSignInBtn" class="g-signin2" data-onsuccess="onSuccess"></div>
+            <div id="googleSignInBtn" class="g-signin2 btn-custom" data-onsuccess="onSuccess">
+
+              <span class="icon"></span>
+              <span class="buttonText">Google</span>
+            </div>
           </li>
           <li>
             <button id="googleSignOutBtn" class="btn btn-outline-light d-none">Sign out</button>
@@ -116,9 +120,9 @@
     <!-- Damron Code Filter -->
     <div id="damron-code-filter" class="position-absolute">
       <button id="damron-code-btn" class="btn mx-2 btn-custom">Damron Code</button>
-      <div id = "dropdown-container" class="d-none">
+      <div id="dropdown-container" class="d-none">
         <p class="m-3 help-text">The Damron Code are listings from the Damron Guides for each year. These listings are used to filter specific locations. Hover on each code to see an explanation.</p>
-        <div id = "dropdown" class="dropdown-style">
+        <div id="dropdown" class="dropdown-style">
         </div>
       </div>
     </div>
@@ -146,9 +150,9 @@
     </div>
 
     <!-- left dashboard -->
-    <div id = "info" class="d-flex flex-column rounded slide-in">
+    <div id="info" class="d-flex flex-column rounded slide-in">
       <!-- timeline -->
-      <div id = "slider-time" class="middle">
+      <div id="slider-time" class="middle">
         <p class="m-0">Selected Year:</p>
         <div id="timeline-labels" class="labels">
           <div>
@@ -227,7 +231,7 @@
                 <div class="col col-sm-3">Confidence</div>
               </div>
             </div>
-            <div id = "observation-venues" class="confirmed-venues"></div>
+            <div id="observation-venues" class="confirmed-venues"></div>
           </div>
 
         </div>
@@ -236,7 +240,7 @@
       <!-- image holder for location -->
       <div id="imgs-container" class="d-none">
       </div>
-      <div id = "info-default" class="d-none">
+      <div id="info-default" class="d-none">
         <!-- Location information-->
         <div class="d-flex flex-column rounded mx-3">
           <hr>
@@ -354,35 +358,35 @@
       </form>
 
       <!-- left dashboard - add observation div -->
-      <div id="add-observation" class= "d-none mx-4">
+      <div id="add-observation" class="d-none mx-4">
         <form id="user-form" class="d-flex flex-column">
           <h3 class="mt-3 mb-0 pb-2">Add new observation</h3>
           <div class="form-floating mb-1">
-            <input id = "location-api" type="text" class="form-control" required>
+            <input id="location-api" type="text" class="form-control" required>
             <label for="location-api">Name:</label>
           </div>
           <div class="form-floating mb-1">
-            <input id = "address-api" type="text" class="form-control" required>
+            <input id="address-api" type="text" class="form-control" required>
             <label for="address-api">Address:</label>
           </div>
           <div class="form-floating mb-1">
-            <input id = "city-api" type="text" class="form-control" required>
+            <input id="city-api" type="text" class="form-control" required>
             <label for="city-api">City:</label>
           </div>
           <div class="form-floating mb-1">
-            <input id = "state-api" type="text" class="form-control" required>
+            <input id="state-api" type="text" class="form-control" required>
             <label for="state-api">State:</label>
           </div>
           <div class="form-floating mb-1">
-            <input id = "type-api" type="text" class="form-control" required>
+            <input id="type-api" type="text" class="form-control" required>
             <label for="type-api">Category:</label>
           </div>
           <div class="form-floating mb-1">
-            <input id = "submit-year" type="number" class="form-control" required>
+            <input id="submit-year" type="number" class="form-control" required>
             <label for="submit-year">Year:</label>
           </div>
           <div class="form-floating mb-1">
-            <input id = "type-note" type="text" class="form-control">
+            <input id="type-note" type="text" class="form-control">
             <label for="type-note">Additional Notes:</label>
           </div>
           <!-- v1 without damron code input -->
@@ -390,14 +394,14 @@
           <input for="damron" type="text" placeholder="Enter code"> -->
           <label for="confidence-observation">Confidence:</label>
           <div id="confidence-observation"></div>
-            <input type="range" min="1" max="5" step="1">
-            <div class="sliderticks">
-              <p>1</p>
-              <p>2</p>
-              <p>3</p>
-              <p>4</p>
-              <p>5</p>
-            </div>
+          <input type="range" min="1" max="5" step="1">
+          <div class="sliderticks">
+            <p>1</p>
+            <p>2</p>
+            <p>3</p>
+            <p>4</p>
+            <p>5</p>
+          </div>
           <button id="submit-button" type="submit" class="btn btn-primary my-3">Submit</button>
         </form>
       </div>
@@ -413,7 +417,7 @@
       <div id="type-review-box" class="info-review-box box-shadow-info d-none">
         <!-- textbox div -->
         <div class="textbox-div">
-          <textarea id = "user-review-input" rows="6" placeholder="Type review here..."></textarea>
+          <textarea id="user-review-input" rows="6" placeholder="Type review here..."></textarea>
         </div>
         <div class="button-review-div">
           <p id="vid-review"></p>
@@ -436,7 +440,7 @@
     <!-- open button -->
     <div id="info-open-btn">
       <button id="info-open" type="button" class="btn">
-        <img src ="assets/imgs/open-arrow.svg">
+        <img src="assets/imgs/open-arrow.svg">
         <span>Open Panel</span>
       </button>
     </div>
@@ -451,12 +455,12 @@
 
     <!-- add user observation button -->
     <div id="observation-parent" class="observation">
-        <div class="mx-5">
-          <button id= "addObservationBtn" class= "btn-add-obs" type="button" data-bs-toggle="modal" data-bs-target="#observation">
-            <i class="fa fa-plus fa-2x"></i>
-            <span>Add an Observation</span>
-          </button>
-        </div>
+      <div class="mx-5">
+        <button id="addObservationBtn" class="btn-add-obs" type="button" data-bs-toggle="modal" data-bs-target="#observation">
+          <i class="fa fa-plus fa-2x"></i>
+          <span>Add an Observation</span>
+        </button>
+      </div>
     </div>
 
     <!-- layers change -->
@@ -478,23 +482,23 @@
             <label for="streets-v11">Streets</label>
             <input id="streets-v11" class="input-container" type="image" src="assets/imgs/streets.PNG" name="rtoggle">
           </div>
-          </div>
+        </div>
         <div class="layers-container m-1">
           <div class="layers-input-container">
             <label for="satellite-v9">Satellite</label>
-            <input id="satellite-v9"  class="input-container" type="image" src="assets/imgs/satellite.PNG" name="rtoggle">
+            <input id="satellite-v9" class="input-container" type="image" src="assets/imgs/satellite.PNG" name="rtoggle">
           </div>
         </div>
         <div class="layers-container m-1">
           <div class="layers-input-container">
             <label for="dark-v10">Dark</label>
-            <input id="dark-v10"  class="input-container"type="image" src="assets/imgs/dark.PNG" name="rtoggle" >
+            <input id="dark-v10" class="input-container" type="image" src="assets/imgs/dark.PNG" name="rtoggle">
           </div>
         </div>
         <div class="layers-container m-1">
           <div class="layers-input-container">
             <label for="outdoors-v11">Outdoor</label>
-            <input id="outdoors-v11"  class="input-container"type="image" src="assets/imgs/outdoor.PNG" name="rtoggle">
+            <input id="outdoors-v11" class="input-container" type="image" src="assets/imgs/outdoor.PNG" name="rtoggle">
           </div>
         </div>
       </div>
@@ -515,9 +519,27 @@
 
   </main>
   <script src="js/map.js"></script>
+  <script>
+  function onSuccess(googleUser) {
+    console.log('Logged in as: ' + googleUser.getBasicProfile().getName());
+  }
+  function onFailure(error) {
+    console.log(error);
+  }
+  function renderButton() {
+    gapi.signin2.render('googleSignInBtn', {
+      'scope': 'profile email',
+      'width': 240,
+      'height': 50,
+      'longtitle': true,
+      'theme': 'dark',
+      'onsuccess': onSuccess,
+      'onfailure': onFailure
+    });
+  }
+</script>
   <!-- GOOGLE IMAGES DEFAULT -->
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC7zg5Rb4UJNKsiXIol35wzC0uZmHddj0Q&callback=getPhotos&libraries=places"
-  async></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC7zg5Rb4UJNKsiXIol35wzC0uZmHddj0Q&callback=getPhotos&libraries=places" async></script>
 </body>
 
 </html>
