@@ -13,11 +13,14 @@ var map = new mapboxgl.Map({
 
 
 // add map navigation controls
-map.addControl(new mapboxgl.AttributionControl({
-  customAttribution: 'University of Washington | HGIS Lab'
-}));
-map.addControl(new mapboxgl.NavigationControl());
-
+//
+// map.addControl(new mapboxgl.AttributionControl({
+//   customAttribution: 'University of Washington | HGIS Lab',
+//   logoPosition: 'bottom-right'
+// }));
+// map.addControl(new mapboxgl.NavigationControl());
+// temporarily remove the logo.
+$(".mapboxgl-ctrl-logo").remove();
 
 document.getElementsByClassName('mapboxgl-ctrl-top-right')[0].classList.add('navi-ctrls');
 // geocoding search bar
