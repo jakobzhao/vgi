@@ -914,6 +914,7 @@ map.on('style.load', async function() {
     dataCanvas.classList.remove('hidden');
     document.getElementById('info-close-btn').classList.remove('d-none');
     document.getElementById('references-container').classList.add('d-none');
+    document.getElementById('slider-time').classList.add('d-none');
     leftPanelClearCheck('add');
   });
 
