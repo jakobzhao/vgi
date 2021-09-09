@@ -43,12 +43,14 @@ function toggleView(toggleClass) {
   // default location information buttons and div
   let defaultDiv = document.getElementById('info-default');
   let imgDiv = document.getElementById('imgs-container');
+  // let imgNote = document.getElementById('imgs-note');
   let viewBtn = document.getElementById('validate-observation-btn');
   // validate observation form buttons and div
   let hiddenDiv = document.getElementById('validate-observation');
   let backBtn = document.getElementById('go-back-btn');
 
   imgDiv.classList.toggle(toggleClass);
+  // imgNote.classList.toggle(toggleClass);
   hiddenDiv.classList.toggle(toggleClass);
   defaultDiv.classList.toggle(toggleClass);
   viewBtn.classList.toggle(toggleClass);
