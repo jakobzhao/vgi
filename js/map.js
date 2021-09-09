@@ -35,7 +35,7 @@ document.getElementById('geocoder').appendChild(geocoder.onAdd(map));
 // changes the label of the current selected year for the user to see
 function year_val() {
   let selectedYear = document.getElementById('single-input').value;
-  document.getElementById('left-label').innerHTML = selectedYear;
+  document.getElementById('label-year').innerHTML = selectedYear;
 }
 
 // toggle left dashboard to default and edit view

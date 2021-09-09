@@ -156,7 +156,7 @@
         <p class="m-0">Selected Year:</p>
         <div id="timeline-labels" class="labels">
           <div>
-            <label id="left-label" class="fw-bolder">2005</label>
+            <label id="label-year" class="fw-bolder">2005</label>
           </div>
           <div class="form-check form-switch base-year">
             <input class="form-check-input" type="checkbox" checked id="base-year-selection">
@@ -174,9 +174,9 @@
       <div id="references-container">
         <div id="views" class="m-2" style="font-size: 15px;">
 
-          <div class="my-2">
-            <!-- add other selections -->
-            <p class="light-text-title">Sources</p>
+          <!-- <div class="my-2"> -->
+          <!-- add other selections -->
+          <!-- <p class="light-text-title">Sources</p>
             <div class="d-flex flex-wrap flex-row">
               <div class="d-flex flex-column">
                 <div class="form-check form-switch">
@@ -192,46 +192,55 @@
                   <label class="form-check-label" for="local-experts">Local Experts</label>
                 </div>
               </div>
+            </div> -->
+          <!-- </div> -->
+
+          <p class="light-text-title" type="button" data-bs-toggle="collapse" data-bs-target="#venue-card" aria-expanded="false" aria-controls="collapseExample">
+            Venues
+          </p>
+
+          <div class="collapse show" id="venue-card">
+            <div class="card card-body">
+              <small> Most venues are located to where it is. The table below lists the venues cannot be geolocated to a specific place but shoud be mostly relevant to the geographical area of the current map view. For how the venues are geocoded,
+                please click <a href="#"> here </a>for more details.</small>
+
+              <!-- list of venues -->
+              <div class="container">
+                <div class="row m-1" style="font-size: 11px;">
+                  <div class="col">Name</div>
+                  <div class="col col-sm-3">Reliability</div>
+                </div>
+              </div>
+              <div id="locality-venues" class="confirmed-venues container">
+              </div>
+              <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="reliability-switch">
+                <label class="form-check-label" for="reliability-switch">Color each venue by how reliable the research team believes in its accuracy. </label>
+              </div>
             </div>
           </div>
 
-          <div>
-            <!-- list of venues -->
-            <div class="form-check form-switch">
-              <input class="form-check-input" type="checkbox" checked id="venues-switch">
-              <label class="form-check-label light-text-title" for="venues-switch">Venues</label>
-            </div>
-            <div class="form-check form-switch">
-              <input class="form-check-input" type="checkbox" id="reliability-switch">
-              <label class="form-check-label" for="reliability-switch">Reliability</label>
-            </div>
-            <div class="container">
-              <div class="row m-1" style="font-size: 13px;">
-                <div class="col">Name</div>
-                <div class="col col-sm-3">Reliability</div>
+
+          <!-- list of observations -->
+          <p class="light-text-title" type="button" data-bs-toggle="collapse" data-bs-target="#observatin-card" aria-expanded="false" aria-controls="collapseExample">
+            Observations of Venues
+          </p>
+          <div class="collapse" id="observatin-card">
+            <div class="card card-body">
+              <small></small>
+
+              <div class="container">
+                <div class="row m-1" style="font-size: 11px;">
+                  <div class="col">Name</div>
+                  <div class="col col-sm-3">Confidence</div>
+                </div>
+              </div>
+              <div id="observation-venues" class="confirmed-venues"></div>
+              <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="observations-switch">
+                <label class="form-check-label" for="observations-switch">Color each venue by how confidence the contributor feels about its accuracy. </label>
               </div>
             </div>
-            <div id="locality-venues" class="confirmed-venues container">
-            </div>
-          </div>
-          <div>
-            <hr>
-            <!-- list of observations -->
-            <div class="form-check form-switch">
-              <input class="form-check-input" type="checkbox" id="user-obs-switch">
-              <label class="form-check-label light-text-title"  for="user-obs-switch">Observations of Venues</label>
-            </div>
-            <div class="form-check form-switch">
-              <input class="form-check-input" type="checkbox" id="observations-switch">
-              <label class="form-check-label" for="observations-switch">Confidence Levels</label>
-            </div>
-            <div class="container">
-              <div class="row m-1" style="font-size: 13px;">
-                <div class="col">Name</div>
-                <div class="col col-sm-3">Confidence</div>
-              </div>
-            </div>
-            <div id="observation-venues" class="confirmed-venues"></div>
           </div>
 
         </div>
@@ -520,24 +529,26 @@
   </main>
   <script src="js/map.js"></script>
   <script>
-  function onSuccess(googleUser) {
-    console.log('Logged in as: ' + googleUser.getBasicProfile().getName());
-  }
-  function onFailure(error) {
-    console.log(error);
-  }
-  function renderButton() {
-    gapi.signin2.render('googleSignInBtn', {
-      'scope': 'profile email',
-      'width': 240,
-      'height': 50,
-      'longtitle': true,
-      'theme': 'dark',
-      'onsuccess': onSuccess,
-      'onfailure': onFailure
-    });
-  }
-</script>
+    function onSuccess(googleUser) {
+      console.log('Logged in as: ' + googleUser.getBasicProfile().getName());
+    }
+
+    function onFailure(error) {
+      console.log(error);
+    }
+
+    function renderButton() {
+      gapi.signin2.render('googleSignInBtn', {
+        'scope': 'profile email',
+        'width': 240,
+        'height': 50,
+        'longtitle': true,
+        'theme': 'dark',
+        'onsuccess': onSuccess,
+        'onfailure': onFailure
+      });
+    }
+  </script>
   <!-- GOOGLE IMAGES DEFAULT -->
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC7zg5Rb4UJNKsiXIol35wzC0uZmHddj0Q&callback=getPhotos&libraries=places" async></script>
 </body>
