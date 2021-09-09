@@ -105,7 +105,7 @@
     <div id="map"></div>
     <!-- search box -->
     <!-- <div > -->
-        <div id="geocoder" class="map-overlay-top d-flex"></div>
+    <div id="geocoder" class="map-overlay-top d-flex"></div>
     <!-- </div> -->
 
     <!-- Category Filter -->
@@ -117,7 +117,7 @@
     <div id="damron-code-filter" class="position-absolute">
       <button id="damron-code-btn" class="btn mx-2 btn-custom">Damron Code</button>
       <div id="dropdown-container" class="d-none">
-        <p class="m-3 help-text">This panel shows a list of Codes being used during that specific year's version of Damron Guides. Click on a code to screen out the qualified venues. Click "Clear" to  cancel any applied filter. </p>
+        <p class="m-3 help-text">This panel shows a list of Codes being used during that specific year's version of Damron Guides. Click on a code to screen out the qualified venues. Click "Clear" to cancel any applied filter. </p>
         <div id="dropdown" class="dropdown-style">
         </div>
       </div>
@@ -190,13 +190,14 @@
             </div> -->
           <!-- </div> -->
 
-          <p class="light-text-title" type="button" data-bs-toggle="collapse" data-bs-target="#venue-card" aria-expanded="false" aria-controls="collapseExample">
+          <p class="light-text-title" type="button" data-bs-toggle="collapse" data-bs-target="#venue-card" aria-expanded="false" aria-controls="venue-card">
             Verified Venues
           </p>
 
           <div class="collapse show" id="venue-card">
             <div class="card card-body">
-              <small> Most venues are plotted to where they are or nearby. For 1) those virtual venues or 2) those of unclear geographical boundaries but still relevant to the geographical area of the current map view, they are listed in the table below but not plotted on the map.
+              <small> Most venues are plotted to where they are or nearby on the map. For 1) the virtual venues or 2) the venues relevant to any geographical area in the current map view but their physical locations are unclear, they are not plotted
+                on the map but listed in the table below.
                 Click <a href="#"> here </a>for more details.</small>
               <!-- list of venues -->
               <div class="container">
@@ -216,15 +217,15 @@
 
 
           <!-- list of observations -->
-          <p class="light-text-title" type="button" data-bs-toggle="collapse" data-bs-target="#observatin-card" aria-expanded="false" aria-controls="collapseExample">
+          <p class="light-text-title" type="button" data-bs-toggle="collapse" data-bs-target="#observatin-card" aria-expanded="false" aria-controls="observatin-card">
             Unverified Venues
           </p>
           <div class="collapse" id="observatin-card">
             <div class="card card-body">
               <small>
-
-
-              </small>
+                Unverified venues were contributed by users but has not been verified by the research team. While the map shows any venue assocaited with a specific location, while the table lists 1) the virtual venue and 2) the
+                venue related to the geographical area in the current map view but its physical location is unclear.
+                Click <a href="#"> here </a>for more details.</small>
 
               <div class="container">
                 <div class="row m-1 pt-2" style="font-size: 11px;">
@@ -416,7 +417,7 @@
       <div id="validation-btns" class="mx-3 d-flex flex-row flex-wrap d-none">
         <button id="validate-observation-btn" type="button" class="btn btn-primary mx-2">Verify</button>
         <button id="add-review-btn" type="button" class="btn btn-primary mx-2">Add a Review</button>
-        <button id="go-back-btn" type="button" class="btn btn-primary d-none mx-2"> go back</button>
+        <button id="go-back-btn" type="button" class="btn btn-primary d-none mx-2"> Go back</button>
       </div>
 
       <!-- start a review box -->
@@ -462,10 +463,10 @@
     <!-- add user observation button -->
     <div id="observation-parent" class="observation">
       <!-- <div class=""> -->
-        <button id="addObservationBtn" class="btn-add-obs" type="button" data-bs-toggle="modal" data-bs-target="#observation">
-          <i class="fa fa-plus fa-1x"></i>
-          <span>Add a missing venue</span>
-        </button>
+      <button id="addObservationBtn" class="btn-add-obs" type="button" data-bs-toggle="modal" data-bs-target="#observation">
+        <i class="fa fa-plus fa-1x"></i>
+        <span>Add a missing venue</span>
+      </button>
       <!-- </div> -->
     </div>
 
