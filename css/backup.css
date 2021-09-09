@@ -21,8 +21,8 @@ nav {
   position: absolute;
   top: 0;
   right: 0;
-  padding-top: 5em;
-  padding-right: 3em;
+  padding-top: 5.2em;
+  padding-right: 3.5em;
 }
 
 /* for right side panel */
@@ -65,7 +65,7 @@ nav {
 #instructions-info {
   margin-top: 2em;
   right: 0;
-  margin-right: 35em;
+  /* margin-right: 0 em; */
 }
 
 #dropdown-container {
