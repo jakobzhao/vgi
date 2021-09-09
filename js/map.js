@@ -20,7 +20,7 @@ var map = new mapboxgl.Map({
 // }));
 // map.addControl(new mapboxgl.NavigationControl());
 // temporarily remove the logo.
-$(".mapboxgl-ctrl-logo").remove();
+// $(".mapboxgl-ctrl-logo").remove();
 
 document.getElementsByClassName('mapboxgl-ctrl-top-right')[0].classList.add('navi-ctrls');
 // geocoding search bar
@@ -1087,6 +1087,3 @@ map.on('style.load', async function() {
   });
 
 })
-
-
-// sign in

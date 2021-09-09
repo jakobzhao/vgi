@@ -500,7 +500,7 @@ div.form-check {
   position: absolute;
   right: 0;
   bottom: 0;
-  margin-bottom: 90px;
+  margin-bottom: 100px;
 }
 
 /* description  */
@@ -597,7 +597,7 @@ div.form-check {
 #layers {
   bottom: 0;
   right: 0;
-  margin-bottom: 20px;
+  margin-bottom: 35px;
   margin-right: 0;
 }
 
@@ -626,7 +626,7 @@ div.form-check {
 
 /* input img set width and height */
 .input-container {
-  width:50px;
+  width: 50px;
   height: 50px;
   object-fit: cover;
   border-radius: 3%;
@@ -660,4 +660,16 @@ div.form-check {
 
 #references-container {
   margin-top: 2em;
+}
+
+#footer-container {
+  font-size: 13px;
+  position: absolute;
+  margin-top: 2em;
+  bottom: 1em;
+  line-height:  1.1em;
+}
+
+#footer-container  img {
+  margin-right: 1em
 }
