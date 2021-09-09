@@ -24,7 +24,7 @@ $(".mapboxgl-ctrl-logo").remove();
 
 document.getElementsByClassName('mapboxgl-ctrl-top-right')[0].classList.add('navi-ctrls');
 // geocoding search bar
-let geocoder =new MapboxGeocoder({
+let geocoder = new MapboxGeocoder({
   accessToken: mapboxgl.accessToken,
   mapboxgl: mapboxgl
 });
@@ -55,8 +55,8 @@ function toggleView(toggleClass) {
   backBtn.classList.toggle(toggleClass);
 };
 
-function venueList(data){
-  for (let i=0; i < data.length; i++) {
+function venueList(data) {
+  for (let i = 0; i < data.length; i++) {
     let venueParent = document.getElementById('confirmed-venues');
     let venueDiv = document.createElement('div');
     venueDiv.classList.add('m-3');
@@ -70,7 +70,9 @@ function venueList(data){
 // given years according to issued Damron book
 async function allCodes() {
   try {
-    let getCodes = await fetch('https://lgbtqspaces-api.herokuapp.com/api/all-codes', {method: 'GET'});
+    let getCodes = await fetch('https://lgbtqspaces-api.herokuapp.com/api/all-codes', {
+      method: 'GET'
+    });
     let codeData = await getCodes.json();
     let sortedData = await sortCodes(codeData);
     return sortedData;
@@ -88,7 +90,9 @@ function sortCodes(data) {
       'name': data[i].Name,
       'code': data[i].Code,
       'note': data[i].Note,
-      'years': Object.keys(data[i]).filter(function(key) {return data[i][key] == 1})
+      'years': Object.keys(data[i]).filter(function(key) {
+        return data[i][key] == 1
+      })
     };
   }
   return sortedResult;
@@ -99,7 +103,9 @@ function sortCodes(data) {
 async function getReviews(vid) {
   try {
     let id = vid;
-    let getReview = await fetch(`https://lgbtqspaces-api.herokuapp.com/api/comment/${id}`, {method: 'GET'});
+    let getReview = await fetch(`https://lgbtqspaces-api.herokuapp.com/api/comment/${id}`, {
+      method: 'GET'
+    });
     let reviewData = await getReview.json();
     constructReviews(reviewData);
   } catch (err) {
@@ -114,7 +120,7 @@ async function addNewReview(event, id) {
   // obtain data from user input form
   let newReview = new URLSearchParams();
   newReview.append('vid', id);
-  newReview.append('review',document.getElementById('user-review-input').value);
+  newReview.append('review', document.getElementById('user-review-input').value);
 
   let settings = {
     method: 'POST',
@@ -122,11 +128,11 @@ async function addNewReview(event, id) {
   }
 
   try {
-     let sendData = await fetch('https://lgbtqspaces-api.herokuapp.com/api/add-comment', settings);
-     confirmationReview();
-     getReviews(id);
+    let sendData = await fetch('https://lgbtqspaces-api.herokuapp.com/api/add-comment', settings);
+    confirmationReview();
+    getReviews(id);
   } catch (err) {
-      checkStatus(err);
+    checkStatus(err);
   }
 }
 
@@ -142,23 +148,27 @@ function confirmationReview() {
   // display user reaction confirmation screen
   let reviewCheck = document.getElementById('reviews-confirmation');
   reviewCheck.classList.remove('d-none');
-  let timeOutID = setTimeout( function() {reviewCheck.classList.add('d-none')}, 3000);
+  let timeOutID = setTimeout(function() {
+    reviewCheck.classList.add('d-none')
+  }, 3000);
   timeOutID;
 }
 
 // displayData
 // Obtain the data from the database given the input values from the year slider
 // returns a complete GEOJSON data output that is filtered with the matching dates
-async function displayData(){
-    try {
-      // current city only seattle - expand to user input in the future
-      let city = "Seattle";
-      let getVenueData = await fetch(`https://lgbtqspaces-api.herokuapp.com/api/venues/${city}`, {method: 'GET'});
-      let venueData = await getVenueData.json();
-      return toGEOJSON(venueData);
-    } catch(error) {
-        console.log(error);
-    }
+async function displayData() {
+  try {
+    // current city only seattle - expand to user input in the future
+    let city = "Seattle";
+    let getVenueData = await fetch(`https://lgbtqspaces-api.herokuapp.com/api/venues/${city}`, {
+      method: 'GET'
+    });
+    let venueData = await getVenueData.json();
+    return toGEOJSON(venueData);
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 // getVenueSlice
@@ -166,7 +176,9 @@ async function displayData(){
 async function getVenueSlice() {
   try {
     let city = 'Seattle';
-    let getVenueSlice = await fetch(`https://lgbtqspaces-api.herokuapp.com/api/venueSlice/${city}`, {method: 'GET'});
+    let getVenueSlice = await fetch(`https://lgbtqspaces-api.herokuapp.com/api/venueSlice/${city}`, {
+      method: 'GET'
+    });
     let venueSliceData = await getVenueSlice.json();
     return toGEOJSON(venueSliceData);
     // return toGEOJSON(venueSliceData);
@@ -176,75 +188,81 @@ async function getVenueSlice() {
 };
 
 // converts json input  to geojson output
-function toGEOJSON(data){
-    let feature_list = [];
-    // for loop
-    for (let i = 0; i  < data.length; i++) {
-        let temp = {
-            "type": "Feature",
-            "geometry": {
-                "type":"Point",
-                "coordinates" : [data[i].longitude,data[i].latitude]
-            },
-            "properties": getProperties(data[i])
-        }
-        feature_list.push(temp);
+function toGEOJSON(data) {
+  let feature_list = [];
+  // for loop
+  for (let i = 0; i < data.length; i++) {
+    let temp = {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [data[i].longitude, data[i].latitude]
+      },
+      "properties": getProperties(data[i])
     }
-    // add into feature_list
-    // combine with geojson final format with feature collection and feature as feature list
-    return {"type" : "FeatureCollection",
-            "features": feature_list};
+    feature_list.push(temp);
+  }
+  // add into feature_list
+  // combine with geojson final format with feature collection and feature as feature list
+  return {
+    "type": "FeatureCollection",
+    "features": feature_list
+  };
 };
 
 // getProperties(data)
 // Parameters: data - input array elements from JSON
 // Returns an object that is to be added onto the geoJSON output
 function getProperties(data) {
-    let result = {};
-    for(const properties in data) {
-        if(properties != 'longitude' && properties != 'latitude') {
-            // convert code string to javascript array
-            if(properties == 'codedescriptorlist' && data.codedescriptorlist != null) {
-              result[properties] = data[properties].split(', ');
-            } else {
-            result[properties] = data[properties];
-            }
-        }
+  let result = {};
+  for (const properties in data) {
+    if (properties != 'longitude' && properties != 'latitude') {
+      // convert code string to javascript array
+      if (properties == 'codedescriptorlist' && data.codedescriptorlist != null) {
+        result[properties] = data[properties].split(', ');
+      } else {
+        result[properties] = data[properties];
+      }
     }
-    return result;
+  }
+  return result;
 };
 
 // Add observation and venueSliceData data layer onto map
 function addDataLayer(obsData) {
-    map.loadImage('./assets/imgs/marker.png', function(error, image){
-      if (error) throw error;
-      map.addImage('init-marker', image, {sdf:true});
+  map.loadImage('./assets/imgs/marker.png', function(error, image) {
+    if (error) throw error;
+    map.addImage('init-marker', image, {
+      sdf: true
     });
-    map.loadImage('./assets/imgs/red-marker.png', function(error, image){
-      if (error) throw error;
-      map.addImage('red-marker', image, {sdf: true});
+  });
+  map.loadImage('./assets/imgs/red-marker.png', function(error, image) {
+    if (error) throw error;
+    map.addImage('red-marker', image, {
+      sdf: true
     });
+  });
 
-    map.addLayer({
-      'id': 'data',
-      'type': 'symbol',
-      'source': {
-        type: 'geojson',
-        data: obsData,
-        generateId: true
-      },
-      'tolerance': 0,
-      'layout': {
-        'icon-image': 'init-marker',
-        'icon-size': 3,
-        'icon-allow-overlap': true,
-        'text-allow-overlap': true
-      },
-      'paint':{
-        'icon-opacity': 0,
-        'icon-color': '#ff6262'
-      }
-    });
+  map.addLayer({
+    'id': 'data',
+    'type': 'symbol',
+    'source': {
+      type: 'geojson',
+      data: obsData,
+      generateId: true
+    },
+    'tolerance': 0,
+    'layout': {
+      'icon-image': 'init-marker',
+      'icon-size': 3,
+      'icon-allow-overlap': true,
+      'text-allow-overlap': true
+    },
+    'paint': {
+      'icon-opacity': 0,
+      'icon-color': '#ff6262'
+    }
+  });
 };
 
 // basemap switching/styling
@@ -255,7 +273,7 @@ function switchLayer(layer) {
   map.setStyle('mapbox://styles/mapbox/' + layerId);
 
   // adjust slider text color when changing basemaps
-    // document.getElementById('slider-time').setAttribute("style", "color: black;");
+  // document.getElementById('slider-time').setAttribute("style", "color: black;");
 };
 
 // assign switch layer function for all radio button inputs
@@ -266,7 +284,7 @@ for (var i = 0; i < layerList.length; i++) {
 function leftPanelClearCheck(checkType) {
   // remove d-none from imgs container, info-default, hide add-observation, validation-btns
   let imgsContainer = document.getElementById('imgs-container');
-  let infoDefault  = document.getElementById('info-default');
+  let infoDefault = document.getElementById('info-default');
   let validationBtns = document.getElementById('validation-btns');
   let addObservation = document.getElementById('add-observation');
   let yearSlider = document.getElementById('slider-time');
@@ -290,51 +308,51 @@ function leftPanelClearCheck(checkType) {
 
 // function slide-in left panel
 function viewLeftPanel(e) {
-    let dataCanvas = document.getElementById('info');
-    dataCanvas.classList.remove('slide-out');
-    dataCanvas.classList.add('slide-in');
-    dataCanvas.classList.remove('hidden');
+  let dataCanvas = document.getElementById('info');
+  dataCanvas.classList.remove('slide-out');
+  dataCanvas.classList.add('slide-in');
+  dataCanvas.classList.remove('hidden');
 
-    // parse the codes to increase readability
-    let codeString = "";
-    let codes = e.properties.codedescriptorlist;
-    for(let i=0; i < codes.length; i++) {
-      if(codes[i] !== '[' && codes [i] !== '"' && codes[i] !== '.' && codes[i] !== ']' && codes[i] !== "'") {
-        codeString += codes[i];
-      }
-    };
+  // parse the codes to increase readability
+  let codeString = "";
+  let codes = e.properties.codedescriptorlist;
+  for (let i = 0; i < codes.length; i++) {
+    if (codes[i] !== '[' && codes[i] !== '"' && codes[i] !== '.' && codes[i] !== ']' && codes[i] !== "'") {
+      codeString += codes[i];
+    }
+  };
 
-    // left panel location information
-    document.getElementById('name').innerHTML = infoNullCheck(e.properties.observedvenuename);
-    document.getElementById('address').innerHTML = infoNullCheck(e.properties.address);
-    document.getElementById('formal-address').innerHTML = infoNullCheck(e.properties.formaladdress);
-    document.getElementById('year-info').innerHTML = infoNullCheck(e.properties.year);
-    document.getElementById('city').innerHTML = infoNullCheck(e.properties.city);
-    document.getElementById('state').innerHTML = infoNullCheck(e.properties.state);
-    document.getElementById('code').innerHTML = infoNullCheck(codeString);
-    document.getElementById('type').innerHTML = infoNullCheck(e.properties.category);
+  // left panel location information
+  document.getElementById('name').innerHTML = infoNullCheck(e.properties.observedvenuename);
+  document.getElementById('address').innerHTML = infoNullCheck(e.properties.address);
+  document.getElementById('formal-address').innerHTML = infoNullCheck(e.properties.formaladdress);
+  document.getElementById('year-info').innerHTML = infoNullCheck(e.properties.year);
+  document.getElementById('city').innerHTML = infoNullCheck(e.properties.city);
+  document.getElementById('state').innerHTML = infoNullCheck(e.properties.state);
+  document.getElementById('code').innerHTML = infoNullCheck(codeString);
+  document.getElementById('type').innerHTML = infoNullCheck(e.properties.category);
 
-    //vid for comment
-    document.getElementById('vid-review').innerHTML = e.properties.vid;
+  //vid for comment
+  document.getElementById('vid-review').innerHTML = e.properties.vid;
 
-    // Edit observation pre-filled values
-    document.getElementById('observed-name-edit').value = e.properties.observedvenuename;
-    document.getElementById('address-edit').value = e.properties.address;
-    document.getElementById('city-edit').value = e.properties.city;
-    document.getElementById('state-edit').value = e.properties.state;
-    document.getElementById('year-edit').value = e.properties.year;
-    document.getElementById('zip-edit').value = e.properties.zip;
-    document.getElementById('long-edit').value = e.geometry.coordinates[0];
-    document.getElementById('lat-edit').value = e.geometry.coordinates[1];
-    document.getElementById('type-edit').value = e.properties.category;
-    document.getElementById('notes-edit').value = e.properties.notes;
-    document.getElementById('codelist-edit').value = codeString;
-    document.getElementById('confidence-edit').value = e.properties.confidence;
+  // Edit observation pre-filled values
+  document.getElementById('observed-name-edit').value = e.properties.observedvenuename;
+  document.getElementById('address-edit').value = e.properties.address;
+  document.getElementById('city-edit').value = e.properties.city;
+  document.getElementById('state-edit').value = e.properties.state;
+  document.getElementById('year-edit').value = e.properties.year;
+  document.getElementById('zip-edit').value = e.properties.zip;
+  document.getElementById('long-edit').value = e.geometry.coordinates[0];
+  document.getElementById('lat-edit').value = e.geometry.coordinates[1];
+  document.getElementById('type-edit').value = e.properties.category;
+  document.getElementById('notes-edit').value = e.properties.notes;
+  document.getElementById('codelist-edit').value = codeString;
+  document.getElementById('confidence-edit').value = e.properties.confidence;
 
 };
 
 function infoNullCheck(string) {
-  return ( (string != "null") ? string : 'data unavailable');
+  return ((string != "null") ? string : 'data unavailable');
 };
 // left panel functionalities (validate observation marker view, selected marker view, map zoom to selected point)
 async function addLeftPanelActions(feature, marker) {
@@ -347,7 +365,7 @@ async function addLeftPanelActions(feature, marker) {
     essential: true
   });
 
-  if (typeof map.getLayer('selectedMarker') !== "undefined" ){
+  if (typeof map.getLayer('selectedMarker') !== "undefined") {
     map.removeLayer('selectedMarker');
     map.removeSource('selectedMarker');
   };
@@ -359,7 +377,7 @@ async function addLeftPanelActions(feature, marker) {
   });
 
   map.addLayer({
-    'id':'selectedMarker',
+    'id': 'selectedMarker',
     'type': 'symbol',
     'source': 'selectedMarker',
     'tolerance': 0,
@@ -391,10 +409,10 @@ async function addLeftPanelActions(feature, marker) {
 };
 
 // create and style all incoming reviews from API request
-function constructReviews(reviewData){
+function constructReviews(reviewData) {
   let reviewParent = document.getElementById('reviews-container');
 
-  for(let i = 0; i < reviewData.length; i++) {
+  for (let i = 0; i < reviewData.length; i++) {
     let reviewDiv = document.createElement('div');
     reviewDiv.innerHTML = reviewData[i].content;
     reviewDiv.classList.add('review-box');
@@ -404,9 +422,11 @@ function constructReviews(reviewData){
 // add 3-D extrusions
 function addExtrusions(e, hover) {
   // get the data points that stack on top of each other within the selected year range
-  let layerData = map.queryRenderedFeatures([e.point.x, e.point.y], {layers: ['data']});
+  let layerData = map.queryRenderedFeatures([e.point.x, e.point.y], {
+    layers: ['data']
+  });
   // sort data by year (from lowest to highest)
-  layerData.sort( (a,b) => {
+  layerData.sort((a, b) => {
     return parseFloat(a.properties.year) - parseFloat(b.properties.year);
   });
 
@@ -415,13 +435,13 @@ function addExtrusions(e, hover) {
   var scaleTest = chroma.scale('OrRd').colors(12);
   let yearBlockData = {
     'type': 'FeatureCollection',
-    'features': layerData.map( (location,index) => ({
-      'type':'Feature',
+    'features': layerData.map((location, index) => ({
+      'type': 'Feature',
       'properties': {
         'name': location.properties.observedvenuename,
         'year': location.properties.year,
-        'height': (((index == 0) ?  50 : (index+1)*150-45) + 145 ),
-        'base': ((index == 0) ?  50 : (index+1)*150-10),
+        'height': (((index == 0) ? 50 : (index + 1) * 150 - 45) + 145),
+        'base': ((index == 0) ? 50 : (index + 1) * 150 - 10),
         'paint': scaleTest[index]
       },
       'geometry': {
@@ -443,16 +463,27 @@ function addExtrusions(e, hover) {
   map.addLayer({
     'id': 'year-block',
     'type': 'fill-extrusion',
-    'source': {'type':'geojson', 'data': yearBlockData, generateId: true, 'tolerance': 0},
+    'source': {
+      'type': 'geojson',
+      'data': yearBlockData,
+      generateId: true,
+      'tolerance': 0
+    },
     'paint': {
       'fill-extrusion-color': [
         'case',
         ['boolean', ['feature-state', 'hover'], false],
         'red',
         'pink'
-        ],
-      'fill-extrusion-base': {'type': 'identity', 'property': 'base'},
-      'fill-extrusion-height': {'type': 'identity', 'property': 'height'},
+      ],
+      'fill-extrusion-base': {
+        'type': 'identity',
+        'property': 'base'
+      },
+      'fill-extrusion-height': {
+        'type': 'identity',
+        'property': 'height'
+      },
       'fill-extrusion-opacity': 1,
       'fill-extrusion-vertical-gradient': false,
     }
@@ -463,7 +494,7 @@ function addExtrusions(e, hover) {
 function code_div(data, locationData, year) {
   let code_parent = document.getElementById('dropdown');
   // clear everything in div first (in case already populated with existing data)
-  while(code_parent.firstChild) {
+  while (code_parent.firstChild) {
     code_parent.removeChild(code_parent.lastChild);
   };
 
@@ -473,11 +504,11 @@ function code_div(data, locationData, year) {
   standard.addEventListener('click', function() {
     map.setFilter('data', undefined);
     // map filter of single year selected by the user
-    map.setFilter('data', ["==", ['number', ['get', 'year'] ], year]);
+    map.setFilter('data', ["==", ['number', ['get', 'year']], year]);
     let selectionDiv = document.getElementById('dropdown-container');
     selectionDiv.classList.toggle('d-none');
     // remove 3D layer
-    if(map.getLayer('custom-layer')) {
+    if (map.getLayer('custom-layer')) {
       map.removeLayer('custom-layer');
     };
     let onScreenData = locationData.features.filter(function(feature) {
@@ -491,7 +522,7 @@ function code_div(data, locationData, year) {
   code_parent.appendChild(standard);
 
   // for each object in data
-  for(let code in data){
+  for (let code in data) {
     let singleCode = data[code];
     let codeDiv = document.createElement('div');
     codeDiv.innerHTML = singleCode.code;
@@ -504,13 +535,13 @@ function code_div(data, locationData, year) {
       selectionDiv.classList.toggle('d-none');
 
       // remove 3D layer
-      if(map.getLayer('custom-layer')) {
+      if (map.getLayer('custom-layer')) {
         map.removeLayer('custom-layer');
       };
 
       let result = [];
       locationData.features.filter(function(feature) {
-        if(Array.isArray(feature.properties.codedescriptorlist) && feature.properties.codedescriptorlist.includes(singleCode.code)) {
+        if (Array.isArray(feature.properties.codedescriptorlist) && feature.properties.codedescriptorlist.includes(singleCode.code)) {
           result.push(feature);
         }
       });
@@ -525,12 +556,12 @@ function code_div(data, locationData, year) {
 }
 
 // obtain damron codes of corresponding year
-function codeIncludes(codeData, year){
+function codeIncludes(codeData, year) {
   let result = {};
   // Obtain damron codes of corresponding year
-  for(let codeInfo in codeData) {
+  for (let codeInfo in codeData) {
     let codeObj = codeData[codeInfo];
-    if(codeObj.years.includes(year.toString())){
+    if (codeObj.years.includes(year.toString())) {
       result[codeInfo] = codeObj;
     }
   }
@@ -542,10 +573,10 @@ function codeIncludes(codeData, year){
 // Requets uses a location bias and location names to search (similar to a google search)
 // Parameters:
 //  feature: javascript object that contains complete data of a clicked location
-function getPhotos(feature){
+function getPhotos(feature) {
   let imgParent = document.getElementById('imgs-container');
 
-  let locationBias = new google.maps.LatLng(feature.geometry.coordinates[1] , feature.geometry.coordinates[0]);
+  let locationBias = new google.maps.LatLng(feature.geometry.coordinates[1], feature.geometry.coordinates[0]);
   // set request data location name and set location bias
   let request = {
     query: feature.properties.observedvenuename,
@@ -571,17 +602,20 @@ function getPhotos(feature){
   });
 };
 
-function setImgURL(service, placeId){
+function setImgURL(service, placeId) {
   // new request to get imageURL
   let newRequest = {
-    placeId : placeId,
+    placeId: placeId,
     fields: ["photos"]
   };
   // get details of location
   let imgElement = document.createElement('img');
   service.getDetails(newRequest, (result, status) => {
-    if(status == google.maps.places.PlacesServiceStatus.OK && result.hasOwnProperty('photos') ){
-      let imgUrl = result.photos[0].getUrl(({maxWidth: 1000, maxHeight: 1250}));
+    if (status == google.maps.places.PlacesServiceStatus.OK && result.hasOwnProperty('photos')) {
+      let imgUrl = result.photos[0].getUrl(({
+        maxWidth: 1000,
+        maxHeight: 1250
+      }));
       imgElement.src = imgUrl;
     } else {
       imgElement.src = './assets/imgs/img-placeholder.svg';
@@ -595,74 +629,136 @@ function addCones(data, active) {
     id: 'custom-layer',
     type: 'custom',
     renderingMode: '3d',
-    onAdd: function(map, mbxContext){
-        mbxContext = map.getCanvas().getContext('webgl');
-        window.tb = new Threebox(
-            map,
-            mbxContext,
-            {defaultLights: true}
-        );
+    onAdd: function(map, mbxContext) {
+      mbxContext = map.getCanvas().getContext('webgl');
+      window.tb = new Threebox(
+        map,
+        mbxContext, {
+          defaultLights: true
+        }
+      );
 
-        // initialize geometry and material of our cube object
-        let geometry = new THREE.ConeGeometry(20, 40, 32);
+      // initialize geometry and material of our cube object
+      let geometry = new THREE.ConeGeometry(20, 40, 32);
 
-        let material = new THREE.MeshPhysicalMaterial( {
-            flatShading: true,
-            color: '#8bd5ee',
-            transparent: true,
-            opacity: 0.5
+      let material = new THREE.MeshPhysicalMaterial({
+        flatShading: true,
+        color: '#8bd5ee',
+        transparent: true,
+        opacity: 0.5
+      });
+
+      let materialOnClick = new THREE.MeshPhysicalMaterial({
+        flatShading: true,
+        color: '#ff6262',
+        transparent: true,
+        opacity: 0.5
+      });
+
+      let materialOnHover = new THREE.MeshPhysicalMaterial({
+        flatShading: true,
+        color: '#ff6262',
+        transparent: true,
+        opacity: 0.8
+      });
+
+      let coneTemplate = new THREE.Mesh(geometry, material);
+      coneTemplate = tb.Object3D({
+        obj: coneTemplate,
+        units: 'meters'
+      }).set({
+        rotation: {
+          x: -90,
+          y: 0,
+          z: 0
+        }
+      });
+
+      data.forEach(function(feature) {
+        // longitude, latitude, altitude
+        let cone = coneTemplate.duplicate().setCoords([feature.geometry.coordinates[0], feature.geometry.coordinates[1], 20]);
+
+        tb.add(cone)
+      })
+
+      var highlighted = [];
+
+      //add mousing interactions
+      map.on('click', function(e) {
+
+        // Clear old objects
+        highlighted.forEach(function(h) {
+          h.material = material;
         });
+        highlighted.length = 0;
 
-        let materialOnClick = new THREE.MeshPhysicalMaterial( {
-          flatShading: true,
-          color: '#ff6262',
-          transparent: true,
-          opacity: 0.5
-        });
+        // calculate objects intersecting the picking ray
+        var intersect = tb.queryRenderedFeatures(e.point)[0]
+        var intersectionExists = typeof intersect == "object"
 
-        let coneTemplate = new THREE.Mesh(geometry, material);
-        coneTemplate = tb.Object3D({obj:coneTemplate, units:'meters'}).set({rotation :  {x: -90, y: 0, z: 0}});
+        // if intersect exists, highlight it
+        if (intersect) {
+          var nearestObject = intersect.object;
+          nearestObject.material = materialOnClick;
+          highlighted.push(nearestObject);
+        } else {
+          console.log("change back");
+        }
 
-        data.forEach(function (feature) {
-          // longitude, latitude, altitude
-          let cone = coneTemplate.duplicate().setCoords([feature.geometry.coordinates[0], feature.geometry.coordinates[1], 20] );
+        // on state change, fire a repaint
+        if (active !== intersectionExists) {
+          active = intersectionExists;
+          tb.repaint();
+        }
+      });
 
-          tb.add(cone)
-        })
 
-        var highlighted = [];
+      var hovered = null;
 
-        //add mousing interactions
-        map.on('click', function(e){
+      //add mousing hover interactions
+      map.on('mousemove', function(e) {
 
-            // Clear old objects
-            highlighted.forEach(function(h) {
-                h.material = material;
-            });
-            highlighted.length = 0;
 
-            // calculate objects intersecting the picking ray
-            var intersect = tb.queryRenderedFeatures(e.point)[0]
-            var intersectionExists = typeof intersect == "object"
+        if (hovered != null) {
 
-            // if intersect exists, highlight it
-            if (intersect) {
-              var nearestObject = intersect.object;
-              nearestObject.material = materialOnClick;
-              highlighted.push(nearestObject);
-            } else {
-              console.log("change back");
+
+            hovered.material = material;
+            if (hovered == highlighted[0]) {
+                hovered.material = materialOnClick;;
             }
 
-            // on state change, fire a repaint
-            if (active !== intersectionExists) {
-                active = intersectionExists;
-                tb.repaint();
-            }
-        });
+          // hovered.material = material;
+          hovered = null;
+        }
+
+        // calculate objects intersecting the picking ray
+        var intersect = tb.queryRenderedFeatures(e.point)[0]
+        var intersectionExists = typeof intersect == "object"
+
+        // if intersect exists, highlight it
+        if (intersect) {
+          var nearestObject = intersect.object;
+          nearestObject.material = materialOnHover;
+          hovered = nearestObject;
+        } else {
+          console.log("change back");
+        }
+
+        // on state change, fire a repaint
+        if (active !== intersectionExists) {
+          active = intersectionExists;
+          tb.repaint();
+        }
+      });
+
+
+
+
+
+
     },
 
-    render: function(gl, matrix){
+    render: function(gl, matrix) {
       tb.update();
     }
   });
@@ -679,7 +775,7 @@ map.on('style.load', async function() {
 
   let obs_data = await displayData();
   addDataLayer(obs_data);
-  map.setFilter('data', ["==", ['number', ['get', 'year'] ], defaultYear]);
+  map.setFilter('data', ["==", ['number', ['get', 'year']], defaultYear]);
 
   // load all code data from database
   let code_data = await allCodes();
@@ -698,13 +794,13 @@ map.on('style.load', async function() {
   years.addEventListener('input', async function(e) {
     let selectYear = parseInt(years.value);
     // filter map view to selected year
-    map.setFilter('data', ["==", ['number', ['get', 'year'] ], selectYear ]);
+    map.setFilter('data', ["==", ['number', ['get', 'year']], selectYear]);
 
     let filteredYearData = obs_data.features.filter(function(feature) {
       return feature.properties.year == selectYear
     });
     // add 3-d shapes and remove previous existing shapes
-    if(map.getLayer('custom-layer')) {
+    if (map.getLayer('custom-layer')) {
       map.removeLayer('custom-layer');
     };
     // add new custom layer
@@ -717,7 +813,7 @@ map.on('style.load', async function() {
 
   // create temporary marker if user wants to validate a location
   var marker = new mapboxgl.Marker({
-    draggable:true
+    draggable: true
   });
 
   // venue- left dashboard add venues from database
@@ -729,7 +825,7 @@ map.on('style.load', async function() {
   let localityFeatures = obs_data.features;
 
   // sort locality features
-  localityFeatures.sort( (a,b) => {
+  localityFeatures.sort((a, b) => {
     let firstYear = parseFloat(a.properties.year);
     let secondYear = parseFloat(b.properties.year);
     let difference = firstYear - secondYear;
@@ -739,9 +835,9 @@ map.on('style.load', async function() {
     return difference;
   })
 
-  for(let i = 0; i < localityFeatures.length; i++) {
-    if(localityFeatures[i].properties.year == selectYear) {
-      if(localityFeatures[i].properties.confidence < 0.85) {
+  for (let i = 0; i < localityFeatures.length; i++) {
+    if (localityFeatures[i].properties.year == selectYear) {
+      if (localityFeatures[i].properties.confidence < 0.85) {
         // bootstrap row
         let rowDiv = document.createElement('div');
         rowDiv.classList.add('row', "m-1");
@@ -750,7 +846,7 @@ map.on('style.load', async function() {
         venueName.classList.add('col');
         venueConfidence.classList.add("col", "col-sm-3");
 
-        let confidence =  parseFloat(localityFeatures[i].properties.confidence);
+        let confidence = parseFloat(localityFeatures[i].properties.confidence);
 
         venueName.innerHTML = localityFeatures[i].properties.observedvenuename;
         venueConfidence.innerHTML = confidence.toFixed(2);
@@ -768,7 +864,7 @@ map.on('style.load', async function() {
     }
   }
 
-  if(localityParent.firstChild == null) {
+  if (localityParent.firstChild == null) {
     let localityPar = document.createElement('div');
     localityPar.classList.add('m-3');
     localityPar.innerHTML = "No low confidence location nearby."
@@ -778,9 +874,9 @@ map.on('style.load', async function() {
   // when click on extrusion
   map.on('click', 'year-block', function(e) {
     new mapboxgl.Popup()
-    .setLngLat(e.lngLat)
-    .setHTML(e.features[0].properties.name)
-    .addTo(map);
+      .setLngLat(e.lngLat)
+      .setHTML(e.features[0].properties.name)
+      .addTo(map);
     // highlight extrusion on hover
     // display popup for location information of extrusion
     // might have to create API function call to retrieve all the possible years
@@ -792,38 +888,44 @@ map.on('style.load', async function() {
   map.on('mousemove', 'year-block', function(e) {
     if (e.features.length > 0) {
       if (hoveredStateId !== null) {
-        map.setFeatureState(
-          { source: 'year-block', id: hoveredStateId },
-          { hover: false }
-          );
+        map.setFeatureState({
+          source: 'year-block',
+          id: hoveredStateId
+        }, {
+          hover: false
+        });
       }
       hoveredStateId = e.features[0].id;
-        map.setFeatureState(
-          { source: 'year-block', id: hoveredStateId },
-          { hover: true }
-        );
-      }
+      map.setFeatureState({
+        source: 'year-block',
+        id: hoveredStateId
+      }, {
+        hover: true
+      });
+    }
   });
 
   // change color of extrusion back after mouse leaves
   map.on('mouseleave', 'year-block', () => {
     if (hoveredStateId !== null) {
-      map.setFeatureState(
-        { source: 'year-block', id: hoveredStateId },
-        { hover: false }
-      );
+      map.setFeatureState({
+        source: 'year-block',
+        id: hoveredStateId
+      }, {
+        hover: false
+      });
     }
     hoveredStateId = null;
   });
 
   // trigger review/location information on click of location point of map
-  map.on('click','data', async function(e) {
+  map.on('click', 'data', async function(e) {
     // marker.remove();
     // check for left panel elements still lingering
     leftPanelClearCheck('remove');
 
     // // clear 3-D year object
-    if (typeof map.getLayer('year-block') !== "undefined" ){
+    if (typeof map.getLayer('year-block') !== "undefined") {
       map.removeLayer('year-block');
       map.removeSource('year-block');
     };
@@ -849,7 +951,7 @@ map.on('style.load', async function() {
 
     // indicate that this point is a venue
     let venueIndicator = document.getElementById('venue-indicator');
-    if(e.features[0].properties.v_id !== undefined) {
+    if (e.features[0].properties.v_id !== undefined) {
       venueIndicator.innerHTML = "this is a confirmed venue";
     } else {
       venueIndicator.innerHTML = '';
@@ -861,7 +963,7 @@ map.on('style.load', async function() {
     // add reviews
     // if add review button is clicked, display add review div box
     let addReview = document.getElementById('add-review-btn');
-    addReview.addEventListener('click', () =>{
+    addReview.addEventListener('click', () => {
       let reviewBox = document.getElementById('type-review-box');
       let textBox = document.getElementById('user-review-input');
       textBox.value = '';
@@ -882,7 +984,7 @@ map.on('style.load', async function() {
     let vid = parseInt(document.getElementById('vid-review').innerHTML);
     let reviewParent = document.getElementById('reviews-container');
 
-    while(reviewParent.firstChild) {
+    while (reviewParent.firstChild) {
       reviewParent.removeChild(reviewParent.lastChild);
     };
 
@@ -896,7 +998,7 @@ map.on('style.load', async function() {
   });
 
   // helper function to submit new review
-  function submitNewReview(e){
+  function submitNewReview(e) {
     let vid = parseInt(document.getElementById('vid-review').innerHTML);
     let submitCheck = document.getElementById('user-review-input').value;
     // check if
@@ -947,7 +1049,7 @@ map.on('style.load', async function() {
     let yearSlider = document.getElementById('slider-time');
     yearSlider.classList.remove('d-none');
 
-    if(defaultDiv.classList.contains('d-none')) {
+    if (defaultDiv.classList.contains('d-none')) {
       defaultDiv.classList.remove('d-none');
       viewBtn.classList.remove('d-none');
       hiddenDiv.classList.add('d-none');
@@ -957,7 +1059,7 @@ map.on('style.load', async function() {
 
     // clear marker
 
-    if (typeof map.getLayer('selectedMarker') !== "undefined" ){
+    if (typeof map.getLayer('selectedMarker') !== "undefined") {
       marker.remove();
       map.removeLayer('selectedMarker');
       map.removeSource('selectedMarker');
@@ -973,12 +1075,12 @@ map.on('style.load', async function() {
 
 
   // Change the cursor to a pointer when the it enters a feature in the 'circle' layer.
-  map.on('mouseenter', 'data', function () {
+  map.on('mouseenter', 'data', function() {
     map.getCanvas().style.cursor = 'pointer';
   });
 
   // Change it back to a pointer when it leaves.
-  map.on('mouseleave', 'data', function () {
+  map.on('mouseleave', 'data', function() {
     map.getCanvas().style.cursor = '';
   });
 
