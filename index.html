@@ -191,12 +191,12 @@
           <!-- </div> -->
 
           <p class="light-text-title" type="button" data-bs-toggle="collapse" data-bs-target="#venue-card" aria-expanded="false" aria-controls="collapseExample">
-            Venues
+            Verified Venues
           </p>
 
           <div class="collapse show" id="venue-card">
             <div class="card card-body">
-              <small> Most venues are plotted to where they are or nearby. For 1) those virtual venues or 2) those of unclear geographical boundaries but still relevant to the geographical area of the current map view, they are in the table below.
+              <small> Most venues are plotted to where they are or nearby. For 1) those virtual venues or 2) those of unclear geographical boundaries but still relevant to the geographical area of the current map view, they are listed in the table below but not plotted on the map.
                 Click <a href="#"> here </a>for more details.</small>
               <!-- list of venues -->
               <div class="container">
@@ -209,7 +209,7 @@
               </div>
               <div class="form-check form-switch">
                 <input class="form-check-input" type="checkbox" id="reliability-switch">
-                <label class="form-check-label" for="reliability-switch">Color venues on the map by how reliable the research team believes in its accuracy. </label>
+                <label class="form-check-label" for="reliability-switch">Color by how reliable the research team believes in its accuracy. </label>
               </div>
             </div>
           </div>
@@ -217,11 +217,14 @@
 
           <!-- list of observations -->
           <p class="light-text-title" type="button" data-bs-toggle="collapse" data-bs-target="#observatin-card" aria-expanded="false" aria-controls="collapseExample">
-            Observations of Venues
+            Unverified Venues
           </p>
           <div class="collapse" id="observatin-card">
             <div class="card card-body">
-              <small></small>
+              <small>
+
+
+              </small>
 
               <div class="container">
                 <div class="row m-1 pt-2" style="font-size: 11px;">
@@ -232,7 +235,7 @@
               <div id="observation-venues" class="confirmed-venues"></div>
               <div class="form-check form-switch">
                 <input class="form-check-input" type="checkbox" id="observations-switch">
-                <label class="form-check-label" for="observations-switch">Color observations on the map by how confidence the contributor feels about its accuracy. </label>
+                <label class="form-check-label" for="observations-switch">Color by how confident the contributor feels about its accuracy. </label>
               </div>
             </div>
           </div>
@@ -287,7 +290,7 @@
 
       <!-- left dashboard - validate observatoin div -->
       <form id="validate-observation" class="d-flex flex-column d-none mx-3 mt-5">
-        <h3 class="mt-3 mb-0 pb-2">Validate Location</h3>
+        <h3 class="mt-3 mb-0 pb-2">Verify the Location</h3>
         <div class="form-floating mb-1">
           <input id="observed-name-edit" type="text" class="form-control" required>
           <label for="observed-name-edit">Name of Location:</label>
@@ -411,7 +414,7 @@
 
       <!-- left dashboard - buttons -->
       <div id="validation-btns" class="mx-3 d-flex flex-row flex-wrap d-none">
-        <button id="validate-observation-btn" type="button" class="btn btn-primary mx-2">Validate</button>
+        <button id="validate-observation-btn" type="button" class="btn btn-primary mx-2">Verify</button>
         <button id="add-review-btn" type="button" class="btn btn-primary mx-2">Add a Review</button>
         <button id="go-back-btn" type="button" class="btn btn-primary d-none mx-2"> go back</button>
       </div>
