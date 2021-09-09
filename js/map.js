@@ -657,9 +657,9 @@ function addCones(data, active) {
 
       let materialOnHover = new THREE.MeshPhysicalMaterial({
         flatShading: true,
-        color: '#ff6262',
+        color: '#69c3bb',
         transparent: true,
-        opacity: 0.8
+        opacity: 0.9
       });
 
       let coneTemplate = new THREE.Mesh(geometry, material);
@@ -724,7 +724,7 @@ function addCones(data, active) {
 
           hovered.material = material;
           if (hovered == highlighted[0]) {
-            hovered.material = materialOnClick;;
+            hovered.material = materialOnClick;
           }
 
           // hovered.material = material;
