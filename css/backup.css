@@ -395,6 +395,15 @@ nav {
     font-size: 2em;
 }
 
+
+#observations-switch {
+  margin-left: 1em;
+}
+.form-check-label {
+  margin-left: 0.3em;
+
+}
+
 /* base year selection */
 .base-year {
     font-size: 15px;
@@ -508,13 +517,29 @@ nav {
     padding-left: 0.5em;
 }
 
+
+.form-check {
+display: flex;
+align-items: center;
+
+
+}
 /* right panel text */
 .light-text-title {
     font-weight: bold;
-    font-size: 1em;
-    padding: 0em;
-    margin-bottom: 0.5em;
+    font-size: 1.4em;
+    margin-left: 0.2em;
+    /* padding: 0em;
+    margin-bottom: 0.5em; */
+    /* display: flex; */
+    /* vertical-align: middle; */
+  /* justify-content: center; */
+  /* align-items: center; */
 }
+
+
+
+
 
 #confidence-observation {
     width: 100%;
