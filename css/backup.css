@@ -199,7 +199,7 @@ nav {
   position: absolute;
   z-index: 1;
   background-color: white;
-  width: 26em;
+  width: 27%;
   bottom: 0;
   height: 100%;
   color: black;
@@ -249,7 +249,7 @@ nav {
   text-align: center;
   top: 50%;
   bottom: 50%;
-  margin-left: 26em;
+  margin-left: 27%;
 }
 
 #info-close>span {
@@ -410,12 +410,13 @@ nav {
 }
 
 #label-year {
-  font-size: 1.6em;
+  font-size: 1.2em;
+  margin-bottom: 0.2em;
 }
 
-#observations-switch, #reliability-switch {
+/* #observations-switch, #reliability-switch {
   /* margin-left: -2em; */
-}
+/* } */
 
 div.form-check {
   margin-top: 1em;
@@ -510,9 +511,9 @@ div.form-check {
 }
 
 /* add observation */
-#add-observation {
+/* #add-observation { */
   /* margin-top: 2em; */
-}
+/* } */
 
 .btn-add-obs {
   padding: 1em;
@@ -554,14 +555,7 @@ div.form-check {
   margin-top: 0.5em;
   margin-bottom: 0.5em;
   font-weight: bold;
-  font-size: 1.4em;
-  margin-left: 0.2em;
-  /* padding: 0em;
-    margin-bottom: 0.5em; */
-  /* display: flex; */
-  /* vertical-align: middle; */
-  /* justify-content: center; */
-  /* align-items: center; */
+  font-size: 0.5em;
 }
 
 #confidence-observation {
@@ -659,13 +653,13 @@ div.form-check {
 }
 
 #references-container {
-  margin-top: 2em;
+  margin-top: 1em;
 }
 
 #footer-container {
   font-size: 13px;
-  position: absolute;
-  margin-top: 2em;
+  /* position: absolute; */
+  margin-top: 60%;
   bottom: 1em;
   line-height:  1.1em;
 }
