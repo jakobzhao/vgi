@@ -502,6 +502,7 @@ div.form-check {
   right: 0;
   bottom: 0;
   margin-bottom: 100px;
+  margin-right: 1%;
 }
 
 /* description  */
@@ -592,7 +593,7 @@ div.form-check {
   bottom: 0;
   right: 0;
   margin-bottom: 35px;
-  margin-right: 0;
+  margin-right: 1%;
 }
 
 #basemap-selection {

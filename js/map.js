@@ -11,17 +11,6 @@ var map = new mapboxgl.Map({
   hash: true
 });
 
-
-// add map navigation controls
-//
-// map.addControl(new mapboxgl.AttributionControl({
-//   customAttribution: 'University of Washington | HGIS Lab',
-//   logoPosition: 'bottom-right'
-// }));
-// map.addControl(new mapboxgl.NavigationControl());
-// temporarily remove the logo.
-// $(".mapboxgl-ctrl-logo").remove();
-
 document.getElementsByClassName('mapboxgl-ctrl-top-right')[0].classList.add('navi-ctrls');
 // geocoding search bar
 let geocoder = new MapboxGeocoder({
@@ -30,6 +19,32 @@ let geocoder = new MapboxGeocoder({
 });
 
 document.getElementById('geocoder').appendChild(geocoder.onAdd(map));
+
+// leftPanelView()
+// Parameter:
+// "default"       : Shows: DEFAULT LEFT DASHBOARD VIEW
+//                   Hides: DATA PANEL, IMGS CONTAINER, VERIFICATION & REVIEW BTNS, ADD NEW OBSERVATION INFO PANEL
+// "verify"        : Shows: VERFICATION PANEL
+//                   Hides: DEFAULT PANEL, DATA PANEL, IMGS CONTAINER, ADD NEW OBSERVATION INFO PANEL
+// "addObservation": Shows: ADD NEW OBSERVATION INFO PANEL
+//                   Hides: DEFAULT PANEL, DATA PANEL, VERIFCATION & REVIEW BTNS, IMGS CONTAINER
+// "clickData"     : Shows: DATA PANEL, VERIFICATION & REVIEW BTNS, IMGS CONTAINER
+//                 : Hides: DEFAULT PANEL, VERIFICATION PANEL, ADD NEW OBSERVATION INFO PANEL
+function leftPanelView(togglePanel) {
+}
+
+
+function toggleDefault() {
+  // remove all divs that does not contain a d-none and add it
+  if( $('#info > div.d-none').length > 0  ) {
+    $('#info > div.d-none').each(function (index, value) {
+      value.classList.add('d-none');
+    })
+  }
+  // toggle class list d-none to default view div (if to check if classlist does not have d-none)
+}
+
+
 
 // year_val()
 // changes the label of the current selected year for the user to see
@@ -427,10 +442,12 @@ function addExtrusions(e, hover) {
   let layerData = map.queryRenderedFeatures([e.point.x, e.point.y], {
     layers: ['data']
   });
-  // sort data by year (from lowest to highest)
-  layerData.sort((a, b) => {
-    return parseFloat(a.properties.year) - parseFloat(b.properties.year);
-  });
+  // sort data by year (from lowest to highest) if layerData detects more than one
+  if (layerData.length > 1) {
+    layerData.sort((a, b) => {
+      return parseFloat(a.properties.year) - parseFloat(b.properties.year);
+    });
+  };
 
   const polygonRadius = 0.0002;
 
@@ -442,8 +459,10 @@ function addExtrusions(e, hover) {
       'properties': {
         'name': location.properties.observedvenuename,
         'year': location.properties.year,
-        'height': (((index == 0) ? 50 : (index + 1) * 150 - 45) + 145),
-        'base': ((index == 0) ? 50 : (index + 1) * 150 - 10),
+        'height': 75,
+        // 'height': (((index == 0) ? 50 : (index + 1) * 150 - 45) + 145),
+        // 'base': ((index == 0) ? 50 : (index + 1) * 150 - 10),
+        'base': 50,
         'paint': scaleTest[index]
       },
       'geometry': {
@@ -752,12 +771,6 @@ function addCones(data, active) {
           tb.repaint();
         }
       });
-
-
-
-
-
-
     },
 
     render: function(gl, matrix) {
@@ -811,7 +824,7 @@ map.on('style.load', async function() {
     let result = codeIncludes(code_data, selectYear);
     // construct div for each damron code available
     code_div(result, obs_data, selectYear);
-  })
+  });
 
   // create temporary marker if user wants to validate a location
   var marker = new mapboxgl.Marker({
@@ -825,7 +838,6 @@ map.on('style.load', async function() {
   let localityParent = document.getElementById('locality-venues');
 
   let localityFeatures = obs_data.features;
-
   // sort locality features
   localityFeatures.sort((a, b) => {
     let firstYear = parseFloat(a.properties.year);

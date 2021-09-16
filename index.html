@@ -20,7 +20,9 @@
   <link href="css/backup.css" rel='stylesheet' />
 
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-  <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script> -->
+  <!-- bootstrap 4.6 is required for bootstrap-select, a feature used in the platform -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
+  <!-- bootstrap 5.1 is required for the overall structure of the platform -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
 
   <script src='https://api.mapbox.com/mapbox-gl-js/v2.3.0/mapbox-gl.js'></script>
@@ -56,7 +58,8 @@
   <!-- Latest compiled and minified JavaScript -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
 
-
+  <!-- turf js  -->
+  <script src='https://unpkg.com/@turf/turf@6/turf.min.js'></script>
 
   <script src="js/main.js"></script>
 </head>
@@ -178,7 +181,7 @@
               <div class="accordion-body">
                 <small> Most venues are plotted to where they are or nearby on the map. For 1) the virtual venues or 2) the venues relevant to any geographical area in the current map view but their physical locations are unclear, they are not plotted
                   on the map but listed in the table below.
-                  Click <a href="#"> here </a>for more details.
+                  Click <a href="#"> here</a> for more details.
                 </small>
                 <!-- list of venues -->
                 <div class="container">
@@ -207,7 +210,7 @@
                 <small>
                   Unverified venues were contributed by users but has not been verified by the research team. While the map shows any venue assocaited with a specific location, while the table lists 1) the virtual venue and 2) the
                   venue related to the geographical area in the current map view but its physical location is unclear.
-                  Click <a href="#"> here </a>for more details.
+                  Click <a href="#"> here</a> for more details.
                 </small>
                 <div class="container">
                   <div class="row m-1 pt-2" style="font-size: 11px;">
@@ -451,9 +454,9 @@
 
       <div id="footer-container" class="mx-3">
 
-        <p align="right"><img width="60px" src="assets/imgs/uw-logo.png"></img><img width="60px" src="assets/imgs/nsf-logo.png"></img></p>
+        <p align="right"><img width="50px" src="assets/imgs/uw-logo.png"></img><img width="50px" src="assets/imgs/nsf-logo.png"></img></p>
         <small>This geospatial platform is funded by National Science Foundation (NSF),
-          and created and maintained by a team of geographers from the University of Washington. 
+          and created and maintained by a team of geographers from the University of Washington.
         </small>
         <!-- The frontend map libraries are from Mapbox, and the data for the basemaps are from OpenStreetMaps -->
       </div>
@@ -553,15 +556,16 @@
     function renderButton() {
       gapi.signin2.render('googleSignInBtn', {
         'scope': 'profile email',
-        'width': 240,
-        'height': 50,
-        'longtitle': true,
+        'width': 100,
+        'height': 30,
         'theme': 'dark',
         'onsuccess': onSuccess,
         'onfailure': onFailure
       });
-    }
+    };
   </script>
+  <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
+
   <!-- GOOGLE IMAGES DEFAULT -->
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC7zg5Rb4UJNKsiXIol35wzC0uZmHddj0Q&callback=getPhotos&libraries=places" async></script>
 </body>

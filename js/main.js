@@ -103,10 +103,10 @@
     // Checks if user is logged in already, on button clicked to add observation.
     async function isLoggedIn() {
         try {
-            document.getElementById('observation').classList.add('hidden');
+            document.getElementById('add-observation').classList.add('hidden');
             if(gapi.auth2.getAuthInstance().isSignedIn.get()) {
                 // show modal
-                document.getElementById('observation').classList.remove('hidden');
+                document.getElementById('add-observation').classList.remove('hidden');
                 document.getElementById('googleSignInBtn').classList.add('d-none');
                 document.getElementById('googleSignOutBtn').classList.remove('d-none');
                 console.log("signed in!");
@@ -119,12 +119,14 @@
                 // prompt google login window screen
                 await gapi.auth2.getAuthInstance().signIn();
                 // show modal
-                document.getElementById('observation').classList.remove('hidden');
+                document.getElementById('add-observation').classList.remove('hidden');
             }
 
         } catch(err) {
             // hide observation if user is not able to log-in
-            $('#observation').modal('hide');
+            document.getElementById('add-observation').classList.add('hidden');
+            document.getElementById('info').classList.add('hidden');
+            document.getElementById('info-close-btn').classList.add('hidden');
             console.log(err);
         }
     }
