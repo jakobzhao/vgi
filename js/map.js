@@ -449,7 +449,8 @@ function addExtrusions(e, hover) {
     });
   };
 
-  const polygonRadius = 0.0002;
+  const polygonRadius = 0.02;
+  let options = {steps: 100, units: 'kilometers'};
 
   var scaleTest = chroma.scale('OrRd').colors(12);
   let yearBlockData = {
@@ -467,15 +468,7 @@ function addExtrusions(e, hover) {
       },
       'geometry': {
         'type': 'Polygon',
-        'coordinates': [
-          [
-            [location.geometry.coordinates[0] - polygonRadius, location.geometry.coordinates[1] - polygonRadius],
-            [location.geometry.coordinates[0] + polygonRadius, location.geometry.coordinates[1] - polygonRadius],
-            [location.geometry.coordinates[0] + polygonRadius, location.geometry.coordinates[1] + polygonRadius],
-            [location.geometry.coordinates[0] - polygonRadius, location.geometry.coordinates[1] + polygonRadius],
-            [location.geometry.coordinates[0] - polygonRadius, location.geometry.coordinates[1] - polygonRadius]
-          ]
-        ]
+        'coordinates': turf.circle(location.geometry.coordinates, polygonRadius, options).geometry.coordinates
       },
       'id': layerData[0].id
     }))
@@ -510,6 +503,8 @@ function addExtrusions(e, hover) {
     }
   });
 };
+
+// 
 
 // add div for the codes corresponding to selected year on the map
 function code_div(data, locationData, year) {
