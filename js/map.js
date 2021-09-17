@@ -20,31 +20,32 @@ let geocoder = new MapboxGeocoder({
 
 document.getElementById('geocoder').appendChild(geocoder.onAdd(map));
 
-// leftPanelView()
+// toggleLeftPanelView()
 // Parameter:
-// "default"       : Shows: DEFAULT LEFT DASHBOARD VIEW
+// "references-container"       : Shows: DEFAULT LEFT DASHBOARD VIEW
 //                   Hides: DATA PANEL, IMGS CONTAINER, VERIFICATION & REVIEW BTNS, ADD NEW OBSERVATION INFO PANEL
-// "verify"        : Shows: VERFICATION PANEL
-//                   Hides: DEFAULT PANEL, DATA PANEL, IMGS CONTAINER, ADD NEW OBSERVATION INFO PANEL
-// "addObservation": Shows: ADD NEW OBSERVATION INFO PANEL
-//                   Hides: DEFAULT PANEL, DATA PANEL, VERIFCATION & REVIEW BTNS, IMGS CONTAINER
-// "clickData"     : Shows: DATA PANEL, VERIFICATION & REVIEW BTNS, IMGS CONTAINER
+// "info-default"     : Shows: DATA PANEL, VERIFICATION & REVIEW BTNS, IMGS CONTAINER
 //                 : Hides: DEFAULT PANEL, VERIFICATION PANEL, ADD NEW OBSERVATION INFO PANEL
-function leftPanelView(togglePanel) {
-}
+// "validate-observation"        : Shows: VERFICATION PANEL
+//                   Hides: DEFAULT PANEL, DATA PANEL, IMGS CONTAINER, ADD NEW OBSERVATION INFO PANEL
+// "add-observation": Shows: ADD NEW OBSERVATION INFO PANEL
+//                   Hides: DEFAULT PANEL, DATA PANEL, VERIFCATION & REVIEW BTNS, IMGS CONTAINER
+// "validation-btns"
+// "type-review-box"
+// "reviews-confirmation"
+// "reviews-container"
+function toggleLeftPanelView(elementId) {
+  $("#info > div").not($("#" + elementId)).addClass('d-none');
+  $('#' + elementId).removeClass('d-none');
 
+  // exceptions
+  let footer = document.getElementById('footer-container');
+  footer.classList.remove('d-none');
 
-function toggleDefault() {
-  // remove all divs that does not contain a d-none and add it
-  if( $('#info > div.d-none').length > 0  ) {
-    $('#info > div.d-none').each(function (index, value) {
-      value.classList.add('d-none');
-    })
+  if(elementId == "info-default") {
+    document.getElementById('validation-btns').classList.remove('d-none');
   }
-  // toggle class list d-none to default view div (if to check if classlist does not have d-none)
-}
-
-
+};
 
 // year_val()
 // changes the label of the current selected year for the user to see
@@ -297,31 +298,6 @@ function switchLayer(layer) {
 for (var i = 0; i < layerList.length; i++) {
   layerList[i].onclick = switchLayer;
 };
-
-function leftPanelClearCheck(checkType) {
-  // remove d-none from imgs container, info-default, hide add-observation, validation-btns
-  let imgsContainer = document.getElementById('imgs-container');
-  let infoDefault = document.getElementById('info-default');
-  let validationBtns = document.getElementById('validation-btns');
-  let addObservation = document.getElementById('add-observation');
-  let yearSlider = document.getElementById('slider-time');
-
-  if (checkType == "remove") {
-    imgsContainer.classList.remove('d-none');
-    infoDefault.classList.remove('d-none');
-    validationBtns.classList.remove('d-none');
-    // add d-none from add-observation
-    addObservation.classList.add('d-none');
-    yearSlider.classList.add('d-none');
-  } else {
-    imgsContainer.classList.add('d-none');
-    infoDefault.classList.add('d-none');
-    validationBtns.classList.add('d-none');
-    // add d-none from add-observation
-    addObservation.classList.remove('d-none');
-  };
-};
-
 
 // function slide-in left panel
 function viewLeftPanel(e) {
@@ -931,7 +907,7 @@ map.on('style.load', async function() {
   map.on('click', 'data', async function(e) {
     // marker.remove();
     // check for left panel elements still lingering
-    leftPanelClearCheck('remove');
+    toggleLeftPanelView('info-default');
 
     // // clear 3-D year object
     if (typeof map.getLayer('year-block') !== "undefined") {
@@ -1025,11 +1001,8 @@ map.on('style.load', async function() {
     let dataCanvas = document.getElementById('info');
     dataCanvas.classList.remove('slide-out');
     dataCanvas.classList.add('slide-in');
-    dataCanvas.classList.remove('hidden');
-    document.getElementById('info-close-btn').classList.remove('d-none');
-    document.getElementById('references-container').classList.add('d-none');
-    document.getElementById('slider-time').classList.add('d-none');
-    leftPanelClearCheck('add');
+    // show add observation information panel
+    toggleLeftPanelView('add-observation')
   });
 
   // go back button

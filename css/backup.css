@@ -444,7 +444,7 @@ div.form-check {
 
 /* single input slider */
 .middle {
-  margin: 4em 1em 0em 1em;
+  margin: 3em 1em 1em 1em;
 }
 
 .single-slider {
@@ -660,7 +660,7 @@ div.form-check {
 #footer-container {
   font-size: 13px;
   /* position: absolute; */
-  margin-top: 60%;
+  margin-top: 20em;
   bottom: 1em;
   line-height:  1.1em;
 }
