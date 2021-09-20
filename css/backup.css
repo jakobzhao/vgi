@@ -16,6 +16,10 @@ nav {
   z-index: 999;
 }
 
+#signInBtn {
+  margin-top: 3px;
+}
+
 /* for search bar  */
 .map-overlay-top {
   position: absolute;
@@ -195,18 +199,21 @@ nav {
   margin-top: 10em;
 }
 
+/* LEFT SIDE PANEL */
 #info {
   position: absolute;
   z-index: 1;
   background-color: white;
-  width: 26em;
+  width: 27em;
   bottom: 0;
   height: 100%;
   color: black;
   /** if information overflows then content is hidden**/
   overflow-y: scroll;
   box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+  transition: transform 1s;
 }
+
 
 /* image element in imgs container */
 #imgs-container {
@@ -249,7 +256,9 @@ nav {
   text-align: center;
   top: 50%;
   bottom: 50%;
-  margin-left: 26em;
+  left: 27em;
+  transition: transform 1s;
+  border: 10x solid black;
 }
 
 #info-close>span {
@@ -257,14 +266,14 @@ nav {
 }
 
 #info-close:hover {
-  width: 70%;
+  border: 1px solid black;
 }
 
-#info-close:hover span {
+/* #info-close:hover span {
   font-size: 12px;
   display: flex;
   flex-direction: row;
-}
+} */
 
 /* info review box  */
 .info-review-box {
@@ -345,6 +354,14 @@ nav {
 }
 
 /* TRANSITIONS */
+.leftCollapse {
+  transform: translateX(-27em);
+}
+
+.info-btn-collapse {
+  transform: translateX(-27em);
+}
+
 .fade {
   transition: ease-out 0.3s;
 }
@@ -410,12 +427,13 @@ nav {
 }
 
 #label-year {
-  font-size: 1.6em;
+  font-size: 1.2em;
+  margin-bottom: 0.2em;
 }
 
-#observations-switch, #reliability-switch {
+/* #observations-switch, #reliability-switch {
   /* margin-left: -2em; */
-}
+/* } */
 
 div.form-check {
   margin-top: 1em;
@@ -443,7 +461,7 @@ div.form-check {
 
 /* single input slider */
 .middle {
-  margin: 4em 1em 0em 1em;
+  margin: 3em 1em 1em 1em;
 }
 
 .single-slider {
@@ -501,6 +519,7 @@ div.form-check {
   right: 0;
   bottom: 0;
   margin-bottom: 100px;
+  margin-right: 1%;
 }
 
 /* description  */
@@ -510,9 +529,9 @@ div.form-check {
 }
 
 /* add observation */
-#add-observation {
-  /* margin-top: 2em; */
-}
+#add-observation { 
+  margin-top: 4em;
+ }
 
 .btn-add-obs {
   padding: 1em;
@@ -554,14 +573,7 @@ div.form-check {
   margin-top: 0.5em;
   margin-bottom: 0.5em;
   font-weight: bold;
-  font-size: 1.4em;
-  margin-left: 0.2em;
-  /* padding: 0em;
-    margin-bottom: 0.5em; */
-  /* display: flex; */
-  /* vertical-align: middle; */
-  /* justify-content: center; */
-  /* align-items: center; */
+  font-size: 0.5em;
 }
 
 #confidence-observation {
@@ -598,7 +610,7 @@ div.form-check {
   bottom: 0;
   right: 0;
   margin-bottom: 35px;
-  margin-right: 0;
+  margin-right: 1%;
 }
 
 #basemap-selection {
@@ -659,14 +671,13 @@ div.form-check {
 }
 
 #references-container {
-  margin-top: 2em;
+  margin-top: 1em;
 }
 
 #footer-container {
   font-size: 13px;
-  position: absolute;
-  margin-top: 2em;
-  bottom: 1em;
+  /* position: absolute; */
+  margin-top: 35em;
   line-height:  1.1em;
 }
 
