@@ -377,16 +377,43 @@ async function addLeftPanelActions(feature, marker) {
   var coordinates = feature.geometry.coordinates.slice();
 
   validateObservation.addEventListener('click', function() {
-    marker.setLngLat(coordinates).addTo(map);
-
-    function onDragEnd() {
-      var lngLat = marker.getLngLat();
-      document.getElementById('long-edit').value = lngLat.lng;
-      document.getElementById('lat-edit').value = lngLat.lat;
+    // ensure that user is logged-in
+    let check = logInCheck();
+    if(check) {
+      marker.setLngLat(coordinates).addTo(map);
+      function onDragEnd() {
+        var lngLat = marker.getLngLat();
+        document.getElementById('long-edit').value = lngLat.lng;
+        document.getElementById('lat-edit').value = lngLat.lat;
+      }
+      marker.on('dragend', onDragEnd);
     }
-    marker.on('dragend', onDragEnd);
   });
 };
+
+function logInCheck() {
+  let signInView = document.getElementById('signInBtn');
+  // if left panel is closed
+  if( document.getElementById('info').classList.contains('leftCollapse')) {
+      let collapseState = document.getElementById('info').classList.toggle('leftCollapse');
+      document.getElementById('info-close-btn').classList.toggle('info-btn-collapse');
+      let btnImg = document.getElementById('leftPanelArrow');
+      if(collapseState) {
+        btnImg.src = './assets/imgs/open-arrow.svg';
+      } else {
+        btnImg.src = './assets/imgs/back-btn.svg';
+      }
+  }
+
+  if(signInView.classList.contains('d-none')) {
+      // if contains display none, means that user is logged in
+      toggleLeftPanelView('validate-observation');
+      return true;
+  } else {
+      alert('Please sign in through Google first!');
+  }
+  return false;
+}
 
 // create and style all incoming reviews from API request
 function constructReviews(reviewData) {
@@ -1002,9 +1029,9 @@ map.on('style.load', async function() {
 
   // validation button
   // toggleview
-  document.getElementById('validate-observation-btn').addEventListener('click', function() {
-    toggleLeftPanelView('validate-observation');
-  })
+  // document.getElementById('validate-observation-btn').addEventListener('click', function() {
+  //   toggleLeftPanelView('validate-observation');
+  // })
 
   // close button
   document.getElementById('info-close-btn').addEventListener('click', function(e) {
