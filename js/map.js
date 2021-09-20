@@ -44,6 +44,17 @@ function toggleLeftPanelView(elementId) {
 
   if(elementId == "info-default") {
     document.getElementById('validation-btns').classList.remove('d-none');
+    // if(!(document.getElementById('info-default').contains('d-none'))) {
+    //   document.getElementById('validate-observation-btn').classList.toggle ('d-none');
+    //   document.getElementById('add-review-btn').classList.toggle('d-none');
+    //   document.getElementById('go-back-btn').classList.toggle('d-none');
+    // }
+  }
+  if(elementId == "validate-observation") {
+    document.getElementById('validation-btns').classList.remove('d-none');
+    document.getElementById('validate-observation-btn').classList.toggle ('d-none');
+    document.getElementById('add-review-btn').classList.toggle('d-none');
+    document.getElementById('go-back-btn').classList.toggle('d-none');
   }
 };
 
@@ -53,25 +64,6 @@ function year_val() {
   let selectedYear = document.getElementById('single-input').value;
   document.getElementById('label-year').innerHTML = selectedYear;
 }
-
-// toggle left dashboard to default and edit view
-function toggleView(toggleClass) {
-  // default location information buttons and div
-  let defaultDiv = document.getElementById('info-default');
-  let imgDiv = document.getElementById('imgs-container');
-  // let imgNote = document.getElementById('imgs-note');
-  let viewBtn = document.getElementById('validate-observation-btn');
-  // validate observation form buttons and div
-  let hiddenDiv = document.getElementById('validate-observation');
-  let backBtn = document.getElementById('go-back-btn');
-
-  imgDiv.classList.toggle(toggleClass);
-  // imgNote.classList.toggle(toggleClass);
-  hiddenDiv.classList.toggle(toggleClass);
-  defaultDiv.classList.toggle(toggleClass);
-  viewBtn.classList.toggle(toggleClass);
-  backBtn.classList.toggle(toggleClass);
-};
 
 function venueList(data) {
   for (let i = 0; i < data.length; i++) {
@@ -301,11 +293,6 @@ for (var i = 0; i < layerList.length; i++) {
 
 // function slide-in left panel
 function viewLeftPanel(e) {
-  let dataCanvas = document.getElementById('info');
-  dataCanvas.classList.remove('slide-out');
-  dataCanvas.classList.add('slide-in');
-  dataCanvas.classList.remove('hidden');
-
   // parse the codes to increase readability
   let codeString = "";
   let codes = e.properties.codedescriptorlist;
@@ -906,7 +893,17 @@ map.on('style.load', async function() {
   // trigger review/location information on click of location point of map
   map.on('click', 'data', async function(e) {
     // marker.remove();
-    // check for left panel elements still lingering
+    if( document.getElementById('info').classList.contains('leftCollapse')) {
+      let collapseState = document.getElementById('info').classList.toggle('leftCollapse');
+      document.getElementById('info-close-btn').classList.toggle('info-btn-collapse');
+      let btnImg = document.getElementById('leftPanelArrow');
+      if(collapseState) {
+        btnImg.src = './assets/imgs/open-arrow.svg';
+      } else {
+        btnImg.src = './assets/imgs/back-btn.svg';
+      }
+    }
+
     toggleLeftPanelView('info-default');
 
     // // clear 3-D year object
@@ -929,10 +926,6 @@ map.on('style.load', async function() {
     // view left panel on data click
     viewLeftPanel(feature);
     addLeftPanelActions(feature, marker);
-    // Show close button
-    setTimeout(function() {
-      document.getElementById('info-close-btn').classList.remove('d-none');
-    }, 275);
 
     // indicate that this point is a venue
     let venueIndicator = document.getElementById('venue-indicator');
@@ -995,50 +988,43 @@ map.on('style.load', async function() {
     }
   };
 
-  // add new observation
-  document.getElementById('addObservationBtn').addEventListener('click', function() {
-    // allow left panel to slide in;
-    let dataCanvas = document.getElementById('info');
-    dataCanvas.classList.remove('slide-out');
-    dataCanvas.classList.add('slide-in');
-    // show add observation information panel
-    toggleLeftPanelView('add-observation')
-  });
-
   // go back button
   document.getElementById('go-back-btn').addEventListener('click', function() {
-    toggleView('d-none');
+    if( !(document.getElementById('validate-observation').classList.contains('d-none')) ) {
+      document.getElementById('validate-observation').classList.toggle('d-none');
+      document.getElementById('validate-observation-btn').classList.toggle ('d-none');
+      document.getElementById('add-review-btn').classList.toggle('d-none');
+      document.getElementById('go-back-btn').classList.toggle('d-none');
+    }
+    toggleLeftPanelView('info-default');
     marker.remove();
   });
 
   // validation button
   // toggleview
   document.getElementById('validate-observation-btn').addEventListener('click', function() {
-    toggleView('d-none');
+    toggleLeftPanelView('validate-observation');
   })
 
   // close button
-  document.getElementById('info-close').addEventListener('click', function(e) {
+  document.getElementById('info-close-btn').addEventListener('click', function(e) {
     // trigger slideout/slide-in btn
-    document.getElementById('info-close-btn').classList.add('d-none');
-    document.getElementById('info').classList.add('slide-out');
-    // reset the form if user closes location information dashboard
-    let defaultDiv = document.getElementById('info-default');
-    let viewBtn = document.getElementById('validate-observation-btn');
-    let hiddenDiv = document.getElementById('validate-observation');
-    let backBtn = document.getElementById('go-back-btn');
-    let addObs = document.getElementById('add-observation');
-    let yearSlider = document.getElementById('slider-time');
-    yearSlider.classList.remove('d-none');
-
-    if (defaultDiv.classList.contains('d-none')) {
-      defaultDiv.classList.remove('d-none');
-      viewBtn.classList.remove('d-none');
-      hiddenDiv.classList.add('d-none');
-      backBtn.classList.add('d-none');
-      addObs.classList.add('d-none');
+    let collapsed = document.getElementById('info').classList.toggle('leftCollapse');
+    let btnCollapse = document.getElementById('info-close-btn').classList.toggle('info-btn-collapse');
+    let btnImg = document.getElementById('leftPanelArrow');
+    if(collapsed) {
+      btnImg.src = './assets/imgs/open-arrow.svg';
+    } else {
+      btnImg.src = './assets/imgs/back-btn.svg';
     }
+    toggleLeftPanelView('references-container');
+    // let padding = {};
 
+    // padding['left'] = collapsed ? 0 : 100;
+    // map.easeTo({
+    //   zoom: padding['left'] = collapsed ? 13  : 12,
+    //   duration: 1000
+    // })
     // clear marker
 
     if (typeof map.getLayer('selectedMarker') !== "undefined") {

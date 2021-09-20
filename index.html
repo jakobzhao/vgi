@@ -47,10 +47,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap" rel="stylesheet">
 
   <!-- GOOGLE SIGN-IN -->
-  <script src="https://apis.google.com/js/api.js?onload=onLibraryLoaded" async defer></script>
-  <script src="https://apis.google.com/js/platform.js?onload=init" async defer></script>
-  <script src="https://apis.google.com/js/api.js"></script>
-
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
 
   <!-- Latest compiled and minified CSS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
@@ -88,12 +85,8 @@
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="#">Data</a>
           </li>
-          <li>
-            <div id="googleSignInBtn" class="g-signin2 btn-custom" data-onsuccess="onSuccess">
-
-              <span class="icon"></span>
-              <span class="buttonText">Google</span>
-            </div>
+          <li class="nav-item d-flex">
+            <div id="signInBtn"></div>
           </li>
           <li>
             <button id="googleSignOutBtn" class="btn btn-outline-light d-none">Sign out</button>
@@ -149,7 +142,7 @@
     </div>
 
     <!-- left dashboard -->
-    <div id="info" class="d-flex flex-column rounded slide-in">
+    <div id="info" class="d-flex flex-column rounded leftCollapsed">
       <!-- references - basemap,sources, venues to be confirmed, user-contributed observations -->
       <div id="references-container">
         <!-- timeline -->
@@ -461,18 +454,10 @@
       </div>
     </div>
 
-    <!-- open button -->
-    <div id="info-open-btn">
-      <button id="info-open" type="button" class="btn">
-        <img src="assets/imgs/open-arrow.svg">
-        <span>Open Panel</span>
-      </button>
-    </div>
-
     <!-- close panel button -->
     <div id="info-close-btn">
       <button id="info-close" type="button" class="btn">
-        <img src="assets/imgs/back-btn.svg">
+        <img id="leftPanelArrow" src="assets/imgs/back-btn.svg">
         <span>Close Panel</span>
       </button>
     </div>
@@ -480,7 +465,7 @@
     <!-- add user observation button -->
     <div id="observation-parent" class="observation">
       <!-- <div class=""> -->
-      <button id="addObservationBtn" class="btn-add-obs" type="button" data-bs-toggle="modal" data-bs-target="#observation">
+      <button id="addObservationBtn" class="btn-add-obs" type="button">
         <i class="fa fa-plus fa-1x"></i>
         <span>Add a missing venue</span>
       </button>
@@ -543,27 +528,6 @@
 
   </main>
   <script src="js/map.js"></script>
-  <script>
-    function onSuccess(googleUser) {
-      console.log('Logged in as: ' + googleUser.getBasicProfile().getName());
-    }
-
-    function onFailure(error) {
-      console.log(error);
-    }
-
-    function renderButton() {
-      gapi.signin2.render('googleSignInBtn', {
-        'scope': 'profile email',
-        'width': 100,
-        'height': 30,
-        'theme': 'dark',
-        'onsuccess': onSuccess,
-        'onfailure': onFailure
-      });
-    };
-  </script>
-  <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
 
   <!-- GOOGLE IMAGES DEFAULT -->
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC7zg5Rb4UJNKsiXIol35wzC0uZmHddj0Q&callback=getPhotos&libraries=places" async></script>
