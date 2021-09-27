@@ -191,7 +191,18 @@ async function getVenueSlice() {
     });
     let venueSliceData = await getVenueSlice.json();
     return toGEOJSON(venueSliceData);
-    // return toGEOJSON(venueSliceData);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+// getObservations
+async function getObservations() {
+  try {
+    let city = "Seattle";
+    let getObservationData = await fetch(`https://lgbtqspaces-api.herokuapp.com/api/observations/${city}`, {method: 'GET'});
+    let observationData = await getObservationData.json();
+    return toGEOJSON(observationData);
   } catch (err) {
     console.log(err);
   }
@@ -275,6 +286,26 @@ function addDataLayer(obsData) {
   });
 };
 
+function addAccordionLayer(data, type) {
+  map.addLayer({
+    'id': (type == 'observation') ? 'unverified-venues' : 'verified-venues',
+    'type': 'circle',
+    'source': {
+      type: 'geojson',
+      data: data
+    },
+    'layout': {
+      'visibility': 'none'
+    },
+    'paint': {
+      'circle-radius': 3,
+      'circle-stroke-width': 2,
+      'circle-color': (type == 'observation') ? 'red' : 'green',
+      'circle-stroke-color': 'white'
+    }
+  });
+};
+
 // basemap switching/styling
 var layerList = document.getElementsByClassName('layers-input-container');
 
@@ -335,7 +366,11 @@ function infoNullCheck(string) {
   return ((string != "null") ? string : 'data unavailable');
 };
 // left panel functionalities (validate observation marker view, selected marker view, map zoom to selected point)
-async function addLeftPanelActions(feature, marker) {
+async function addLeftPanelActions(feature, marker, e) {
+  let coordinates = feature.geometry.coordinates.slice();
+  while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+    coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+  };
   map.flyTo({
     center: feature.geometry.coordinates,
     zoom: 16.5,
@@ -374,7 +409,6 @@ async function addLeftPanelActions(feature, marker) {
 
   // if validate observation is clicked, display movable marker
   let validateObservation = document.getElementById('validate-observation-btn');
-  var coordinates = feature.geometry.coordinates.slice();
 
   validateObservation.addEventListener('click', function() {
     // ensure that user is logged-in
@@ -427,43 +461,46 @@ function constructReviews(reviewData) {
   }
 }
 // add 3-D extrusions
-function addExtrusions(e, hover) {
+function addExtrusions(feature, e) {
   // get the data points that stack on top of each other within the selected year range
-  let layerData = map.queryRenderedFeatures([e.point.x, e.point.y], {
-    layers: ['data']
-  });
-  // sort data by year (from lowest to highest) if layerData detects more than one
-  if (layerData.length > 1) {
-    layerData.sort((a, b) => {
-      return parseFloat(a.properties.year) - parseFloat(b.properties.year);
-    });
+  // let layerData = map.queryRenderedFeatures([e.point.x, e.point.y], {
+  //   layers: ['data']
+  // });
+  let coordinates = feature.geometry.coordinates.slice();
+  while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+    coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
   };
+
+  // sort data by year (from lowest to highest) if layerData detects more than one
+  // if (layerData.length > 1) {
+  //   layerData.sort((a, b) => {
+  //     return parseFloat(a.properties.year) - parseFloat(b.properties.year);
+  //   });
+  // };
 
   const polygonRadius = 0.02;
   let options = {steps: 100, units: 'kilometers'};
 
   var scaleTest = chroma.scale('OrRd').colors(12);
   let yearBlockData = {
-    'type': 'FeatureCollection',
-    'features': layerData.map((location, index) => ({
-      'type': 'Feature',
-      'properties': {
-        'name': location.properties.observedvenuename,
-        'year': location.properties.year,
-        'height': 75,
-        // 'height': (((index == 0) ? 50 : (index + 1) * 150 - 45) + 145),
-        // 'base': ((index == 0) ? 50 : (index + 1) * 150 - 10),
-        'base': 50,
-        'paint': scaleTest[index]
-      },
-      'geometry': {
-        'type': 'Polygon',
-        'coordinates': turf.circle(location.geometry.coordinates, polygonRadius, options).geometry.coordinates
-      },
-      'id': layerData[0].id
-    }))
+    // layerData.map((location, index) => (
+    'type': 'Feature',
+    'properties': {
+      'name': feature.properties.observedvenuename,
+      'year': feature.properties.year,
+      'height': 75,
+      // 'height': (((index == 0) ? 50 : (index + 1) * 150 - 45) + 145),
+      // 'base': ((index == 0) ? 50 : (index + 1) * 150 - 10),
+      'base': 50,
+      'paint': scaleTest[0]
+    },
+    'geometry': {
+      'type': 'Polygon',
+      'coordinates': turf.circle(coordinates, polygonRadius, options).geometry.coordinates
+    },
+    'id': feature.id
+    // ))
   };
-
   map.addLayer({
     'id': 'year-block',
     'type': 'fill-extrusion',
@@ -493,8 +530,6 @@ function addExtrusions(e, hover) {
     }
   });
 };
-
-// 
 
 // add div for the codes corresponding to selected year on the map
 function code_div(data, locationData, year) {
@@ -691,7 +726,6 @@ function addCones(data, active) {
 
       //add mousing interactions
       map.on('click', function(e) {
-
         // Clear old objects
         highlighted.forEach(function(h) {
           h.material = material;
@@ -773,14 +807,20 @@ map.on('style.load', async function() {
   // on slider change
   let defaultYear = parseInt(document.getElementById('single-input').value);
 
-  let obs_data = await displayData();
-  addDataLayer(obs_data);
+  let verifiedData = await displayData();
+  addDataLayer(verifiedData);
   map.setFilter('data', ["==", ['number', ['get', 'year']], defaultYear]);
+
+  // observation data
+  let unverifiedVenues = await getObservations();
+  let verifiedVenues = await getVenueSlice();
+  addAccordionLayer(unverifiedVenues, 'observation');
+  addAccordionLayer(verifiedVenues, 'venue-slice');
 
   // load all code data from database
   let code_data = await allCodes();
   let defaultCodes = codeIncludes(code_data, defaultYear)
-  code_div(defaultCodes, obs_data, defaultYear);
+  code_div(defaultCodes, verifiedData, defaultYear);
 
   let active = false;
   // three js 3D object
@@ -796,7 +836,7 @@ map.on('style.load', async function() {
     // filter map view to selected year
     map.setFilter('data', ["==", ['number', ['get', 'year']], selectYear]);
 
-    let filteredYearData = obs_data.features.filter(function(feature) {
+    let filteredYearData = verifiedData.features.filter(function(feature) {
       return feature.properties.year == selectYear
     });
     // add 3-d shapes and remove previous existing shapes
@@ -808,7 +848,7 @@ map.on('style.load', async function() {
 
     let result = codeIncludes(code_data, selectYear);
     // construct div for each damron code available
-    code_div(result, obs_data, selectYear);
+    code_div(result, verifiedData, selectYear);
   });
 
   // create temporary marker if user wants to validate a location
@@ -822,7 +862,7 @@ map.on('style.load', async function() {
   // let yearRight = document.getElementById('input-right').value;
   let localityParent = document.getElementById('locality-venues');
 
-  let localityFeatures = obs_data.features;
+  let localityFeatures = verifiedData.features;
   // sort locality features
   localityFeatures.sort((a, b) => {
     let firstYear = parseFloat(a.properties.year);
@@ -939,8 +979,10 @@ map.on('style.load', async function() {
       map.removeSource('year-block');
     };
 
-    // clear default user accordion view
-    document.getElementById('references-container').classList.add('d-none');
+    if (typeof map.getLayer('buffer-point') !== "undefined") {
+      map.removeLayer('buffer-point');
+      map.removeSource('buffer-point');
+    };
 
     // clear review box is open
     let reviewBox = document.getElementById('type-review-box');
@@ -950,10 +992,26 @@ map.on('style.load', async function() {
 
     // add all left panel actions (including zoom and adding data points)
     let feature = e.features[0];
-    // view left panel on data click
     viewLeftPanel(feature);
-    addLeftPanelActions(feature, marker);
+    addLeftPanelActions(feature, marker, e);
+    addExtrusions(feature,e);
+    // buffer
+    let turfPoint = turf.point(feature.geometry.coordinates);
+    let buffer = turf.buffer(turfPoint, 500, {units: 'meters'});
+    map.addLayer({
+      id: 'buffer-point',
+      source: {
+        type: 'geojson',
+        data: {"type": "FeatureCollection", "features": [] }
+      },
+      type: "fill",
+      paint: {
+        'fill-color': 'red',
+        'fill-opacity': 0.1
+      }
+    });
 
+    map.getSource('buffer-point').setData(buffer);
     // indicate that this point is a venue
     let venueIndicator = document.getElementById('venue-indicator');
     if (e.features[0].properties.v_id !== undefined) {
@@ -961,9 +1019,6 @@ map.on('style.load', async function() {
     } else {
       venueIndicator.innerHTML = '';
     };
-
-    // add extrusions
-    addExtrusions(e);
 
     // add reviews
     // if add review button is clicked, display add review div box
@@ -1060,6 +1115,11 @@ map.on('style.load', async function() {
       map.removeSource('selectedMarker');
     };
 
+    if (typeof map.getLayer('buffer-point') !== "undefined") {
+      map.removeLayer('buffer-point');
+      map.removeSource('buffer-point');
+    };
+
     if (typeof map.getLayer('year-block') !== 'undefined') {
       // clear 3-D year object
       map.removeLayer('year-block');
@@ -1067,16 +1127,46 @@ map.on('style.load', async function() {
     };
 
   });
-
-
   // Change the cursor to a pointer when the it enters a feature in the 'circle' layer.
   map.on('mouseenter', 'data', function() {
     map.getCanvas().style.cursor = 'pointer';
   });
-
   // Change it back to a pointer when it leaves.
   map.on('mouseleave', 'data', function() {
     map.getCanvas().style.cursor = '';
   });
 
-})
+  // If these two layers were not added to the map, abort
+  if (!map.getLayer('unverified-venues') || !map.getLayer('verified-venues')) {
+    return;
+  }
+  // Enumerate ids of the layers.
+  let unverifiedVenuesBtn = document.getElementById('unverified-venues');
+  let verifiedVenuesBtn = document.getElementById('verified-venues');
+  const toggleableLayerIds = [unverifiedVenuesBtn, verifiedVenuesBtn];
+
+  toggleableLayerIds.forEach(element => {
+    element.addEventListener('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      let clickedLayer = element.id;
+      // get visibility status of current layer
+      const visibility = map.getLayoutProperty(
+        clickedLayer,
+        'visibility'
+      );
+      // Toggle layer visibility by changing the layout object's visibility property.
+      if (visibility === 'none') {
+        map.setLayoutProperty(clickedLayer, 'visibility', 'visible');
+        // this.className = '';
+      } else {
+        map.setLayoutProperty(
+          clickedLayer,
+          'visibility',
+          'none'
+        );
+      }
+    })
+  })
+
+});
