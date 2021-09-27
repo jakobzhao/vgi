@@ -8,7 +8,7 @@
     // init function
     // added init to async (test for bugs!)
     async function init() {
-        document.querySelector('#observation-parent').addEventListener('click', isLoggedIn);
+        document.querySelector('#addObservationBtn').addEventListener('click', isLoggedIn);
         document.getElementById('submit-edit').addEventListener('click', validateObservation);
         document.querySelector("#submit-button").addEventListener('click', newUser);
         document.getElementById('googleSignOutBtn').addEventListener('click', () => {
@@ -32,10 +32,31 @@
             selectionDiv.classList.toggle('d-none');
         });
 
-        displayLoginButton();
-        toggleLeftPanelView('references-container');
+        openLeftPanel();
+
    };
 
+   // opens the default view of the left panel displaying the accordion with explanations
+    function openLeftPanel() {
+        let openBtn = document.getElementById('info-open-btn');
+        let leftPanel = document.getElementById('info');
+        let imgsContainer = document.getElementById('imgs-container');
+        let infoDefault  = document.getElementById('info-default');
+        let validationBtns = document.getElementById('validation-btns');
+        let referencesContainer = document.getElementById('references-container');
+        openBtn.addEventListener('click', function(e) {
+            referencesContainer.classList.remove('d-none');
+            leftPanel.classList.remove('slide-out');
+            leftPanel.classList.add('slide-in');
+            leftPanel.classList.remove('hidden');
+
+            imgsContainer.classList.add('d-none');
+            infoDefault.classList.add('d-none');
+            validationBtns.classList.add('d-none');
+            // show close panel button
+            document.getElementById('info-close-btn').classList.remove('d-none');
+        })
+    };
 
     // function promptLogin(event){
     //     event.preventDefault();
@@ -78,65 +99,46 @@
         document.getElementById('submit-year').value='';
     }
 
-    // displayLoginButton()
-    // Displays the log in Google button
-    function handleCredentialResponse(response) {
-        // console.log("Encoded JWT ID token: " + response.credential);
-        document.getElementById('signInBtn').classList.toggle('d-none');
-        document.getElementById('googleSignOutBtn').classList.toggle('d-none');
-    };
-
-    function displayLoginButton() {
-        google.accounts.id.initialize({
-            client_id: "297181745349-pqlf8v2v6biopsm6bg42js8bbvrs4ing.apps.googleusercontent.com",
-            callback: handleCredentialResponse
-        });
-        google.accounts.id.renderButton(
-            document.getElementById("signInBtn"),
-            { theme: "filled_black", type: "standard", size: "medium", shape: "pill", text: "signin" }  // customization attributes
-        );
-        google.accounts.id.prompt(); // also display the One Tap dialog
-    };
-
     // isLoggedIn()
     // Checks if user is logged in already, on button clicked to add observation.
-    function isLoggedIn() {
-        let signInView = document.getElementById('signInBtn');
-        // if left panel is closed
-        if( document.getElementById('info').classList.contains('leftCollapse')) {
-            let collapseState = document.getElementById('info').classList.toggle('leftCollapse');
-            document.getElementById('info-close-btn').classList.toggle('info-btn-collapse');
-            let btnImg = document.getElementById('leftPanelArrow');
-            if(collapseState) {
-              btnImg.src = './assets/imgs/open-arrow.svg';
+    async function isLoggedIn() {
+        try {
+            document.getElementById('observation').classList.add('hidden');
+            if(gapi.auth2.getAuthInstance().isSignedIn.get()) {
+                // show modal
+                document.getElementById('observation').classList.remove('hidden');
+                document.getElementById('googleSignInBtn').classList.add('d-none');
+                document.getElementById('googleSignOutBtn').classList.remove('d-none');
+                console.log("signed in!");
+                document.getElementById('googleSignOutBtn').addEventListener('click', () =>{
+                    signOut();
+                })
             } else {
-              btnImg.src = './assets/imgs/back-btn.svg';
+                // create a simple modal to notify user have to sign in to add observation
+                console.log("have to sign in to add observation");
+                // prompt google login window screen
+                await gapi.auth2.getAuthInstance().signIn();
+                // show modal
+                document.getElementById('observation').classList.remove('hidden');
             }
-        }
 
-        if(signInView.classList.contains('d-none')) {
-            // if contains display none, means that user is logged in
-            toggleLeftPanelView('add-observation');
-        } else {
-            alert('Please sign in through Google first!');
+        } catch(err) {
+            // hide observation if user is not able to log-in
+            $('#observation').modal('hide');
+            console.log(err);
         }
     }
 
     // sign out the user when clicked on sign out
     function signOut() {
-        if ( !(document.getElementById('add-observation').classList.contains('d-none')) ) {
-            let collapseState = document.getElementById('info').classList.toggle('leftCollapse');
-            document.getElementById('info-close-btn').classList.toggle('info-btn-collapse');
-            let btnImg = document.getElementById('leftPanelArrow');
-            if(collapseState) {
-              btnImg.src = './assets/imgs/open-arrow.svg';
-            } else {
-              btnImg.src = './assets/imgs/back-btn.svg';
-            }
+        var auth2 = gapi.auth2.getAuthInstance();
+        if(gapi.auth2.getAuthInstance().isSignedIn.get()) {
+            document.getElementById('googleSignInBtn').classList.remove('d-none');
+            document.getElementById('googleSignOutBtn').classList.add('d-none');
+            auth2.signOut().then(function () {
+                console.log('User has signed out.');
+            });
         };
-        google.accounts.id.disableAutoSelect();
-        document.getElementById('signInBtn').classList.toggle('d-none');
-        document.getElementById('googleSignOutBtn').classList.toggle('d-none');
     }
 
     async function validateObservation (event) {

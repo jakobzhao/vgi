@@ -20,9 +20,7 @@
   <link href="css/backup.css" rel='stylesheet' />
 
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-  <!-- bootstrap 4.6 is required for bootstrap-select, a feature used in the platform -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
-  <!-- bootstrap 5.1 is required for the overall structure of the platform -->
+  <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script> -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
 
   <script src='https://api.mapbox.com/mapbox-gl-js/v2.3.0/mapbox-gl.js'></script>
@@ -47,7 +45,10 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap" rel="stylesheet">
 
   <!-- GOOGLE SIGN-IN -->
-  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <script src="https://apis.google.com/js/api.js?onload=onLibraryLoaded" async defer></script>
+  <script src="https://apis.google.com/js/platform.js?onload=init" async defer></script>
+  <script src="https://apis.google.com/js/api.js"></script>
+
 
   <!-- Latest compiled and minified CSS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
@@ -55,8 +56,7 @@
   <!-- Latest compiled and minified JavaScript -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
 
-  <!-- turf js  -->
-  <script src='https://unpkg.com/@turf/turf@6/turf.min.js'></script>
+
 
   <script src="js/main.js"></script>
 </head>
@@ -85,8 +85,12 @@
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="#">Data</a>
           </li>
-          <li class="nav-item d-flex">
-            <div id="signInBtn"></div>
+          <li>
+            <div id="googleSignInBtn" class="g-signin2 btn-custom" data-onsuccess="onSuccess">
+
+              <span class="icon"></span>
+              <span class="buttonText">Google</span>
+            </div>
           </li>
           <li>
             <button id="googleSignOutBtn" class="btn btn-outline-light d-none">Sign out</button>
@@ -142,84 +146,29 @@
     </div>
 
     <!-- left dashboard -->
-    <div id="info" class="d-flex flex-column rounded leftCollapsed">
-      <!-- references - basemap,sources, venues to be confirmed, user-contributed observations -->
-      <div id="references-container">
-        <!-- timeline -->
-        <div id="slider-time" class="middle">
-          <div id="timeline-labels" class="labels">
-            <div>
-              <label id="label-year" class="fw-bolder">2005</label>
-            </div>
-            <div class="form-check form-switch base-year">
-              <input class="form-check-input" type="checkbox" checked id="base-year-selection">
-              <label class="form-check-label" for="base-year-selection">Base Year</label>
-            </div>
-          </div>
+    <div id="info" class="d-flex flex-column rounded slide-in">
+      <!-- timeline -->
+      <div id="slider-time" class="middle">
+        <div id="timeline-labels" class="labels">
           <div>
-            <div id="slider">
-              <!-- new single slider -->
-              <input type="range" class="single-slider" id="single-input" min="1965" max="2014" value="2005" oninput="year_val()">
-            </div>
+            <label id="label-year" class="fw-bolder">2005</label>
+          </div>
+          <div class="form-check form-switch base-year">
+            <input class="form-check-input" type="checkbox" checked id="base-year-selection">
+            <label class="form-check-label" for="base-year-selection">Base Year</label>
           </div>
         </div>
-        <div id="views accordion" class="m-2" style="font-size: 15px;">
-          <div class="accordion-item">
-            <h2 class="accordion-header" id="headingTwo">
-              <button class="accordion-button collapsed light-text-title" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                Verified Venues
-              </button>
-            </h2>
-            <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#views">
-              <div class="accordion-body">
-                <small> Most venues are plotted to where they are or nearby on the map. For 1) the virtual venues or 2) the venues relevant to any geographical area in the current map view but their physical locations are unclear, they are not plotted
-                  on the map but listed in the table below.
-                  Click <a href="#"> here</a> for more details.
-                </small>
-                <!-- list of venues -->
-                <div class="container">
-                  <div class="row m-1 pt-2" style="font-size: 11px;">
-                    <div class="col">Name</div>
-                    <div class="col col-sm-3">Reliability</div>
-                  </div>
-                </div>
-                <div id="locality-venues" class="confirmed-venues container">
-                </div>
-                <div class="form-check form-switch">
-                  <input class="form-check-input" type="checkbox" id="reliability-switch">
-                  <label class="form-check-label" for="reliability-switch">Color by how reliable the research team believes in its accuracy. </label>
-                </div>
-              </div>
-            </div>
+        <div>
+          <div id="slider">
+            <!-- new single slider -->
+            <input type="range" class="single-slider" id="single-input" min="1965" max="2014" value="2005" oninput="year_val()">
           </div>
-          <div class="accordion-item">
-            <h2 class="accordion-header" id="headingThree">
-              <button class="accordion-button collapsed light-text-title" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                Unverified Venues
-              </button>
-            </h2>
-            <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#views">
-              <div class="accordion-body">
-                <small>
-                  Unverified venues were contributed by users but has not been verified by the research team. While the map shows any venue assocaited with a specific location, while the table lists 1) the virtual venue and 2) the
-                  venue related to the geographical area in the current map view but its physical location is unclear.
-                  Click <a href="#"> here</a> for more details.
-                </small>
-                <div class="container">
-                  <div class="row m-1 pt-2" style="font-size: 11px;">
-                    <div class="col">Name</div>
-                    <div class="col col-sm-3">Confidence</div>
-                  </div>
-                </div>
-                <!-- list of observations -->
-                <div id="observation-venues" class="confirmed-venues"></div>
-                <div class="form-check form-switch">
-                  <input class="form-check-input" type="checkbox" id="observations-switch">
-                  <label class="form-check-label" for="observations-switch">Color by how confident the contributor feels about its accuracy. </label>
-                </div>
-              </div>
-            </div>
-          </div>
+        </div>
+      </div>
+      <!-- references - basemap,sources, venues to be confirmed, user-contributed observations -->
+      <div id="references-container">
+        <div id="views" class="m-2" style="font-size: 15px;">
+
           <!-- <div class="my-2"> -->
           <!-- add other selections -->
           <!-- <p class="light-text-title">Sources</p>
@@ -241,13 +190,65 @@
             </div> -->
           <!-- </div> -->
 
+          <p class="light-text-title" type="button" data-bs-toggle="collapse" data-bs-target="#venue-card" aria-expanded="false" aria-controls="venue-card">
+            Verified Venues
+          </p>
+
+          <div class="collapse show" id="venue-card">
+            <div class="card card-body">
+              <small> Most venues are plotted to where they are or nearby on the map. For 1) the virtual venues or 2) the venues relevant to any geographical area in the current map view but their physical locations are unclear, they are not plotted
+                on the map but listed in the table below.
+                Click <a href="#"> here </a>for more details.</small>
+              <!-- list of venues -->
+              <div class="container">
+                <div class="row m-1 pt-2" style="font-size: 11px;">
+                  <div class="col">Name</div>
+                  <div class="col col-sm-3">Reliability</div>
+                </div>
+              </div>
+              <div id="locality-venues" class="confirmed-venues container">
+              </div>
+              <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="reliability-switch">
+                <label class="form-check-label" for="reliability-switch">Color by how reliable the research team believes in its accuracy. </label>
+              </div>
+            </div>
+          </div>
+
+
+          <!-- list of observations -->
+          <p class="light-text-title" type="button" data-bs-toggle="collapse" data-bs-target="#observatin-card" aria-expanded="false" aria-controls="observatin-card">
+            Unverified Venues
+          </p>
+          <div class="collapse" id="observatin-card">
+            <div class="card card-body">
+              <small>
+                Unverified venues were contributed by users but has not been verified by the research team. While the map shows any venue assocaited with a specific location, while the table lists 1) the virtual venue and 2) the
+                venue related to the geographical area in the current map view but its physical location is unclear.
+                Click <a href="#"> here </a>for more details.</small>
+
+              <div class="container">
+                <div class="row m-1 pt-2" style="font-size: 11px;">
+                  <div class="col">Name</div>
+                  <div class="col col-sm-3">Confidence</div>
+                </div>
+              </div>
+              <div id="observation-venues" class="confirmed-venues"></div>
+              <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="observations-switch">
+                <label class="form-check-label" for="observations-switch">Color by how confident the contributor feels about its accuracy. </label>
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
 
+      <!-- image holder for location -->
+      <div id="imgs-container" class="d-none">
+      </div>
+      <!-- <small id="imgs-note" > The image above is found from the Internt by searching the name and location on Google Images. </small> -->
       <div id="info-default" class="d-none">
-        <!-- image holder for location -->
-        <div id="imgs-container">
-        </div>
         <!-- Location information-->
         <div class="d-flex flex-column rounded mx-3">
           <hr>
@@ -441,23 +442,31 @@
       </div>
 
       <!-- all reviews container -->
-      <div id="reviews-container" class="mx-3 d-none"></div>
+      <div id="reviews-container" class="mx-3"></div>
 
 
       <div id="footer-container" class="mx-3">
 
-        <p align="right"><img width="50px" src="assets/imgs/uw-logo.png"></img><img width="50px" src="assets/imgs/nsf-logo.png"></img></p>
+        <p align="right"><img width="60px" src="assets/imgs/uw-logo.png"></img><img width="60px" src="assets/imgs/nsf-logo.png"></img></p>
         <small>This geospatial platform is funded by National Science Foundation (NSF),
-          and created and maintained by a team of geographers from the University of Washington.
-        </small>
+          and created and maintained by a team of geographers from the University of Washington. </small>
+
         <!-- The frontend map libraries are from Mapbox, and the data for the basemaps are from OpenStreetMaps -->
       </div>
+    </div>
+
+    <!-- open button -->
+    <div id="info-open-btn">
+      <button id="info-open" type="button" class="btn">
+        <img src="assets/imgs/open-arrow.svg">
+        <span>Open Panel</span>
+      </button>
     </div>
 
     <!-- close panel button -->
     <div id="info-close-btn">
       <button id="info-close" type="button" class="btn">
-        <img id="leftPanelArrow" src="assets/imgs/back-btn.svg">
+        <img src="assets/imgs/back-btn.svg">
         <span>Close Panel</span>
       </button>
     </div>
@@ -465,7 +474,7 @@
     <!-- add user observation button -->
     <div id="observation-parent" class="observation">
       <!-- <div class=""> -->
-      <button id="addObservationBtn" class="btn-add-obs" type="button">
+      <button id="addObservationBtn" class="btn-add-obs" type="button" data-bs-toggle="modal" data-bs-target="#observation">
         <i class="fa fa-plus fa-1x"></i>
         <span>Add a missing venue</span>
       </button>
@@ -528,7 +537,27 @@
 
   </main>
   <script src="js/map.js"></script>
+  <script>
+    function onSuccess(googleUser) {
+      console.log('Logged in as: ' + googleUser.getBasicProfile().getName());
+    }
 
+    function onFailure(error) {
+      console.log(error);
+    }
+
+    function renderButton() {
+      gapi.signin2.render('googleSignInBtn', {
+        'scope': 'profile email',
+        'width': 240,
+        'height': 50,
+        'longtitle': true,
+        'theme': 'dark',
+        'onsuccess': onSuccess,
+        'onfailure': onFailure
+      });
+    }
+  </script>
   <!-- GOOGLE IMAGES DEFAULT -->
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC7zg5Rb4UJNKsiXIol35wzC0uZmHddj0Q&callback=getPhotos&libraries=places" async></script>
 </body>
