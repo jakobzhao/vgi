@@ -800,6 +800,44 @@ function addCones(data, active) {
   });
 };
 
+function displayNearbyObservations(obsData, e){
+  let observationData = obsData.features;
+  let selectedData = e.features[0];
+
+  let coordinates = selectedData.geometry.coordinates.slice();
+  while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+    coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+  };
+
+  const polygonRadius = 0.5;
+  let options = {steps: 100, units: 'kilometers'};
+
+  let points = [];
+  observationData.forEach( (element, index) => {
+    points.push(element.geometry.coordinates);
+  });
+
+  let turfPoints = turf.points(points);
+  let searchWithin = turf.circle(coordinates, polygonRadius, options)
+  let result = turf.pointsWithinPolygon(turfPoints, searchWithin);
+
+  map.addLayer({
+    id: 'nearby-observations',
+    type: 'circle',
+    source: {
+      type: 'geojson',
+      data: {"type": "FeatureCollection", "features": [] }
+    },
+    paint: {
+      'circle-radius': 3,
+      'circle-stroke-width': 2,
+      'circle-color': 'red',
+      'circle-stroke-color': 'white'
+    }
+  });
+  map.getSource('nearby-observations').setData(result);
+};
+
 
 ////////////////////////////////////////////////////////////////////////////////////
 // MAP ON LOAD
@@ -961,6 +999,10 @@ map.on('style.load', async function() {
 
   // trigger review/location information on click of location point of map
   map.on('click', 'data', async function(e) {
+    // get points that are within the boundary for observations
+    // get points that are within the boundary for unverified venues
+    displayNearbyObservations(unverifiedVenues, e);
+
     // marker.remove();
     if( document.getElementById('info').classList.contains('leftCollapse')) {
       let collapseState = document.getElementById('info').classList.toggle('leftCollapse');
@@ -1050,7 +1092,6 @@ map.on('style.load', async function() {
       reviewParent.removeChild(reviewParent.lastChild);
     };
 
-
     document.getElementById('publish-btn').removeEventListener('click', submitNewReview);
     document.getElementById('publish-btn').addEventListener('click', submitNewReview);
     // get all comments of the location
@@ -1117,6 +1158,12 @@ map.on('style.load', async function() {
       map.removeSource('selectedMarker');
     };
 
+    if (typeof map.getLayer('nearby-observations') !== "undefined") {
+      marker.remove();
+      map.removeLayer('nearby-observations');
+      map.removeSource('nearby-observations');
+    };
+
     if (typeof map.getLayer('buffer-point') !== "undefined") {
       map.removeLayer('buffer-point');
       map.removeSource('buffer-point');
@@ -1160,7 +1207,6 @@ map.on('style.load', async function() {
       // Toggle layer visibility by changing the layout object's visibility property.
       if (visibility === 'none') {
         map.setLayoutProperty(clickedLayer, 'visibility', 'visible');
-        // this.className = '';
       } else {
         map.setLayoutProperty(
           clickedLayer,
