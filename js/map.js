@@ -627,13 +627,17 @@ function getPhotos(feature) {
     locationBias: locationBias
   }
   let placeId;
+  let imgChild;
   // send request to get placeid
   let service = new google.maps.places.PlacesService(imgParent);
   service.findPlaceFromQuery(request, (results, status) => {
+    while(imgParent.firstChild) {
+      imgParent.removeChild(imgParent.firstChild);
+    }
     if (status == google.maps.places.PlacesServiceStatus.OK && results) {
       placeId = results[0].place_id;
       // call another function to set
-      let imgChild = setImgURL(service, placeId);
+      imgChild = setImgURL(service, placeId);
       imgParent.appendChild(imgChild);
     } else {
       let imgChildError = document.createElement('img');
@@ -641,7 +645,6 @@ function getPhotos(feature) {
       imgParent.appendChild(imgChildError);
       console.log(status);
     }
-
   });
 };
 
