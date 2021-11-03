@@ -611,6 +611,46 @@ function codeIncludes(codeData, year) {
   return result;
 }
 
+
+// getStreetView
+// Function that uses the Google Street View API to obtain a default streetview of location
+// Requests uses location longitude and latitude to find the picture
+// Parameters:
+//  feature: js object that contains complete data of clicked location
+function getStreetView(feature) {
+  let imgParent = document.getElementById('imgs-container');
+  let location = [feature.geometry.coordinates[1], feature.geometry.coordinates[0]];
+
+  let imageURL = "https://maps.googleapis.com/maps/api/streetview?";
+  let imgParams = new URLSearchParams({
+    location: location[0] + ", " + location[1],
+    size: "1280x720",
+    fov: 90,
+    heading: 70,
+    pitch: 0,
+    // API key linked to personal account currently (GOOGLE CLOUD CONSOLE)
+    key: "AIzaSyC7zg5Rb4UJNKsiXIol35wzC0uZmHddj0Q"
+  });
+
+  let fetchURL = imageURL + imgParams.toString();
+  console.log(fetchURL);
+
+  fetch(fetchURL)
+    .then(response => response.blob())
+    .then(imageBlob => {
+      // remove all current/previous loaded images
+      while(imgParent.firstChild) {
+        imgParent.removeChild(imgParent.firstChild);
+      }
+      let imgChild = document.createElement('img');
+      let imageObjectURL = URL.createObjectURL(imageBlob);
+      imgChild.src = imageObjectURL;
+      imgParent.appendChild(imgChild);
+    })
+
+}
+
+
 // getPhotos
 // Function that utilizes the Google Maps and Places Javascript Library to obtain a default image of a location
 // Requets uses a location bias and location names to search (similar to a google search)
@@ -627,13 +667,17 @@ function getPhotos(feature) {
     locationBias: locationBias
   }
   let placeId;
+  let imgChild;
   // send request to get placeid
   let service = new google.maps.places.PlacesService(imgParent);
   service.findPlaceFromQuery(request, (results, status) => {
+    while(imgParent.firstChild) {
+      imgParent.removeChild(imgParent.firstChild);
+    }
     if (status == google.maps.places.PlacesServiceStatus.OK && results) {
       placeId = results[0].place_id;
       // call another function to set
-      let imgChild = setImgURL(service, placeId);
+      imgChild = setImgURL(service, placeId);
       imgParent.appendChild(imgChild);
     } else {
       let imgChildError = document.createElement('img');
@@ -641,7 +685,6 @@ function getPhotos(feature) {
       imgParent.appendChild(imgChildError);
       console.log(status);
     }
-
   });
 };
 
@@ -798,6 +841,44 @@ function addCones(data, active) {
       tb.update();
     }
   });
+};
+
+function displayNearbyObservations(obsData, e){
+  let observationData = obsData.features;
+  let selectedData = e.features[0];
+
+  let coordinates = selectedData.geometry.coordinates.slice();
+  while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+    coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+  };
+
+  const polygonRadius = 0.5;
+  let options = {steps: 100, units: 'kilometers'};
+
+  let points = [];
+  observationData.forEach( (element, index) => {
+    points.push(element.geometry.coordinates);
+  });
+
+  let turfPoints = turf.points(points);
+  let searchWithin = turf.circle(coordinates, polygonRadius, options)
+  let result = turf.pointsWithinPolygon(turfPoints, searchWithin);
+
+  map.addLayer({
+    id: 'nearby-observations',
+    type: 'circle',
+    source: {
+      type: 'geojson',
+      data: {"type": "FeatureCollection", "features": [] }
+    },
+    paint: {
+      'circle-radius': 3,
+      'circle-stroke-width': 2,
+      'circle-color': 'red',
+      'circle-stroke-color': 'white'
+    }
+  });
+  map.getSource('nearby-observations').setData(result);
 };
 
 
@@ -961,6 +1042,10 @@ map.on('style.load', async function() {
 
   // trigger review/location information on click of location point of map
   map.on('click', 'data', async function(e) {
+    // get points that are within the boundary for observations
+    // get points that are within the boundary for unverified venues
+    displayNearbyObservations(unverifiedVenues, e);
+
     // marker.remove();
     if( document.getElementById('info').classList.contains('leftCollapse')) {
       let collapseState = document.getElementById('info').classList.toggle('leftCollapse');
@@ -1050,13 +1135,13 @@ map.on('style.load', async function() {
       reviewParent.removeChild(reviewParent.lastChild);
     };
 
-
     document.getElementById('publish-btn').removeEventListener('click', submitNewReview);
     document.getElementById('publish-btn').addEventListener('click', submitNewReview);
     // get all comments of the location
     await getReviews(vid);
     // get all photos of the location by the google API
-    getPhotos(feature);
+    // getPhotos(feature);
+    getStreetView(feature);
   });
 
   // helper function to submit new review
@@ -1117,6 +1202,12 @@ map.on('style.load', async function() {
       map.removeSource('selectedMarker');
     };
 
+    if (typeof map.getLayer('nearby-observations') !== "undefined") {
+      marker.remove();
+      map.removeLayer('nearby-observations');
+      map.removeSource('nearby-observations');
+    };
+
     if (typeof map.getLayer('buffer-point') !== "undefined") {
       map.removeLayer('buffer-point');
       map.removeSource('buffer-point');
@@ -1160,7 +1251,6 @@ map.on('style.load', async function() {
       // Toggle layer visibility by changing the layout object's visibility property.
       if (visibility === 'none') {
         map.setLayoutProperty(clickedLayer, 'visibility', 'visible');
-        // this.className = '';
       } else {
         map.setLayoutProperty(
           clickedLayer,
