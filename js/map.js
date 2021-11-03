@@ -611,6 +611,46 @@ function codeIncludes(codeData, year) {
   return result;
 }
 
+
+// getStreetView
+// Function that uses the Google Street View API to obtain a default streetview of location
+// Requests uses location longitude and latitude to find the picture
+// Parameters:
+//  feature: js object that contains complete data of clicked location
+function getStreetView(feature) {
+  let imgParent = document.getElementById('imgs-container');
+  let location = [feature.geometry.coordinates[1], feature.geometry.coordinates[0]];
+
+  let imageURL = "https://maps.googleapis.com/maps/api/streetview?";
+  let imgParams = new URLSearchParams({
+    location: location[0] + ", " + location[1],
+    size: "1280x720",
+    fov: 90,
+    heading: 70,
+    pitch: 0,
+    // API key linked to personal account currently (GOOGLE CLOUD CONSOLE)
+    key: "AIzaSyC7zg5Rb4UJNKsiXIol35wzC0uZmHddj0Q"
+  });
+
+  let fetchURL = imageURL + imgParams.toString();
+  console.log(fetchURL);
+
+  fetch(fetchURL)
+    .then(response => response.blob())
+    .then(imageBlob => {
+      // remove all current/previous loaded images
+      while(imgParent.firstChild) {
+        imgParent.removeChild(imgParent.firstChild);
+      }
+      let imgChild = document.createElement('img');
+      let imageObjectURL = URL.createObjectURL(imageBlob);
+      imgChild.src = imageObjectURL;
+      imgParent.appendChild(imgChild);
+    })
+
+}
+
+
 // getPhotos
 // Function that utilizes the Google Maps and Places Javascript Library to obtain a default image of a location
 // Requets uses a location bias and location names to search (similar to a google search)
@@ -1100,7 +1140,8 @@ map.on('style.load', async function() {
     // get all comments of the location
     await getReviews(vid);
     // get all photos of the location by the google API
-    getPhotos(feature);
+    // getPhotos(feature);
+    getStreetView(feature);
   });
 
   // helper function to submit new review
