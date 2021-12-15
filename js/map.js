@@ -288,24 +288,74 @@ function addDataLayer(obsData) {
   });
 };
 
+// add accordion layer - for verified and unverified venues
 function addAccordionLayer(data, type) {
+  // let comparisons = verifiedData.feature.length;
+  // if(data.features.length < verifiedData.features.length) {
+  //   comparisons = data.feature.length;
+  // };
+  let dataCleaned = data.features;
+  let test = {
+    'type': 'FeatureCollection',
+    'features': dataCleaned.map( (location,index) => ({
+      'type':'Feature',
+      'properties': {'height': 50, 'base': 0 },
+      'geometry': {
+        'type': 'Polygon',
+        'coordinates': turf.bboxPolygon(turf.square(turf.bbox(turf.circle(location.geometry.coordinates, 0.01, { steps: 64 })))).geometry.coordinates
+      }
+    }))
+  };
+
   map.addLayer({
     'id': (type == 'observation') ? 'unverified-venues' : 'verified-venues',
-    'type': 'circle',
+    'type': 'fill-extrusion',
     'source': {
-      type: 'geojson',
-      data: data
+      'type': 'geojson',
+      'data': test,
+      generateId: true,
+      'tolerance': 0
     },
     'layout': {
       'visibility': 'none'
     },
     'paint': {
-      'circle-radius': 3,
-      'circle-stroke-width': 2,
-      'circle-color': (type == 'observation') ? 'red' : 'green',
-      'circle-stroke-color': 'white'
+      'fill-extrusion-color': [
+        'case',
+        ['boolean', ['feature-state', 'hover'], false],
+        'red',
+        'pink'
+      ],
+      'fill-extrusion-base': {
+        'type': 'identity',
+        'property': 'base'
+      },
+      'fill-extrusion-height': {
+        'type': 'identity',
+        'property': 'height'
+      },
+      'fill-extrusion-opacity': 1,
+      'fill-extrusion-vertical-gradient': false,
     }
   });
+
+  // map.addLayer({
+  //   'id': (type == 'observation') ? 'unverified-venues' : 'verified-venues',
+  //   'type': 'circle',
+  //   'source': {
+  //     type: 'geojson',
+  //     data: data
+  //   },
+  //   'layout': {
+  //     'visibility': 'none'
+  //   },
+  //   'paint': {
+  //     'circle-radius': 3,
+  //     'circle-stroke-width': 2,
+  //     'circle-color': (type == 'observation') ? 'red' : 'green',
+  //     'circle-stroke-color': 'white'
+  //   }
+  // });
 };
 
 // basemap switching/styling
@@ -650,7 +700,6 @@ function getStreetView(feature) {
 
 }
 
-
 // getPhotos
 // Function that utilizes the Google Maps and Places Javascript Library to obtain a default image of a location
 // Requets uses a location bias and location names to search (similar to a google search)
@@ -802,11 +851,7 @@ function addCones(data, active) {
 
       //add mousing hover interactions
       map.on('mousemove', function(e) {
-
-
         if (hovered != null) {
-
-
           hovered.material = material;
           if (hovered == highlighted[0]) {
             hovered.material = materialOnClick;
@@ -855,27 +900,54 @@ function displayNearbyObservations(obsData, e){
   const polygonRadius = 0.5;
   let options = {steps: 100, units: 'kilometers'};
 
+  const circleRadius = 0.02;
+  let circleOptions = {steps: 100, units: 'kilometers'};
+
   let points = [];
   observationData.forEach( (element, index) => {
     points.push(element.geometry.coordinates);
   });
 
   let turfPoints = turf.points(points);
-  let searchWithin = turf.circle(coordinates, polygonRadius, options)
+  let searchWithin = turf.circle(coordinates, polygonRadius, options);
   let result = turf.pointsWithinPolygon(turfPoints, searchWithin);
+  // for each point that is within the circle boundary
+  result.features.forEach( (element, index) => {
+    element.geometry = turf.circle(element.geometry.coordinates, circleRadius, circleOptions).geometry;
+    element.properties = {
+      'height': 75,
+      // 'height': (((index == 0) ? 50 : (index + 1) * 150 - 45) + 145),
+      // 'base': ((index == 0) ? 50 : (index + 1) * 150 - 10),
+      'base': 50,
+      'paint': 'green'
+    }
+  });
 
   map.addLayer({
     id: 'nearby-observations',
-    type: 'circle',
+    type: 'fill-extrusion',
     source: {
       type: 'geojson',
-      data: {"type": "FeatureCollection", "features": [] }
+      data: {"type": "FeatureCollection", "features": [] },
+      tolerance: 0
     },
     paint: {
-      'circle-radius': 3,
-      'circle-stroke-width': 2,
-      'circle-color': 'red',
-      'circle-stroke-color': 'white'
+      'fill-extrusion-color': [
+        'case',
+        ['boolean', ['feature-state', 'hover'], false],
+        'red',
+        'pink'
+      ],
+      'fill-extrusion-base': {
+        'type': 'identity',
+        'property': 'base'
+      },
+      'fill-extrusion-height': {
+        'type': 'identity',
+        'property': 'height'
+      },
+      'fill-extrusion-opacity': 1,
+      'fill-extrusion-vertical-gradient': false,
     }
   });
   map.getSource('nearby-observations').setData(result);
@@ -897,6 +969,7 @@ map.on('style.load', async function() {
   // observation data
   let unverifiedVenues = await getObservations();
   let verifiedVenues = await getVenueSlice();
+
   addAccordionLayer(unverifiedVenues, 'observation');
   addAccordionLayer(verifiedVenues, 'venue-slice');
 
