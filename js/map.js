@@ -1334,4 +1334,4 @@ map.on('style.load', async function() {
     })
   })
 
-});
+}); 
