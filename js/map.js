@@ -1213,7 +1213,6 @@ map.on('style.load', async function() {
     // get all comments of the location
     await getReviews(vid);
     // get all photos of the location by the google API
-    // getPhotos(feature);
     getStreetView(feature);
   });
 
@@ -1252,7 +1251,7 @@ map.on('style.load', async function() {
   document.getElementById('info-close-btn').addEventListener('click', function(e) {
     // trigger slideout/slide-in btn
     let collapsed = document.getElementById('info').classList.toggle('leftCollapse');
-    let btnCollapse = document.getElementById('info-close-btn').classList.toggle('info-btn-collapse');
+    document.getElementById('info-close-btn').classList.toggle('info-btn-collapse');
     let btnImg = document.getElementById('leftPanelArrow');
     if(collapsed) {
       btnImg.src = './assets/imgs/open-arrow.svg';
