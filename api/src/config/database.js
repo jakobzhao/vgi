@@ -21,7 +21,7 @@ const pool = new Pool({
 });
 
 pool.on('connect', () => {
-    console.log("Database connection success!");
+    console.log("Database connection success - DOYENNE!");
 });
 
 module.exports = {
