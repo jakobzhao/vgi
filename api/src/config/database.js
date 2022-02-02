@@ -7,12 +7,11 @@ dotenv.config();
 
 
 // database configurations on the local machine
-// const connectionString = 'postgres://postgres:kk5432388@localhost:5432/lgbtqspaces_sys'
-const connectionString = process.env.DATABASE_URL;
+// const connectionString = process.env.DATABASE_URL;
 
 // postgres://{user}:{password}@{hostname}:{port}/{database-name}
 
-// const connectionString = 'postgres://kevin11:kevinkochunyu@gmail.com@doyenne.csde.washington.edu:5432/lgbtqspaces'
+const connectionString = 'postgres://kevin11:Tanganyika@doyenne.csde.washington.edu:5432/lgbtqspaces'
 
 const pool = new Pool({
     connectionString,
