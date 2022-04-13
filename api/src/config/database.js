@@ -11,6 +11,7 @@ const connectionString = process.env.DATABASE_URL;
 
 // postgres://{user}:{password}@{hostname}:{port}/{database-name}
 
+
 const pool = new Pool({
     connectionString,
     ssl: {
