@@ -461,20 +461,21 @@ async function addLeftPanelActions(feature, marker, e) {
 
   // if validate observation is clicked, display movable marker
   let validateObservation = document.getElementById('validate-observation-btn');
+  validateObservation.removeEventListener('click', validateEvent);
+  validateObservation.addEventListener('click', validateEvent);
+};
 
-  validateObservation.addEventListener('click', function() {
-    // ensure that user is logged-in
-    let check = logInCheck();
-    if(check) {
-      marker.setLngLat(coordinates).addTo(map);
-      function onDragEnd() {
-        var lngLat = marker.getLngLat();
-        document.getElementById('long-edit').value = lngLat.lng;
-        document.getElementById('lat-edit').value = lngLat.lat;
-      }
-      marker.on('dragend', onDragEnd);
+function validateEvent() {
+  // ensure that user is logged-in
+  if(logInCheck()) {
+    marker.setLngLat(coordinates).addTo(map);
+    function onDragEnd() {
+      var lngLat = marker.getLngLat();
+      document.getElementById('long-edit').value = lngLat.lng;
+      document.getElementById('lat-edit').value = lngLat.lat;
     }
-  });
+    marker.on('dragend', onDragEnd);
+  }
 };
 
 function logInCheck() {
@@ -639,7 +640,7 @@ function code_div(data, locationData, year) {
         }
       });
       addCones(result, false);
-    })
+    });
 
     // add corresponding style here
     codeDiv.classList.add('dropdown-div');
@@ -1334,4 +1335,3 @@ map.on('style.load', async function() {
     })
   })
 
-});
