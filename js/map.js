@@ -461,6 +461,7 @@ async function addLeftPanelActions(feature, marker, e) {
 
   // if validate observation is clicked, display movable marker
   let validateObservation = document.getElementById('validate-observation-btn');
+
   validateObservation.removeEventListener('click', validateEvent);
   validateObservation.addEventListener('click', validateEvent);
 };
@@ -476,7 +477,7 @@ function validateEvent() {
     }
     marker.on('dragend', onDragEnd);
   }
-};
+}
 
 function logInCheck() {
   let signInView = document.getElementById('signInBtn');
@@ -640,7 +641,7 @@ function code_div(data, locationData, year) {
         }
       });
       addCones(result, false);
-    });
+    })
 
     // add corresponding style here
     codeDiv.classList.add('dropdown-div');
@@ -707,35 +708,37 @@ function getStreetView(feature) {
 // Parameters:
 //  feature: javascript object that contains complete data of a clicked location
 function getPhotos(feature) {
-  let imgParent = document.getElementById('imgs-container');
+  if (typeof feature!== "undefined") {
+    let imgParent = document.getElementById('imgs-container');
 
-  let locationBias = new google.maps.LatLng(feature.geometry.coordinates[1], feature.geometry.coordinates[0]);
-  // set request data location name and set location bias
-  let request = {
-    query: feature.properties.observedvenuename,
-    fields: ["place_id"],
-    locationBias: locationBias
+    let locationBias = new google.maps.LatLng(feature.geometry.coordinates[1], feature.geometry.coordinates[0]);
+    // set request data location name and set location bias
+    let request = {
+      query: feature.properties.observedvenuename,
+      fields: ["place_id"],
+      locationBias: locationBias
+    }
+    let placeId;
+    let imgChild;
+    // send request to get placeid
+    let service = new google.maps.places.PlacesService(imgParent);
+    service.findPlaceFromQuery(request, (results, status) => {
+      while(imgParent.firstChild) {
+        imgParent.removeChild(imgParent.firstChild);
+      }
+      if (status == google.maps.places.PlacesServiceStatus.OK && results) {
+        placeId = results[0].place_id;
+        // call another function to set
+        imgChild = setImgURL(service, placeId);
+        imgParent.appendChild(imgChild);
+      } else {
+        let imgChildError = document.createElement('img');
+        imgChildError.src = './assets/imgs/img-placeholder.svg';
+        imgParent.appendChild(imgChildError);
+        console.log(status);
+      }
+    });
   }
-  let placeId;
-  let imgChild;
-  // send request to get placeid
-  let service = new google.maps.places.PlacesService(imgParent);
-  service.findPlaceFromQuery(request, (results, status) => {
-    while(imgParent.firstChild) {
-      imgParent.removeChild(imgParent.firstChild);
-    }
-    if (status == google.maps.places.PlacesServiceStatus.OK && results) {
-      placeId = results[0].place_id;
-      // call another function to set
-      imgChild = setImgURL(service, placeId);
-      imgParent.appendChild(imgChild);
-    } else {
-      let imgChildError = document.createElement('img');
-      imgChildError.src = './assets/imgs/img-placeholder.svg';
-      imgParent.appendChild(imgChildError);
-      console.log(status);
-    }
-  });
 };
 
 function setImgURL(service, placeId) {
@@ -890,6 +893,10 @@ function addCones(data, active) {
 };
 
 function displayNearbyObservations(obsData, e){
+  if (typeof map.getLayer('nearby-observations') !== "undefined") {
+    map.removeLayer('nearby-observations');
+    map.removeSource('nearby-observations');
+  };
   let observationData = obsData.features;
   let selectedData = e.features[0];
 
@@ -1214,7 +1221,6 @@ map.on('style.load', async function() {
     // get all comments of the location
     await getReviews(vid);
     // get all photos of the location by the google API
-    // getPhotos(feature);
     getStreetView(feature);
   });
 
@@ -1253,7 +1259,7 @@ map.on('style.load', async function() {
   document.getElementById('info-close-btn').addEventListener('click', function(e) {
     // trigger slideout/slide-in btn
     let collapsed = document.getElementById('info').classList.toggle('leftCollapse');
-    let btnCollapse = document.getElementById('info-close-btn').classList.toggle('info-btn-collapse');
+    document.getElementById('info-close-btn').classList.toggle('info-btn-collapse');
     let btnImg = document.getElementById('leftPanelArrow');
     if(collapsed) {
       btnImg.src = './assets/imgs/open-arrow.svg';
@@ -1274,12 +1280,6 @@ map.on('style.load', async function() {
       marker.remove();
       map.removeLayer('selectedMarker');
       map.removeSource('selectedMarker');
-    };
-
-    if (typeof map.getLayer('nearby-observations') !== "undefined") {
-      marker.remove();
-      map.removeLayer('nearby-observations');
-      map.removeSource('nearby-observations');
     };
 
     if (typeof map.getLayer('buffer-point') !== "undefined") {
@@ -1335,3 +1335,4 @@ map.on('style.load', async function() {
     })
   })
 
+});
