@@ -5,7 +5,7 @@ var map = new mapboxgl.Map({
   style: 'mapbox://styles/mapbox/light-v10', // style URL
   center: [-122.33502, 47.61497], // starting position [lng, lat]
   zoom: 14, // starting zoom
-  pitch: 77,
+  pitch: 76,
   bearing: -10.8,
   logoPosition: 'bottom-right',
   attributionControl: false,
