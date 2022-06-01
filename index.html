@@ -100,13 +100,17 @@
     <!-- MAP -->
     <div id="map"></div>
     <!-- search box -->
-    <!-- <div > -->
     <div id="geocoder" class="map-overlay-top d-flex"></div>
-    <!-- </div> -->
 
+    <!-- consider organinzing the following buttons to just one flexbox -->
+
+    <!-- Locality Filter -->
+    <div id="locality-filter" class="position-absolute">
+      <button class="btn mx-5 btn-custom">Locality</button>
+    </div>
     <!-- Category Filter -->
     <div id="category-filter" class="position-absolute">
-      <button class="btn mx-2 btn-custom">Category</button>
+      <button class="btn mx-3 btn-custom">Category</button>
     </div>
 
     <!-- Damron Code Filter -->
@@ -121,7 +125,9 @@
 
     <!-- instructions icon on default landing page -->
     <div id="instructions-info" class="position-absolute">
-      <button class="transparent" data-bs-toggle="modal" data-bs-target="#instructions"><i class="fas fa-question-circle fa-2x mx-2"></i></button>
+      <button class="transparent" data-bs-toggle="modal" data-bs-target="#instructions">
+        <i class="fas fa-question-circle fa-2x mx-2"></i>
+      </button>
       <!-- Modal -->
       <!-- TODO <content> : add image and guidance to the website -->
       <div class="modal fade" id="instructions" tabindex="-1">
