@@ -66,6 +66,13 @@ nav {
   margin-right: 20em;
 }
 
+/* Locality filter */ 
+#locality-filter {
+  right: 0;
+  margin-top: 2em;
+  margin-right: 33.5em;
+}
+
 #instructions-info {
   margin-top: 2em;
   right: 0;
