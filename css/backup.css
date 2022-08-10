@@ -74,6 +74,18 @@ nav {
 
 #dropdown-container {
   position: absolute;
+  width: 200%;
+  height: 250px;
+  margin-left: 0.5em;
+  margin-top: 0.5em;
+  border-radius: 3%;
+  overflow-y: scroll;
+  background-color: white;
+  box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+}
+
+#dropdown-container1 {
+  position: absolute;
   width: 250%;
   height: 250px;
   margin-left: 0.5em;
@@ -83,6 +95,76 @@ nav {
   background-color: white;
   box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
 }
+
+#secondDropdown-container {
+  position: absolute;
+  width: 100%;
+  height: 400px;
+  margin-left: -10.15em;
+  margin-top: 6.5em;
+  border-radius: 3%;
+  overflow-y: scroll;
+  background-color: white;
+  box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+}
+#secondDropdown-container1 {
+  position: absolute;
+  width: 100%;
+  height: 400px;
+  margin-left: -10.15em;
+  margin-top: 9.5em;
+  border-radius: 3%;
+  overflow-y: scroll;
+  background-color: white;
+  box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+}
+#secondDropdown-container2 {
+  position: absolute;
+  width: 100%;
+  height: 400px;
+  margin-left: -10.15em;
+  margin-top: 12.5em;
+  border-radius: 3%;
+  overflow-y: scroll;
+  background-color: white;
+  box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+}
+#secondDropdown-container3 {
+  position: absolute;
+  width: 100%;
+  height: 400px;
+  margin-left: -10.15em;
+  margin-top: 15.5em;
+  border-radius: 3%;
+  overflow-y: scroll;
+  background-color: white;
+  box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+}
+
+#secondDropdown-container4 {
+  position: absolute;
+  width: 100%;
+  height: 400px;
+  margin-left: -10.15em;
+  margin-top: 18em;
+  border-radius: 3%;
+  overflow-y: scroll;
+  background-color: white;
+  box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+}
+
+#secondDropdown-container5 {
+  position: absolute;
+  width: 100%;
+  height: 400px;
+  margin-left: -10.15em;
+  margin-top: 21em;
+  border-radius: 3%;
+  overflow-y: scroll;
+  background-color: white;
+  box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+}
+
 
 /* help text font-size and style */
 .help-text {
@@ -104,7 +186,7 @@ nav {
   align-items: center;
   justify-content: center;
   flex-basis: 21%;
-  margin: 1px;
+  margin: 5px 20px;
   height: 70px;
   font-weight: 500;
 }
@@ -112,6 +194,20 @@ nav {
 .dropdown-div:hover {
   border-radius: 3%;
   background: #8bd5ee;
+}
+
+.dropdown-div-clear {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-basis: 21%;
+  margin: 1px;
+  height: 40px;
+  font-weight: 500;
+}
+
+.dropdown-div-clear:hover {
+  text-decoration: underline;
 }
 
 /* map views */

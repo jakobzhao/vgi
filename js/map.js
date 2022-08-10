@@ -171,12 +171,16 @@ function confirmationReview() {
 // returns a complete GEOJSON data output that is filtered with the matching dates
 async function displayData() {
   try {
-    // current city only seattle - expand to user input in the future
-    let city = "Seattle";
-    let getVenueData = await fetch(`https://lgbtqspaces-api.herokuapp.com/api/venues/${city}`, {
-      method: 'GET'
-    });
-    let venueData = await getVenueData.json();
+    let cityList = ['Seattle', 'Atlanta', 'Cleveland', 'Nashville']
+    let venueData = [];
+    for (let i = 0; i < cityList.length; i++){
+      let city = cityList[i];
+      let getVenueData = await fetch(`https://lgbtqspaces-api.herokuapp.com/api/venues/${city}`, {
+        method: 'GET'
+      });
+      getVenueData = await getVenueData.json();
+      venueData = venueData.concat(getVenueData);
+    }
     return toGEOJSON(venueData);
   } catch (error) {
     console.log(error);
@@ -477,6 +481,52 @@ async function addLeftPanelActions(feature, marker, e) {
   });
 };
 
+// if a specific locality is selected, recenter the map to that locality
+let localitySelectS = document.getElementById('Seattle');
+localitySelectS.addEventListener('click', function() {
+  map.flyTo({
+    center: [-122.3321, 47.6062],
+    zoom: 14,
+    speed: 0.9,
+    pitch: 75,
+    bearing: -25,
+    essential: true
+  });
+})
+let localitySelectA = document.getElementById('Atlanta');
+localitySelectA.addEventListener('click', function() {
+  map.flyTo({
+    center: [-84.3880, 33.7490],
+    zoom: 14,
+    speed: 0.9,
+    pitch: 75,
+    bearing: -25,
+    essential: true
+  });
+})
+let localitySelectN = document.getElementById('Nashville');
+localitySelectN.addEventListener('click', function() {
+  map.flyTo({
+    center: [-86.7816, 36.1627],
+    zoom: 14,
+    speed: 0.9,
+    pitch: 75,
+    bearing: -25,
+    essential: true
+  });
+})
+let localitySelectC = document.getElementById('Cleveland');
+localitySelectC.addEventListener('click', function() {
+  map.flyTo({
+    center: [-81.6944, 41.4993],
+    zoom: 14,
+    speed: 0.9,
+    pitch: 75,
+    bearing: -25,
+    essential: true
+  });
+})
+
 function logInCheck() {
   let signInView = document.getElementById('signInBtn');
   // if left panel is closed
@@ -583,12 +633,112 @@ function addExtrusions(feature, e) {
   });
 };
 
+// // add div for the codes corresponding to selected year on the map
+// function code_div(data, locationData, year) {
+//   let code_parent = document.getElementById('dropdown');
+//   // clear everything in div first (in case already populated with existing data)
+//   while (code_parent.firstChild) {
+//     code_parent.removeChild(code_parent.lastChild);
+//   };
+
+//   let standard = document.createElement('div');
+//   standard.innerHTML = "CLEAR";
+//   standard.title = "Clear all selected filters";
+//   standard.addEventListener('click', function() {
+//     map.setFilter('data', undefined);
+//     // map filter of single year selected by the user
+//     map.setFilter('data', ["==", ['number', ['get', 'year']], year]);
+//     let selectionDiv = document.getElementById('dropdown-container');
+//     selectionDiv.classList.toggle('d-none');
+//     // remove 3D layer
+//     if (map.getLayer('custom-layer')) {
+//       map.removeLayer('custom-layer');
+//     };
+//     let onScreenData = locationData.features.filter(function(feature) {
+//       return feature.properties.year == year
+//     });
+//     console.log(onScreenData);
+//     addCones(onScreenData, false);
+//   });
+
+//   standard.classList.add('dropdown-div');
+//   code_parent.appendChild(standard);
+
+//   // Meta Descriptor: Caution/Restriction
+//   let restrictionDescriptor = document.createElement('div');
+//   restrictionDescriptor.innerHTML = "This panel shows a list of Codes being used during that specific year's version of Damron Guides. Click on a code to screen out the qualified venues. Click \"Clear\" to cancel any applied filter.";
+//   restrictionDescriptor.title = "Meta Descriptor: Caution/Restriction";
+//   restrictionDescriptor.classList.add('metaDescriptor');
+//   code_parent.appendChild(restrictionDescriptor);
+
+//   // for each object in data
+//   for (let code in data) {
+//     let singleCode = data[code];
+//     // check metaDescriptors
+//     if (singleCode.name == "Caution/Restriction") {
+//       let codeDiv = document.createElement('div');
+//       codeDiv.innerHTML = singleCode.code;
+//       codeDiv.title = singleCode.name;
+
+//       // for each code_div add event listener on click to add filter features of the map
+//       codeDiv.addEventListener('click', function() {
+//         map.setFilter('data', ['in', singleCode.code, ['get', 'codedescriptorlist']]);
+//         let selectionDiv = document.getElementById('dropdown-container');
+//         selectionDiv.classList.toggle('d-none');
+
+//         // remove 3D layer
+//         if (map.getLayer('custom-layer')) {
+//           map.removeLayer('custom-layer');
+//         };
+
+//         let result = [];
+//         locationData.features.filter(function(feature) {
+//           if (Array.isArray(feature.properties.codedescriptorlist) && feature.properties.codedescriptorlist.includes(singleCode.code)) {
+//             result.push(feature);
+//           }
+//         });
+//         addCones(result, false);
+//       })
+
+//       // add corresponding style here
+//       codeDiv.classList.add('dropdown-div');
+//       code_parent.appendChild(codeDiv);
+//     }
+//   };
+// }
+
 // add div for the codes corresponding to selected year on the map
 function code_div(data, locationData, year) {
   let code_parent = document.getElementById('dropdown');
+  let code_parent1 = document.getElementById('dropdown1')
+  let code_parent2 = document.getElementById('dropdown2')
+  let code_parent3 = document.getElementById('dropdown3')
+  let code_parent4 = document.getElementById('dropdown4')
+  let code_parent5 = document.getElementById('dropdown5')
+  let Descriptorlist_parent = document.getElementById('codeDescriptorList')
   // clear everything in div first (in case already populated with existing data)
   while (code_parent.firstChild) {
     code_parent.removeChild(code_parent.lastChild);
+  };
+
+  while (code_parent1.firstChild) {
+    code_parent1.removeChild(code_parent1.lastChild);
+  };
+
+  while (code_parent2.firstChild) {
+    code_parent2.removeChild(code_parent2.lastChild);
+  };
+
+  while (code_parent3.firstChild) {
+    code_parent3.removeChild(code_parent3.lastChild);
+  };
+
+  while (code_parent4.firstChild) {
+    code_parent4.removeChild(code_parent4.lastChild);
+  };
+
+  while (code_parent5.firstChild) {
+    code_parent5.removeChild(code_parent5.lastChild);
   };
 
   let standard = document.createElement('div');
@@ -598,8 +748,8 @@ function code_div(data, locationData, year) {
     map.setFilter('data', undefined);
     // map filter of single year selected by the user
     map.setFilter('data', ["==", ['number', ['get', 'year']], year]);
-    let selectionDiv = document.getElementById('dropdown-container');
-    selectionDiv.classList.toggle('d-none');
+    // let selectionDiv = document.getElementById('dropdown-container');
+    // selectionDiv.classList.toggle('d-none');
     // remove 3D layer
     if (map.getLayer('custom-layer')) {
       map.removeLayer('custom-layer');
@@ -611,40 +761,259 @@ function code_div(data, locationData, year) {
     addCones(onScreenData, false);
   });
 
-  standard.classList.add('dropdown-div');
-  code_parent.appendChild(standard);
+  standard.classList.add('dropdown-div-clear');
+  Descriptorlist_parent.appendChild(standard);
+
+  // Meta Descriptor: Entry Descriptors
+  let entryDescriptor = document.createElement('div');
+  entryDescriptor.innerHTML = "Here are all the entry descriptors";
+  entryDescriptor.title = "Meta Descriptor: Entry Descriptors";
+  entryDescriptor.classList.add('metaDescriptor');
+  code_parent.appendChild(entryDescriptor);
 
   // for each object in data
   for (let code in data) {
     let singleCode = data[code];
-    let codeDiv = document.createElement('div');
-    codeDiv.innerHTML = singleCode.code;
-    codeDiv.title = singleCode.name;
+    // check metaDescriptors
+    if (singleCode.name == "Entry Descriptors") {
+      let codeDiv = document.createElement('div');
+      codeDiv.innerHTML = singleCode.code;
+      codeDiv.title = singleCode.name;
 
-    // for each code_div add event listener on click to add filter features of the map
-    codeDiv.addEventListener('click', function() {
-      map.setFilter('data', ['in', singleCode.code, ['get', 'codedescriptorlist']]);
-      let selectionDiv = document.getElementById('dropdown-container');
-      selectionDiv.classList.toggle('d-none');
+      // for each code_div add event listener on click to add filter features of the map
+      codeDiv.addEventListener('click', function() {
+        map.setFilter('data', ['in', singleCode.code, ['get', 'codedescriptorlist']]);
+        let selectionDiv = document.getElementById('dropdown-container');
+        // selectionDiv.classList.toggle('d-none');
 
-      // remove 3D layer
-      if (map.getLayer('custom-layer')) {
-        map.removeLayer('custom-layer');
-      };
+        // remove 3D layer
+        if (map.getLayer('custom-layer')) {
+          map.removeLayer('custom-layer');
+        };
 
-      let result = [];
-      locationData.features.filter(function(feature) {
-        if (Array.isArray(feature.properties.codedescriptorlist) && feature.properties.codedescriptorlist.includes(singleCode.code)) {
-          result.push(feature);
-        }
-      });
-      addCones(result, false);
-    })
+        let result = [];
+        locationData.features.filter(function(feature) {
+          if (Array.isArray(feature.properties.codedescriptorlist) && feature.properties.codedescriptorlist.includes(singleCode.code)) {
+            result.push(feature);
+          }
+        });
+        addCones(result, false);
+      })
 
-    // add corresponding style here
-    codeDiv.classList.add('dropdown-div');
-    code_parent.appendChild(codeDiv);
+      // add corresponding style here
+      codeDiv.classList.add('dropdown-div');
+      code_parent.appendChild(codeDiv);
+    }
+  };
 
+  // Meta Descriptor: User Descriptors
+  let userDescriptor = document.createElement('div');
+  userDescriptor.innerHTML = "Here are all the clientele or user descriptors";
+  userDescriptor.title = "Meta Descriptor: Clientele/User Descriptors";
+  userDescriptor.classList.add('metaDescriptor');
+  code_parent1.appendChild(userDescriptor);
+
+  // for each object in data
+  for (let code in data) {
+    let singleCode = data[code];
+    // check metaDescriptors
+    if (singleCode.name == "Clientele/User Descriptors") {
+      let codeDiv = document.createElement('div');
+      codeDiv.innerHTML = singleCode.code;
+      codeDiv.title = singleCode.name;
+
+      // for each code_div add event listener on click to add filter features of the map
+      codeDiv.addEventListener('click', function() {
+        map.setFilter('data', ['in', singleCode.code, ['get', 'codedescriptorlist']]);
+        let selectionDiv = document.getElementById('dropdown-container');
+        // selectionDiv.classList.toggle('d-none');
+
+        // remove 3D layer
+        if (map.getLayer('custom-layer')) {
+          map.removeLayer('custom-layer');
+        };
+
+        let result = [];
+        locationData.features.filter(function(feature) {
+          if (Array.isArray(feature.properties.codedescriptorlist) && feature.properties.codedescriptorlist.includes(singleCode.code)) {
+            result.push(feature);
+          }
+        });
+        addCones(result, false);
+      })
+
+      // add corresponding style here
+      codeDiv.classList.add('dropdown-div');
+      code_parent1.appendChild(codeDiv);
+    }
+  };
+
+  // Meta Descriptor: Amenity/Service
+  let amenityDescriptor = document.createElement('div');
+  amenityDescriptor.innerHTML = "Amenities/Services";
+  amenityDescriptor.title = "Here are all the amenity or service descriptors";
+  amenityDescriptor.classList.add('metaDescriptor');
+  code_parent2.appendChild(amenityDescriptor);
+
+  // for each object in data
+  for (let code in data) {
+    let singleCode = data[code];
+    // check metaDescriptors
+    if (singleCode.name == "Amenities/Services") {
+      let codeDiv = document.createElement('div');
+      codeDiv.innerHTML = singleCode.code;
+      codeDiv.title = singleCode.name;
+
+      // for each code_div add event listener on click to add filter features of the map
+      codeDiv.addEventListener('click', function() {
+        map.setFilter('data', ['in', singleCode.code, ['get', 'codedescriptorlist']]);
+        let selectionDiv = document.getElementById('dropdown-container');
+        // selectionDiv.classList.toggle('d-none');
+
+        // remove 3D layer
+        if (map.getLayer('custom-layer')) {
+          map.removeLayer('custom-layer');
+        };
+
+        let result = [];
+        locationData.features.filter(function(feature) {
+          if (Array.isArray(feature.properties.codedescriptorlist) && feature.properties.codedescriptorlist.includes(singleCode.code)) {
+            result.push(feature);
+          }
+        });
+        addCones(result, false);
+      })
+
+      // add corresponding style here
+      codeDiv.classList.add('dropdown-div');
+      code_parent2.appendChild(codeDiv);
+    }
+  };
+
+  // Meta Descriptor: Caution/Restriction
+  let restrictionDescriptor = document.createElement('div');
+  restrictionDescriptor.innerHTML = "Caution/Restriction";
+  restrictionDescriptor.title = "Meta Descriptor: Caution/Restriction";
+  restrictionDescriptor.classList.add('metaDescriptor');
+  code_parent3.appendChild(restrictionDescriptor);
+
+  // for each object in data
+  for (let code in data) {
+    let singleCode = data[code];
+    // check metaDescriptors
+    if (singleCode.name == "Caution/Restriction") {
+      let codeDiv = document.createElement('div');
+      codeDiv.innerHTML = singleCode.code;
+      codeDiv.title = singleCode.name;
+
+      // for each code_div add event listener on click to add filter features of the map
+      codeDiv.addEventListener('click', function() {
+        map.setFilter('data', ['in', singleCode.code, ['get', 'codedescriptorlist']]);
+        let selectionDiv = document.getElementById('dropdown-container');
+        // selectionDiv.classList.toggle('d-none');
+
+        // remove 3D layer
+        if (map.getLayer('custom-layer')) {
+          map.removeLayer('custom-layer');
+        };
+
+        let result = [];
+        locationData.features.filter(function(feature) {
+          if (Array.isArray(feature.properties.codedescriptorlist) && feature.properties.codedescriptorlist.includes(singleCode.code)) {
+            result.push(feature);
+          }
+        });
+        addCones(result, false);
+      })
+
+      // add corresponding style here
+      codeDiv.classList.add('dropdown-div');
+      code_parent3.appendChild(codeDiv);
+    }
+  };
+
+  // Meta Descriptor: Organization/Association
+  let organizationDescriptor = document.createElement('div');
+  organizationDescriptor.innerHTML = "organization/association";
+  organizationDescriptor.title = "Meta Descriptor: organization/association";
+  organizationDescriptor.classList.add('metaDescriptor');
+  code_parent4.appendChild(organizationDescriptor);
+
+  // for each object in data
+  for (let code in data) {
+    let singleCode = data[code];
+    // check metaDescriptors
+    if (singleCode.name == "Organization/Association") {
+      let codeDiv = document.createElement('div');
+      codeDiv.innerHTML = singleCode.code;
+      codeDiv.title = singleCode.name;
+
+      // for each code_div add event listener on click to add filter features of the map
+      codeDiv.addEventListener('click', function() {
+        map.setFilter('data', ['in', singleCode.code, ['get', 'codedescriptorlist']]);
+        let selectionDiv = document.getElementById('dropdown-container');
+        // selectionDiv.classList.toggle('d-none');
+
+        // remove 3D layer
+        if (map.getLayer('custom-layer')) {
+          map.removeLayer('custom-layer');
+        };
+
+        let result = [];
+        locationData.features.filter(function(feature) {
+          if (Array.isArray(feature.properties.codedescriptorlist) && feature.properties.codedescriptorlist.includes(singleCode.code)) {
+            result.push(feature);
+          }
+        });
+        addCones(result, false);
+      })
+
+      // add corresponding style here
+      codeDiv.classList.add('dropdown-div');
+      code_parent4.appendChild(codeDiv);
+    }
+  };
+
+  // Meta Descriptor: Other
+  let otherDescriptor = document.createElement('div');
+  otherDescriptor.innerHTML = "Other Descriptors";
+  otherDescriptor.title = "Meta Descriptor: other";
+  otherDescriptor.classList.add('metaDescriptor');
+  code_parent5.appendChild(otherDescriptor);
+
+  // for each object in data
+  for (let code in data) {
+    let singleCode = data[code];
+    // check metaDescriptors
+    if (singleCode.name == "Other") {
+      let codeDiv = document.createElement('div');
+      codeDiv.innerHTML = singleCode.code;
+      codeDiv.title = singleCode.name;
+
+      // for each code_div add event listener on click to add filter features of the map
+      codeDiv.addEventListener('click', function() {
+        map.setFilter('data', ['in', singleCode.code, ['get', 'codedescriptorlist']]);
+        let selectionDiv = document.getElementById('dropdown-container');
+        // selectionDiv.classList.toggle('d-none');
+
+        // remove 3D layer
+        if (map.getLayer('custom-layer')) {
+          map.removeLayer('custom-layer');
+        };
+
+        let result = [];
+        locationData.features.filter(function(feature) {
+          if (Array.isArray(feature.properties.codedescriptorlist) && feature.properties.codedescriptorlist.includes(singleCode.code)) {
+            result.push(feature);
+          }
+        });
+        addCones(result, false);
+      })
+
+      // add corresponding style here
+      codeDiv.classList.add('dropdown-div');
+      code_parent5.appendChild(codeDiv);
+    }
   };
 }
 
@@ -774,9 +1143,17 @@ function addCones(data, active) {
       );
 
       // initialize geometry and material of our cube object
-      let geometry = new THREE.ConeGeometry(20, 40, 32);
+      let geometry = new THREE.ConeGeometry(20, 40, 64);
+      let geometrySup = new THREE.CylinderGeometry( 1, 1, 80, 32);
 
       let material = new THREE.MeshPhysicalMaterial({
+        flatShading: true,
+        color: '#D3B1C2',
+        // transparent: true,
+        // opacity: 0.5
+      });
+
+      let materialSup = new THREE.MeshBasicMaterial({
         flatShading: true,
         color: '#8bd5ee',
         transparent: true,
@@ -786,8 +1163,8 @@ function addCones(data, active) {
       let materialOnClick = new THREE.MeshPhysicalMaterial({
         flatShading: true,
         color: '#ff6262',
-        transparent: true,
-        opacity: 0.5
+        // transparent: true,
+        // opacity: 0.5
       });
 
       let materialOnHover = new THREE.MeshPhysicalMaterial({
@@ -809,11 +1186,24 @@ function addCones(data, active) {
         }
       });
 
+      let lineTemplate = new THREE.Mesh(geometrySup, material);
+      lineTemplate = tb.Object3D({
+        obj: lineTemplate,
+        units: 'meters'
+      }).set({
+        rotation: {
+          x: -90,
+          y: 0,
+          z: 0
+        }
+      });
+
       data.forEach(function(feature) {
         // longitude, latitude, altitude
         let cone = coneTemplate.duplicate().setCoords([feature.geometry.coordinates[0], feature.geometry.coordinates[1], 20]);
-
-        tb.add(cone)
+        let line = lineTemplate.duplicate().setCoords([feature.geometry.coordinates[0], feature.geometry.coordinates[1], 0]);
+        tb.add(cone);
+        tb.add(line);
       })
 
       var highlighted = [];
@@ -850,36 +1240,36 @@ function addCones(data, active) {
       var hovered = null;
 
       //add mousing hover interactions
-      map.on('mousemove', function(e) {
-        if (hovered != null) {
-          hovered.material = material;
-          if (hovered == highlighted[0]) {
-            hovered.material = materialOnClick;
-          }
+      // map.on('mousemove', function(e) {
+      //   if (hovered != null) {
+      //     hovered.material = material;
+      //     if (hovered == highlighted[0]) {
+      //       hovered.material = materialOnClick;
+      //     }
 
-          // hovered.material = material;
-          hovered = null;
-        }
+      //     // hovered.material = material;
+      //     hovered = null;
+      //   }
 
-        // calculate objects intersecting the picking ray
-        var intersect = tb.queryRenderedFeatures(e.point)[0]
-        var intersectionExists = typeof intersect == "object"
+      //   // calculate objects intersecting the picking ray
+      //   var intersect = tb.queryRenderedFeatures(e.point)[0]
+      //   var intersectionExists = typeof intersect == "object"
 
-        // if intersect exists, highlight it
-        if (intersect) {
-          var nearestObject = intersect.object;
-          nearestObject.material = materialOnHover;
-          hovered = nearestObject;
-        } else {
-          console.log("change back");
-        }
+      //   // if intersect exists, highlight it
+      //   if (intersect) {
+      //     var nearestObject = intersect.object;
+      //     nearestObject.material = materialOnHover;
+      //     hovered = nearestObject;
+      //   } else {
+      //     console.log("change back");
+      //   }
 
-        // on state change, fire a repaint
-        if (active !== intersectionExists) {
-          active = intersectionExists;
-          tb.repaint();
-        }
-      });
+      //   // on state change, fire a repaint
+      //   if (active !== intersectionExists) {
+      //     active = intersectionExists;
+      //     tb.repaint();
+      //   }
+      // });
     },
 
     render: function(gl, matrix) {

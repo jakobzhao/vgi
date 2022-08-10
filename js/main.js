@@ -32,6 +32,49 @@
             selectionDiv.classList.toggle('d-none');
         });
 
+        let dmCodeDesBtn = document.getElementById('EntryDescriptors');
+        dmCodeDesBtn.addEventListener('click', function(e){
+            let selectionDiv = document.getElementById('secondDropdown-container');
+            selectionDiv.classList.toggle('d-none')
+        })
+
+        let dmCodeDesBtn1 = document.getElementById('UserDescriptors');
+        dmCodeDesBtn1.addEventListener('click', function(e){
+            let selectionDiv = document.getElementById('secondDropdown-container1');
+            selectionDiv.classList.toggle('d-none')
+        })
+
+        let dmCodeDesBtn2 = document.getElementById('AmenityDescriptors');
+        dmCodeDesBtn2.addEventListener('click', function(e){
+            let selectionDiv = document.getElementById('secondDropdown-container2');
+            selectionDiv.classList.toggle('d-none')
+        })
+
+        let dmCodeDesBtn3 = document.getElementById('CautionDescriptors');
+        dmCodeDesBtn3.addEventListener('click', function(e){
+            let selectionDiv = document.getElementById('secondDropdown-container3');
+            selectionDiv.classList.toggle('d-none')
+        })
+
+        let dmCodeDesBtn4 = document.getElementById('OrganizationDescriptors');
+        dmCodeDesBtn4.addEventListener('click', function(e){
+            let selectionDiv = document.getElementById('secondDropdown-container4');
+            selectionDiv.classList.toggle('d-none')
+        })
+        
+
+        let dmCodeDesBtn5 = document.getElementById('OtherDescriptors');
+        dmCodeDesBtn5.addEventListener('click', function(e){
+            let selectionDiv = document.getElementById('secondDropdown-container5');
+            selectionDiv.classList.toggle('d-none')
+        })
+
+        let dmCodeBtn1 = document.getElementById('damron-code-btn1');
+        dmCodeBtn1.addEventListener('click', function(e){
+            let selectionDiv = document.getElementById('dropdown-container1');
+            selectionDiv.classList.toggle('d-none');
+        });
+
         displayLoginButton();
         toggleLeftPanelView('references-container');
    };
@@ -78,29 +121,32 @@
         document.getElementById('submit-year').value='';
     }
 
-    // displayLoginButton()
-    // Displays the log in Google button
-    function handleCredentialResponse(response) {
-        // console.log("Encoded JWT ID token: " + response.credential);
-        document.getElementById('signInBtn').classList.toggle('d-none');
-        document.getElementById('googleSignOutBtn').classList.toggle('d-none');
-    };
+    // // displayLoginButton()
+    // // Displays the log in Google button
+    // function handleCredentialResponse(response) {
+    //     // console.log("Encoded JWT ID token: " + response.credential);
+    //     document.getElementById('signInBtn').classList.toggle('d-none');
+    //     document.getElementById('googleSignOutBtn').classList.toggle('d-none');
+    // };
 
-    function displayLoginButton() {
-        google.accounts.id.initialize({
-            client_id: "297181745349-pqlf8v2v6biopsm6bg42js8bbvrs4ing.apps.googleusercontent.com",
-            callback: handleCredentialResponse
-        });
-        google.accounts.id.renderButton(
-            document.getElementById("signInBtn"),
-            { theme: "filled_black", type: "standard", size: "medium", shape: "pill", text: "signin" }  // customization attributes
-        );
-        google.accounts.id.prompt(); // also display the One Tap dialog
-    };
+    // function displayLoginButton() {
+    //     google.accounts.id.initialize({
+    //         client_id: "297181745349-pqlf8v2v6biopsm6bg42js8bbvrs4ing.apps.googleusercontent.com",
+    //         callback: handleCredentialResponse
+    //     });
+    //     google.accounts.id.renderButton(
+    //         document.getElementById("signInBtn"),
+    //         { theme: "filled_black", type: "standard", size: "medium", shape: "pill", text: "signin" }  // customization attributes
+    //     );
+    //     google.accounts.id.prompt(); // also display the One Tap dialog
+    // };
+
+    
 
     // isLoggedIn()
     // Checks if user is logged in already, on button clicked to add observation.
     function isLoggedIn() {
+        
         let signInView = document.getElementById('signInBtn');
         // if left panel is closed
         if( document.getElementById('info').classList.contains('leftCollapse')) {
@@ -118,7 +164,7 @@
             // if contains display none, means that user is logged in
             toggleLeftPanelView('add-observation');
         } else {
-            alert('Please sign in through Google first!');
+            alert('Please sign in first!');
         }
     }
 
