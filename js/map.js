@@ -119,6 +119,7 @@ async function getReviews(vid) {
       method: 'GET'
     });
     let reviewData = await getReview.json();
+    console.log(reviewData);
     constructReviews(reviewData);
   } catch (err) {
     console.log(err);
@@ -1379,17 +1380,20 @@ map.on('style.load', async function() {
 
   years.addEventListener('input', async function(e) {
     let selectYear = parseInt(years.value);
+  
     // filter map view to selected year
-    map.setFilter('data', ["==", ['number', ['get', 'year']], selectYear]);
+    // map.setFilter('data', ["==", ['number', ['get', 'year']], selectYear]);
 
-    let filteredYearData = verifiedData.features.filter(function(feature) {
+    let filteredYearData = verifiedVenues.features.filter(function(feature) {
       return feature.properties.year == selectYear
     });
+
     // add 3-d shapes and remove previous existing shapes
     if (map.getLayer('custom-layer')) {
       map.removeLayer('custom-layer');
     };
     // add new custom layer
+    console.log(filteredYearData);
     addCones(filteredYearData, false);
 
     let result = codeIncludes(code_data, selectYear);
@@ -1618,6 +1622,30 @@ map.on('style.load', async function() {
       addNewReview(e, vid);
     }
   };
+
+  async function submitPassword(e) {
+    try {
+      let passwordAttempt = document.getElementById('passwordInput').value;
+      console.log(passwordAttempt)
+      let getResult = await fetch(`http://localhost:3000/api/passphraseCheck/${passwordAttempt}`, {
+        method: 'GET'
+      });
+      let result = await getResult.json();
+      if (result[0]['Result'] == '0') {
+        // alert('Login success!');
+        document.getElementById('signin-modal').innerHTML = '<br>&nbsp;&nbsp;&nbsp;&nbsp;Log in successfully, thank you!<br><br>';
+        document.getElementById('signInBtn').classList.toggle('d-none');
+      } else if (result[0]['Result'] == '1') {
+        alert('Incorrect password, please try again.')
+      } else {
+        console.log('error')
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  document.getElementById('signin-btn').addEventListener('click', submitPassword);
 
   // go back button
   document.getElementById('go-back-btn').addEventListener('click', function() {

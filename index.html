@@ -64,7 +64,7 @@
 <body>
   <nav class="navbar navbar-expand-md py-1 navbar-dark bg-dark">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">{{Placeholder for Logo}}</a>
+      <a class="navbar-brand" href="#"><img width="40px" src="assets/imgs/v9.svg"></img></a>
       <div id="navbar-tabs">
         <ul class="navbar-nav me-auto mb-2 mb-md-0">
           <li class="nav-item">
@@ -93,30 +93,30 @@
           </li>
           <li class="nav-item d-flex">
             <!-- Button trigger modal -->
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" id="signInBtn">
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" id="signInBtn">
               Sign In
             </button>
             <!-- Modal -->
-            <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" id="signInModal">
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
               <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
+                <div class="modal-content" id="signin-modal">
                   <div class="modal-header">
-                    <h5 class="modal-title" id="staticBackdropLabel">Sign In</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Sign In</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                   </div>
-                  <div class="modal-body">
+                  <div class="modal-body" id="signin-body">
                     <!-- <div class="mb-3">
                       <label for="exampleFormControlInput1" class="form-label">Username</label>
                       <input type="email" class="form-control" id="exampleFormControlInput1">
                     </div> -->
                     <div class="mb-3">
                       <label for="exampleFormControlInput1" class="form-label">Password</label>
-                      <input type="email" class="form-control" id="userPassword">
+                      <input type="email" class="form-control" id="passwordInput">
                     </div>
                   </div>
-                  <div class="modal-footer">
+                  <div class="modal-footer" id="signin-footers">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Sign In</button>
+                    <button type="button" class="btn btn-primary" id="signin-btn">Sign In</button>
                   </div>
                 </div>
               </div>
