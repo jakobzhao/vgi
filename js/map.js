@@ -1627,7 +1627,7 @@ map.on('style.load', async function() {
     try {
       let passwordAttempt = document.getElementById('passwordInput').value;
       console.log(passwordAttempt)
-      let getResult = await fetch(`http://localhost:3000/api/passphraseCheck/${passwordAttempt}`, {
+      let getResult = await fetch(`http://127.0.0.1:3000/api/passphraseCheck/${passwordAttempt}`, {
         method: 'GET'
       });
       let result = await getResult.json();
