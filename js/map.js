@@ -1160,7 +1160,8 @@ function addNames(data) {
       'text-field': ['get', 'observedvenuename'],
       'text-variable-anchor': ['left'],
       'text-radial-offset': 0.5,
-      'text-justify': 'right',
+      'text-justify': 'auto',
+      'text-writing-mode': ['vertical'],
     }
   });
 }
