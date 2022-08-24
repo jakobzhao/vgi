@@ -1087,7 +1087,6 @@ function getStreetView(feature) {
 //  feature: javascript object that contains complete data of a clicked location
 function getPhotos(feature) {
   let imgParent = document.getElementById('imgs-container');
-
   let locationBias = new google.maps.LatLng(feature.geometry.coordinates[1], feature.geometry.coordinates[0]);
   // set request data location name and set location bias
   let request = {
@@ -1442,6 +1441,7 @@ map.on('style.load', async function () {
     };
     if (map.getLayer('poi-labels')) {
       map.removeLayer('poi-labels');
+      map.removeSource('venues');
     };
     // add new custom layer
     addCones(filteredYearData, false);
@@ -1562,6 +1562,7 @@ map.on('style.load', async function () {
     // get points that are within the boundary for unverified venues
     if(map.getLayer('nearby-observations')) {
       map.removeLayer('nearby-observations');
+      map.removeSource('nearby-observations');
     }
     displayNearbyObservations(unverifiedVenues, e);
 
