@@ -40,7 +40,7 @@
 
         dmCodeBtn.addEventListener('click', function(e){
             let selectionDiv = document.getElementById('dropdown-container');
-            removeScenes(mainButtons);
+            removeScenes([mainButtons[1]]);
             removeScenes(smallButtons);
             selectionDiv.classList.toggle('d-none');
         });
@@ -91,7 +91,7 @@
         let dmCodeBtn1 = document.getElementById('damron-code-btn1');
         dmCodeBtn1.addEventListener('click', function(e){
             let selectionDiv = document.getElementById('dropdown-container1');
-            removeScenes(mainButtons);
+            removeScenes([mainButtons[0]]);
             removeScenes(smallButtons);
             selectionDiv.classList.toggle('d-none');
         });
