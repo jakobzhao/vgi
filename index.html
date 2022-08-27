@@ -363,7 +363,7 @@
 
       <!-- left dashboard - validate observatoin div -->
       <form id="validate-observation" class="d-flex flex-column d-none mx-3 mt-5">
-        <h3 class="mt-3 mb-0 pb-2">Verify the Location</h3>
+        <h3 class="mt-3 mb-0 pb-2">Ground Truth the Location</h3>
         <div class="form-floating mb-1">
           <input id="observed-name-edit" type="text" class="form-control" required>
           <label for="observed-name-edit">Name of Location:</label>
@@ -425,7 +425,7 @@
 
         <div class="form-floating mb-1">
           <input id="confidence-edit" type="text" class="form-control" required>
-          <label for="confidence-edit">Confidence:</label>
+          <label for="confidence-edit">Confidence Level:</label>
         </div>
 
         <div class="form-floating mb-1">
@@ -439,7 +439,8 @@
       <!-- left dashboard - add observation div -->
       <div id="add-observation" class="d-none mx-4">
         <form id="user-form" class="d-flex flex-column">
-          <h3 class="mt-3 mb-0 pb-2">Add new observation</h3>
+          <!-- <h3 class="mt-3 mb-0 pb-2">Add new observation</h3> -->
+          <h3 class="mt-3 mb-0 pb-2">Add a missing venue</h3>
           <div class="form-floating mb-1">
             <input id="location-api" type="text" class="form-control" required>
             <label for="location-api">Name:</label>
@@ -471,7 +472,7 @@
           <!-- v1 without damron code input -->
           <!-- <label for="damron">Damron Code:</label>
           <input for="damron" type="text" placeholder="Enter code"> -->
-          <label for="confidence-observation">Confidence:</label>
+          <label for="confidence-observation">Confidence Level:</label>
           <div id="confidence-observation"></div>
           <input type="range" min="1" max="5" step="1">
           <div class="sliderticks">
