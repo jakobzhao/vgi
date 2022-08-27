@@ -928,6 +928,10 @@ function code_div(data, locationData, year) {
         // selectionDiv.classList.toggle('d-none');
 
         // remove 3D layer
+        if (map.getLayer('custom-layer')) {
+          map.removeLayer('custom-layer');
+        };
+
         fetch('assets/CodeLookup2.json')
           .then((response) => response.json())
           .then((codeChart) => {
@@ -1225,7 +1229,41 @@ function setImgURL(service, placeId) {
   return imgElement;
 };
 
+function addNames(data) {
+  let result = {}
+  result.type = "FeatureCollection";
+  result.features = [];
+  for(var id in data) {
+    result.features.push(data[id])
+  }
+  console.log(result)
+  map.addSource('venues', {
+    'type': 'geojson',
+    'data': result
+  });
+
+  map.addLayer({
+    'id': 'poi-labels',
+    'type': 'symbol',
+    'source': 'venues',
+    'layout': {
+      'text-field': ['get', 'observedvenuename'],
+      'text-variable-anchor': ['left'],
+      'text-radial-offset': 0.5,
+      'text-justify': 'right',
+      'text-writing-mode': ['vertical'],
+    },
+    'paint': {
+      'text-color': "#444",
+      'text-halo-color': "#fff",
+      'text-halo-width': 2
+    },
+  });
+}
+
+
 function addCones(data, active) {
+  addNames(data);
   map.addLayer({
     id: 'custom-layer',
     type: 'custom',
@@ -1499,6 +1537,10 @@ map.on('style.load', async function () {
     if (map.getLayer('custom-layer')) {
       map.removeLayer('custom-layer');
     };
+    if (map.getLayer('poi-labels')) {
+      map.removeLayer('poi-labels');
+      map.removeSource('venues');
+    };
     // add new custom layer
     console.log(filteredYearData);
     addCones(filteredYearData, false);
@@ -1618,6 +1660,10 @@ map.on('style.load', async function () {
   map.on('click', 'data', async function (e) {
     // get points that are within the boundary for observations
     // get points that are within the boundary for unverified venues
+    if(map.getLayer('nearby-observations')) {
+      map.removeLayer('nearby-observations');
+      map.removeSource('nearby-observations');
+    }
     displayNearbyObservations(unverifiedVenues, e);
 
     // marker.remove();
