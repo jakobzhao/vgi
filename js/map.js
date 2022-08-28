@@ -549,50 +549,6 @@ localityBtns.forEach(localityBtn => {
   });
 });
 
-// let localitySelectS = document.getElementById('Seattle');
-// localitySelectS.addEventListener('click', function () {
-//   map.flyTo({
-//     center: [-122.3321, 47.6062],
-//     zoom: 14,
-//     speed: 0.9,
-//     pitch: 75,
-//     bearing: -25,
-//     essential: true
-//   });
-// })
-// let localitySelectA = document.getElementById('Atlanta');
-// localitySelectA.addEventListener('click', function () {
-//   map.flyTo({
-//     center: [-84.3880, 33.7490],
-//     zoom: 14,
-//     speed: 0.9,
-//     pitch: 75,
-//     bearing: -25,
-//     essential: true
-//   });
-// })
-// let localitySelectN = document.getElementById('Nashville');
-// localitySelectN.addEventListener('click', function () {
-//   map.flyTo({
-//     center: [-86.7816, 36.1627],
-//     zoom: 14,
-//     speed: 0.9,
-//     pitch: 75,
-//     bearing: -25,
-//     essential: true
-//   });
-// })
-// let localitySelectC = document.getElementById('Cleveland');
-// localitySelectC.addEventListener('click', function () {
-//   map.flyTo({
-//     center: [-81.6944, 41.4993],
-//     zoom: 14,
-//     speed: 0.9,
-//     pitch: 75,
-//     bearing: -25,
-//     essential: true
-//   });
-// })
 
 function logInCheck() {
   let signInView = document.getElementById('signInBtn');
