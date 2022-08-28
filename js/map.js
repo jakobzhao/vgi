@@ -1172,7 +1172,7 @@ function getStreetView(feature) {
 
 // getPhotos
 // Function that utilizes the Google Maps and Places Javascript Library to obtain a default image of a location
-// Requets uses a location bias and location names to search (similar to a google search)
+// Requests uses a location bias and location names to search (similar to a google search)
 // Parameters:
 //  feature: javascript object that contains complete data of a clicked location
 function getPhotos(feature) {
