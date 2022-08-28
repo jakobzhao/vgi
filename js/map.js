@@ -1778,13 +1778,18 @@ map.on('style.load', async function () {
 
   async function submitPassword(e) {
     try {
-      let passwordAttempt = document.getElementById('passwordInput').value;
-      passwordAttempt = passwordAttempt.toLowerCase()
-      passwordAttempt = passwordAttempt.split(' ')
-      passwordAttempt.sort()
-      passwordAttempt = passwordAttempt.join(' ')
-      // console.log(passwordAttempt)
-      let getResult = await fetch(`https://lgbtqspaces-api.herokuapp.com/api/passphraseCheck/${passwordAttempt}`, {
+
+      let passphraseAttempts = document.querySelectorAll('.passphrase');
+      let formalizedPassphraseAttempt = "";
+
+
+      passphraseAttempts.forEach(passphraseAttempt => {
+        formalizedPassphraseAttempt += passphraseAttempt.value.toLowerCase() + " ";
+      });
+
+      formalizedPassphraseAttempt = formalizedPassphraseAttempt.split(' ').sort().join(' ').trim();
+
+      let getResult = await fetch(`https://lgbtqspaces-api.herokuapp.com/api/passphraseCheck/${formalizedPassphraseAttempt}`, {
         method: 'GET'
       });
       let result = await getResult.json();

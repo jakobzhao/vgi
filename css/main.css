@@ -804,3 +804,13 @@ div.form-check {
 .modal-backdrop{
     z-index: 1;
 }
+
+
+form {
+    display: flex; /* 2. display flex to the rescue */
+    flex-direction: row;
+}
+
+.passPhrase {
+    display: block; /* 1. oh noes, my inputs are styled as block... */
+  }
