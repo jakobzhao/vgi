@@ -807,12 +807,17 @@ div.form-check {
 
 
 .passphrase-control {
-    display: flex; 
+    display: flex;
     flex-direction: row;
 }
 
 .passphrase {
-    display: block; 
+    display: block;
     margin-left: 0.2em;
     margin-right: 0.2em;
   }
+
+
+.category {
+    padding-bottom: 4px;
+}
