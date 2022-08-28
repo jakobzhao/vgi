@@ -509,7 +509,7 @@ async function addLeftPanelActions(feature, marker, e) {
 
 // if a specific locality is selected, recenter the map to that locality
 
-let localities = {
+const localities = {
   'seattle': {
     center: [-122.3321, 47.6062],
     zoom: 14
@@ -543,8 +543,6 @@ localityBtns.forEach(localityBtn => {
       bearing: -25,
       essential: true
     });
-
-
 
   });
 });
