@@ -806,11 +806,13 @@ div.form-check {
 }
 
 
-form {
-    display: flex; /* 2. display flex to the rescue */
+.passphrase-control {
+    display: flex; 
     flex-direction: row;
 }
 
-.passPhrase {
-    display: block; /* 1. oh noes, my inputs are styled as block... */
+.passphrase {
+    display: block; 
+    margin-left: 0.2em;
+    margin-right: 0.2em;
   }
