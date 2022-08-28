@@ -508,50 +508,91 @@ async function addLeftPanelActions(feature, marker, e) {
 };
 
 // if a specific locality is selected, recenter the map to that locality
-let localitySelectS = document.getElementById('Seattle');
-localitySelectS.addEventListener('click', function () {
-  map.flyTo({
+
+let localities = {
+  'seattle': {
     center: [-122.3321, 47.6062],
-    zoom: 14,
-    speed: 0.9,
-    pitch: 75,
-    bearing: -25,
-    essential: true
-  });
-})
-let localitySelectA = document.getElementById('Atlanta');
-localitySelectA.addEventListener('click', function () {
-  map.flyTo({
+    zoom: 14
+  },
+  'atlanta': {
     center: [-84.3880, 33.7490],
-    zoom: 14,
-    speed: 0.9,
-    pitch: 75,
-    bearing: -25,
-    essential: true
-  });
-})
-let localitySelectN = document.getElementById('Nashville');
-localitySelectN.addEventListener('click', function () {
-  map.flyTo({
+    zoom: 14
+  },
+  'nashville': {
     center: [-86.7816, 36.1627],
-    zoom: 14,
-    speed: 0.9,
-    pitch: 75,
-    bearing: -25,
-    essential: true
-  });
-})
-let localitySelectC = document.getElementById('Cleveland');
-localitySelectC.addEventListener('click', function () {
-  map.flyTo({
+    zoom: 14
+  },
+  'cleveland': {
     center: [-81.6944, 41.4993],
-    zoom: 14,
-    speed: 0.9,
-    pitch: 75,
-    bearing: -25,
-    essential: true
+    zoom: 14
+  }
+
+};
+
+let localityBtns = document.querySelectorAll('.localityBtn');
+
+localityBtns.forEach(localityBtn => {
+  localityBtn.addEventListener('click', function handleClick(event) {
+
+    lName = this.innerText.toLowerCase();
+    map.flyTo({
+      center: localities[lName].center,
+      zoom:  localities[lName].zoom,
+      speed: 0.9,
+      pitch: 75,
+      bearing: -25,
+      essential: true
+    });
+
+
+
   });
-})
+});
+
+// let localitySelectS = document.getElementById('Seattle');
+// localitySelectS.addEventListener('click', function () {
+//   map.flyTo({
+//     center: [-122.3321, 47.6062],
+//     zoom: 14,
+//     speed: 0.9,
+//     pitch: 75,
+//     bearing: -25,
+//     essential: true
+//   });
+// })
+// let localitySelectA = document.getElementById('Atlanta');
+// localitySelectA.addEventListener('click', function () {
+//   map.flyTo({
+//     center: [-84.3880, 33.7490],
+//     zoom: 14,
+//     speed: 0.9,
+//     pitch: 75,
+//     bearing: -25,
+//     essential: true
+//   });
+// })
+// let localitySelectN = document.getElementById('Nashville');
+// localitySelectN.addEventListener('click', function () {
+//   map.flyTo({
+//     center: [-86.7816, 36.1627],
+//     zoom: 14,
+//     speed: 0.9,
+//     pitch: 75,
+//     bearing: -25,
+//     essential: true
+//   });
+// })
+// let localitySelectC = document.getElementById('Cleveland');
+// localitySelectC.addEventListener('click', function () {
+//   map.flyTo({
+//     center: [-81.6944, 41.4993],
+//     zoom: 14,
+//     speed: 0.9,
+//     pitch: 75,
+//     bearing: -25,
+//     essential: true
+//   });
+// })
 
 function logInCheck() {
   let signInView = document.getElementById('signInBtn');
@@ -1233,7 +1274,7 @@ function addNames(data) {
   let result = {}
   result.type = "FeatureCollection";
   result.features = [];
-  for(var id in data) {
+  for (var id in data) {
     result.features.push(data[id])
   }
   console.log(result)
@@ -1660,7 +1701,7 @@ map.on('style.load', async function () {
   map.on('click', 'data', async function (e) {
     // get points that are within the boundary for observations
     // get points that are within the boundary for unverified venues
-    if(map.getLayer('nearby-observations')) {
+    if (map.getLayer('nearby-observations')) {
       map.removeLayer('nearby-observations');
       map.removeSource('nearby-observations');
     }
