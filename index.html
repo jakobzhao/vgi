@@ -4,10 +4,12 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="google-signin-client_id" content="297181745349-1epdpfne773uu4slprtqq6212v5kumci.apps.googleusercontent.com">
+  <meta name="google-signin-client_id"
+    content="297181745349-1epdpfne773uu4slprtqq6212v5kumci.apps.googleusercontent.com">
 
   <!-- <link href="css/bootstrap.min.css" rel="stylesheet"> -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
   <link href='https://api.mapbox.com/mapbox-gl-js/v2.3.0/mapbox-gl.css' rel='stylesheet' />
 
@@ -18,11 +20,17 @@
   <!-- Custom CSS Styling -->
   <link href="css/main.css" rel='stylesheet' />
 
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
+  </script>
   <!-- bootstrap 4.6 is required for bootstrap-select, a feature used in the platform -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous">
+  </script>
   <!-- bootstrap 5.1 is required for the overall structure of the platform -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous">
+  </script>
 
   <script src='https://api.mapbox.com/mapbox-gl-js/v2.3.0/mapbox-gl.js'></script>
 
@@ -30,8 +38,10 @@
   <script src="https://use.fontawesome.com/releases/v5.15.3/js/all.js" crossorigin="anonymous"></script>
 
   <!-- Load the `mapbox-gl-geocoder` plugin. -->
-  <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.min.js"></script>
-  <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.css" type="text/css">
+  <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.min.js">
+  </script>
+  <link rel="stylesheet"
+    href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.css" type="text/css">
   <!-- Promise polyfill script is required -->
   <!-- to use Mapbox GL Geocoder in IE 11. -->
   <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.min.js"></script>
@@ -94,11 +104,13 @@
           </li>
           <li class="nav-item d-flex">
             <!-- Button trigger modal -->
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" id="signInBtn">
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"
+              id="signInBtn">
               Sign In
             </button>
             <!-- Modal -->
-            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+              aria-hidden="true">
               <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content" id="signin-modal">
                   <div class="modal-header">
@@ -136,6 +148,27 @@
     <div id="geocoder" class="map-overlay-top d-flex"></div>
     <!-- </div> -->
 
+    <!-- timeline -->
+    <div id="slider-time" class="map-overlay-top-below d-flex">
+      <div id="timeline-labels" class="labels">
+        <div>
+          <label id="label-year" class="fw-bolder">2005</label>
+        </div>
+        <!-- Bo: I feel it is unnecessary to show the base year -->
+        <!-- <div class="form-check form-switch base-year">
+                  <input class="form-check-input" type="checkbox" checked id="base-year-selection">
+                  <label class="form-check-label" for="base-year-selection">Base Year</label>
+                </div> -->
+      </div>
+      <div>
+        <div id="slider">
+          <!-- new single slider -->
+          <input type="range" class="single-slider" id="single-input" min="1965" max="2014" value="2005"
+            oninput="year_val()">
+        </div>
+      </div>
+    </div>
+
     <!-- Category Filter -->
     <div id="category-filter" class="position-absolute">
       <button id="damron-code-btn1" class="btn mx-2 btn-custom">Localities</button>
@@ -154,13 +187,16 @@
     <div id="damron-code-filter" class="position-absolute">
       <button id="damron-code-btn" class="btn mx-2 btn-custom">Code Descriptors</button>
       <div id="dropdown-container" class="d-none" style="height: 425px;">
-        <p class="m-3 help-text">This panel shows a list of Codes being used during that specific year's edition of Damron's Guides. Click on a code to screen out the qualified venues. Click "Clear" to cancel any applied filter. </p>
+        <p class="m-3 help-text">This panel shows a list of Codes being used during that specific year's edition of
+          Damron's Guides. Click on a code to screen out the qualified venues. Click "Clear" to cancel any applied
+          filter. </p>
         <div class="d-grid gap-2" style="margin: 0 0.5rem 0.5rem 0.5rem;" id="codeDescriptorList">
           <button class="btn btn-outline-secondary" id="EntryDescriptors" type="button">Entry Descriptors</button>
           <button class="btn btn-outline-secondary" id="UserDescriptors" type="button">User Descriptors</button>
           <button class="btn btn-outline-secondary" id="AmenityDescriptors" type="button">Amenity Descriptors</button>
           <button class="btn btn-outline-secondary" id="CautionDescriptors" type="button">Caution Descriptors</button>
-          <button class="btn btn-outline-secondary" id="OrganizationDescriptors" type="button">Organization Descriptors</button>
+          <button class="btn btn-outline-secondary" id="OrganizationDescriptors" type="button">Organization
+            Descriptors</button>
           <button class="btn btn-outline-secondary" id="OtherDescriptors" type="button">Other</button>
         </div>
       </div>
@@ -192,7 +228,8 @@
 
     <!-- instructions icon on default landing page -->
     <div id="instructions-info" class="position-absolute">
-      <button class="transparent" data-bs-toggle="modal" data-bs-target="#instructions"><i class="fas fa-question-circle fa-2x mx-2"></i></button>
+      <button class="transparent" data-bs-toggle="modal" data-bs-target="#instructions"><i
+          class="fas fa-question-circle fa-2x mx-2"></i></button>
       <!-- Modal -->
       <!-- TODO <content> : add image and guidance to the website -->
       <div class="modal fade" id="instructions" tabindex="-1">
@@ -216,35 +253,22 @@
     <div id="info" class="d-flex flex-column rounded leftCollapsed">
       <!-- references - basemap,sources, venues to be confirmed, user-contributed observations -->
       <div id="references-container">
-        <!-- timeline -->
-        <div id="slider-time" class="middle">
-          <div id="timeline-labels" class="labels">
-            <div>
-              <label id="label-year" class="fw-bolder">2005</label>
-            </div>
-            <!-- Bo: I feel it is unnecessary to show the base year -->
-            <!-- <div class="form-check form-switch base-year">
-              <input class="form-check-input" type="checkbox" checked id="base-year-selection">
-              <label class="form-check-label" for="base-year-selection">Base Year</label>
-            </div> -->
-          </div>
-          <div>
-            <div id="slider">
-              <!-- new single slider -->
-              <input type="range" class="single-slider" id="single-input" min="1965" max="2014" value="2005" oninput="year_val()">
-            </div>
-          </div>
-        </div>
+
         <div id="views accordion" class="m-2" style="font-size: 15px;">
           <div class="accordion-item">
             <h2 class="accordion-header" id="headingTwo">
-              <button id = "verified-venues" class="accordion-button collapsed light-text-title" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+              <button id="verified-venues" class="accordion-button collapsed light-text-title" type="button"
+                data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false"
+                aria-controls="collapseTwo">
                 Venues
               </button>
             </h2>
-            <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#views">
+            <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
+              data-bs-parent="#views">
               <div class="accordion-body">
-                <small> Most venues are plotted to where they are or nearby on the map. For 1) the virtual venues or 2) the venues relevant to any geographical area in the current map view but their physical locations are unclear, they are not plotted
+                <small> Most venues are plotted to where they are or nearby on the map. For 1) the virtual venues or 2)
+                  the venues relevant to any geographical area in the current map view but their physical locations are
+                  unclear, they are not plotted
                   on the map but listed in the table below.
                   Click <a href="#"> here</a> for more details.
                 </small>
@@ -259,18 +283,22 @@
                 </div>
                 <div class="form-check form-switch">
                   <input class="form-check-input" type="checkbox" id="reliability-switch">
-                  <label class="form-check-label" for="reliability-switch">Color by how reliable the research team believes in its accuracy. </label>
+                  <label class="form-check-label" for="reliability-switch">Color by how reliable the research team
+                    believes in its accuracy. </label>
                 </div>
               </div>
             </div>
           </div>
           <div class="accordion-item">
             <h2 class="accordion-header" id="headingThree">
-              <button id="unverified-venues" class="accordion-button collapsed light-text-title" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+              <button id="unverified-venues" class="accordion-button collapsed light-text-title" type="button"
+                data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false"
+                aria-controls="collapseThree">
                 Observations
               </button>
             </h2>
-            <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#views">
+            <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
+              data-bs-parent="#views">
               <div class="accordion-body">
                 <small>
                   Observations are contributed by users but has not been reviewed by the research team.
@@ -287,7 +315,8 @@
                 <div id="observation-venues" class="confirmed-venues"></div>
                 <div class="form-check form-switch">
                   <input class="form-check-input" type="checkbox" id="observations-switch">
-                  <label class="form-check-label" for="observations-switch">Color by how confident the contributor feels about its accuracy. </label>
+                  <label class="form-check-label" for="observations-switch">Color by how confident the contributor feels
+                    about its accuracy. </label>
                 </div>
               </div>
             </div>
@@ -520,7 +549,8 @@
 
       <div id="footer-container" class="mx-3">
 
-        <p align="right"><img width="50px" src="assets/imgs/uw-logo.png"></img><img width="50px" src="assets/imgs/nsf-logo.png"></img></p>
+        <p align="right"><img width="50px" src="assets/imgs/uw-logo.png"></img><img width="50px"
+            src="assets/imgs/nsf-logo.png"></img></p>
         <small>This geospatial platform is funded by National Science Foundation (NSF),
           and created and maintained by a team of geographers from the University of Washington.
         </small>
@@ -569,7 +599,8 @@
         <div class="layers-container m-1">
           <div class="layers-input-container">
             <!-- <label for="satellite-v9">Satellite</label> -->
-            <input id="satellite-v9" class="input-container" type="image" src="assets/imgs/satellite.PNG" name="rtoggle">
+            <input id="satellite-v9" class="input-container" type="image" src="assets/imgs/satellite.PNG"
+              name="rtoggle">
           </div>
         </div>
         <div class="layers-container m-1">

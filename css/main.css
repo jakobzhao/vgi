@@ -30,6 +30,14 @@ nav {
     padding-right: 3.5em;
 }
 
+.map-overlay-top-below {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding-top: 10.2em;
+    padding-right: 3.5em;
+}
+
 /* for right side panel */
 .map-overlay-left {
     position: absolute;
@@ -533,6 +541,12 @@ nav {
     margin-bottom: 0.2em;
 }
 
+
+div.slider {
+    padding-top: 1em;
+    /* padding-left: 2em; */
+
+}
 /* #observations-switch, #reliability-switch {
   /* margin-left: -2em; */
 /* } */
@@ -773,7 +787,7 @@ div.form-check {
 }
 
 #references-container {
-    margin-top: 1em;
+    margin-top: 4em;
 }
 
 #footer-container {
