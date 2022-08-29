@@ -744,6 +744,7 @@ function code_div(data, locationData, year) {
   let code_parent4 = document.getElementById('dropdown4')
   let code_parent5 = document.getElementById('dropdown5')
   let Descriptorlist_parent = document.getElementById('codeDescriptorList')
+  
   // clear everything in div first (in case already populated with existing data)
   while (code_parent.firstChild) {
     code_parent.removeChild(code_parent.lastChild);
@@ -793,6 +794,8 @@ function code_div(data, locationData, year) {
   Descriptorlist_parent.appendChild(standard);
 
   let codeChartList = []
+
+
 
   // Meta Descriptor: Entry Descriptors
   let entryDescriptor = document.createElement('div');
@@ -847,6 +850,10 @@ function code_div(data, locationData, year) {
     }
   };
 
+
+
+
+
   // Meta Descriptor: User Descriptors
   let userDescriptor = document.createElement('div');
   userDescriptor.innerHTML = "Here are all the clientele or user descriptors";
@@ -874,7 +881,7 @@ function code_div(data, locationData, year) {
           map.removeLayer('custom-layer');
         };
 
-        fetch('assets/CodeLookup1.json')
+        fetch('assets/CodeLookup.json')
           .then((response) => response.json())
           .then((codeChart) => {
             codefilter = []
@@ -927,7 +934,7 @@ function code_div(data, locationData, year) {
           map.removeLayer('custom-layer');
         };
 
-        fetch('assets/CodeLookup2.json')
+        fetch('assets/CodeLookup.json')
           .then((response) => response.json())
           .then((codeChart) => {
             codefilter = []
@@ -980,7 +987,7 @@ function code_div(data, locationData, year) {
           map.removeLayer('custom-layer');
         };
 
-        fetch('assets/CodeLookup3.json')
+        fetch('assets/CodeLookup.json')
           .then((response) => response.json())
           .then((codeChart) => {
             codefilter = []
@@ -1033,7 +1040,7 @@ function code_div(data, locationData, year) {
           map.removeLayer('custom-layer');
         };
 
-        fetch('assets/CodeLookup4.json')
+        fetch('assets/CodeLookup.json')
           .then((response) => response.json())
           .then((codeChart) => {
             codefilter = []
@@ -1086,7 +1093,7 @@ function code_div(data, locationData, year) {
           map.removeLayer('custom-layer');
         };
 
-        fetch('assets/CodeLookup5.json')
+        fetch('assets/CodeLookup.json')
           .then((response) => response.json())
           .then((codeChart) => {
             codefilter = []
