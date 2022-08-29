@@ -706,9 +706,9 @@ function code_div(codes, venueSlices, year) {
   })
 
 
-  // while (codeParent.firstChild) {
-  //   codeParent.removeChild(codeParent.firstChild);
-  // }
+  while (codeParent.firstChild) {
+    codeParent.removeChild(codeParent.firstChild);
+  }
 
 
   let codeNames = [];
