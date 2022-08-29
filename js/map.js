@@ -665,16 +665,11 @@ function code_div(codes, venueSlices, year) {
 
   let codeParent = document.getElementById('codeDescriptorList');
 
+  codeParent.classList.remove('d-none');
+
   while (codeParent.firstChild) {
     codeParent.removeChild(codeParent.firstChild);
   }
-
-
-
-
-
-
-
 
 
   let codeNames = [];
@@ -754,6 +749,7 @@ function code_div(codes, venueSlices, year) {
     clear.innerHTML = '<a class="dropdown-item dropdown-div-clear" title="Clear all selected filters" href="#"> Clear </a>';
 
     clear.addEventListener('click', function () {
+      // codeParent.classList.add('d-none');
       map.setFilter('data', undefined);
       // map filter of single year selected by the user
       map.setFilter('data', ["==", ['number', ['get', 'year']], year]);
@@ -768,6 +764,7 @@ function code_div(codes, venueSlices, year) {
       });
       console.log(onScreenData);
       addCones(onScreenData, false);
+      
     });
   
 

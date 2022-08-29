@@ -192,60 +192,15 @@
     </div>
 
     <!-- Damron Code Filter
-    <div id="damron-code-filter" class="position-absolute">
-      <button id="damron-code-btn" class="btn mx-2 btn-custom">Code Descriptors</button>
-      <div id="dropdown-container" class="d-none" style="height: 425px;">
-        <p class="m-3 help-text">This panel shows a list of Codes being used during that specific year's edition of
-          Damron's Guides. Click on a code to screen out the qualified venues. Click "Clear" to cancel any applied
-          filter. </p>
-        <div class="d-grid gap-2" style="margin: 0 0.5rem 0.5rem 0.5rem;" id="codeDescriptorList">
-          <button class="btn btn-outline-secondary" id="EntryDescriptors" type="button">Entry Descriptors</button>
-          <button class="btn btn-outline-secondary" id="UserDescriptors" type="button">User Descriptors</button>
-          <button class="btn btn-outline-secondary" id="AmenityDescriptors" type="button">Amenity Descriptors</button>
-          <button class="btn btn-outline-secondary" id="CautionDescriptors" type="button">Caution Descriptors</button>
-          <button class="btn btn-outline-secondary" id="OrganizationDescriptors" type="button">Organization
-            Descriptors</button>
-          <button class="btn btn-outline-secondary" id="OtherDescriptors" type="button">Other</button>
-        </div>
-      </div>
-      <div id="secondDropdown-container" class="d-none">
-        <div id="dropdown" class="dropdown-style">
-        </div>
-      </div>
-      <div id="secondDropdown-container1" class="d-none">
-        <div id="dropdown1" class="dropdown-style">
-        </div>
-      </div>
-      <div id="secondDropdown-container2" class="d-none">
-        <div id="dropdown2" class="dropdown-style">
-        </div>
-      </div>
-      <div id="secondDropdown-container3" class="d-none">
-        <div id="dropdown3" class="dropdown-style">
-        </div>
-      </div>
-      <div id="secondDropdown-container4" class="d-none">
-        <div id="dropdown4" class="dropdown-style">
-        </div>
-      </div>
-      <div id="secondDropdown-container5" class="d-none">
-        <div id="dropdown5" class="dropdown-style">
-        </div>
-      </div>
-    </div> -->
-
     <!-- https://mdbootstrap.com/docs/standard/extended/dropdown-multilevel/# -->
     <div id="damron-code-filter" class="position-absolute dropdown">
       <button id="damron-code-btn" class="btn mx-2 btn-custom dropdown-toggle" data-mdb-toggle="dropdown"
         aria-expanded="false" type="button">Code Descriptors</button>
-      <!-- <div id="dropdown-container" class= style="height: 425px;"> -->
       <!-- <p class="m-3 help-text">This panel shows a list of Codes being used during that specific year's edition of
               Damron's Guides. Click on a code to screen out the qualified venues. Click "Clear" to cancel any applied
               filter. </p> -->
-      <ul class="d-grid  dropdown-menu" id="codeDescriptorList" aria-labelledby="dropdownMenuButton">
+      <ul class="d-grid dropdown-menu d-none" id="codeDescriptorList" aria-labelledby="dropdownMenuButton">
       </ul>
-      <!-- </div> -->
-
     </div>
 
     <!-- instructions icon on default landing page -->
