@@ -809,7 +809,6 @@ function code_div(data, locationData, year) {
       let codeDiv = document.createElement('div');
       codeDiv.innerHTML = singleCode.code;
       codeDiv.title = singleCode.name;
-
       // for each code_div add event listener on click to add filter features of the map
       codeDiv.addEventListener('click', function () {
         map.setFilter('data', ['in', singleCode.code, ['get', 'codedescriptorlist']]);
@@ -831,6 +830,7 @@ function code_div(data, locationData, year) {
             })
             console.log(codefilter[0][year])
             let result = [];
+            let options = [];
             locationData.features.filter(function (feature) {
               if (Array.isArray(feature.properties.codedescriptorlist) && feature.properties.codedescriptorlist.includes(codefilter[0][year])) {
                 result.push(feature);
@@ -1484,6 +1484,41 @@ function displayNearbyObservations(obsData, e) {
   map.getSource('nearby-observations').setData(result);
 };
 
+function loadOptions(data){
+  let dataSlice = [[], [], [], [], []];
+  console.log(data);
+  Object.entries(data).forEach(([key, value]) => {
+    if (value.name == 'Entry Descriptors') {
+      dataSlice[0].push(value.code);
+    } else if (value.name == 'Clientele/User Descriptors') {
+      dataSlice[1].push(value.code);
+    } else if (value.name == 'Amenities/Services') {
+      dataSlice[2].push(value.code);
+    } else if (value.name == 'Caution/Restriction') {
+      dataSlice[3].push(value.code);
+    } else if (value.name == 'Organization/Association') {
+      dataSlice[4].push(value.code);
+    }
+  });
+  console.log(dataSlice);
+  let categories = document.querySelectorAll('.type');
+  let i = 0
+  for (let category of categories) {
+    addCategory(category, dataSlice[i])
+    i+=1;
+  }
+}
+
+// Add category options in add missing venues
+function addCategory(category, data) {
+  category.innerHTML = '';
+  for(var object of data) {
+    let option = document.createElement('option');
+    option.value = object;
+    option.innerHTML = object;
+    category.appendChild(option);
+  }
+}
 
 ////////////////////////////////////////////////////////////////////////////////////
 // MAP ON LOAD
@@ -1506,6 +1541,7 @@ map.on('style.load', async function () {
 
   // load all code data from database
   let code_data = await allCodes();
+  loadOptions(code_data);
   let defaultCodes = codeIncludes(code_data, defaultYear)
   code_div(defaultCodes, verifiedData, defaultYear);
 
