@@ -100,11 +100,11 @@
         toggleLeftPanelView('references-container');
    };
 
-    function removeScenes(buttons) {
-        for (var btn of buttons) {
-            btn.classList.add('d-none');
-        }
+   function removeScenes(buttons) {
+    for (var btn of buttons) {
+     btn.classList.add('d-none');
     }
+}
     // function promptLogin(event){
     //     event.preventDefault();
     //     $("#myModal").modal('show');

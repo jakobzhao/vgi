@@ -4,10 +4,12 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="google-signin-client_id" content="297181745349-1epdpfne773uu4slprtqq6212v5kumci.apps.googleusercontent.com">
+  <meta name="google-signin-client_id"
+    content="297181745349-1epdpfne773uu4slprtqq6212v5kumci.apps.googleusercontent.com">
 
   <!-- <link href="css/bootstrap.min.css" rel="stylesheet"> -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
   <link href='https://api.mapbox.com/mapbox-gl-js/v2.3.0/mapbox-gl.css' rel='stylesheet' />
 
@@ -17,13 +19,18 @@
 
   <!-- Custom CSS Styling -->
   <link href="css/main.css" rel='stylesheet' />
-  <link href="css/backup.css" rel='stylesheet' />
 
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
+  </script>
   <!-- bootstrap 4.6 is required for bootstrap-select, a feature used in the platform -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous">
+  </script>
   <!-- bootstrap 5.1 is required for the overall structure of the platform -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous">
+  </script>
 
   <script src='https://api.mapbox.com/mapbox-gl-js/v2.3.0/mapbox-gl.js'></script>
 
@@ -31,8 +38,10 @@
   <script src="https://use.fontawesome.com/releases/v5.15.3/js/all.js" crossorigin="anonymous"></script>
 
   <!-- Load the `mapbox-gl-geocoder` plugin. -->
-  <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.min.js"></script>
-  <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.css" type="text/css">
+  <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.min.js">
+  </script>
+  <link rel="stylesheet"
+    href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.css" type="text/css">
   <!-- Promise polyfill script is required -->
   <!-- to use Mapbox GL Geocoder in IE 11. -->
   <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.min.js"></script>
@@ -64,27 +73,29 @@
 <body>
   <nav class="navbar navbar-expand-md py-1 navbar-dark bg-dark">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#"><img width="40px" src="assets/imgs/v9.svg"></img></a>
+      <a class="navbar-brand" href="#"><img width="40px" src="assets/imgs/logo.png"></img> Shifting LGBTQ+ Spaces</a>
+
       <div id="navbar-tabs">
         <ul class="navbar-nav me-auto mb-2 mb-md-0">
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="#">Home</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link active" href="#">About</a>
-          </li>
-          <li class="nav-item">
+
+          <!-- <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="#">Team</a>
-          </li>
+          </li> -->
           <li class="nav-item">
             <a class="nav-link" aria-current="page" href="#">Map</a>
           </li>
           <li class="nav-item">
+            <a class="nav-link active" href="#">About</a>
+          </li>
+          <!-- <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="#">Methodology</a>
           </li>
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="#">Data</a>
-          </li>
+          </li> -->
           <!-- <li class="nav-item d-flex">
             <div id="signInBtn"></div>
           </li> -->
@@ -93,11 +104,13 @@
           </li>
           <li class="nav-item d-flex">
             <!-- Button trigger modal -->
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" id="signInBtn">
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"
+              id="signInBtn">
               Sign In
             </button>
             <!-- Modal -->
-            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+              aria-hidden="true">
               <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content" id="signin-modal">
                   <div class="modal-header">
@@ -110,8 +123,12 @@
                       <input type="email" class="form-control" id="exampleFormControlInput1">
                     </div> -->
                     <div class="mb-3">
-                      <label for="exampleFormControlInput1" class="form-label">Password</label>
-                      <input type="email" class="form-control" id="passwordInput">
+                      <label class="form-label help-text">Please input the passphrase to sign in this geospatial platform.</label>
+                      <form class="passphrase-control">
+                      <input type="password" class="form-control passphrase">
+                      <input type="password" class="form-control passphrase">
+                      <input type="password" class="form-control passphrase">
+                      </form>
                     </div>
                   </div>
                   <div class="modal-footer" id="signin-footers">
@@ -135,16 +152,37 @@
     <div id="geocoder" class="map-overlay-top d-flex"></div>
     <!-- </div> -->
 
+    <!-- timeline -->
+    <div id="slider-time" class="map-overlay-top-below d-flex">
+      <div id="timeline-labels" class="labels">
+        <div>
+          <label id="label-year" class="fw-bolder">2005</label>
+        </div>
+        <!-- Bo: I feel it is unnecessary to show the base year -->
+        <!-- <div class="form-check form-switch base-year">
+                  <input class="form-check-input" type="checkbox" checked id="base-year-selection">
+                  <label class="form-check-label" for="base-year-selection">Base Year</label>
+                </div> -->
+      </div>
+      <div>
+        <div id="slider">
+          <!-- new single slider -->
+          <input type="range" class="single-slider" id="single-input" min="1965" max="2014" value="2005"
+            oninput="year_val()">
+        </div>
+      </div>
+    </div>
+
     <!-- Category Filter -->
     <div id="category-filter" class="position-absolute">
       <button id="damron-code-btn1" class="btn mx-2 btn-custom">Localities</button>
       <div id="dropdown-container1" class="d-none">
-        <p class="m-3 help-text">Here are all the cities we have tracked so far.</p>
+        <p class="m-3 help-text">Here are all the localities we have tracked so far.</p>
         <div class="d-grid gap-2" style="margin: 0 0.5rem 0.5rem 0.5rem;">
-          <button class="btn btn-outline-secondary" id="Seattle" type="button">Seattle</button>
-          <button class="btn btn-outline-secondary" id="Atlanta" type="button">Atlanta</button>
-          <button class="btn btn-outline-secondary" id="Cleveland" type="button">Cleveland</button>
-          <button class="btn btn-outline-secondary" id="Nashville" type="button">Nashville</button>
+          <button class="btn btn-outline-secondary localityBtn" type="button">Seattle</button>
+          <button class="btn btn-outline-secondary localityBtn" type="button">Atlanta</button>
+          <button class="btn btn-outline-secondary localityBtn" type="button">Cleveland</button>
+          <button class="btn btn-outline-secondary localityBtn" type="button">Nashville</button>
         </div>
       </div>
     </div>
@@ -153,13 +191,16 @@
     <div id="damron-code-filter" class="position-absolute">
       <button id="damron-code-btn" class="btn mx-2 btn-custom">Code Descriptors</button>
       <div id="dropdown-container" class="d-none" style="height: 425px;">
-        <p class="m-3 help-text">This panel shows a list of Codes being used during that specific year's version of Damron Guides. Click on a code to screen out the qualified venues. Click "Clear" to cancel any applied filter. </p>
+        <p class="m-3 help-text">This panel shows a list of Codes being used during that specific year's edition of
+          Damron's Guides. Click on a code to screen out the qualified venues. Click "Clear" to cancel any applied
+          filter. </p>
         <div class="d-grid gap-2" style="margin: 0 0.5rem 0.5rem 0.5rem;" id="codeDescriptorList">
           <button class="btn btn-outline-secondary" id="EntryDescriptors" type="button">Entry Descriptors</button>
           <button class="btn btn-outline-secondary" id="UserDescriptors" type="button">User Descriptors</button>
           <button class="btn btn-outline-secondary" id="AmenityDescriptors" type="button">Amenity Descriptors</button>
           <button class="btn btn-outline-secondary" id="CautionDescriptors" type="button">Caution Descriptors</button>
-          <button class="btn btn-outline-secondary" id="OrganizationDescriptors" type="button">Organization Descriptors</button>
+          <button class="btn btn-outline-secondary" id="OrganizationDescriptors" type="button">Organization
+            Descriptors</button>
           <button class="btn btn-outline-secondary" id="OtherDescriptors" type="button">Other</button>
         </div>
       </div>
@@ -191,7 +232,8 @@
 
     <!-- instructions icon on default landing page -->
     <div id="instructions-info" class="position-absolute">
-      <button class="transparent" data-bs-toggle="modal" data-bs-target="#instructions"><i class="fas fa-question-circle fa-2x mx-2"></i></button>
+      <button class="transparent" data-bs-toggle="modal" data-bs-target="#instructions"><i
+          class="fas fa-question-circle fa-2x mx-2"></i></button>
       <!-- Modal -->
       <!-- TODO <content> : add image and guidance to the website -->
       <div class="modal fade" id="instructions" tabindex="-1">
@@ -215,34 +257,22 @@
     <div id="info" class="d-flex flex-column rounded leftCollapsed">
       <!-- references - basemap,sources, venues to be confirmed, user-contributed observations -->
       <div id="references-container">
-        <!-- timeline -->
-        <div id="slider-time" class="middle">
-          <div id="timeline-labels" class="labels">
-            <div>
-              <label id="label-year" class="fw-bolder">2005</label>
-            </div>
-            <div class="form-check form-switch base-year">
-              <input class="form-check-input" type="checkbox" checked id="base-year-selection">
-              <label class="form-check-label" for="base-year-selection">Base Year</label>
-            </div>
-          </div>
-          <div>
-            <div id="slider">
-              <!-- new single slider -->
-              <input type="range" class="single-slider" id="single-input" min="1965" max="2014" value="2005" oninput="year_val()">
-            </div>
-          </div>
-        </div>
+
         <div id="views accordion" class="m-2" style="font-size: 15px;">
           <div class="accordion-item">
             <h2 class="accordion-header" id="headingTwo">
-              <button id = "verified-venues" class="accordion-button collapsed light-text-title" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                Verified Venues
+              <button id="verified-venues" class="accordion-button collapsed light-text-title" type="button"
+                data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false"
+                aria-controls="collapseTwo">
+                Venues
               </button>
             </h2>
-            <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#views">
+            <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
+              data-bs-parent="#views">
               <div class="accordion-body">
-                <small> Most venues are plotted to where they are or nearby on the map. For 1) the virtual venues or 2) the venues relevant to any geographical area in the current map view but their physical locations are unclear, they are not plotted
+                <small> Most venues are plotted to where they are or nearby on the map. For 1) the virtual venues or 2)
+                  the venues relevant to any geographical area in the current map view but their physical locations are
+                  unclear, they are not plotted
                   on the map but listed in the table below.
                   Click <a href="#"> here</a> for more details.
                 </small>
@@ -257,22 +287,26 @@
                 </div>
                 <div class="form-check form-switch">
                   <input class="form-check-input" type="checkbox" id="reliability-switch">
-                  <label class="form-check-label" for="reliability-switch">Color by how reliable the research team believes in its accuracy. </label>
+                  <label class="form-check-label" for="reliability-switch">Color by how reliable the research team
+                    believes in its accuracy. </label>
                 </div>
               </div>
             </div>
           </div>
           <div class="accordion-item">
             <h2 class="accordion-header" id="headingThree">
-              <button id="unverified-venues" class="accordion-button collapsed light-text-title" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                Unverified Venues
+              <button id="unverified-venues" class="accordion-button collapsed light-text-title" type="button"
+                data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false"
+                aria-controls="collapseThree">
+                Observations
               </button>
             </h2>
-            <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#views">
+            <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
+              data-bs-parent="#views">
               <div class="accordion-body">
                 <small>
-                  Unverified venues were contributed by users but has not been verified by the research team. While the map shows any venue assocaited with a specific location, while the table lists 1) the virtual venue and 2) the
-                  venue related to the geographical area in the current map view but its physical location is unclear.
+                  Observations are contributed by users but has not been reviewed by the research team.
+                  <!-- While the map shows any venue associated with a specific location, while the table lists 1) the virtual venue and 2) the venue related to the geographical area in the current map view but its physical location is unclear. -->
                   Click <a href="#"> here</a> for more details.
                 </small>
                 <div class="container">
@@ -285,7 +319,8 @@
                 <div id="observation-venues" class="confirmed-venues"></div>
                 <div class="form-check form-switch">
                   <input class="form-check-input" type="checkbox" id="observations-switch">
-                  <label class="form-check-label" for="observations-switch">Color by how confident the contributor feels about its accuracy. </label>
+                  <label class="form-check-label" for="observations-switch">Color by how confident the contributor feels
+                    about its accuracy. </label>
                 </div>
               </div>
             </div>
@@ -362,7 +397,7 @@
 
       <!-- left dashboard - validate observatoin div -->
       <form id="validate-observation" class="d-flex flex-column d-none mx-3 mt-5">
-        <h3 class="mt-3 mb-0 pb-2">Verify the Location</h3>
+        <h3 class="mt-3 mb-0 pb-2">Ground Truth the Location</h3>
         <div class="form-floating mb-1">
           <input id="observed-name-edit" type="text" class="form-control" required>
           <label for="observed-name-edit">Name of Location:</label>
@@ -424,7 +459,7 @@
 
         <div class="form-floating mb-1">
           <input id="confidence-edit" type="text" class="form-control" required>
-          <label for="confidence-edit">Confidence:</label>
+          <label for="confidence-edit">Confidence Level:</label>
         </div>
 
         <div class="form-floating mb-1">
@@ -438,7 +473,8 @@
       <!-- left dashboard - add observation div -->
       <div id="add-observation" class="d-none mx-4">
         <form id="user-form" class="d-flex flex-column">
-          <h3 class="mt-3 mb-0 pb-2">Add new observation</h3>
+          <!-- <h3 class="mt-3 mb-0 pb-2">Add new observation</h3> -->
+          <h3 class="mt-3 mb-0 pb-2">Add a missing venue</h3>
           <div class="form-floating mb-1">
             <input id="location-api" type="text" class="form-control" required>
             <label for="location-api">Name:</label>
@@ -459,6 +495,70 @@
             <input id="type-api" type="text" class="form-control" required>
             <label for="type-api">Category:</label>
           </div>
+          <div class="row g-2 category">
+            <div class="col-md">
+              <div class="form-floating">
+                <select class="form-select" id="EntryGrid" aria-label="Floating label select example">
+                  <option value="1">One</option>
+                  <option value="2">Two</option>
+                  <option value="3">Three</option>
+                </select>
+                <label for="EntryGrid">Entry</label>
+              </div>
+            </div>
+            <div class="col-md">
+              <div class="form-floating">
+                <select class="form-select" id="UserGrid" aria-label="Floating label select example">
+                  <option value="1">One</option>
+                  <option value="2">Two</option>
+                  <option value="3">Three</option>
+                </select>
+                <label for="UserGrid">User</label>
+              </div>
+            </div>
+            <div class="col-md">
+              <div class="form-floating">
+                <select class="form-select" id="AmenityGrid" aria-label="Floating label select example">
+                  <option value="1">One</option>
+                  <option value="2">Two</option>
+                  <option value="3">Three</option>
+                </select>
+                <label for="AmenityGrid">Amenity</label>
+              </div>
+            </div>
+          </div>
+          <div class="row g-2 category">
+            <div class="col-md">
+              <div class="form-floating">
+                <select class="form-select" id="CautionGrid" aria-label="Floating label select example">
+                  <option value="1">One</option>
+                  <option value="2">Two</option>
+                  <option value="3">Three</option>
+                </select>
+                <label for="CautionGrid">Caution</label>
+              </div>
+            </div>
+            <div class="col-md">
+              <div class="form-floating">
+                <select class="form-select" id="OrganizationGrid" aria-label="Floating label select example">
+                  <option value="1">One</option>
+                  <option value="2">Two</option>
+                  <option value="3">Three</option>
+                </select>
+                <label for="OrganizationGrid">Organization</label>
+              </div>
+            </div>
+            <div class="col-md">
+              <div class="form-floating">
+                <select class="form-select" id="OtherGrid" aria-label="Floating label select example">
+                  <option value="1">One</option>
+                  <option value="2">Two</option>
+                  <option value="3">Three</option>
+                </select>
+                <label for="OtherGrid">Other</label>
+              </div>
+            </div>
+          </div>
           <div class="form-floating mb-1">
             <input id="submit-year" type="number" class="form-control" required>
             <label for="submit-year">Year:</label>
@@ -470,7 +570,7 @@
           <!-- v1 without damron code input -->
           <!-- <label for="damron">Damron Code:</label>
           <input for="damron" type="text" placeholder="Enter code"> -->
-          <label for="confidence-observation">Confidence:</label>
+          <label for="confidence-observation">Confidence Level:</label>
           <div id="confidence-observation"></div>
           <input type="range" min="1" max="5" step="1">
           <div class="sliderticks">
@@ -517,7 +617,8 @@
 
       <div id="footer-container" class="mx-3">
 
-        <p align="right"><img width="50px" src="assets/imgs/uw-logo.png"></img><img width="50px" src="assets/imgs/nsf-logo.png"></img></p>
+        <p align="right"><img width="50px" src="assets/imgs/uw-logo.png"></img><img width="50px"
+            src="assets/imgs/nsf-logo.png"></img></p>
         <small>This geospatial platform is funded by National Science Foundation (NSF),
           and created and maintained by a team of geographers from the University of Washington.
         </small>
@@ -566,7 +667,8 @@
         <div class="layers-container m-1">
           <div class="layers-input-container">
             <!-- <label for="satellite-v9">Satellite</label> -->
-            <input id="satellite-v9" class="input-container" type="image" src="assets/imgs/satellite.PNG" name="rtoggle">
+            <input id="satellite-v9" class="input-container" type="image" src="assets/imgs/satellite.PNG"
+              name="rtoggle">
           </div>
         </div>
         <div class="layers-container m-1">
@@ -601,7 +703,7 @@
   <script src="js/map.js"></script>
 
   <!-- GOOGLE IMAGES DEFAULT -->
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC7zg5Rb4UJNKsiXIol35wzC0uZmHddj0Q&callback=getPhotos&libraries=places" async></script>
+  <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC7zg5Rb4UJNKsiXIol35wzC0uZmHddj0Q&callback=getPhotos&libraries=places" async></script> -->
 </body>
 
 </html>

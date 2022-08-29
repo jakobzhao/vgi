@@ -13,6 +13,8 @@ var map = new mapboxgl.Map({
   hash: true
 });
 
+
+
 document.getElementsByClassName('mapboxgl-ctrl-top-right')[0].classList.add('navi-ctrls');
 // geocoding search bar
 let geocoder = new MapboxGeocoder({
@@ -192,12 +194,23 @@ async function displayData() {
 // Obtain data from database that contains all the venue slices in database
 async function getVenueSlice() {
   try {
-    let city = 'Seattle';
-    let getVenueSlice = await fetch(`https://lgbtqspaces-api.herokuapp.com/api/venueSlice/${city}`, {
-      method: 'GET'
-    });
-    let venueSliceData = await getVenueSlice.json();
-    return toGEOJSON(venueSliceData);
+    // let city = 'Seattle';
+    // let getVenueSlice = await fetch(`https://lgbtqspaces-api.herokuapp.com/api/venueSlice/${city}`, {
+    //   method: 'GET'
+    // });
+    // let venueSliceData = await getVenueSlice.json();
+
+    let cityList = ['Seattle', 'Atlanta', 'Cleveland', 'Nashville']
+    let venueData = [];
+    for (let i = 0; i < cityList.length; i++) {
+      let city = cityList[i];
+      let getVenueData = await fetch(`https://lgbtqspaces-api.herokuapp.com/api/venueSlice/${city}`, {
+        method: 'GET'
+      });
+      getVenueData = await getVenueData.json();
+      venueData = venueData.concat(getVenueData);
+    }
+    return toGEOJSON(venueData);
   } catch (err) {
     console.log(err);
   }
@@ -318,6 +331,7 @@ function addAccordionLayer(data, type) {
       }
     }))
   };
+
   map.addLayer({
     'id': (type == 'observation') ? 'unverified-venues' : 'verified-venues',
     'type': 'fill-extrusion',
@@ -378,6 +392,10 @@ function switchLayer(layer) {
 
   // adjust slider text color when changing basemaps
   // document.getElementById('slider-time').setAttribute("style", "color: black;");
+
+
+  var layers = map.getStyle().layers;
+
 };
 
 // assign switch layer function for all radio button inputs
@@ -490,50 +508,45 @@ async function addLeftPanelActions(feature, marker, e) {
 };
 
 // if a specific locality is selected, recenter the map to that locality
-let localitySelectS = document.getElementById('Seattle');
-localitySelectS.addEventListener('click', function () {
-  map.flyTo({
+
+const localities = {
+  'seattle': {
     center: [-122.3321, 47.6062],
-    zoom: 14,
-    speed: 0.9,
-    pitch: 75,
-    bearing: -25,
-    essential: true
-  });
-})
-let localitySelectA = document.getElementById('Atlanta');
-localitySelectA.addEventListener('click', function () {
-  map.flyTo({
+    zoom: 14
+  },
+  'atlanta': {
     center: [-84.3880, 33.7490],
-    zoom: 14,
-    speed: 0.9,
-    pitch: 75,
-    bearing: -25,
-    essential: true
-  });
-})
-let localitySelectN = document.getElementById('Nashville');
-localitySelectN.addEventListener('click', function () {
-  map.flyTo({
+    zoom: 14
+  },
+  'nashville': {
     center: [-86.7816, 36.1627],
-    zoom: 14,
-    speed: 0.9,
-    pitch: 75,
-    bearing: -25,
-    essential: true
-  });
-})
-let localitySelectC = document.getElementById('Cleveland');
-localitySelectC.addEventListener('click', function () {
-  map.flyTo({
+    zoom: 14
+  },
+  'cleveland': {
     center: [-81.6944, 41.4993],
-    zoom: 14,
-    speed: 0.9,
-    pitch: 75,
-    bearing: -25,
-    essential: true
+    zoom: 14
+  }
+
+};
+
+let localityBtns = document.querySelectorAll('.localityBtn');
+
+localityBtns.forEach(localityBtn => {
+  localityBtn.addEventListener('click', function handleClick(event) {
+
+    lName = this.innerText.toLowerCase();
+    map.flyTo({
+      center: localities[lName].center,
+      zoom:  localities[lName].zoom,
+      speed: 0.9,
+      pitch: 75,
+      bearing: -25,
+      essential: true
+    });
+
   });
-})
+});
+
 
 function logInCheck() {
   let signInView = document.getElementById('signInBtn');
@@ -718,6 +731,10 @@ function addExtrusions(feature, e) {
 //   };
 // }
 
+function code_conversion(lookupCode) {
+
+}
+
 // add div for the codes corresponding to selected year on the map
 function code_div(data, locationData, year) {
   let code_parent = document.getElementById('dropdown');
@@ -727,6 +744,7 @@ function code_div(data, locationData, year) {
   let code_parent4 = document.getElementById('dropdown4')
   let code_parent5 = document.getElementById('dropdown5')
   let Descriptorlist_parent = document.getElementById('codeDescriptorList')
+  
   // clear everything in div first (in case already populated with existing data)
   while (code_parent.firstChild) {
     code_parent.removeChild(code_parent.lastChild);
@@ -775,6 +793,10 @@ function code_div(data, locationData, year) {
   standard.classList.add('dropdown-div-clear');
   Descriptorlist_parent.appendChild(standard);
 
+  let codeChartList = []
+
+
+
   // Meta Descriptor: Entry Descriptors
   let entryDescriptor = document.createElement('div');
   entryDescriptor.innerHTML = "Here are all the entry descriptors";
@@ -802,13 +824,24 @@ function code_div(data, locationData, year) {
           map.removeLayer('custom-layer');
         };
 
-        let result = [];
-        locationData.features.filter(function (feature) {
-          if (Array.isArray(feature.properties.codedescriptorlist) && feature.properties.codedescriptorlist.includes(singleCode.code)) {
-            result.push(feature);
-          }
-        });
-        addCones(result, false);
+        fetch('assets/CodeLookup.json')
+          .then((response) => response.json())
+          .then((codeChart) => {
+            codefilter = []
+            codeChartList = Object.values(codeChart)
+            codefilter = codeChartList.filter(function (feature) {
+              return feature.Descriptor == singleCode.code
+            })
+            console.log(codefilter[0][year])
+            let result = [];
+            locationData.features.filter(function (feature) {
+              if (Array.isArray(feature.properties.codedescriptorlist) && feature.properties.codedescriptorlist.includes(codefilter[0][year])) {
+                result.push(feature);
+              }
+            });
+            console.log(result)
+            addCones(result, false);
+          });
       })
 
       // add corresponding style here
@@ -816,6 +849,10 @@ function code_div(data, locationData, year) {
       code_parent.appendChild(codeDiv);
     }
   };
+
+
+
+
 
   // Meta Descriptor: User Descriptors
   let userDescriptor = document.createElement('div');
@@ -844,13 +881,24 @@ function code_div(data, locationData, year) {
           map.removeLayer('custom-layer');
         };
 
-        let result = [];
-        locationData.features.filter(function (feature) {
-          if (Array.isArray(feature.properties.codedescriptorlist) && feature.properties.codedescriptorlist.includes(singleCode.code)) {
-            result.push(feature);
-          }
-        });
-        addCones(result, false);
+        fetch('assets/CodeLookup.json')
+          .then((response) => response.json())
+          .then((codeChart) => {
+            codefilter = []
+            codeChartList = Object.values(codeChart)
+            codefilter = codeChartList.filter(function (feature) {
+              return feature.Descriptor == singleCode.code
+            })
+            console.log(codefilter[0][year])
+            let result = [];
+            locationData.features.filter(function (feature) {
+              if (Array.isArray(feature.properties.codedescriptorlist) && feature.properties.codedescriptorlist.includes(codefilter[0][year])) {
+                result.push(feature);
+              }
+            });
+            console.log(result)
+            addCones(result, false);
+          });
       })
 
       // add corresponding style here
@@ -886,13 +934,24 @@ function code_div(data, locationData, year) {
           map.removeLayer('custom-layer');
         };
 
-        let result = [];
-        locationData.features.filter(function (feature) {
-          if (Array.isArray(feature.properties.codedescriptorlist) && feature.properties.codedescriptorlist.includes(singleCode.code)) {
-            result.push(feature);
-          }
-        });
-        addCones(result, false);
+        fetch('assets/CodeLookup.json')
+          .then((response) => response.json())
+          .then((codeChart) => {
+            codefilter = []
+            codeChartList = Object.values(codeChart)
+            codefilter = codeChartList.filter(function (feature) {
+              return feature.Descriptor == singleCode.code
+            })
+            console.log(codefilter[0][year])
+            let result = [];
+            locationData.features.filter(function (feature) {
+              if (Array.isArray(feature.properties.codedescriptorlist) && feature.properties.codedescriptorlist.includes(codefilter[0][year])) {
+                result.push(feature);
+              }
+            });
+            console.log(result)
+            addCones(result, false);
+          });
       })
 
       // add corresponding style here
@@ -928,13 +987,24 @@ function code_div(data, locationData, year) {
           map.removeLayer('custom-layer');
         };
 
-        let result = [];
-        locationData.features.filter(function (feature) {
-          if (Array.isArray(feature.properties.codedescriptorlist) && feature.properties.codedescriptorlist.includes(singleCode.code)) {
-            result.push(feature);
-          }
-        });
-        addCones(result, false);
+        fetch('assets/CodeLookup.json')
+          .then((response) => response.json())
+          .then((codeChart) => {
+            codefilter = []
+            codeChartList = Object.values(codeChart)
+            codefilter = codeChartList.filter(function (feature) {
+              return feature.Descriptor == singleCode.code
+            })
+            console.log(codefilter[0][year])
+            let result = [];
+            locationData.features.filter(function (feature) {
+              if (Array.isArray(feature.properties.codedescriptorlist) && feature.properties.codedescriptorlist.includes(codefilter[0][year])) {
+                result.push(feature);
+              }
+            });
+            console.log(result)
+            addCones(result, false);
+          });
       })
 
       // add corresponding style here
@@ -970,13 +1040,24 @@ function code_div(data, locationData, year) {
           map.removeLayer('custom-layer');
         };
 
-        let result = [];
-        locationData.features.filter(function (feature) {
-          if (Array.isArray(feature.properties.codedescriptorlist) && feature.properties.codedescriptorlist.includes(singleCode.code)) {
-            result.push(feature);
-          }
-        });
-        addCones(result, false);
+        fetch('assets/CodeLookup.json')
+          .then((response) => response.json())
+          .then((codeChart) => {
+            codefilter = []
+            codeChartList = Object.values(codeChart)
+            codefilter = codeChartList.filter(function (feature) {
+              return feature.Descriptor == singleCode.code
+            })
+            console.log(codefilter[0][year])
+            let result = [];
+            locationData.features.filter(function (feature) {
+              if (Array.isArray(feature.properties.codedescriptorlist) && feature.properties.codedescriptorlist.includes(codefilter[0][year])) {
+                result.push(feature);
+              }
+            });
+            console.log(result)
+            addCones(result, false);
+          });
       })
 
       // add corresponding style here
@@ -1012,13 +1093,24 @@ function code_div(data, locationData, year) {
           map.removeLayer('custom-layer');
         };
 
-        let result = [];
-        locationData.features.filter(function (feature) {
-          if (Array.isArray(feature.properties.codedescriptorlist) && feature.properties.codedescriptorlist.includes(singleCode.code)) {
-            result.push(feature);
-          }
-        });
-        addCones(result, false);
+        fetch('assets/CodeLookup.json')
+          .then((response) => response.json())
+          .then((codeChart) => {
+            codefilter = []
+            codeChartList = Object.values(codeChart)
+            codefilter = codeChartList.filter(function (feature) {
+              return feature.Descriptor == singleCode.code
+            })
+            console.log(codefilter[0][year])
+            let result = [];
+            locationData.features.filter(function (feature) {
+              if (Array.isArray(feature.properties.codedescriptorlist) && feature.properties.codedescriptorlist.includes(codefilter[0][year])) {
+                result.push(feature);
+              }
+            });
+            console.log(result)
+            addCones(result, false);
+          });
       })
 
       // add corresponding style here
@@ -1082,7 +1174,7 @@ function getStreetView(feature) {
 
 // getPhotos
 // Function that utilizes the Google Maps and Places Javascript Library to obtain a default image of a location
-// Requets uses a location bias and location names to search (similar to a google search)
+// Requests uses a location bias and location names to search (similar to a google search)
 // Parameters:
 //  feature: javascript object that contains complete data of a clicked location
 function getPhotos(feature) {
@@ -1142,7 +1234,7 @@ function addNames(data) {
   let result = {}
   result.type = "FeatureCollection";
   result.features = [];
-  for(var id in data) {
+  for (var id in data) {
     result.features.push(data[id])
   }
   console.log(result)
@@ -1159,11 +1251,17 @@ function addNames(data) {
       'text-field': ['get', 'observedvenuename'],
       'text-variable-anchor': ['left'],
       'text-radial-offset': 0.5,
-      'text-justify': 'auto',
+      'text-justify': 'right',
       'text-writing-mode': ['vertical'],
-    }
+    },
+    'paint': {
+      'text-color': "#444",
+      'text-halo-color': "#fff",
+      'text-halo-width': 2
+    },
   });
 }
+
 
 function addCones(data, active) {
   addNames(data);
@@ -1224,24 +1322,26 @@ function addCones(data, active) {
         }
       });
 
-      let lineTemplate = new THREE.Mesh(geometrySup, material);
-      lineTemplate = tb.Object3D({
-        obj: lineTemplate,
-        units: 'meters'
-      }).set({
-        rotation: {
-          x: -90,
-          y: 0,
-          z: 0
-        }
-      });
+
+      // Bo: temporarily hide the bar under the cone.
+      // let lineTemplate = new THREE.Mesh(geometrySup, material);
+      // lineTemplate = tb.Object3D({
+      //   obj: lineTemplate,
+      //   units: 'meters'
+      // }).set({
+      //   rotation: {
+      //     x: -90,
+      //     y: 0,
+      //     z: 0
+      //   }
+      // });
 
       data.forEach(function (feature) {
         // longitude, latitude, altitude
         let cone = coneTemplate.duplicate().setCoords([feature.geometry.coordinates[0], feature.geometry.coordinates[1], 20]);
-        let line = lineTemplate.duplicate().setCoords([feature.geometry.coordinates[0], feature.geometry.coordinates[1], 0]);
+        // let line = lineTemplate.duplicate().setCoords([feature.geometry.coordinates[0], feature.geometry.coordinates[1], 0]);
         tb.add(cone);
-        tb.add(line);
+        // tb.add(line);
       })
 
       var highlighted = [];
@@ -1406,8 +1506,6 @@ map.on('style.load', async function () {
   // observation data
   let unverifiedVenues = await getObservations();
   let verifiedVenues = await getVenueSlice();
-  console.log(verifiedVenues)
-
 
   addAccordionLayer(unverifiedVenues, 'observation');
   addAccordionLayer(verifiedVenues, 'venue-slice');
@@ -1421,6 +1519,7 @@ map.on('style.load', async function () {
   // three js 3D object
   let onScreenData = map.getSource('data')._data.features;
   addCones(onScreenData, active);
+
   // filter data based upon input
   // let years = document.querySelectorAll('.year-slider');
   let years = document.getElementById('single-input');
@@ -1444,7 +1543,9 @@ map.on('style.load', async function () {
       map.removeSource('venues');
     };
     // add new custom layer
+    console.log(filteredYearData);
     addCones(filteredYearData, false);
+
     let result = codeIncludes(code_data, selectYear);
     // construct div for each damron code available
     code_div(result, verifiedData, selectYear);
@@ -1560,7 +1661,7 @@ map.on('style.load', async function () {
   map.on('click', 'data', async function (e) {
     // get points that are within the boundary for observations
     // get points that are within the boundary for unverified venues
-    if(map.getLayer('nearby-observations')) {
+    if (map.getLayer('nearby-observations')) {
       map.removeLayer('nearby-observations');
       map.removeSource('nearby-observations');
     }
@@ -1684,9 +1785,18 @@ map.on('style.load', async function () {
 
   async function submitPassword(e) {
     try {
-      let passwordAttempt = document.getElementById('passwordInput').value;
-      console.log(passwordAttempt)
-      let getResult = await fetch(`https://lgbtqspaces-api.herokuapp.com/api/passphraseCheck/${passwordAttempt}`, {
+
+      let passphraseAttempts = document.querySelectorAll('.passphrase');
+      let formalizedPassphraseAttempt = "";
+
+
+      passphraseAttempts.forEach(passphraseAttempt => {
+        formalizedPassphraseAttempt += passphraseAttempt.value.toLowerCase() + " ";
+      });
+
+      formalizedPassphraseAttempt = formalizedPassphraseAttempt.split(' ').sort().join(' ').trim();
+
+      let getResult = await fetch(`https://lgbtqspaces-api.herokuapp.com/api/passphraseCheck/${formalizedPassphraseAttempt}`, {
         method: 'GET'
       });
       let result = await getResult.json();
