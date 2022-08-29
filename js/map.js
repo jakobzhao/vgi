@@ -529,15 +529,27 @@ const localities = {
 
 };
 
-let localityBtns = document.querySelectorAll('.localityBtn');
 
-localityBtns.forEach(localityBtn => {
-  localityBtn.addEventListener('click', function handleClick(event) {
+let localityFilterBtn = document.getElementById("localityFilterBtn");
+localityFilterBtn.addEventListener('click', function () {
+  let localityList = document.getElementById('localityList');
+  localityList.classList.remove('d-none');
+});
+
+
+Object.entries(localities).forEach(locality => {
+
+  let localityItem = document.createElement("li");
+
+  localityName = locality[0].charAt(0).toUpperCase() + locality[0].slice(1);
+  localityItem.innerHTML = '<a class="dropdown-item" href="#">' + localityName +'</a>';
+
+  localityItem.addEventListener('click', function handleClick(event) {
 
     lName = this.innerText.toLowerCase();
     map.flyTo({
-      center: localities[lName].center,
-      zoom:  localities[lName].zoom,
+      center: localities[locality[0]].center,
+      zoom: localities[locality[0]].zoom,
       speed: 0.9,
       pitch: 75,
       bearing: -25,
@@ -545,7 +557,12 @@ localityBtns.forEach(localityBtn => {
     });
 
   });
+
+  localityList.appendChild(localityItem);
+
+
 });
+
 
 
 function logInCheck() {
@@ -705,13 +722,13 @@ function code_div(codes, venueSlices, year) {
     let codeItem = document.createElement('li');
 
     codeItem.innerHTML = '<a class="dropdown-item" href="#">' + code.code + '</a>';
-    
+
 
 
     // for each code_div add event listener on click to add filter features of the map
     codeItem.addEventListener('click', function () {
       map.setFilter('data', ['in', code.code, ['get', 'codedescriptorlist']]);
-     
+
       // remove 3D layer
       if (map.getLayer('custom-layer')) {
         map.removeLayer('custom-layer');
@@ -720,7 +737,7 @@ function code_div(codes, venueSlices, year) {
       fetch('assets/CodeLookup.json')
         .then((response) => response.json())
         .then((codeChart) => {
-     
+
           let codefilter = [];
           codeChartList = Object.values(codeChart);
           codefilter = codeChartList.filter(function (feature) {
@@ -743,37 +760,37 @@ function code_div(codes, venueSlices, year) {
 
 
 
-    ///////////////////////////////clear function///////////////////////////////////////////
+  ///////////////////////////////clear function///////////////////////////////////////////
 
-    let clear = document.createElement("li");
-    clear.classList.add("metaDescriptor");
-    clear.setAttribute("id", "clear-button");
-    // clear.classList.add('');
-    clear.innerHTML = '<a class="dropdown-item dropdown-div-clear" title="Clear all selected filters" href="#"> Clear </a>';
+  let clear = document.createElement("li");
+  clear.classList.add("metaDescriptor");
+  clear.setAttribute("id", "clear-button");
+  // clear.classList.add('');
+  clear.innerHTML = '<a class="dropdown-item dropdown-div-clear" title="Clear all selected filters" href="#"> Clear </a>';
 
-    clear.addEventListener('click', function () {
-      codeParent.classList.add('d-none');
-      map.setFilter('data', undefined);
-      // map filter of single year selected by the user
-      map.setFilter('data', ["==", ['number', ['get', 'year']], year]);
-      // let selectionDiv = document.getElementById('dropdown-container');
-      // selectionDiv.classList.toggle('d-none');
-      // remove 3D layer
-      if (map.getLayer('custom-layer')) {
-        map.removeLayer('custom-layer');
-      };
-      let onScreenData = venueSlices.features.filter(function (feature) {
-        return feature.properties.year == year
-      });
-      console.log(onScreenData);
-      addCones(onScreenData, false);
-      
+  clear.addEventListener('click', function () {
+    codeParent.classList.add('d-none');
+    map.setFilter('data', undefined);
+    // map filter of single year selected by the user
+    map.setFilter('data', ["==", ['number', ['get', 'year']], year]);
+    // let selectionDiv = document.getElementById('dropdown-container');
+    // selectionDiv.classList.toggle('d-none');
+    // remove 3D layer
+    if (map.getLayer('custom-layer')) {
+      map.removeLayer('custom-layer');
+    };
+    let onScreenData = venueSlices.features.filter(function (feature) {
+      return feature.properties.year == year
     });
-  
+    console.log(onScreenData);
+    addCones(onScreenData, false);
 
-    codeParent.appendChild(clear);
-  
-    ///////////////////////////////clear function///////////////////////////////////////////
+  });
+
+
+  codeParent.appendChild(clear);
+
+  ///////////////////////////////clear function///////////////////////////////////////////
 
 }
 
@@ -897,6 +914,16 @@ function addNames(data) {
     result.features.push(data[id])
   }
   console.log(result)
+
+  // added by Bo  
+  // var mapLayer = map.getLayer('venues');
+
+  // if(typeof mapLayer !== 'undefined') {
+  //   // Remove map layer & source.
+  //   map.removeLayer('custom-layer').removeSource('venues');
+  // }
+
+
   map.addSource('venues', {
     'type': 'geojson',
     'data': result
@@ -1149,8 +1176,14 @@ function displayNearbyObservations(obsData, e) {
   map.getSource('nearby-observations').setData(result);
 };
 
-function loadOptions(data){
-  let dataSlice = [[], [], [], [], []];
+function loadOptions(data) {
+  let dataSlice = [
+    [],
+    [],
+    [],
+    [],
+    []
+  ];
   console.log(data);
   Object.entries(data).forEach(([key, value]) => {
     if (value.name == 'Entry Descriptors') {
@@ -1179,7 +1212,9 @@ function loadOptions(data){
 function addAutoComplete(id, data) {
   new Autocomplete(id, {
     search: input => {
-      if (input.length < 1) { return [] }
+      if (input.length < 1) {
+        return []
+      }
       return data.filter(option => {
         return option.toLowerCase()
           .startsWith(input.toLowerCase())
