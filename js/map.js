@@ -663,10 +663,13 @@ function addExtrusions(feature, e) {
 // add div for the codes corresponding to selected year on the map
 function code_div(codes, venueSlices, year) {
 
+  let codeFilterBtn = document.getElementById("damron-code-btn");
+  codeFilterBtn.addEventListener('click', function () {
+    codeParent.classList.remove('d-none');
+  })
+
+
   let codeParent = document.getElementById('codeDescriptorList');
-
-  codeParent.classList.remove('d-none');
-
   while (codeParent.firstChild) {
     codeParent.removeChild(codeParent.firstChild);
   }
@@ -675,7 +678,6 @@ function code_div(codes, venueSlices, year) {
   let codeNames = [];
 
   Object.values(codes).forEach(code => {
-
 
     if (!codeNames.includes(code.name)) {
       codeNames.push(code.name);
@@ -743,13 +745,14 @@ function code_div(codes, venueSlices, year) {
 
     ///////////////////////////////clear function///////////////////////////////////////////
 
-    let clear = document.createElement("li")
-    clear.classList.add("metaDescriptor")
+    let clear = document.createElement("li");
+    clear.classList.add("metaDescriptor");
+    clear.setAttribute("id", "clear-button");
     // clear.classList.add('');
     clear.innerHTML = '<a class="dropdown-item dropdown-div-clear" title="Clear all selected filters" href="#"> Clear </a>';
 
     clear.addEventListener('click', function () {
-      // codeParent.classList.add('d-none');
+      codeParent.classList.add('d-none');
       map.setFilter('data', undefined);
       // map filter of single year selected by the user
       map.setFilter('data', ["==", ['number', ['get', 'year']], year]);
@@ -1219,11 +1222,14 @@ map.on('style.load', async function () {
   loadOptions(code_data);
   let defaultCodes = codeIncludes(code_data, defaultYear)
   code_div(defaultCodes, verifiedData, defaultYear);
-
   let active = false;
   // three js 3D object
   let onScreenData = map.getSource('data')._data.features;
   addCones(onScreenData, active);
+
+
+
+
 
   // filter data based upon input
   // let years = document.querySelectorAll('.year-slider');
