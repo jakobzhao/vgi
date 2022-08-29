@@ -541,6 +541,12 @@ let localityFilterBtn = document.getElementById("localityFilterBtn");
 localityFilterBtn.addEventListener('click', function () {
   let localityList = document.getElementById('localityList');
   localityList.classList.remove('d-none');
+
+  let codeDescriptorList = document.getElementById('codeDescriptorList');
+  codeDescriptorList.classList.add('d-none');
+
+
+
 });
 
 
@@ -568,7 +574,6 @@ Object.entries(localities).forEach(locality => {
   });
 
   localityList.appendChild(localityItem);
-
 
 });
 
@@ -694,6 +699,10 @@ function code_div(codes, venueSlices, year) {
 
   codeFilterBtn.addEventListener('click', function () {
     codeParent.classList.remove('d-none');
+
+    let localityList = document.getElementById('localityList');
+    localityList.classList.add('d-none');
+
   })
 
 
