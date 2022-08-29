@@ -556,6 +556,8 @@ Object.entries(localities).forEach(locality => {
       essential: true
     });
 
+    localityList.classList.add('d-none');
+
   });
 
   localityList.appendChild(localityItem);
@@ -727,6 +729,8 @@ function code_div(codes, venueSlices, year) {
 
     // for each code_div add event listener on click to add filter features of the map
     codeItem.addEventListener('click', function () {
+
+      codeParent.classList.add('d-none');
       map.setFilter('data', ['in', code.code, ['get', 'codedescriptorlist']]);
 
       // remove 3D layer
