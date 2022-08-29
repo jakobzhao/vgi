@@ -1247,7 +1247,7 @@ function addAutoComplete(id, data) {
       }
       return data.filter(option => {
         return option.toLowerCase()
-          .startsWith(input.toLowerCase())
+          .includes(input.toLowerCase())
       })
     }
   });
