@@ -14,7 +14,9 @@
         document.getElementById('googleSignOutBtn').addEventListener('click', () => {
             signOut();
         });
-
+        document.getElementById('year-api').addEventListener('change', () => {
+            yearChange();
+        });
         let basemapDisplay = document.getElementById('basemap-selection');
         let layersDisplay = document.getElementById('layers-container');
         layersDisplay.addEventListener('mouseenter', function(e) {
@@ -25,14 +27,6 @@
             basemapDisplay.classList.add('d-none');
         })
 
-
-
-        // let yearSlider = document.getElementById('year-api');
-        // yearSlider.addEventListener('change', function(e) {
-        //     let yearText = document.getElementById('year-text-label');
-        //     yearText.innerHTML = '';
-        //     yearText.textContent = 'Year: ' + yearSlider.value;
-        // })
         //displayLoginButton();
         toggleLeftPanelView('references-container');
 
@@ -209,4 +203,11 @@
         }
     }
 
+    // Change views of year when user move the slider
+    function yearChange(){
+        let yearSlider = document.getElementById('year-api');
+        let yearText = document.getElementById('year-text-label');
+        yearText.innerHTML = '';
+        yearText.textContent = 'Year: ' + yearSlider.value;
+    }
 })();
