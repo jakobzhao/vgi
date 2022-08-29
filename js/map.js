@@ -744,6 +744,7 @@ function code_div(data, locationData, year) {
   let code_parent4 = document.getElementById('dropdown4')
   let code_parent5 = document.getElementById('dropdown5')
   let Descriptorlist_parent = document.getElementById('codeDescriptorList')
+  
   // clear everything in div first (in case already populated with existing data)
   while (code_parent.firstChild) {
     code_parent.removeChild(code_parent.lastChild);
@@ -793,6 +794,8 @@ function code_div(data, locationData, year) {
   Descriptorlist_parent.appendChild(standard);
 
   let codeChartList = []
+
+
 
   // Meta Descriptor: Entry Descriptors
   let entryDescriptor = document.createElement('div');
@@ -847,6 +850,10 @@ function code_div(data, locationData, year) {
     }
   };
 
+
+
+
+
   // Meta Descriptor: User Descriptors
   let userDescriptor = document.createElement('div');
   userDescriptor.innerHTML = "Here are all the clientele or user descriptors";
@@ -874,7 +881,7 @@ function code_div(data, locationData, year) {
           map.removeLayer('custom-layer');
         };
 
-        fetch('assets/CodeLookup1.json')
+        fetch('assets/CodeLookup.json')
           .then((response) => response.json())
           .then((codeChart) => {
             codefilter = []
@@ -927,7 +934,7 @@ function code_div(data, locationData, year) {
           map.removeLayer('custom-layer');
         };
 
-        fetch('assets/CodeLookup2.json')
+        fetch('assets/CodeLookup.json')
           .then((response) => response.json())
           .then((codeChart) => {
             codefilter = []
@@ -980,7 +987,7 @@ function code_div(data, locationData, year) {
           map.removeLayer('custom-layer');
         };
 
-        fetch('assets/CodeLookup3.json')
+        fetch('assets/CodeLookup.json')
           .then((response) => response.json())
           .then((codeChart) => {
             codefilter = []
@@ -1033,7 +1040,7 @@ function code_div(data, locationData, year) {
           map.removeLayer('custom-layer');
         };
 
-        fetch('assets/CodeLookup4.json')
+        fetch('assets/CodeLookup.json')
           .then((response) => response.json())
           .then((codeChart) => {
             codefilter = []
@@ -1086,7 +1093,7 @@ function code_div(data, locationData, year) {
           map.removeLayer('custom-layer');
         };
 
-        fetch('assets/CodeLookup5.json')
+        fetch('assets/CodeLookup.json')
           .then((response) => response.json())
           .then((codeChart) => {
             codefilter = []
@@ -1172,7 +1179,6 @@ function getStreetView(feature) {
 //  feature: javascript object that contains complete data of a clicked location
 function getPhotos(feature) {
   let imgParent = document.getElementById('imgs-container');
-
   let locationBias = new google.maps.LatLng(feature.geometry.coordinates[1], feature.geometry.coordinates[0]);
   // set request data location name and set location bias
   let request = {
@@ -1709,6 +1715,7 @@ map.on('style.load', async function () {
       }
     }
 
+    // load clicked marker info on left panel 
     toggleLeftPanelView('info-default');
 
     // // clear 3-D year object
@@ -1853,8 +1860,30 @@ map.on('style.load', async function () {
       document.getElementById('add-review-btn').classList.toggle('d-none');
       document.getElementById('go-back-btn').classList.toggle('d-none');
     }
-    toggleLeftPanelView('info-default');
-    marker.remove();
+    toggleLeftPanelView('references-container');
+    if (typeof map.getLayer('selectedMarker') !== "undefined") {
+      marker.remove();
+      map.removeLayer('selectedMarker');
+      map.removeSource('selectedMarker');
+    };
+
+    if (typeof map.getLayer('nearby-observations') !== "undefined") {
+      marker.remove();
+      map.removeLayer('nearby-observations');
+      map.removeSource('nearby-observations');
+    };
+
+    if (typeof map.getLayer('buffer-point') !== "undefined") {
+      map.removeLayer('buffer-point');
+      map.removeSource('buffer-point');
+    };
+
+    if (typeof map.getLayer('year-block') !== 'undefined') {
+      // clear 3-D year object
+      map.removeLayer('year-block');
+      map.removeSource('year-block');
+    };
+
   });
 
   // validation button
