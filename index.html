@@ -191,7 +191,7 @@
       </div>
     </div>
 
-    <!-- Damron Code Filter -->
+    <!-- Damron Code Filter
     <div id="damron-code-filter" class="position-absolute">
       <button id="damron-code-btn" class="btn mx-2 btn-custom">Code Descriptors</button>
       <div id="dropdown-container" class="d-none" style="height: 425px;">
@@ -232,6 +232,20 @@
         <div id="dropdown5" class="dropdown-style">
         </div>
       </div>
+    </div> -->
+
+    <!-- https://mdbootstrap.com/docs/standard/extended/dropdown-multilevel/# -->
+    <div id="damron-code-filter" class="position-absolute dropdown">
+      <button id="damron-code-btn" class="btn mx-2 btn-custom dropdown-toggle" data-mdb-toggle="dropdown"
+        aria-expanded="false" type="button">Code Descriptors</button>
+      <!-- <div id="dropdown-container" class= style="height: 425px;"> -->
+      <!-- <p class="m-3 help-text">This panel shows a list of Codes being used during that specific year's edition of
+              Damron's Guides. Click on a code to screen out the qualified venues. Click "Clear" to cancel any applied
+              filter. </p> -->
+      <ul class="d-grid  dropdown-menu" id="codeDescriptorList" aria-labelledby="dropdownMenuButton">
+      </ul>
+      <!-- </div> -->
+
     </div>
 
     <!-- instructions icon on default landing page -->
@@ -478,7 +492,8 @@
       <div id="add-observation" class="d-none mx-4">
         <form id="user-form" class="d-flex flex-column">
           <!-- <h3 class="mt-3 mb-0 pb-2">Add new observation</h3> -->
-          <h3 class="mt-3 mb-0 pb-2">Add a Missing Venue <button id="go-back-btn2" type="button" class="btn btn-primary mx-2">Return</button>
+          <h3 class="mt-3 mb-0 pb-2">Add a Missing Venue <button id="go-back-btn2" type="button"
+              class="btn btn-primary mx-2">Return</button>
           </h3>
           <div class="form-floating mb-1">
 
