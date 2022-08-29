@@ -1578,6 +1578,7 @@ map.on('style.load', async function () {
       }
     }
 
+    // load clicked marker info on left panel 
     toggleLeftPanelView('info-default');
 
     // // clear 3-D year object
@@ -1713,8 +1714,30 @@ map.on('style.load', async function () {
       document.getElementById('add-review-btn').classList.toggle('d-none');
       document.getElementById('go-back-btn').classList.toggle('d-none');
     }
-    toggleLeftPanelView('info-default');
-    marker.remove();
+    toggleLeftPanelView('references-container');
+    if (typeof map.getLayer('selectedMarker') !== "undefined") {
+      marker.remove();
+      map.removeLayer('selectedMarker');
+      map.removeSource('selectedMarker');
+    };
+
+    if (typeof map.getLayer('nearby-observations') !== "undefined") {
+      marker.remove();
+      map.removeLayer('nearby-observations');
+      map.removeSource('nearby-observations');
+    };
+
+    if (typeof map.getLayer('buffer-point') !== "undefined") {
+      map.removeLayer('buffer-point');
+      map.removeSource('buffer-point');
+    };
+
+    if (typeof map.getLayer('year-block') !== 'undefined') {
+      // clear 3-D year object
+      map.removeLayer('year-block');
+      map.removeSource('year-block');
+    };
+
   });
 
   // validation button
