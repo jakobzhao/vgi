@@ -212,15 +212,16 @@ nav {
     display: flex;
     align-items: center;
     justify-content: center;
+    font-style: italic bold;
     flex-basis: 21%;
     margin: 1px;
     height: 40px;
     font-weight: 500;
 }
 
-.dropdown-div-clear:hover {
+/* .dropdown-div-clear:hover {
     text-decoration: underline;
-}
+} */
 
 /* map views */
 /* damron guides */
