@@ -736,40 +736,407 @@ function code_conversion(lookupCode) {
 }
 
 // add div for the codes corresponding to selected year on the map
-function code_div(data, locationData, year) {
-  let code_parent = document.getElementById('dropdown');
-  let code_parent1 = document.getElementById('dropdown1')
-  let code_parent2 = document.getElementById('dropdown2')
-  let code_parent3 = document.getElementById('dropdown3')
-  let code_parent4 = document.getElementById('dropdown4')
-  let code_parent5 = document.getElementById('dropdown5')
-  let Descriptorlist_parent = document.getElementById('codeDescriptorList')
+// function code_div(data, locationData, year) {
+//   let code_parent = document.getElementById('dropdown');
+//   let code_parent1 = document.getElementById('dropdown1')
+//   let code_parent2 = document.getElementById('dropdown2')
+//   let code_parent3 = document.getElementById('dropdown3')
+//   let code_parent4 = document.getElementById('dropdown4')
+//   let code_parent5 = document.getElementById('dropdown5')
+//   let Descriptorlist_parent = document.getElementById('codeDescriptorList')
 
-  // clear everything in div first (in case already populated with existing data)
-  while (code_parent.firstChild) {
-    code_parent.removeChild(code_parent.lastChild);
-  };
+//   // clear everything in div first (in case already populated with existing data)
+//   while (code_parent.firstChild) {
+//     code_parent.removeChild(code_parent.lastChild);
+//   };
 
-  while (code_parent1.firstChild) {
-    code_parent1.removeChild(code_parent1.lastChild);
-  };
+//   while (code_parent1.firstChild) {
+//     code_parent1.removeChild(code_parent1.lastChild);
+//   };
 
-  while (code_parent2.firstChild) {
-    code_parent2.removeChild(code_parent2.lastChild);
-  };
+//   while (code_parent2.firstChild) {
+//     code_parent2.removeChild(code_parent2.lastChild);
+//   };
 
-  while (code_parent3.firstChild) {
-    code_parent3.removeChild(code_parent3.lastChild);
-  };
+//   while (code_parent3.firstChild) {
+//     code_parent3.removeChild(code_parent3.lastChild);
+//   };
 
-  while (code_parent4.firstChild) {
-    code_parent4.removeChild(code_parent4.lastChild);
-  };
+//   while (code_parent4.firstChild) {
+//     code_parent4.removeChild(code_parent4.lastChild);
+//   };
 
-  while (code_parent5.firstChild) {
-    code_parent5.removeChild(code_parent5.lastChild);
-  };
+//   while (code_parent5.firstChild) {
+//     code_parent5.removeChild(code_parent5.lastChild);
+//   };
 
+//   let standard = document.createElement('div');
+//   standard.innerHTML = "CLEAR";
+//   standard.title = "Clear all selected filters";
+//   standard.addEventListener('click', function () {
+//     map.setFilter('data', undefined);
+//     // map filter of single year selected by the user
+//     map.setFilter('data', ["==", ['number', ['get', 'year']], year]);
+//     // let selectionDiv = document.getElementById('dropdown-container');
+//     // selectionDiv.classList.toggle('d-none');
+//     // remove 3D layer
+//     if (map.getLayer('custom-layer')) {
+//       map.removeLayer('custom-layer');
+//     };
+//     let onScreenData = locationData.features.filter(function (feature) {
+//       return feature.properties.year == year
+//     });
+//     console.log(onScreenData);
+//     addCones(onScreenData, false);
+//   });
+
+//   standard.classList.add('dropdown-div-clear');
+//   Descriptorlist_parent.appendChild(standard);
+
+//   let codeChartList = []
+
+
+
+//   // Meta Descriptor: Entry Descriptors
+//   let entryDescriptor = document.createElement('div');
+//   entryDescriptor.innerHTML = "Here are all the entry descriptors";
+//   entryDescriptor.title = "Meta Descriptor: Entry Descriptors";
+//   entryDescriptor.classList.add('metaDescriptor');
+//   code_parent.appendChild(entryDescriptor);
+
+//   // for each object in data
+//   for (let code in data) {
+//     let singleCode = data[code];
+//     // check metaDescriptors
+//     if (singleCode.name == "Entry Descriptors") {
+//       let codeDiv = document.createElement('div');
+//       codeDiv.innerHTML = singleCode.code;
+//       codeDiv.title = singleCode.name;
+//       // for each code_div add event listener on click to add filter features of the map
+//       codeDiv.addEventListener('click', function () {
+//         map.setFilter('data', ['in', singleCode.code, ['get', 'codedescriptorlist']]);
+//         let selectionDiv = document.getElementById('dropdown-container');
+//         // selectionDiv.classList.toggle('d-none');
+
+//         // remove 3D layer
+//         if (map.getLayer('custom-layer')) {
+//           map.removeLayer('custom-layer');
+//         };
+
+//         fetch('assets/CodeLookup.json')
+//           .then((response) => response.json())
+//           .then((codeChart) => {
+//             codefilter = []
+//             codeChartList = Object.values(codeChart)
+//             codefilter = codeChartList.filter(function (feature) {
+//               return feature.Descriptor == singleCode.code
+//             })
+//             console.log(codefilter[0][year])
+//             let result = [];
+//             let options = [];
+//             locationData.features.filter(function (feature) {
+//               if (Array.isArray(feature.properties.codedescriptorlist) && feature.properties.codedescriptorlist.includes(codefilter[0][year])) {
+//                 result.push(feature);
+//               }
+//             });
+//             console.log(result)
+//             addCones(result, false);
+//           });
+//       })
+
+//       // add corresponding style here
+//       codeDiv.classList.add('dropdown-div');
+//       code_parent.appendChild(codeDiv);
+//     }
+//   };
+
+
+
+
+
+//   // Meta Descriptor: User Descriptors
+//   let userDescriptor = document.createElement('div');
+//   userDescriptor.innerHTML = "Here are all the clientele or user descriptors";
+//   userDescriptor.title = "Meta Descriptor: Clientele/User Descriptors";
+//   userDescriptor.classList.add('metaDescriptor');
+//   code_parent1.appendChild(userDescriptor);
+
+//   // for each object in data
+//   for (let code in data) {
+//     let singleCode = data[code];
+//     // check metaDescriptors
+//     if (singleCode.name == "Clientele/User Descriptors") {
+//       let codeDiv = document.createElement('div');
+//       codeDiv.innerHTML = singleCode.code;
+//       codeDiv.title = singleCode.name;
+
+//       // for each code_div add event listener on click to add filter features of the map
+//       codeDiv.addEventListener('click', function () {
+//         map.setFilter('data', ['in', singleCode.code, ['get', 'codedescriptorlist']]);
+//         let selectionDiv = document.getElementById('dropdown-container');
+//         // selectionDiv.classList.toggle('d-none');
+
+//         // remove 3D layer
+//         if (map.getLayer('custom-layer')) {
+//           map.removeLayer('custom-layer');
+//         };
+
+//         fetch('assets/CodeLookup.json')
+//           .then((response) => response.json())
+//           .then((codeChart) => {
+//             codefilter = []
+//             codeChartList = Object.values(codeChart)
+//             codefilter = codeChartList.filter(function (feature) {
+//               return feature.Descriptor == singleCode.code
+//             })
+//             console.log(codefilter[0][year])
+//             let result = [];
+//             locationData.features.filter(function (feature) {
+//               if (Array.isArray(feature.properties.codedescriptorlist) && feature.properties.codedescriptorlist.includes(codefilter[0][year])) {
+//                 result.push(feature);
+//               }
+//             });
+//             console.log(result)
+//             addCones(result, false);
+//           });
+//       })
+
+//       // add corresponding style here
+//       codeDiv.classList.add('dropdown-div');
+//       code_parent1.appendChild(codeDiv);
+//     }
+//   };
+
+//   // Meta Descriptor: Amenity/Service
+//   let amenityDescriptor = document.createElement('div');
+//   amenityDescriptor.innerHTML = "Amenities/Services";
+//   amenityDescriptor.title = "Here are all the amenity or service descriptors";
+//   amenityDescriptor.classList.add('metaDescriptor');
+//   code_parent2.appendChild(amenityDescriptor);
+
+//   // for each object in data
+//   for (let code in data) {
+//     let singleCode = data[code];
+//     // check metaDescriptors
+//     if (singleCode.name == "Amenities/Services") {
+//       let codeDiv = document.createElement('div');
+//       codeDiv.innerHTML = singleCode.code;
+//       codeDiv.title = singleCode.name;
+
+//       // for each code_div add event listener on click to add filter features of the map
+//       codeDiv.addEventListener('click', function () {
+//         map.setFilter('data', ['in', singleCode.code, ['get', 'codedescriptorlist']]);
+//         let selectionDiv = document.getElementById('dropdown-container');
+//         // selectionDiv.classList.toggle('d-none');
+
+//         // remove 3D layer
+//         if (map.getLayer('custom-layer')) {
+//           map.removeLayer('custom-layer');
+//         };
+
+//         fetch('assets/CodeLookup.json')
+//           .then((response) => response.json())
+//           .then((codeChart) => {
+//             codefilter = []
+//             codeChartList = Object.values(codeChart)
+//             codefilter = codeChartList.filter(function (feature) {
+//               return feature.Descriptor == singleCode.code
+//             })
+//             console.log(codefilter[0][year])
+//             let result = [];
+//             locationData.features.filter(function (feature) {
+//               if (Array.isArray(feature.properties.codedescriptorlist) && feature.properties.codedescriptorlist.includes(codefilter[0][year])) {
+//                 result.push(feature);
+//               }
+//             });
+//             console.log(result)
+//             addCones(result, false);
+//           });
+//       })
+
+//       // add corresponding style here
+//       codeDiv.classList.add('dropdown-div');
+//       code_parent2.appendChild(codeDiv);
+//     }
+//   };
+
+//   // Meta Descriptor: Caution/Restriction
+//   let restrictionDescriptor = document.createElement('div');
+//   restrictionDescriptor.innerHTML = "Caution/Restriction";
+//   restrictionDescriptor.title = "Meta Descriptor: Caution/Restriction";
+//   restrictionDescriptor.classList.add('metaDescriptor');
+//   code_parent3.appendChild(restrictionDescriptor);
+
+//   // for each object in data
+//   for (let code in data) {
+//     let singleCode = data[code];
+//     // check metaDescriptors
+//     if (singleCode.name == "Caution/Restriction") {
+//       let codeDiv = document.createElement('div');
+//       codeDiv.innerHTML = singleCode.code;
+//       codeDiv.title = singleCode.name;
+
+//       // for each code_div add event listener on click to add filter features of the map
+//       codeDiv.addEventListener('click', function () {
+//         map.setFilter('data', ['in', singleCode.code, ['get', 'codedescriptorlist']]);
+//         let selectionDiv = document.getElementById('dropdown-container');
+//         // selectionDiv.classList.toggle('d-none');
+
+//         // remove 3D layer
+//         if (map.getLayer('custom-layer')) {
+//           map.removeLayer('custom-layer');
+//         };
+
+//         fetch('assets/CodeLookup.json')
+//           .then((response) => response.json())
+//           .then((codeChart) => {
+//             codefilter = []
+//             codeChartList = Object.values(codeChart)
+//             codefilter = codeChartList.filter(function (feature) {
+//               return feature.Descriptor == singleCode.code
+//             })
+//             console.log(codefilter[0][year])
+//             let result = [];
+//             locationData.features.filter(function (feature) {
+//               if (Array.isArray(feature.properties.codedescriptorlist) && feature.properties.codedescriptorlist.includes(codefilter[0][year])) {
+//                 result.push(feature);
+//               }
+//             });
+//             console.log(result)
+//             addCones(result, false);
+//           });
+//       })
+
+//       // add corresponding style here
+//       codeDiv.classList.add('dropdown-div');
+//       code_parent3.appendChild(codeDiv);
+//     }
+//   };
+
+//   // Meta Descriptor: Organization/Association
+//   let organizationDescriptor = document.createElement('div');
+//   organizationDescriptor.innerHTML = "organization/association";
+//   organizationDescriptor.title = "Meta Descriptor: organization/association";
+//   organizationDescriptor.classList.add('metaDescriptor');
+//   code_parent4.appendChild(organizationDescriptor);
+
+//   // for each object in data
+//   for (let code in data) {
+//     let singleCode = data[code];
+//     // check metaDescriptors
+//     if (singleCode.name == "Organization/Association") {
+//       let codeDiv = document.createElement('div');
+//       codeDiv.innerHTML = singleCode.code;
+//       codeDiv.title = singleCode.name;
+
+//       // for each code_div add event listener on click to add filter features of the map
+//       codeDiv.addEventListener('click', function () {
+//         map.setFilter('data', ['in', singleCode.code, ['get', 'codedescriptorlist']]);
+//         let selectionDiv = document.getElementById('dropdown-container');
+//         // selectionDiv.classList.toggle('d-none');
+
+//         // remove 3D layer
+//         if (map.getLayer('custom-layer')) {
+//           map.removeLayer('custom-layer');
+//         };
+
+//         fetch('assets/CodeLookup.json')
+//           .then((response) => response.json())
+//           .then((codeChart) => {
+//             codefilter = []
+//             codeChartList = Object.values(codeChart)
+//             codefilter = codeChartList.filter(function (feature) {
+//               return feature.Descriptor == singleCode.code
+//             })
+//             console.log(codefilter[0][year])
+//             let result = [];
+//             locationData.features.filter(function (feature) {
+//               if (Array.isArray(feature.properties.codedescriptorlist) && feature.properties.codedescriptorlist.includes(codefilter[0][year])) {
+//                 result.push(feature);
+//               }
+//             });
+//             console.log(result)
+//             addCones(result, false);
+//           });
+//       })
+
+//       // add corresponding style here
+//       codeDiv.classList.add('dropdown-div');
+//       code_parent4.appendChild(codeDiv);
+//     }
+//   };
+
+//   // Meta Descriptor: Other
+//   let otherDescriptor = document.createElement('div');
+//   otherDescriptor.innerHTML = "Other Descriptors";
+//   otherDescriptor.title = "Meta Descriptor: other";
+//   otherDescriptor.classList.add('metaDescriptor');
+//   code_parent5.appendChild(otherDescriptor);
+
+//   // for each object in data
+//   for (let code in data) {
+//     let singleCode = data[code];
+//     // check metaDescriptors
+//     if (singleCode.name == "Other") {
+//       let codeDiv = document.createElement('div');
+//       codeDiv.innerHTML = singleCode.code;
+//       codeDiv.title = singleCode.name;
+
+//       // for each code_div add event listener on click to add filter features of the map
+//       codeDiv.addEventListener('click', function () {
+//         map.setFilter('data', ['in', singleCode.code, ['get', 'codedescriptorlist']]);
+//         let selectionDiv = document.getElementById('dropdown-container');
+//         // selectionDiv.classList.toggle('d-none');
+
+//         // remove 3D layer
+//         if (map.getLayer('custom-layer')) {
+//           map.removeLayer('custom-layer');
+//         };
+
+//         fetch('assets/CodeLookup.json')
+//           .then((response) => response.json())
+//           .then((codeChart) => {
+//             codefilter = []
+//             codeChartList = Object.values(codeChart)
+//             codefilter = codeChartList.filter(function (feature) {
+//               return feature.Descriptor == singleCode.code
+//             })
+//             console.log(codefilter[0][year])
+//             let result = [];
+//             locationData.features.filter(function (feature) {
+//               if (Array.isArray(feature.properties.codedescriptorlist) && feature.properties.codedescriptorlist.includes(codefilter[0][year])) {
+//                 result.push(feature);
+//               }
+//             });
+//             console.log(result)
+//             addCones(result, false);
+//           });
+//       })
+
+//       // add corresponding style here
+//       codeDiv.classList.add('dropdown-div');
+//       code_parent5.appendChild(codeDiv);
+//     }
+//   };
+// }
+
+
+// add div for the codes corresponding to selected year on the map
+function code_div(codes, venueSlices, year) {
+
+  let codeParent = document.getElementById('codeDescriptorList');
+
+  while (codeParent.firstChild) {
+    codeParent.removeChild(codeParent.firstChild);
+  }
+
+
+
+
+
+
+
+  ///////////////////////////////convert later///////////////////////////////////////////
   let standard = document.createElement('div');
   standard.innerHTML = "CLEAR";
   standard.title = "Clear all selected filters";
@@ -783,7 +1150,7 @@ function code_div(data, locationData, year) {
     if (map.getLayer('custom-layer')) {
       map.removeLayer('custom-layer');
     };
-    let onScreenData = locationData.features.filter(function (feature) {
+    let onScreenData = venueSlices.features.filter(function (feature) {
       return feature.properties.year == year
     });
     console.log(onScreenData);
@@ -791,334 +1158,81 @@ function code_div(data, locationData, year) {
   });
 
   standard.classList.add('dropdown-div-clear');
-  Descriptorlist_parent.appendChild(standard);
+  codeParent.appendChild(standard);
 
-  let codeChartList = []
+  ///////////////////////////////convert later///////////////////////////////////////////
+
+  let codeNames = [];
+
+  Object.values(codes).forEach(code => {
 
 
+    if (!codeNames.includes(code.name)) {
+      codeNames.push(code.name);
 
-  // Meta Descriptor: Entry Descriptors
-  let entryDescriptor = document.createElement('div');
-  entryDescriptor.innerHTML = "Here are all the entry descriptors";
-  entryDescriptor.title = "Meta Descriptor: Entry Descriptors";
-  entryDescriptor.classList.add('metaDescriptor');
-  code_parent.appendChild(entryDescriptor);
+      let codeSubCategory = document.createElement('li');
+      codeSubCategory.classList.add("metaDescriptor");
 
-  // for each object in data
-  for (let code in data) {
-    let singleCode = data[code];
-    // check metaDescriptors
-    if (singleCode.name == "Entry Descriptors") {
-      let codeDiv = document.createElement('div');
-      codeDiv.innerHTML = singleCode.code;
-      codeDiv.title = singleCode.name;
-      // for each code_div add event listener on click to add filter features of the map
-      codeDiv.addEventListener('click', function () {
-        map.setFilter('data', ['in', singleCode.code, ['get', 'codedescriptorlist']]);
-        let selectionDiv = document.getElementById('dropdown-container');
-        // selectionDiv.classList.toggle('d-none');
+      codeSubCategory.innerHTML = '<a class="dropdown-item" href="#">' + code.name + '</a>';
 
-        // remove 3D layer
-        if (map.getLayer('custom-layer')) {
-          map.removeLayer('custom-layer');
-        };
 
-        fetch('assets/CodeLookup.json')
-          .then((response) => response.json())
-          .then((codeChart) => {
-            codefilter = []
-            codeChartList = Object.values(codeChart)
-            codefilter = codeChartList.filter(function (feature) {
-              return feature.Descriptor == singleCode.code
-            })
-            console.log(codefilter[0][year])
-            let result = [];
-            let options = [];
-            locationData.features.filter(function (feature) {
-              if (Array.isArray(feature.properties.codedescriptorlist) && feature.properties.codedescriptorlist.includes(codefilter[0][year])) {
-                result.push(feature);
-              }
-            });
-            console.log(result)
-            addCones(result, false);
-          });
-      })
+      let codeSubCategoryMenu = document.createElement('ul');
+      codeSubCategoryMenu.setAttribute("id", code.name.replace(/\s+/g, '').toLowerCase());
+      codeSubCategoryMenu.classList.add("dropdown-menu");
+      codeSubCategoryMenu.classList.add("dropdown-submenu");
+      // codeSubCategoryMenu.classList.add("dropdown-div");
 
-      // add corresponding style here
-      codeDiv.classList.add('dropdown-div');
-      code_parent.appendChild(codeDiv);
+      codeSubCategory.appendChild(codeSubCategoryMenu);
+
+      codeParent.appendChild(codeSubCategory);
+
     }
-  };
 
 
+    let categoryMenu = document.getElementById(code.name.replace(/\s+/g, '').toLowerCase());
+    let codeItem = document.createElement('li');
+
+    codeItem.innerHTML = '<a class="dropdown-item" href="#">' + code.code + '</a>';
+    
 
 
+    // for each code_div add event listener on click to add filter features of the map
+    codeItem.addEventListener('click', function () {
+      map.setFilter('data', ['in', code.code, ['get', 'codedescriptorlist']]);
+     
+      // remove 3D layer
+      if (map.getLayer('custom-layer')) {
+        map.removeLayer('custom-layer');
+      };
 
-  // Meta Descriptor: User Descriptors
-  let userDescriptor = document.createElement('div');
-  userDescriptor.innerHTML = "Here are all the clientele or user descriptors";
-  userDescriptor.title = "Meta Descriptor: Clientele/User Descriptors";
-  userDescriptor.classList.add('metaDescriptor');
-  code_parent1.appendChild(userDescriptor);
-
-  // for each object in data
-  for (let code in data) {
-    let singleCode = data[code];
-    // check metaDescriptors
-    if (singleCode.name == "Clientele/User Descriptors") {
-      let codeDiv = document.createElement('div');
-      codeDiv.innerHTML = singleCode.code;
-      codeDiv.title = singleCode.name;
-
-      // for each code_div add event listener on click to add filter features of the map
-      codeDiv.addEventListener('click', function () {
-        map.setFilter('data', ['in', singleCode.code, ['get', 'codedescriptorlist']]);
-        let selectionDiv = document.getElementById('dropdown-container');
-        // selectionDiv.classList.toggle('d-none');
-
-        // remove 3D layer
-        if (map.getLayer('custom-layer')) {
-          map.removeLayer('custom-layer');
-        };
-
-        fetch('assets/CodeLookup.json')
-          .then((response) => response.json())
-          .then((codeChart) => {
-            codefilter = []
-            codeChartList = Object.values(codeChart)
-            codefilter = codeChartList.filter(function (feature) {
-              return feature.Descriptor == singleCode.code
-            })
-            console.log(codefilter[0][year])
-            let result = [];
-            locationData.features.filter(function (feature) {
-              if (Array.isArray(feature.properties.codedescriptorlist) && feature.properties.codedescriptorlist.includes(codefilter[0][year])) {
-                result.push(feature);
-              }
-            });
-            console.log(result)
-            addCones(result, false);
+      fetch('assets/CodeLookup.json')
+        .then((response) => response.json())
+        .then((codeChart) => {
+     
+          let codefilter = [];
+          codeChartList = Object.values(codeChart);
+          codefilter = codeChartList.filter(function (feature) {
+            return feature.Descriptor == code.code
+          })
+          console.log(codefilter[0][year])
+          let result = [];
+          venueSlices.features.filter(function (feature) {
+            if (Array.isArray(feature.properties.codedescriptorlist) && feature.properties.codedescriptorlist.includes(codefilter[0][year])) {
+              result.push(feature);
+            }
           });
-      })
+          console.log(result)
+          addCones(result, false);
+        });
+    })
+    categoryMenu.appendChild(codeItem);
 
-      // add corresponding style here
-      codeDiv.classList.add('dropdown-div');
-      code_parent1.appendChild(codeDiv);
-    }
-  };
+  });
 
-  // Meta Descriptor: Amenity/Service
-  let amenityDescriptor = document.createElement('div');
-  amenityDescriptor.innerHTML = "Amenities/Services";
-  amenityDescriptor.title = "Here are all the amenity or service descriptors";
-  amenityDescriptor.classList.add('metaDescriptor');
-  code_parent2.appendChild(amenityDescriptor);
 
-  // for each object in data
-  for (let code in data) {
-    let singleCode = data[code];
-    // check metaDescriptors
-    if (singleCode.name == "Amenities/Services") {
-      let codeDiv = document.createElement('div');
-      codeDiv.innerHTML = singleCode.code;
-      codeDiv.title = singleCode.name;
-
-      // for each code_div add event listener on click to add filter features of the map
-      codeDiv.addEventListener('click', function () {
-        map.setFilter('data', ['in', singleCode.code, ['get', 'codedescriptorlist']]);
-        let selectionDiv = document.getElementById('dropdown-container');
-        // selectionDiv.classList.toggle('d-none');
-
-        // remove 3D layer
-        if (map.getLayer('custom-layer')) {
-          map.removeLayer('custom-layer');
-        };
-
-        fetch('assets/CodeLookup.json')
-          .then((response) => response.json())
-          .then((codeChart) => {
-            codefilter = []
-            codeChartList = Object.values(codeChart)
-            codefilter = codeChartList.filter(function (feature) {
-              return feature.Descriptor == singleCode.code
-            })
-            console.log(codefilter[0][year])
-            let result = [];
-            locationData.features.filter(function (feature) {
-              if (Array.isArray(feature.properties.codedescriptorlist) && feature.properties.codedescriptorlist.includes(codefilter[0][year])) {
-                result.push(feature);
-              }
-            });
-            console.log(result)
-            addCones(result, false);
-          });
-      })
-
-      // add corresponding style here
-      codeDiv.classList.add('dropdown-div');
-      code_parent2.appendChild(codeDiv);
-    }
-  };
-
-  // Meta Descriptor: Caution/Restriction
-  let restrictionDescriptor = document.createElement('div');
-  restrictionDescriptor.innerHTML = "Caution/Restriction";
-  restrictionDescriptor.title = "Meta Descriptor: Caution/Restriction";
-  restrictionDescriptor.classList.add('metaDescriptor');
-  code_parent3.appendChild(restrictionDescriptor);
-
-  // for each object in data
-  for (let code in data) {
-    let singleCode = data[code];
-    // check metaDescriptors
-    if (singleCode.name == "Caution/Restriction") {
-      let codeDiv = document.createElement('div');
-      codeDiv.innerHTML = singleCode.code;
-      codeDiv.title = singleCode.name;
-
-      // for each code_div add event listener on click to add filter features of the map
-      codeDiv.addEventListener('click', function () {
-        map.setFilter('data', ['in', singleCode.code, ['get', 'codedescriptorlist']]);
-        let selectionDiv = document.getElementById('dropdown-container');
-        // selectionDiv.classList.toggle('d-none');
-
-        // remove 3D layer
-        if (map.getLayer('custom-layer')) {
-          map.removeLayer('custom-layer');
-        };
-
-        fetch('assets/CodeLookup.json')
-          .then((response) => response.json())
-          .then((codeChart) => {
-            codefilter = []
-            codeChartList = Object.values(codeChart)
-            codefilter = codeChartList.filter(function (feature) {
-              return feature.Descriptor == singleCode.code
-            })
-            console.log(codefilter[0][year])
-            let result = [];
-            locationData.features.filter(function (feature) {
-              if (Array.isArray(feature.properties.codedescriptorlist) && feature.properties.codedescriptorlist.includes(codefilter[0][year])) {
-                result.push(feature);
-              }
-            });
-            console.log(result)
-            addCones(result, false);
-          });
-      })
-
-      // add corresponding style here
-      codeDiv.classList.add('dropdown-div');
-      code_parent3.appendChild(codeDiv);
-    }
-  };
-
-  // Meta Descriptor: Organization/Association
-  let organizationDescriptor = document.createElement('div');
-  organizationDescriptor.innerHTML = "organization/association";
-  organizationDescriptor.title = "Meta Descriptor: organization/association";
-  organizationDescriptor.classList.add('metaDescriptor');
-  code_parent4.appendChild(organizationDescriptor);
-
-  // for each object in data
-  for (let code in data) {
-    let singleCode = data[code];
-    // check metaDescriptors
-    if (singleCode.name == "Organization/Association") {
-      let codeDiv = document.createElement('div');
-      codeDiv.innerHTML = singleCode.code;
-      codeDiv.title = singleCode.name;
-
-      // for each code_div add event listener on click to add filter features of the map
-      codeDiv.addEventListener('click', function () {
-        map.setFilter('data', ['in', singleCode.code, ['get', 'codedescriptorlist']]);
-        let selectionDiv = document.getElementById('dropdown-container');
-        // selectionDiv.classList.toggle('d-none');
-
-        // remove 3D layer
-        if (map.getLayer('custom-layer')) {
-          map.removeLayer('custom-layer');
-        };
-
-        fetch('assets/CodeLookup.json')
-          .then((response) => response.json())
-          .then((codeChart) => {
-            codefilter = []
-            codeChartList = Object.values(codeChart)
-            codefilter = codeChartList.filter(function (feature) {
-              return feature.Descriptor == singleCode.code
-            })
-            console.log(codefilter[0][year])
-            let result = [];
-            locationData.features.filter(function (feature) {
-              if (Array.isArray(feature.properties.codedescriptorlist) && feature.properties.codedescriptorlist.includes(codefilter[0][year])) {
-                result.push(feature);
-              }
-            });
-            console.log(result)
-            addCones(result, false);
-          });
-      })
-
-      // add corresponding style here
-      codeDiv.classList.add('dropdown-div');
-      code_parent4.appendChild(codeDiv);
-    }
-  };
-
-  // Meta Descriptor: Other
-  let otherDescriptor = document.createElement('div');
-  otherDescriptor.innerHTML = "Other Descriptors";
-  otherDescriptor.title = "Meta Descriptor: other";
-  otherDescriptor.classList.add('metaDescriptor');
-  code_parent5.appendChild(otherDescriptor);
-
-  // for each object in data
-  for (let code in data) {
-    let singleCode = data[code];
-    // check metaDescriptors
-    if (singleCode.name == "Other") {
-      let codeDiv = document.createElement('div');
-      codeDiv.innerHTML = singleCode.code;
-      codeDiv.title = singleCode.name;
-
-      // for each code_div add event listener on click to add filter features of the map
-      codeDiv.addEventListener('click', function () {
-        map.setFilter('data', ['in', singleCode.code, ['get', 'codedescriptorlist']]);
-        let selectionDiv = document.getElementById('dropdown-container');
-        // selectionDiv.classList.toggle('d-none');
-
-        // remove 3D layer
-        if (map.getLayer('custom-layer')) {
-          map.removeLayer('custom-layer');
-        };
-
-        fetch('assets/CodeLookup.json')
-          .then((response) => response.json())
-          .then((codeChart) => {
-            codefilter = []
-            codeChartList = Object.values(codeChart)
-            codefilter = codeChartList.filter(function (feature) {
-              return feature.Descriptor == singleCode.code
-            })
-            console.log(codefilter[0][year])
-            let result = [];
-            locationData.features.filter(function (feature) {
-              if (Array.isArray(feature.properties.codedescriptorlist) && feature.properties.codedescriptorlist.includes(codefilter[0][year])) {
-                result.push(feature);
-              }
-            });
-            console.log(result)
-            addCones(result, false);
-          });
-      })
-
-      // add corresponding style here
-      codeDiv.classList.add('dropdown-div');
-      code_parent5.appendChild(codeDiv);
-    }
-  };
 }
+
+
 
 // obtain damron codes of corresponding year
 function codeIncludes(codeData, year) {
