@@ -754,6 +754,10 @@ function code_div(codes, venueSlices, year) {
       if (map.getLayer('custom-layer')) {
         map.removeLayer('custom-layer');
       };
+      if (map.getLayer('poi-labels')) {
+        map.removeLayer('poi-labels');
+        map.removeSource('venues');
+      };
 
       fetch('assets/CodeLookup.json')
         .then((response) => response.json())
@@ -800,6 +804,10 @@ function code_div(codes, venueSlices, year) {
     // remove 3D layer
     if (map.getLayer('custom-layer')) {
       map.removeLayer('custom-layer');
+    };
+    if (map.getLayer('poi-labels')) {
+      map.removeLayer('poi-labels');
+      map.removeSource('venues');
     };
     let onScreenData = venueSlices.features.filter(function (feature) {
       return feature.properties.year == year
@@ -937,7 +945,7 @@ function addNames(data) {
   }
   console.log(result)
 
-  // added by Bo  
+  // added by Bo
   // var mapLayer = map.getLayer('venues');
 
   // if(typeof mapLayer !== 'undefined') {
