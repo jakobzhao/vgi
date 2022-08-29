@@ -821,3 +821,11 @@ div.form-check {
 .category {
     padding-bottom: 4px;
 }
+
+.map-overlay-top {
+    padding-top: 90px !important;
+}
+
+#go-back-btn2 {
+    width: 20%;
+}

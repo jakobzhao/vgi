@@ -744,7 +744,7 @@ function code_div(data, locationData, year) {
   let code_parent4 = document.getElementById('dropdown4')
   let code_parent5 = document.getElementById('dropdown5')
   let Descriptorlist_parent = document.getElementById('codeDescriptorList')
-  
+
   // clear everything in div first (in case already populated with existing data)
   while (code_parent.firstChild) {
     code_parent.removeChild(code_parent.lastChild);
@@ -1507,24 +1507,37 @@ function loadOptions(data){
     }
   });
   console.log(dataSlice);
-  let categories = document.querySelectorAll('.type');
-  let i = 0
-  for (let category of categories) {
-    addCategory(category, dataSlice[i])
-    i+=1;
+  for (let data of dataSlice) {
+    data.pop();
   }
+  addAutoComplete('#autoEntry', dataSlice[0]);
+  addAutoComplete('#autoUser', dataSlice[1]);
+  addAutoComplete('#autoAmenity', dataSlice[2]);
+  addAutoComplete('#autoCaution', dataSlice[3]);
+  addAutoComplete('#autoOrganization', dataSlice[4]);
 }
 
-// Add category options in add missing venues
-function addCategory(category, data) {
-  category.innerHTML = '';
-  for(var object of data) {
-    let option = document.createElement('option');
-    option.value = object;
-    option.innerHTML = object;
-    category.appendChild(option);
-  }
+function addAutoComplete(id, data) {
+  new Autocomplete(id, {
+    search: input => {
+      if (input.length < 1) { return [] }
+      return data.filter(option => {
+        return option.toLowerCase()
+          .startsWith(input.toLowerCase())
+      })
+    }
+  });
 }
+// Add category options in add missing venues
+// function addCategory(category, data) {
+//   category.innerHTML = '';
+//   for(var object of data) {
+//     let option = document.createElement('option');
+//     option.value = object;
+//     option.innerHTML = object;
+//     category.appendChild(option);
+//   }
+// }
 
 ////////////////////////////////////////////////////////////////////////////////////
 // MAP ON LOAD
@@ -1715,7 +1728,7 @@ map.on('style.load', async function () {
       }
     }
 
-    // load clicked marker info on left panel 
+    // load clicked marker info on left panel
     toggleLeftPanelView('info-default');
 
     // // clear 3-D year object
@@ -1885,6 +1898,20 @@ map.on('style.load', async function () {
     };
 
   });
+  document.getElementById('go-back-btn2').addEventListener('click', function () {
+    if (!(document.getElementById('add-observation').classList.contains('d-none'))) {
+      document.getElementById('add-observation').classList.toggle('d-none');
+      document.getElementById('references-container').classList.toggle('d-none');
+      let inputs = document.querySelectorAll('input');
+      for (let input of inputs) {
+        input.value = '';
+      }
+      let yearSlider = document.getElementById('year-api');
+      let yearText = document.getElementById('year-text-label');
+      yearSlider.value = 2005;
+      yearText.textContent = 'Year: ' + yearSlider.value;
+    }
+  })
 
   // validation button
   // toggleview

@@ -96,8 +96,15 @@
             selectionDiv.classList.toggle('d-none');
         });
 
+        let yearSlider = document.getElementById('year-api');
+        yearSlider.addEventListener('change', function(e) {
+            let yearText = document.getElementById('year-text-label');
+            yearText.innerHTML = '';
+            yearText.textContent = 'Year: ' + yearSlider.value;
+        })
         //displayLoginButton();
         toggleLeftPanelView('references-container');
+
    };
 
    function removeScenes(buttons) {

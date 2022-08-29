@@ -67,6 +67,9 @@
   <!-- turf js  -->
   <script src='https://unpkg.com/@turf/turf@6/turf.min.js'></script>
 
+  <script src="https://unpkg.com/@trevoreyre/autocomplete-js"></script>
+  <link rel="stylesheet" href="css/autocomplete.css" />
+
   <script src="js/main.js"></script>
 </head>
 
@@ -123,11 +126,12 @@
                       <input type="email" class="form-control" id="exampleFormControlInput1">
                     </div> -->
                     <div class="mb-3">
-                      <label class="form-label help-text">Please input the passphrase to sign in this geospatial platform.</label>
+                      <label class="form-label help-text">Please input the passphrase to sign in this geospatial
+                        platform.</label>
                       <form class="passphrase-control">
-                      <input type="password" class="form-control passphrase">
-                      <input type="password" class="form-control passphrase">
-                      <input type="password" class="form-control passphrase">
+                        <input type="password" class="form-control passphrase">
+                        <input type="password" class="form-control passphrase">
+                        <input type="password" class="form-control passphrase">
                       </form>
                     </div>
                   </div>
@@ -474,8 +478,10 @@
       <div id="add-observation" class="d-none mx-4">
         <form id="user-form" class="d-flex flex-column">
           <!-- <h3 class="mt-3 mb-0 pb-2">Add new observation</h3> -->
-          <h3 class="mt-3 mb-0 pb-2">Add a missing venue</h3>
+          <h3 class="mt-3 mb-0 pb-2">Add a Missing Venue <button id="go-back-btn2" type="button" class="btn btn-primary mx-2">Return</button>
+          </h3>
           <div class="form-floating mb-1">
+
             <input id="location-api" type="text" class="form-control" required>
             <label for="location-api">Name:</label>
           </div>
@@ -483,82 +489,86 @@
             <input id="address-api" type="text" class="form-control" required>
             <label for="address-api">Address:</label>
           </div>
-          <div class="form-floating mb-1">
-            <input id="city-api" type="text" class="form-control" required>
-            <label for="city-api">City:</label>
-          </div>
-          <div class="form-floating mb-1">
-            <input id="state-api" type="text" class="form-control" required>
-            <label for="state-api">State:</label>
-          </div>
-          <div class="form-floating mb-1">
-            <input id="type-api" type="text" class="form-control" required>
-            <label for="type-api">Category:</label>
-          </div>
-          <div class="row g-2 category">
+          <div class="row g-2">
             <div class="col-md">
-              <div class="form-floating">
-                <select class="form-select type" id="EntryGrid" aria-label="Floating label select example">
-                  <option value=null>Unknown</option>
-                </select>
-                <label for="EntryGrid">Entry:</label>
+              <div class="form-floating mb-1">
+                <input id="city-api" type="text" class="form-control" required>
+                <label for="city-api">City:</label>
               </div>
             </div>
             <div class="col-md">
-              <div class="form-floating">
+              <div class="form-floating mb-1">
+                <input id="state-api" type="text" class="form-control" required>
+                <label for="state-api">State:</label>
+              </div>
+            </div>
+          </div>
+          <!-- <div class="form-floating mb-1">
+            <input id="type-api" type="text" class="form-control" required>
+            <label for="type-api">Category:</label>
+          </div> -->
+
+          <div class="form-floating mb-1" id="autoEntry">
+            <input class="autocomplete-input form-control" id='EntryGrid' />
+            <ul class="autocomplete-result-list"></ul>
+            <label for="EntryGrid">Entry:</label>
+          </div>
+
+          <div class="form-floating mb-1" id="autoUser">
+            <input class="autocomplete-input form-control" id='UserGrid' />
+            <ul class="autocomplete-result-list"></ul>
+            <label for="UserGrid">User:</label>
+          </div>
+
+          <!-- <div class="col-md">
+              <div class="form-floating mb-1">
                 <select class="form-select type" id="UserGrid" aria-label="Floating label select example">
                   <option value=null>Unknown</option>
                 </select>
                 <label for="UserGrid">User:</label>
               </div>
-            </div>
-            <div class="col-md">
-              <div class="form-floating">
-                <select class="form-select type" id="AmenityGrid" aria-label="Floating label select example">
-                  <option value=null>Unknown</option>
-                </select>
-                <label for="AmenityGrid">Amenity:</label>
-              </div>
-            </div>
+            </div> -->
+
+          <div class="form-floating mb-1" id="autoAmenity">
+            <input class="autocomplete-input form-control" id='AmenityGrid' />
+            <ul class="autocomplete-result-list"></ul>
+            <label for="AmenityGrid">Amenity:</label>
           </div>
-          <div class="row g-2 category">
-            <div class="col-md">
-              <div class="form-floating">
-                <select class="form-select type" id="CautionGrid" aria-label="Floating label select example">
-                  <option value=null>Unknown</option>
-                </select>
-                <label for="CautionGrid">Caution:</label>
-              </div>
-            </div>
-            <div class="col-md">
-              <div class="form-floating">
-                <select class="form-select type" id="OrganizationGrid" aria-label="Floating label select example">
-                  <option value=null>Unknown</option>
-                </select>
-                <label for="OrganizationGrid">Organization:</label>
-              </div>
-            </div>
-            <div class="col-md">
-              <div class="form-floating">
-                <input id="otherGrid" type="text" class="form-control">
-                <label for="otherGrid">Other:</label>
-              </div>
-            </div>
+
+          <div class="form-floating mb-1" id="autoCaution">
+            <input class="autocomplete-input form-control" id='CautionGrid' />
+            <ul class="autocomplete-result-list"></ul>
+            <label for="CautionGrid">Caution:</label>
           </div>
+
+          <div class="form-floating mb-1" id="autoOrganization">
+            <input class="autocomplete-input form-control" id='OrganizationGrid' />
+            <ul class="autocomplete-result-list"></ul>
+            <label for="OrganizationGrid">Organization:</label>
+          </div>
+
           <div class="form-floating mb-1">
+            <input id="otherGrid" type="text" class="form-control">
+            <label for="otherGrid">Other:</label>
+          </div>
+          <!-- <div class="form-floating mb-1">
             <input id="submit-year" type="number" class="form-control" required>
             <label for="submit-year">Year:</label>
+          </div> -->
+          <label for="year-text" class="form-label" id="year-text-label">Year: 2005</label>
+          <div class="form-floating mb-1" id="year-text">
+            <input type="range" class="form-range" id='year-api' min="1968" max="2014" step="1" value="2005">
           </div>
-          <div class="form-floating mb-1">
+          <!-- <div class="form-floating mb-1">
             <input id="type-note" type="text" class="form-control">
             <label for="type-note">Additional Notes:</label>
-          </div>
+          </div> -->
           <!-- v1 without damron code input -->
           <!-- <label for="damron">Damron Code:</label>
           <input for="damron" type="text" placeholder="Enter code"> -->
           <label for="confidence-observation">Confidence Level:</label>
           <div id="confidence-observation"></div>
-          <input type="range" min="1" max="5" step="1">
+          <input type="range" class="form-range" min="1" max="5" step="1">
           <div class="sliderticks">
             <p>1</p>
             <p>2</p>
