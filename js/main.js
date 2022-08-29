@@ -38,7 +38,7 @@
 
    };
 
-}
+
     // function promptLogin(event){
     //     event.preventDefault();
     //     $("#myModal").modal('show');
