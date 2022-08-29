@@ -26,82 +26,82 @@
         })
 
         // damron code dropdown toggle
-        let dmCodeBtn = document.getElementById('damron-code-btn');
-        let mainButtons = [];
-        let smallButtons = [];
-        mainButtons.push(document.getElementById('dropdown-container'));
-        mainButtons.push(document.getElementById('dropdown-container1'));
-        smallButtons.push(document.getElementById('secondDropdown-container'));
-        smallButtons.push(document.getElementById('secondDropdown-container1'));
-        smallButtons.push(document.getElementById('secondDropdown-container2'));
-        smallButtons.push(document.getElementById('secondDropdown-container3'));
-        smallButtons.push(document.getElementById('secondDropdown-container4'));
-        smallButtons.push(document.getElementById('secondDropdown-container5'));
+        // let dmCodeBtn = document.getElementById('damron-code-btn');
+        // let mainButtons = [];
+        // let smallButtons = [];
+        // mainButtons.push(document.getElementById('dropdown-container'));
+        // mainButtons.push(document.getElementById('dropdown-container1'));
+        // smallButtons.push(document.getElementById('secondDropdown-container'));
+        // smallButtons.push(document.getElementById('secondDropdown-container1'));
+        // smallButtons.push(document.getElementById('secondDropdown-container2'));
+        // smallButtons.push(document.getElementById('secondDropdown-container3'));
+        // smallButtons.push(document.getElementById('secondDropdown-container4'));
+        // smallButtons.push(document.getElementById('secondDropdown-container5'));
 
-        dmCodeBtn.addEventListener('click', function(e){
-            let selectionDiv = document.getElementById('dropdown-container');
-            removeScenes([mainButtons[1]]);
-            removeScenes(smallButtons);
-            selectionDiv.classList.toggle('d-none');
-        });
+        // dmCodeBtn.addEventListener('click', function(e){
+        //     let selectionDiv = document.getElementById('dropdown-container');
+        //     removeScenes([mainButtons[1]]);
+        //     removeScenes(smallButtons);
+        //     selectionDiv.classList.toggle('d-none');
+        // });
 
-        let dmCodeDesBtn = document.getElementById('EntryDescriptors');
-        dmCodeDesBtn.addEventListener('click', function(e){
-            let selectionDiv = document.getElementById('secondDropdown-container');
-            removeScenes(smallButtons);
-            selectionDiv.classList.toggle('d-none')
-        })
+        // let dmCodeDesBtn = document.getElementById('EntryDescriptors');
+        // dmCodeDesBtn.addEventListener('click', function(e){
+        //     let selectionDiv = document.getElementById('secondDropdown-container');
+        //     removeScenes(smallButtons);
+        //     selectionDiv.classList.toggle('d-none')
+        // })
 
-        let dmCodeDesBtn1 = document.getElementById('UserDescriptors');
-        dmCodeDesBtn1.addEventListener('click', function(e){
-            let selectionDiv = document.getElementById('secondDropdown-container1');
-            removeScenes(smallButtons);
-            selectionDiv.classList.toggle('d-none')
-        })
+        // let dmCodeDesBtn1 = document.getElementById('UserDescriptors');
+        // dmCodeDesBtn1.addEventListener('click', function(e){
+        //     let selectionDiv = document.getElementById('secondDropdown-container1');
+        //     removeScenes(smallButtons);
+        //     selectionDiv.classList.toggle('d-none')
+        // })
 
-        let dmCodeDesBtn2 = document.getElementById('AmenityDescriptors');
-        dmCodeDesBtn2.addEventListener('click', function(e){
-            let selectionDiv = document.getElementById('secondDropdown-container2');
-            removeScenes(smallButtons);
-            selectionDiv.classList.toggle('d-none')
-        })
+        // let dmCodeDesBtn2 = document.getElementById('AmenityDescriptors');
+        // dmCodeDesBtn2.addEventListener('click', function(e){
+        //     let selectionDiv = document.getElementById('secondDropdown-container2');
+        //     removeScenes(smallButtons);
+        //     selectionDiv.classList.toggle('d-none')
+        // })
 
-        let dmCodeDesBtn3 = document.getElementById('CautionDescriptors');
-        dmCodeDesBtn3.addEventListener('click', function(e){
-            let selectionDiv = document.getElementById('secondDropdown-container3');
-            removeScenes(smallButtons);
-            selectionDiv.classList.toggle('d-none')
-        })
+        // let dmCodeDesBtn3 = document.getElementById('CautionDescriptors');
+        // dmCodeDesBtn3.addEventListener('click', function(e){
+        //     let selectionDiv = document.getElementById('secondDropdown-container3');
+        //     removeScenes(smallButtons);
+        //     selectionDiv.classList.toggle('d-none')
+        // })
 
-        let dmCodeDesBtn4 = document.getElementById('OrganizationDescriptors');
-        dmCodeDesBtn4.addEventListener('click', function(e){
-            let selectionDiv = document.getElementById('secondDropdown-container4');
-            removeScenes(smallButtons);
-            selectionDiv.classList.toggle('d-none')
-        })
+        // let dmCodeDesBtn4 = document.getElementById('OrganizationDescriptors');
+        // dmCodeDesBtn4.addEventListener('click', function(e){
+        //     let selectionDiv = document.getElementById('secondDropdown-container4');
+        //     removeScenes(smallButtons);
+        //     selectionDiv.classList.toggle('d-none')
+        // })
 
 
-        let dmCodeDesBtn5 = document.getElementById('OtherDescriptors');
-        dmCodeDesBtn5.addEventListener('click', function(e){
-            let selectionDiv = document.getElementById('secondDropdown-container5');
-            removeScenes(smallButtons);
-            selectionDiv.classList.toggle('d-none')
-        })
+        // let dmCodeDesBtn5 = document.getElementById('OtherDescriptors');
+        // dmCodeDesBtn5.addEventListener('click', function(e){
+        //     let selectionDiv = document.getElementById('secondDropdown-container5');
+        //     removeScenes(smallButtons);
+        //     selectionDiv.classList.toggle('d-none')
+        // })
 
-        let dmCodeBtn1 = document.getElementById('damron-code-btn1');
-        dmCodeBtn1.addEventListener('click', function(e){
-            let selectionDiv = document.getElementById('dropdown-container1');
-            removeScenes([mainButtons[0]]);
-            removeScenes(smallButtons);
-            selectionDiv.classList.toggle('d-none');
-        });
+        // let dmCodeBtn1 = document.getElementById('damron-code-btn1');
+        // dmCodeBtn1.addEventListener('click', function(e){
+        //     let selectionDiv = document.getElementById('dropdown-container1');
+        //     removeScenes([mainButtons[0]]);
+        //     removeScenes(smallButtons);
+        //     selectionDiv.classList.toggle('d-none');
+        // });
 
-        let yearSlider = document.getElementById('year-api');
-        yearSlider.addEventListener('change', function(e) {
-            let yearText = document.getElementById('year-text-label');
-            yearText.innerHTML = '';
-            yearText.textContent = 'Year: ' + yearSlider.value;
-        })
+        // let yearSlider = document.getElementById('year-api');
+        // yearSlider.addEventListener('change', function(e) {
+        //     let yearText = document.getElementById('year-text-label');
+        //     yearText.innerHTML = '';
+        //     yearText.textContent = 'Year: ' + yearSlider.value;
+        // })
         //displayLoginButton();
         toggleLeftPanelView('references-container');
 
