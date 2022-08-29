@@ -14,6 +14,13 @@ var map = new mapboxgl.Map({
 });
 
 
+map.on('click', (e) => {
+  let localityList = document.getElementById('localityList');
+  localityList.classList.add('d-none');
+
+  let codeDescriptorList = document.getElementById('codeDescriptorList');
+  codeDescriptorList.classList.add('d-none');
+});
 
 document.getElementsByClassName('mapboxgl-ctrl-top-right')[0].classList.add('navi-ctrls');
 // geocoding search bar
@@ -542,7 +549,7 @@ Object.entries(localities).forEach(locality => {
   let localityItem = document.createElement("li");
 
   localityName = locality[0].charAt(0).toUpperCase() + locality[0].slice(1);
-  localityItem.innerHTML = '<a class="dropdown-item" href="#">' + localityName +'</a>';
+  localityItem.innerHTML = '<a class="dropdown-item" href="#">' + localityName + '</a>';
 
   localityItem.addEventListener('click', function handleClick(event) {
 
@@ -683,15 +690,16 @@ function addExtrusions(feature, e) {
 function code_div(codes, venueSlices, year) {
 
   let codeFilterBtn = document.getElementById("damron-code-btn");
+  let codeParent = document.getElementById('codeDescriptorList');
+
   codeFilterBtn.addEventListener('click', function () {
     codeParent.classList.remove('d-none');
   })
 
 
-  let codeParent = document.getElementById('codeDescriptorList');
-  while (codeParent.firstChild) {
-    codeParent.removeChild(codeParent.firstChild);
-  }
+  // while (codeParent.firstChild) {
+  //   codeParent.removeChild(codeParent.firstChild);
+  // }
 
 
   let codeNames = [];
@@ -774,6 +782,7 @@ function code_div(codes, venueSlices, year) {
 
   clear.addEventListener('click', function () {
     codeParent.classList.add('d-none');
+
     map.setFilter('data', undefined);
     // map filter of single year selected by the user
     map.setFilter('data', ["==", ['number', ['get', 'year']], year]);
