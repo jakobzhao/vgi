@@ -44,7 +44,7 @@
   </script>
 
   <!-- Promise polyfill script is required -->
-  <!-- to use Mapbox GL Geocoder in IE 11. -->
+  <!-- to use MapBox GL Geocoder in IE 11. -->
   <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.min.js"></script>
 
@@ -150,7 +150,7 @@
     <!-- </div> -->
 
     <!-- timeline -->
-    <div id="slider-time" class="map-overlay-top-time-slider d-flex">
+    <div id="year-slider" class="map-overlay-top-year-slider d-flex">
       <div id="timeline-labels" class="labels">
         <div>
           <label id="label-year" class="fw-bolder">2005</label>
@@ -173,19 +173,16 @@
     <!-- Category Filter -->
     <div id="locality-filter" class="position-absolute dropdown">
       <button id="localityFilterBtn" class="btn mx-2 btn-custom dropdown-toggle" data-mdb-toggle="dropdown"
-      aria-expanded="false" type="button" title="Here are all the localities we have tracked so far.">Localities</button>
+      aria-expanded="false" type="button" title="switch to a new locality we have tracked so far.">Localities</button>
       <ul class="d-grid dropdown-menu d-none" id="localityList" aria-labelledby="dropdownMenuButton">
       </ul>
     </div>
 
-    <!-- Damron Code Filter
-    <!-- https://mdbootstrap.com/docs/standard/extended/dropdown-multilevel/# -->
-    <div id="damron-code-filter" class="position-absolute dropdown">
+    <!-- Damron Code Filter -->
+    <div id="code-filter" class="position-absolute dropdown">
       <button id="damron-code-btn" class="btn mx-2 btn-custom dropdown-toggle" data-mdb-toggle="dropdown"
-        aria-expanded="false" type="button">Code Descriptors</button>
-      <!-- <p class="m-3 help-text">This panel shows a list of Codes being used during that specific year's edition of
-              Damron's Guides. Click on a code to screen out the qualified venues. Click "Clear" to cancel any applied
-              filter. </p> -->
+        aria-expanded="false" type="button" title="filter the venues using a list of code/descriptor.">Codes/Descriptors</button>
+      <!-- <p class="m-3 help-text"> </p> -->
       <ul class="d-grid dropdown-menu d-none" id="codeDescriptorList" aria-labelledby="dropdownMenuButton">
       </ul>
     </div>
@@ -305,26 +302,6 @@
             </div>
           </div>
 
-          <!-- <div class="my-2"> -->
-          <!-- add other selections -->
-          <!-- <p class="light-text-title">Sources</p>
-            <div class="d-flex flex-wrap flex-row">
-              <div class="d-flex flex-column">
-                <div class="form-check form-switch">
-                  <input class="form-check-input" type="checkbox" id="men-guide" name="a">
-                  <label class="form-check-label" for="men-guide">Damron's Men</label>
-                </div>
-                <div class="form-check form-switch">
-                  <input class="form-check-input" type="checkbox" id="women-guide" name="a">
-                  <label class="form-check-label" for="women-guide">Damron's Women</label>
-                </div>
-                <div class="form-check form-switch">
-                  <input class="form-check-input" type="checkbox" id="local-experts">
-                  <label class="form-check-label" for="local-experts">Local Experts</label>
-                </div>
-              </div>
-            </div> -->
-          <!-- </div> -->
 
         </div>
       </div>

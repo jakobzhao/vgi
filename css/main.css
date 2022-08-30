@@ -36,7 +36,7 @@ nav {
     padding-right: 3.5em;
 }
 
-.map-overlay-top-time-slider {
+.map-overlay-top-year-slider {
     position: absolute;
     top: 0;
     right: 0;
@@ -59,7 +59,7 @@ nav {
 }
 
 /* damron code filter */
-#damron-code-filter {
+#code-filter {
     right: 0;
     margin-top: 2em;
     margin-right: 27em;
