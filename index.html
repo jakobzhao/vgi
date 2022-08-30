@@ -104,13 +104,13 @@
             <div id="signInBtn"></div>
           </li> -->
           <li>
-            <button id="signOutBtn" class="btn btn-outline-light d-none">Sign out</button>
+            <button id="signOutBtn" class="btn btn-outline-light d-none">Log out</button>
           </li>
           <li class="nav-item d-flex">
             <!-- Button trigger modal -->
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"
               id="signInBtn">
-              Sign In
+            Log In
             </button>
             <!-- Modal -->
             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
@@ -118,8 +118,8 @@
               <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content" id="signin-modal">
                   <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Sign In</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h5 class="modal-title" id="exampleModalLabel">Log In with Passphrase</h5>
+                    <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
                   </div>
                   <div class="modal-body" id="signin-body">
                     <!-- <div class="mb-3">
@@ -127,18 +127,21 @@
                       <input type="email" class="form-control" id="exampleFormControlInput1">
                     </div> -->
                     <div class="mb-3">
-                      <label class="form-label help-text">Please input the passphrase to sign in this geospatial
-                        platform.</label>
+                      <label class="form-label ">Please input each word of the passphrase to the input fields below.</label>
+                     
                       <form class="passphrase-control">
                         <input type="password" class="form-control passphrase">
                         <input type="password" class="form-control passphrase">
                         <input type="password" class="form-control passphrase">
                       </form>
+                      <label class="form-label "> </label>
+                      <label class="form-label "> To protect the local experts, we only distribute the passphrase to reliable users. If you want to add a missing venue or make any contribution to this dataset of LGBTQ+ venues, please contact us for a passphrase.</label>
+                    
                     </div>
                   </div>
                   <div class="modal-footer" id="signin-footers">
+                    <button type="button" class="btn btn-primary" id="signin-btn">Submit</button>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="signin-btn">Sign In</button>
                   </div>
                 </div>
               </div>
