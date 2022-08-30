@@ -1,6 +1,7 @@
 {
     "cSpell.words": [
         "basemap",
+        "basemaps",
         "codedescriptorlist",
         "codefilter",
         "damron",
@@ -8,6 +9,7 @@
         "geospatial",
         "LGBTQ",
         "mapbox",
-        "mapboxgl"
+        "mapboxgl",
+        "rtoggle"
     ]
 }
