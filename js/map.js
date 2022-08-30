@@ -1585,8 +1585,9 @@ map.on('style.load', async function () {
       });
       let result = await getResult.json();
       if (result[0]['Result'] == '0') {
-        document.getElementById('signInBtn').classList.toggle('d-none');
-        document.getElementById('signOutBtn').classList.toggle('d-none');
+
+
+        document.getElementById("login-cls-btn").click();
 
         let alert = document.getElementById("alert-modal");
         let alertText = document.getElementById("alert-text");
@@ -1594,12 +1595,40 @@ map.on('style.load', async function () {
         let alertModal = new bootstrap.Modal(alert);
         alertModal.show();
 
+
+  
+
+        
+
+
+        document.getElementById('signInBtn').classList.toggle('d-none');
+        document.getElementById('signOutBtn').classList.toggle('d-none');
+
+        // let alert = document.getElementById("alert-modal");
+        // let alertText = document.getElementById("alert-text");
+        // alertText.innerHTML = "Log in successfully！";
+        // let alertModal = new bootstrap.Modal(alert);
+        // alertModal.show();
+
       } else if (result[0]['Result'] == '1') {
+
+ 
+
+
+
+        
         let alert = document.getElementById("alert-modal");
         let alertText = document.getElementById("alert-text");
         alertText.innerHTML = "Incorrect passphrase, please try again.";
         let alertModal = new bootstrap.Modal(alert);
         alertModal.show();
+
+        let passphrases =  document.getElementsByClassName("passphrase");   
+          passphrases[0].value = "";
+          passphrases[1].value = "";
+          passphrases[2].value = "";
+
+      
 
 
 
@@ -1611,7 +1640,7 @@ map.on('style.load', async function () {
     }
   }
 
-  document.getElementById('signin-btn').addEventListener('click', submitPassword);
+  document.getElementById('login-btn').addEventListener('click', submitPassword);
 
   // go back button
   document.getElementById('go-back-btn').addEventListener('click', function () {
