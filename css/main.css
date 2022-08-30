@@ -209,12 +209,8 @@ nav {
 
 .dropdown-div-clear {
     display: flex;
-    align-items: center;
     justify-content: center;
-    font-style: italic bold;
-    flex-basis: 21%;
-    margin: 1px;
-    height: 40px;
+    font-style:italic;
     font-weight: 500;
 }
 

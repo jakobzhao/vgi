@@ -788,7 +788,8 @@ function code_div(codes, venueSlices, year) {
 
 
   ///////////////////////////////clear function///////////////////////////////////////////
-
+  let divider = document.createElement("li");
+  divider.innerHTML = '<hr class="dropdown-divider">';
   let clear = document.createElement("li");
   clear.classList.add("metaDescriptor");
   clear.setAttribute("id", "clear-button");
@@ -819,7 +820,7 @@ function code_div(codes, venueSlices, year) {
 
   });
 
-
+  codeParent.appendChild(divider);
   codeParent.appendChild(clear);
 
   ///////////////////////////////clear function///////////////////////////////////////////
