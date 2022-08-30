@@ -32,7 +32,6 @@ let geocoder = new MapboxGeocoder({
 }).onAdd(map);
 
 
-
 document.getElementById('geocoder').appendChild(geocoder);
 
 // toggleLeftPanelView()
