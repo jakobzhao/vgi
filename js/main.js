@@ -11,7 +11,7 @@
         document.querySelector('#observation-parent').addEventListener('click', isLoggedIn);
         document.getElementById('submit-edit').addEventListener('click', validateObservation);
         document.querySelector("#submit-button").addEventListener('click', newUser);
-        document.getElementById('signOutBtn').addEventListener('click', () => {
+        document.getElementById('logOutBtn').addEventListener('click', () => {
             signOut();
         });
         document.getElementById('year-api').addEventListener('change', () => {
@@ -77,8 +77,8 @@
     // // Displays the log in Google button
     // function handleCredentialResponse(response) {
     //     // console.log("Encoded JWT ID token: " + response.credential);
-    //     document.getElementById('signInBtn').classList.toggle('d-none');
-    //     document.getElementById('googleSignOutBtn').classList.toggle('d-none');
+    //     document.getElementById('logInBtn').classList.toggle('d-none');
+    //     document.getElementById('googlelogOutBtn').classList.toggle('d-none');
     // };
 
     // function displayLoginButton() {
@@ -87,7 +87,7 @@
     //         callback: handleCredentialResponse
     //     });
     //     google.accounts.id.renderButton(
-    //         document.getElementById("signInBtn"),
+    //         document.getElementById("logInBtn"),
     //         { theme: "filled_black", type: "standard", size: "medium", shape: "pill", text: "signin" }  // customization attributes
     //     );
     //     google.accounts.id.prompt(); // also display the One Tap dialog
@@ -99,7 +99,7 @@
     // Checks if user is logged in already, on button clicked to add observation.
     function isLoggedIn() {
 
-        let signInView = document.getElementById('signInBtn');
+        let signInView = document.getElementById('logInBtn');
         // if left panel is closed
         if (document.getElementById('info').classList.contains('leftCollapse')) {
             let collapseState = document.getElementById('info').classList.toggle('leftCollapse');
@@ -137,8 +137,8 @@
             }
         };
         // google.accounts.id.disableAutoSelect();
-        document.getElementById('signInBtn').classList.toggle('d-none');
-        document.getElementById('signOutBtn').classList.toggle('d-none');
+        document.getElementById('logInBtn').classList.toggle('d-none');
+        document.getElementById('logOutBtn').classList.toggle('d-none');
     }
 
     async function validateObservation(event) {

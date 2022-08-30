@@ -583,7 +583,7 @@ Object.entries(localities).forEach(locality => {
 
 
 // function logInCheck() {
-//   let signInView = document.getElementById('signInBtn');
+//   let signInView = document.getElementById('logInBtn');
 //   // if left panel is closed
 //   if (document.getElementById('info').classList.contains('leftCollapse')) {
 //     let collapseState = document.getElementById('info').classList.toggle('leftCollapse');
@@ -794,7 +794,7 @@ function code_div(codes, venueSlices, year) {
   clear.classList.add("metaDescriptor");
   clear.setAttribute("id", "clear-button");
   // clear.classList.add('');
-  clear.innerHTML = '<a class="dropdown-item dropdown-div-clear" title="Clear all selected filters" href="#"> Clear </a>';
+  clear.innerHTML = '<a class="dropdown-item clear-button" title="Clear all selected filters" href="#"> Clear </a>';
 
   clear.addEventListener('click', function () {
     codeParent.classList.add('d-none');
@@ -1597,8 +1597,8 @@ map.on('style.load', async function () {
         alertModal.show();
 
 
-        document.getElementById('signInBtn').classList.toggle('d-none');
-        document.getElementById('signOutBtn').classList.toggle('d-none');
+        document.getElementById('logInBtn').classList.toggle('d-none');
+        document.getElementById('logOutBtn').classList.toggle('d-none');
 
 
       } else if (result[0]['Result'] == '1') {
