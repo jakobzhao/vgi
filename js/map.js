@@ -1596,27 +1596,12 @@ map.on('style.load', async function () {
         alertModal.show();
 
 
-  
-
-        
-
-
         document.getElementById('signInBtn').classList.toggle('d-none');
         document.getElementById('signOutBtn').classList.toggle('d-none');
 
-        // let alert = document.getElementById("alert-modal");
-        // let alertText = document.getElementById("alert-text");
-        // alertText.innerHTML = "Log in successfully！";
-        // let alertModal = new bootstrap.Modal(alert);
-        // alertModal.show();
 
       } else if (result[0]['Result'] == '1') {
 
- 
-
-
-
-        
         let alert = document.getElementById("alert-modal");
         let alertText = document.getElementById("alert-text");
         alertText.innerHTML = "Incorrect passphrase, please try again.";
@@ -1627,10 +1612,6 @@ map.on('style.load', async function () {
           passphrases[0].value = "";
           passphrases[1].value = "";
           passphrases[2].value = "";
-
-      
-
-
 
       } else {
         console.log('error.')
