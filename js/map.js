@@ -547,9 +547,6 @@ localityFilterBtn.addEventListener('click', function () {
 
   let codeDescriptorList = document.getElementById('codeDescriptorList');
   codeDescriptorList.classList.add('d-none');
-
-
-
 });
 
 
@@ -764,11 +761,10 @@ function code_div(codes, venueSlices, year) {
 
       fetch('assets/CodeLookup.json')
         .then((response) => response.json())
-        .then((codeChart) => {
-
+        .then((codeLookup) => {
           let codefilter = [];
-          codeChartList = Object.values(codeChart);
-          codefilter = codeChartList.filter(function (feature) {
+          codeLookupList = Object.values(codeLookup);
+          codefilter = codeLookupList.filter(function (feature) {
             return feature.Descriptor == code.code
           })
           console.log(codefilter[0][year])
