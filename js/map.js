@@ -26,10 +26,14 @@ document.getElementsByClassName('mapboxgl-ctrl-top-right')[0].classList.add('nav
 // geocoding search bar
 let geocoder = new MapboxGeocoder({
   accessToken: mapboxgl.accessToken,
-  mapboxgl: mapboxgl
-});
+  mapboxgl: mapboxgl,
+  placeholder: "Search a local place...",
+  enableGeoLocation: true
+}).onAdd(map);
 
-document.getElementById('geocoder').appendChild(geocoder.onAdd(map));
+
+
+document.getElementById('geocoder').appendChild(geocoder);
 
 // toggleLeftPanelView()
 // Parameter:

@@ -819,9 +819,13 @@ div.form-check {
     padding-bottom: 4px;
 }
 
+
+/* search box and the instruction  */
+
 .map-overlay-top {
-    padding-top: 90px !important;
+    padding-top: 95px;
 }
+
 
 #go-back-btn2 {
     width: 20%;
