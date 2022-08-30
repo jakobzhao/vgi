@@ -582,29 +582,29 @@ Object.entries(localities).forEach(locality => {
 
 
 
-function logInCheck() {
-  let signInView = document.getElementById('signInBtn');
-  // if left panel is closed
-  if (document.getElementById('info').classList.contains('leftCollapse')) {
-    let collapseState = document.getElementById('info').classList.toggle('leftCollapse');
-    document.getElementById('info-close-btn').classList.toggle('info-btn-collapse');
-    let btnImg = document.getElementById('leftPanelArrow');
-    if (collapseState) {
-      btnImg.src = './assets/imgs/open-arrow.svg';
-    } else {
-      btnImg.src = './assets/imgs/back-btn.svg';
-    }
-  }
+// function logInCheck() {
+//   let signInView = document.getElementById('signInBtn');
+//   // if left panel is closed
+//   if (document.getElementById('info').classList.contains('leftCollapse')) {
+//     let collapseState = document.getElementById('info').classList.toggle('leftCollapse');
+//     document.getElementById('info-close-btn').classList.toggle('info-btn-collapse');
+//     let btnImg = document.getElementById('leftPanelArrow');
+//     if (collapseState) {
+//       btnImg.src = './assets/imgs/open-arrow.svg';
+//     } else {
+//       btnImg.src = './assets/imgs/back-btn.svg';
+//     }
+//   }
 
-  if (signInView.classList.contains('d-none')) {
-    // if contains display none, means that user is logged in
-    toggleLeftPanelView('validate-observation');
-    return true;
-  } else {
-    alert('Please sign in through Google first!');
-  }
-  return false;
-}
+//   if (signInView.classList.contains('d-none')) {
+//     // if contains display none, means that user is logged in
+//     toggleLeftPanelView('validate-observation');
+//     return true;
+//   } else {
+//     alert('Please sign in through Google first!');
+//   }
+//   return false;
+// }
 
 // create and style all incoming reviews from API request
 function constructReviews(reviewData) {
@@ -1554,7 +1554,13 @@ map.on('style.load', async function () {
     let submitCheck = document.getElementById('user-review-input').value;
     // check if
     if (/^\s*$/g.test(submitCheck)) {
-      alert('Invalid comment. No text detected!');
+      let alert = document.getElementById("alert-modal");
+      let alertText = document.getElementById("alert-text");
+      alertText.innerHTML = "Invalid comment. No text detected!";
+      let alertModal = new bootstrap.Modal(alert);
+      alertModal.show();
+
+      
     } else {
       // add new review
       addNewReview(e, vid);
@@ -1579,14 +1585,26 @@ map.on('style.load', async function () {
       });
       let result = await getResult.json();
       if (result[0]['Result'] == '0') {
-        // alert('Login success!');
-        document.getElementById('signin-modal').innerHTML = '<br>&nbsp;&nbsp;&nbsp;&nbsp;Log in successfully, thank you!<br><br>';
         document.getElementById('signInBtn').classList.toggle('d-none');
         document.getElementById('signOutBtn').classList.toggle('d-none');
+
+        let alert = document.getElementById("alert-modal");
+        let alertText = document.getElementById("alert-text");
+        alertText.innerHTML = "Log in successfully！";
+        let alertModal = new bootstrap.Modal(alert);
+        alertModal.show();
+
       } else if (result[0]['Result'] == '1') {
-        alert('Incorrect password, please try again.')
+        let alert = document.getElementById("alert-modal");
+        let alertText = document.getElementById("alert-text");
+        alertText.innerHTML = "Incorrect passphrase, please try again.";
+        let alertModal = new bootstrap.Modal(alert);
+        alertModal.show();
+
+
+
       } else {
-        console.log('error')
+        console.log('error.')
       }
     } catch (err) {
       console.log(err);

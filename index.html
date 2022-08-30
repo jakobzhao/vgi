@@ -113,11 +113,11 @@
               id="signInBtn">
             Log In
             </button>
-            <!-- Modal -->
+            <!-- Modals -->
             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
               aria-hidden="true">
               <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content" id="signin-modal">
+                <div class="modal-content" id="login-modal">
                   <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Log In with Passphrase</h5>
                   </div>
@@ -130,8 +130,9 @@
                         <input type="password" class="form-control passphrase">
                         <input type="password" class="form-control passphrase">
                       </form>
+                      <!-- intentionally left blank -->
                       <label class="form-label "> </label>
-                      <label class="form-label "> To protect the local experts, we only distribute the passphrase to reliable users. If you want to add a missing venue or make any contribution to this dataset of LGBTQ+ venues, please contact us for a passphrase.</label>
+                      <label class="form-label "> To protect the privacy of the data contributors, we only distribute the passphrase to reliable users. If you want to add a missing venue or make any contribution to this dataset of LGBTQ+ venues, please contact us for a passphrase.</label>
                     
                     </div>
                   </div>
@@ -219,6 +220,25 @@
         </div>
       </div>
     </div>
+
+
+    <!-- log in alert -->
+          <div class="modal fade" id="alert-modal">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Alert</h5>
+                </div>
+                <div class="modal-body" id="alert-text">
+                  Please log in before making any contribution to this geospatial platform.
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
+          </div>
+     
 
     <!-- left dashboard -->
     <div id="info" class="d-flex flex-column rounded leftCollapsed">

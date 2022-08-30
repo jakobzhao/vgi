@@ -2,7 +2,7 @@
 // Utilizes the lgbtqspaces API to be deployed by Heroku to be able to
 // connect with the database
 "use strict";
-(function() {
+(function () {
     window.addEventListener("load", init);
 
     // init function
@@ -19,18 +19,18 @@
         });
         let basemapDisplay = document.getElementById('basemap-selection');
         let layersDisplay = document.getElementById('layers-container');
-        layersDisplay.addEventListener('mouseenter', function(e) {
+        layersDisplay.addEventListener('mouseenter', function (e) {
             basemapDisplay.classList.remove('d-none');
         })
 
-        basemapDisplay.addEventListener('mouseleave', function(e){
+        basemapDisplay.addEventListener('mouseleave', function (e) {
             basemapDisplay.classList.add('d-none');
         })
 
         //displayLoginButton();
         toggleLeftPanelView('references-container');
 
-   };
+    };
 
     // function promptLogin(event){
     //     event.preventDefault();
@@ -59,18 +59,18 @@
             let sendData = await fetch('https://lgbtqspaces-api.herokuapp.com/api/user_observation', settings);
             clearForm();
             console.log("User has been added to the database");
-        } catch(error) {
+        } catch (error) {
             checkStatus(error);
         }
     }
 
     function clearForm() {
-        document.getElementById('location-api').value='';
-        document.getElementById('address-api').value='';
-        document.getElementById('city-api').value='';
-        document.getElementById('state-api').value='';
-        document.getElementById('type-api').value='';
-        document.getElementById('submit-year').value='';
+        document.getElementById('location-api').value = '';
+        document.getElementById('address-api').value = '';
+        document.getElementById('city-api').value = '';
+        document.getElementById('state-api').value = '';
+        document.getElementById('type-api').value = '';
+        document.getElementById('submit-year').value = '';
     }
 
     // // displayLoginButton()
@@ -101,35 +101,39 @@
 
         let signInView = document.getElementById('signInBtn');
         // if left panel is closed
-        if( document.getElementById('info').classList.contains('leftCollapse')) {
+        if (document.getElementById('info').classList.contains('leftCollapse')) {
             let collapseState = document.getElementById('info').classList.toggle('leftCollapse');
             document.getElementById('info-close-btn').classList.toggle('info-btn-collapse');
             let btnImg = document.getElementById('leftPanelArrow');
-            if(collapseState) {
-              btnImg.src = './assets/imgs/open-arrow.svg';
+            if (collapseState) {
+                btnImg.src = './assets/imgs/open-arrow.svg';
             } else {
-              btnImg.src = './assets/imgs/back-btn.svg';
+                btnImg.src = './assets/imgs/back-btn.svg';
             }
         }
 
-        if(signInView.classList.contains('d-none')) {
+        if (signInView.classList.contains('d-none')) {
             // if contains display none, means that user is logged in
             toggleLeftPanelView('add-observation');
         } else {
-            alert('Please sign in first!');
+            let alert = document.getElementById("alert-modal");
+            let alertText = document.getElementById("alert-text");
+            alertText.innerHTML = "Please log in before making any contribution to this geospatial platform.";
+            let alertModal = new bootstrap.Modal(alert);
+            alertModal.show();
         }
     }
 
     // sign out the user when clicked on sign out
     function signOut() {
-        if ( !(document.getElementById('add-observation').classList.contains('d-none')) ) {
+        if (!(document.getElementById('add-observation').classList.contains('d-none'))) {
             let collapseState = document.getElementById('info').classList.toggle('leftCollapse');
             document.getElementById('info-close-btn').classList.toggle('info-btn-collapse');
             let btnImg = document.getElementById('leftPanelArrow');
-            if(collapseState) {
-              btnImg.src = './assets/imgs/open-arrow.svg';
+            if (collapseState) {
+                btnImg.src = './assets/imgs/open-arrow.svg';
             } else {
-              btnImg.src = './assets/imgs/back-btn.svg';
+                btnImg.src = './assets/imgs/back-btn.svg';
             }
         };
         // google.accounts.id.disableAutoSelect();
@@ -137,7 +141,7 @@
         document.getElementById('signOutBtn').classList.toggle('d-none');
     }
 
-    async function validateObservation (event) {
+    async function validateObservation(event) {
         try {
             event.preventDefault();
             // Obtain data from user input
@@ -170,14 +174,14 @@
             };
 
             // DELETE fetch request
-            let nameYear =  {
+            let nameYear = {
                 method: 'DELETE',
                 body: nameYearData
             };
 
             let sendData = await fetch('https://lgbtqspaces-api.herokuapp.com/api/add-venue', venueData);
             console.log("Observation has been confirmed. Added to the list of venues. Please refresh the page.");
-        } catch(error) {
+        } catch (error) {
             checkStatus(error);
         }
     };
@@ -197,14 +201,14 @@
     // status checks
     function checkStatus(response) {
         if (response.ok) {
-          return response;
+            return response;
         } else {
-          throw Error("Error in request: " + response.statusText);
+            throw Error("Error in request: " + response.statusText);
         }
     }
 
     // Change views of year when user move the slider
-    function yearChange(){
+    function yearChange() {
         let yearSlider = document.getElementById('year-api');
         let yearText = document.getElementById('year-text-label');
         yearText.innerHTML = '';
