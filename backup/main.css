@@ -26,11 +26,11 @@ nav {
     position: absolute;
     top: 0;
     right: 0;
-    padding-top: 5.75em;
+    padding-top: 5.2em;
     padding-right: 3.5em;
 }
 
-.map-overlay-top-time-slider {
+.map-overlay-top-below {
     position: absolute;
     top: 0;
     right: 0;
@@ -38,7 +38,16 @@ nav {
     padding-right: 40em;
 }
 
-
+/* for right side panel */
+.map-overlay-left {
+    position: absolute;
+    width: 23%;
+    max-height: 85vh;
+    overflow-x: scroll;
+    top: 8.5%;
+    left: 0.5%;
+    background: rgba(255, 255, 255, 0.85);
+}
 
 /* side panel background */
 .bg-opaque-white {
@@ -520,9 +529,8 @@ nav {
 /* slider label */
 .labels {
     display: flex;
-    font-size: 4em;
-    margin-top: -0.4em;
-    
+    justify-content: space-between;
+    font-size: 3em;
 }
 
 /* #label-year {
@@ -549,7 +557,20 @@ div.form-check {
     font-size: 11px;
 }
 
+/* base year selection */
+.base-year {
+    font-size: 15px;
+    font-style: italic;
+    position: absolute;
+    right: 0;
+    margin-right: 1em;
+    margin-top: 1em;
+    padding-top: 1em;
+}
 
+#base-year-selection {
+    margin-right: 0.3em;
+}
 
 /* single input slider */
 .middle {
@@ -560,7 +581,7 @@ div.form-check {
     -webkit-appearance: none;
     background: transparent;
     padding-top: 1.4em;
-    margin-left: 1em;
+    padding-left: 1em;
     z-index: 1;
     width: 100%;
 }
@@ -800,6 +821,12 @@ div.form-check {
     padding-bottom: 4px;
 }
 
+
+/* search box and the instruction  */
+
+.map-overlay-top {
+    padding-top: 92px;
+}
 
 
 #go-back-btn2 {

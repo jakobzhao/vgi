@@ -13,6 +13,9 @@ var map = new mapboxgl.Map({
   hash: true
 });
 
+
+
+
 //click on the map to hide the locality and/or the code filter menus.
 map.on('click', (e) => {
   let localityList = document.getElementById('localityList');
