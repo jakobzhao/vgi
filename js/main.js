@@ -11,7 +11,7 @@
         document.querySelector('#observation-parent').addEventListener('click', isLoggedIn);
         document.getElementById('submit-edit').addEventListener('click', validateObservation);
         document.querySelector("#submit-button").addEventListener('click', newUser);
-        document.getElementById('googleSignOutBtn').addEventListener('click', () => {
+        document.getElementById('signOutBtn').addEventListener('click', () => {
             signOut();
         });
         document.getElementById('year-api').addEventListener('change', () => {
@@ -132,9 +132,9 @@
               btnImg.src = './assets/imgs/back-btn.svg';
             }
         };
-        google.accounts.id.disableAutoSelect();
+        // google.accounts.id.disableAutoSelect();
         document.getElementById('signInBtn').classList.toggle('d-none');
-        document.getElementById('googleSignOutBtn').classList.toggle('d-none');
+        document.getElementById('signOutBtn').classList.toggle('d-none');
     }
 
     async function validateObservation (event) {

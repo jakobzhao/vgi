@@ -1580,6 +1580,7 @@ map.on('style.load', async function () {
         // alert('Login success!');
         document.getElementById('signin-modal').innerHTML = '<br>&nbsp;&nbsp;&nbsp;&nbsp;Log in successfully, thank you!<br><br>';
         document.getElementById('signInBtn').classList.toggle('d-none');
+        document.getElementById('signOutBtn').classList.toggle('d-none');
       } else if (result[0]['Result'] == '1') {
         alert('Incorrect password, please try again.')
       } else {
