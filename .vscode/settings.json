@@ -3,7 +3,9 @@
         "basemap",
         "codedescriptorlist",
         "codefilter",
+        "damron",
         "Geocoder",
+        "geospatial",
         "LGBTQ",
         "mapbox",
         "mapboxgl"
