@@ -17,6 +17,12 @@ nav {
     z-index: 999;
 }
 
+#project-name{
+    font-size: larger;
+    margin-top: -1.5em;
+    margin-left: 2.5em;
+}
+
 #signInBtn {
     margin-top: 3px;
 }
