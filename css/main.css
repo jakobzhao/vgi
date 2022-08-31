@@ -273,13 +273,35 @@ nav {
 /* year-slider */
 #year-slider {
     position: absolute;
+    display: flex;
     width:32em;
     top: 5em;
     left: 27em;
     margin-left: 2em;
 }
 
+#year-label {
+    font-size: 60px;
+    font-weight: 500;
+
+}
+
+#year-notes {
+    display:flexbox;
+
+    position:relative;
+    left: 0.5em;
+    top: -3.5em;
+    font-size: 15pt;
+    font-weight: 500;
+    color: crimson;
+
+}
+
 #slider-bar {
+    top: -5.5em;
+    left: 8em;
+    position: relative;
     width: 25em;
 }
 
@@ -431,7 +453,7 @@ nav {
 }
 
 /* slider label */
-.labels {
+.label {
     display: flex;
     font-size: 4em;
     margin-top: -0.4em;

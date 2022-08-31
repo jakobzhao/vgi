@@ -93,7 +93,7 @@ function toggleLeftPanelView(elementId) {
 // changes the label of the current selected year for the user to see
 function year_val() {
   let selectedYear = document.getElementById('slider-bar').value;
-  document.getElementById('label-year').innerHTML = selectedYear;
+  document.getElementById('year-label').innerHTML = selectedYear;
 }
 
 function venueList(data) {
@@ -953,7 +953,7 @@ function setImgURL(service, placeId) {
   return imgElement;
 };
 
-function addNames(data) {
+function addLabels(data) {
   let result = {}
   result.type = "FeatureCollection";
   result.features = [];
@@ -997,7 +997,14 @@ function addNames(data) {
 
 
 function addCones(data, active) {
-  addNames(data);
+
+  if (data.length == 0) {
+    document.getElementById("year-notes").innerHTML = "no venue data is found this year."
+  } else {
+    document.getElementById("year-notes").innerHTML = "";
+  }
+
+  addLabels(data);
   map.addLayer({
     id: 'custom-layer',
     type: 'custom',
