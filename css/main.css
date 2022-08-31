@@ -248,11 +248,30 @@ nav {
     border: 1px solid black;
 }
 
-/* #info-close:hover span {
-  font-size: 12px;
-  display: flex;
-  flex-direction: row;
-} */
+
+
+
+#attribution {
+    position: absolute;
+    display: flex;
+    width:35em;
+    bottom: 0em;
+    left: 27em;
+}
+
+#logos {
+    width:14.4em;
+}
+#acknowledge {
+    /* display:flex; */
+    position: relative;
+    text-align: left;
+    font-size: small;
+    left: 1em;
+    bottom: 0.2em;
+
+}
+
 
 /* info review box  */
 .info-review-box {
@@ -651,16 +670,7 @@ div.form-check {
     margin-top: 4em;
 }
 
-#footer-container {
-    font-size: 13px;
-    /* position: absolute; */
-    margin-top: 35em;
-    line-height: 1.1em;
-}
 
-#footer-container img {
-    margin-right: 1em
-}
 
 .modal-backdrop{
     z-index: 1;

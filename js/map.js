@@ -56,8 +56,20 @@ function toggleLeftPanelView(elementId) {
   $('#' + elementId).removeClass('d-none');
 
   // exceptions
-  let footer = document.getElementById('footer-container');
-  footer.classList.remove('d-none');
+  // let footer = document.getElementById('attribution');
+  // footer.classList.remove('d-none');
+
+  // process the attribution
+  attributionLeft = document.getElementById("attribution").style["left"];
+
+  if (attributionLeft == "" || attributionLeft == "0em" ) {
+    document.getElementById("attribution").style["left"] = "27em";
+
+  } else {
+    document.getElementById("attribution").style["left"] = "0em";
+
+  }
+
 
   if (elementId == "info-default") {
     document.getElementById('validation-btns').classList.remove('d-none');
@@ -1723,6 +1735,12 @@ map.on('style.load', async function () {
     };
 
   });
+
+
+  //footer animation
+
+
+  
   // Change the cursor to a pointer when the it enters a feature in the 'circle' layer.
   map.on('mouseenter', 'data', function () {
     map.getCanvas().style.cursor = 'pointer';
