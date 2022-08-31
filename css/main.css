@@ -253,22 +253,25 @@ nav {
 
 #attribution {
     position: absolute;
-    display: flex;
-    width:35em;
+    /* display: flex; */
+    width:31em;
     bottom: 0em;
     left: 27em;
 }
 
 #logos {
-    width:14.4em;
+    position: relative;
+    width:16em;
+    bottom: -4em;
+    
 }
 #acknowledge {
     /* display:flex; */
     position: relative;
     text-align: left;
     font-size: small;
-    left: 1em;
-    bottom: 0.2em;
+    left: 10em;
+    bottom: -0.3em;
 
 }
 
