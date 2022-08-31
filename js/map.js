@@ -582,29 +582,29 @@ Object.entries(localities).forEach(locality => {
 
 
 
-// function logInCheck() {
-//   let signInView = document.getElementById('logInBtn');
-//   // if left panel is closed
-//   if (document.getElementById('info').classList.contains('leftCollapse')) {
-//     let collapseState = document.getElementById('info').classList.toggle('leftCollapse');
-//     document.getElementById('info-close-btn').classList.toggle('info-btn-collapse');
-//     let btnImg = document.getElementById('leftPanelArrow');
-//     if (collapseState) {
-//       btnImg.src = './assets/imgs/open-arrow.svg';
-//     } else {
-//       btnImg.src = './assets/imgs/back-btn.svg';
-//     }
-//   }
+function logInCheck() {
+  let signInView = document.getElementById('logInBtn');
+  // if left panel is closed
+  if (document.getElementById('info').classList.contains('leftCollapse')) {
+    let collapseState = document.getElementById('info').classList.toggle('leftCollapse');
+    document.getElementById('info-close-btn').classList.toggle('info-btn-collapse');
+    let btnImg = document.getElementById('leftPanelArrow');
+    if (collapseState) {
+      btnImg.src = './assets/imgs/open-arrow.svg';
+    } else {
+      btnImg.src = './assets/imgs/back-btn.svg';
+    }
+  }
 
-//   if (signInView.classList.contains('d-none')) {
-//     // if contains display none, means that user is logged in
-//     toggleLeftPanelView('validate-observation');
-//     return true;
-//   } else {
-//     alert('Please sign in through Google first!');
-//   }
-//   return false;
-// }
+  if (signInView.classList.contains('d-none')) {
+    // if contains display none, means that user is logged in
+    toggleLeftPanelView('validate-observation');
+    return true;
+  } else {
+    alert('Please sign in through Google first!');
+  }
+  return false;
+}
 
 // create and style all incoming reviews from API request
 function constructReviews(reviewData) {
