@@ -241,8 +241,6 @@ nav {
     border: 1px solid black;
 }
 
-
-
 /* attribution panel */
 #attribution {
     position: absolute;
@@ -251,7 +249,6 @@ nav {
     bottom: 0em;
     left: 27em;
     text-shadow: 2px 2px 5px gray;
-
 }
 
 
