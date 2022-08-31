@@ -3,6 +3,13 @@
 // connect with the database
 "use strict";
 (function () {
+
+
+
+    
+
+   
+        
     window.addEventListener("load", init);
 
     // init function
@@ -40,21 +47,12 @@
     } else {
       btnImg.src = './assets/imgs/back-btn.svg';
     }
-//   }
 
-        // document.getElementById('info-close-btn').classList.toggle('info-btn-collapse');
+    $('#loader').fadeOut("slow");
 
 
-        // document.getElementById("login-cls-btn").click();
 
     };
-
-    // function promptLogin(event){
-    //     event.preventDefault();
-    //     $("#myModal").modal('show');
-    //     document.querySelector("#submit-button").addEventListener('click', newUser);
-
-    // };
 
     async function newUser(event) {
         event.preventDefault();
