@@ -28,7 +28,24 @@
         })
 
         //displayLoginButton();
-        toggleLeftPanelView('references-container');
+        toggleLeftPanelView('all');
+
+        // if left panel is closed
+//   if (document.getElementById('info').classList.contains('leftCollapse')) {
+    let collapseState = document.getElementById('info').classList.toggle('leftCollapse');
+    document.getElementById('info-close-btn').classList.toggle('info-btn-collapse');
+    let btnImg = document.getElementById('leftPanelArrow');
+    if (collapseState) {
+      btnImg.src = './assets/imgs/open-arrow.svg';
+    } else {
+      btnImg.src = './assets/imgs/back-btn.svg';
+    }
+//   }
+
+        // document.getElementById('info-close-btn').classList.toggle('info-btn-collapse');
+
+
+        // document.getElementById("login-cls-btn").click();
 
     };
 

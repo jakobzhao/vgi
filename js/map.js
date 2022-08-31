@@ -39,7 +39,7 @@ document.getElementById('geocoder').appendChild(geocoder);
 
 // toggleLeftPanelView()
 // Parameter:
-// "references-container"       : Shows: DEFAULT LEFT DASHBOARD VIEW
+// "legend"       : Shows: DEFAULT LEFT DASHBOARD VIEW
 //                   Hides: DATA PANEL, IMGS CONTAINER, VERIFICATION & REVIEW BTNS, ADD NEW OBSERVATION INFO PANEL
 // "info-default"     : Shows: DATA PANEL, VERIFICATION & REVIEW BTNS, IMGS CONTAINER
 //                 : Hides: DEFAULT PANEL, VERIFICATION PANEL, ADD NEW OBSERVATION INFO PANEL
@@ -52,8 +52,11 @@ document.getElementById('geocoder').appendChild(geocoder);
 // "reviews-confirmation"
 // "reviews-container"
 function toggleLeftPanelView(elementId) {
+
+  if(elementId != "all"){
   $("#info > div").not($("#" + elementId)).addClass('d-none');
   $('#' + elementId).removeClass('d-none');
+}
 
   // exceptions
   // let footer = document.getElementById('attribution');
@@ -62,13 +65,14 @@ function toggleLeftPanelView(elementId) {
   // process the attribution
   attributionLeft = document.getElementById("attribution").style["left"];
 
-  if (attributionLeft == "" || attributionLeft == "0em" ) {
-    document.getElementById("attribution").style["left"] = "27em";
-    document.getElementById("year-slider").style["left"] = "27em";
-
-  } else {
+  if (attributionLeft == "" || attributionLeft == "27em" ) {
     document.getElementById("attribution").style["left"] = "0em";
     document.getElementById("year-slider").style["left"] = "0em";
+
+  } else {
+
+    document.getElementById("attribution").style["left"] = "27em";
+    document.getElementById("year-slider").style["left"] = "27em";
 
   }
 
@@ -1657,7 +1661,7 @@ map.on('style.load', async function () {
       document.getElementById('add-review-btn').classList.toggle('d-none');
       document.getElementById('go-back-btn').classList.toggle('d-none');
     }
-    toggleLeftPanelView('references-container');
+    toggleLeftPanelView('legend');
     if (typeof map.getLayer('selectedMarker') !== "undefined") {
       marker.remove();
       map.removeLayer('selectedMarker');
@@ -1685,7 +1689,7 @@ map.on('style.load', async function () {
   document.getElementById('go-back-btn2').addEventListener('click', function () {
     if (!(document.getElementById('add-observation').classList.contains('d-none'))) {
       document.getElementById('add-observation').classList.toggle('d-none');
-      document.getElementById('references-container').classList.toggle('d-none');
+      document.getElementById('legend').classList.toggle('d-none');
       let inputs = document.querySelectorAll('input');
       for (let input of inputs) {
         input.value = '';
@@ -1714,7 +1718,7 @@ map.on('style.load', async function () {
     } else {
       btnImg.src = './assets/imgs/back-btn.svg';
     }
-    toggleLeftPanelView('references-container');
+    toggleLeftPanelView('legend');
     // let padding = {};
 
     // padding['left'] = collapsed ? 0 : 100;

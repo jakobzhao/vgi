@@ -162,9 +162,9 @@ nav {
     border-color: transparent;
 }
 
-#year {
+/* #year {
     font-size: 20px;
-}
+} */
 
 .navi-ctrls {
     margin-right: 1em;
@@ -275,7 +275,7 @@ nav {
     width:32em;
     top: 5em;
     left: 27em;
-    margin-left: 2em;
+    margin-left: 0.5em;
 }
 
 #year-label {
@@ -303,6 +303,16 @@ nav {
     width: 25em;
 }
 
+/* legend */
+#legend {
+    position: absolute;
+    /* display: flex; */
+    /* width:31em; */
+    bottom: 5em;
+    left: 0em;
+    margin-left: 1em;
+    text-shadow: 2px 2px 5px gray;
+}
 
 /* info review box  */
 .info-review-box {
@@ -687,10 +697,6 @@ div.form-check {
 /* references */
 .box-shadow-default {
     box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
-}
-
-#references-container {
-    margin-top: 4em;
 }
 
 

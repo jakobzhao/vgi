@@ -214,81 +214,6 @@
 
     <!-- left dashboard -->
     <div id="info" class="d-flex flex-column rounded leftCollapsed">
-      <!-- references - basemap,sources, venues to be confirmed, user-contributed observations -->
-      <div id="references-container">
-
-        <div id="views accordion" class="m-2" style="font-size: 15px;">
-          <div class="accordion-item">
-            <h2 class="accordion-header" id="headingTwo">
-              <button id="verified-venues" class="accordion-button collapsed light-text-title" type="button"
-                data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false"
-                aria-controls="collapseTwo">
-                Venues
-              </button>
-            </h2>
-            <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
-              data-bs-parent="#views">
-              <div class="accordion-body">
-                <small> Most venues are plotted to where they are or nearby on the map. For 1) the virtual venues or 2)
-                  the venues relevant to any geographical area in the current map view but their physical locations are
-                  unclear, they are not plotted
-                  on the map but listed in the table below.
-                  Click <a href="#"> here</a> for more details.
-                </small>
-                <!-- list of venues -->
-                <div class="container">
-                  <div class="row m-1 pt-2" style="font-size: 11px;">
-                    <div class="col">Name</div>
-                    <div class="col col-sm-3">Reliability</div>
-                  </div>
-                </div>
-                <div id="locality-venues" class="confirmed-venues container">
-                </div>
-                <div class="form-check form-switch">
-                  <input class="form-check-input" type="checkbox" id="reliability-switch">
-                  <label class="form-check-label" for="reliability-switch">Color by how reliable the research team
-                    believes in its accuracy. </label>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="accordion-item">
-            <h2 class="accordion-header" id="headingThree">
-              <button id="unverified-venues" class="accordion-button collapsed light-text-title" type="button"
-                data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false"
-                aria-controls="collapseThree">
-                Observations
-              </button>
-            </h2>
-            <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
-              data-bs-parent="#views">
-              <div class="accordion-body">
-                <small>
-                  Observations are contributed by users but has not been reviewed by the research team.
-                  <!-- While the map shows any venue associated with a specific location, while the table lists 1) the virtual venue and 2) the venue related to the geographical area in the current map view but its physical location is unclear. -->
-                  Click <a href="#"> here</a> for more details.
-                </small>
-                <div class="container">
-                  <div class="row m-1 pt-2" style="font-size: 11px;">
-                    <div class="col">Name</div>
-                    <div class="col col-sm-3">Confidence</div>
-                  </div>
-                </div>
-                <!-- list of observations -->
-                <div id="observation-venues" class="confirmed-venues"></div>
-                <div class="form-check form-switch">
-                  <input class="form-check-input" type="checkbox" id="observations-switch">
-                  <label class="form-check-label" for="observations-switch">Color by how confident the contributor feels
-                    about its accuracy. </label>
-                </div>
-              </div>
-            </div>
-          </div>
-
-
-        </div>
-      </div>
-
       <div id="info-default" class="d-none">
         <!-- image holder for location -->
         <div id="imgs-container">
@@ -561,20 +486,20 @@
     <!-- timeline -->
     <div id="year-slider" class="d-flex">
       <div class="container">
-      <div class="item">
-      <p id="year-label">2005</p>
-      <!-- Bo: I feel it is unnecessary to show the base year -->
-      <!-- <div class="form-check form-switch base-year">
+        <div class="item">
+          <p id="year-label">2005</p>
+          <!-- Bo: I feel it is unnecessary to show the base year -->
+          <!-- <div class="form-check form-switch base-year">
                       <input class="form-check-input" type="checkbox" checked id="base-year-selection">
                       <label class="form-check-label" for="base-year-selection">Base Year</label>
                     </div> -->
-      <!-- </div> -->
-      <div>
-        <input type="range" class="single-slider" id="slider-bar" min="1965" max="2014" value="2005"
-          oninput="year_val()">
-      </div>
-      </div>
-      <div id="year-notes" class="item"></div>
+          <!-- </div> -->
+          <div>
+            <input type="range" class="single-slider" id="slider-bar" min="1965" max="2014" value="2005"
+              oninput="year_val()">
+          </div>
+        </div>
+        <div id="year-notes" class="item"></div>
       </div>
     </div>
 
@@ -587,6 +512,81 @@
       </p>
       <!-- The frontend map libraries are from Mapbox, and the data for the basemaps are from OpenStreetMaps -->
     </div>
+
+
+    <!-- references - basemap,sources, venues to be confirmed, user-contributed observations -->
+    <div id="legend" class="d-flex">
+
+      <div id="views accordion" class="m-2" style="font-size: 15px;">
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingTwo">
+            <button id="verified-venues" class="accordion-button collapsed light-text-title" type="button"
+              data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+              Venues
+            </button>
+          </h2>
+          <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
+            data-bs-parent="#views">
+            <div class="accordion-body">
+              <small> Most venues are plotted to where they are or nearby on the map. For 1) the virtual venues or 2)
+                the venues relevant to any geographical area in the current map view but their physical locations are
+                unclear, they are not plotted
+                on the map but listed in the table below.
+                Click <a href="#"> here</a> for more details.
+              </small>
+              <!-- list of venues -->
+              <div class="container">
+                <div class="row m-1 pt-2" style="font-size: 11px;">
+                  <div class="col">Name</div>
+                  <div class="col col-sm-3">Reliability</div>
+                </div>
+              </div>
+              <div id="locality-venues" class="confirmed-venues container">
+              </div>
+              <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="reliability-switch">
+                <label class="form-check-label" for="reliability-switch">Color by how reliable the research team
+                  believes in its accuracy. </label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingThree">
+            <button id="unverified-venues" class="accordion-button collapsed light-text-title" type="button"
+              data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false"
+              aria-controls="collapseThree">
+              Observations
+            </button>
+          </h2>
+          <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
+            data-bs-parent="#views">
+            <div class="accordion-body">
+              <small>
+                Observations are contributed by users but has not been reviewed by the research team.
+                <!-- While the map shows any venue associated with a specific location, while the table lists 1) the virtual venue and 2) the venue related to the geographical area in the current map view but its physical location is unclear. -->
+                Click <a href="#"> here</a> for more details.
+              </small>
+              <div class="container">
+                <div class="row m-1 pt-2" style="font-size: 11px;">
+                  <div class="col">Name</div>
+                  <div class="col col-sm-3">Confidence</div>
+                </div>
+              </div>
+              <!-- list of observations -->
+              <div id="observation-venues" class="confirmed-venues"></div>
+              <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="observations-switch">
+                <label class="form-check-label" for="observations-switch">Color by how confident the contributor feels
+                  about its accuracy. </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
 
     <!-- add user observation button -->
     <div id="observation-parent" class="observation">
