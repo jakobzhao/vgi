@@ -11,7 +11,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
   <link href='https://api.mapbox.com/mapbox-gl-js/v2.3.0/mapbox-gl.css' rel='stylesheet' />
   <link rel="stylesheet"
-  href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.css" type="text/css">
+    href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.css" type="text/css">
 
   <!-- threebox -->
   <script src="./js/threebox.js"></script>
@@ -75,9 +75,10 @@
 <body>
   <nav class="navbar navbar-expand-md py-1 navbar-dark bg-dark">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#"><img width="40px" src="assets/imgs/logo.png"></img> <div id="project-name">Shifting LGBTQ+ Spaces</div>
+      <a class="navbar-brand" href="#"><img width="40px" src="assets/imgs/logo.png"></img>
+        <div id="project-name">Shifting LGBTQ+ Spaces</div>
       </a>
-      
+
       <div id="navbar-tabs">
         <ul class="navbar-nav me-auto mb-2 mb-md-0">
           <li class="nav-item">
@@ -93,7 +94,7 @@
           <li class="nav-item">
             <a class="nav-link active" href="#">About</a>
           </li>
- 
+
           <li>
             <button id="logOutBtn" class="btn btn-outline-light d-none">Log out</button>
           </li>
@@ -101,7 +102,7 @@
             <!-- Button trigger modal -->
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#login-modal"
               id="logInBtn">
-            Log In
+              Log In
             </button>
             <!-- Modals -->
             <div class="modal fade" id="login-modal" tabindex="-1" aria-labelledby="login-modal-label"
@@ -113,8 +114,9 @@
                   </div>
                   <div class="modal-body" id="signin-body">
                     <div class="mb-3">
-                      <label class="form-label ">Please input each word of the passphrase to the input fields below.</label>
-                     
+                      <label class="form-label ">Please input each word of the passphrase to the input fields
+                        below.</label>
+
                       <form class="passphrase-control">
                         <input type="password" class="form-control passphrase">
                         <input type="password" class="form-control passphrase">
@@ -122,13 +124,16 @@
                       </form>
                       <!-- intentionally left blank -->
                       <label class="form-label "> </label>
-                      <label class="form-label "> To protect the privacy of the data contributors, we only distribute the passphrase to reliable users. If you want to add a missing venue or make any contribution to this dataset of LGBTQ+ venues, please contact us for a passphrase.</label>
-                    
+                      <label class="form-label "> To protect the privacy of the data contributors, we only distribute
+                        the passphrase to reliable users. If you want to add a missing venue or make any contribution to
+                        this dataset of LGBTQ+ venues, please contact us for a passphrase.</label>
+
                     </div>
                   </div>
                   <div class="modal-footer" id="signin-footers">
                     <button type="button" class="btn btn-primary" id="login-btn">Submit</button>
-                    <button type="button" class="btn btn-secondary" id="login-cls-btn" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary" id="login-cls-btn"
+                      data-bs-dismiss="modal">Close</button>
                   </div>
                 </div>
               </div>
@@ -147,31 +152,12 @@
     <div id="geocoder" class="map-overlay-top d-flex"></div>
     <!-- </div> -->
 
-    <!-- timeline -->
-    <div id="year-slider" class="map-overlay-top-year-slider d-flex">
-      <div id="timeline-labels" class="labels">
-        <div>
-          <label id="label-year" class="fw-bolder">2005</label>
-        </div>
-        <!-- Bo: I feel it is unnecessary to show the base year -->
-        <!-- <div class="form-check form-switch base-year">
-                  <input class="form-check-input" type="checkbox" checked id="base-year-selection">
-                  <label class="form-check-label" for="base-year-selection">Base Year</label>
-                </div> -->
-      </div>
-      <div>
-        <div id="slider">
-          <!-- new single slider -->
-          <input type="range" class="single-slider" id="single-input" min="1965" max="2014" value="2005"
-            oninput="year_val()">
-        </div>
-      </div>
-    </div>
+
 
     <!-- Category Filter -->
     <div id="locality-filter" class="position-absolute dropdown">
       <button id="localityFilterBtn" class="btn mx-2 btn-custom dropdown-toggle" data-mdb-toggle="dropdown"
-      aria-expanded="false" type="button" title="switch to a new locality we have tracked so far.">Localities</button>
+        aria-expanded="false" type="button" title="switch to a new locality we have tracked so far.">Localities</button>
       <ul class="d-grid dropdown-menu d-none" id="localityList" aria-labelledby="dropdownMenuButton">
       </ul>
     </div>
@@ -179,7 +165,8 @@
     <!-- Damron Code Filter -->
     <div id="code-filter" class="position-absolute dropdown">
       <button id="damron-code-btn" class="btn mx-2 btn-custom dropdown-toggle" data-mdb-toggle="dropdown"
-        aria-expanded="false" type="button" title="filter the venues using a list of code/descriptor.">Codes/Descriptors</button>
+        aria-expanded="false" type="button"
+        title="filter the venues using a list of code/descriptor.">Codes/Descriptors</button>
       <!-- <p class="m-3 help-text"> </p> -->
       <ul class="d-grid dropdown-menu d-none" id="codeDescriptorList" aria-labelledby="dropdownMenuButton">
       </ul>
@@ -210,22 +197,22 @@
 
 
     <!-- log in alert -->
-          <div class="modal fade" id="alert-modal">
-            <div class="modal-dialog">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title">Alert</h5>
-                </div>
-                <div class="modal-body" id="alert-text">
-                  Please log in before making any contribution to this geospatial platform.
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                </div>
-              </div>
-            </div>
+    <div class="modal fade" id="alert-modal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Alert</h5>
           </div>
-     
+          <div class="modal-body" id="alert-text">
+            Please log in before making any contribution to this geospatial platform.
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
 
     <!-- left dashboard -->
     <div id="info" class="d-flex flex-column rounded leftCollapsed">
@@ -563,7 +550,7 @@
 
     </div>
 
-    
+
 
 
     <!-- close panel button -->
@@ -575,6 +562,27 @@
     </div>
 
 
+    <!-- timeline -->
+    <div id="year-slider" class="d-flex">
+      <div id="timeline-labels" class="labels">
+        <div>
+          <label id="label-year" class="fw-bolder">2005</label>
+        </div>
+        <!-- Bo: I feel it is unnecessary to show the base year -->
+        <!-- <div class="form-check form-switch base-year">
+                      <input class="form-check-input" type="checkbox" checked id="base-year-selection">
+                      <label class="form-check-label" for="base-year-selection">Base Year</label>
+                    </div> -->
+      </div>
+      <div>
+        <div id="slider">
+          <!-- new single slider -->
+          <input type="range" class="single-slider" id="slider-bar" min="1965" max="2014" value="2005"
+            oninput="year_val()">
+        </div>
+      </div>
+    </div>
+
     <div id="attribution" class="mx-3" style="word-wrap: break-word;">
 
       <p id="logos"><img width="55px" src="assets/imgs/uw-logo.png"></img><img width="55px"
@@ -584,7 +592,7 @@
       </p>
       <!-- The frontend map libraries are from Mapbox, and the data for the basemaps are from OpenStreetMaps -->
     </div>
-    
+
     <!-- add user observation button -->
     <div id="observation-parent" class="observation">
       <!-- <div class=""> -->

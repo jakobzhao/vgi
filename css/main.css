@@ -36,13 +36,6 @@ nav {
     padding-right: 3.5em;
 }
 
-.map-overlay-top-year-slider {
-    position: absolute;
-    top: 0;
-    right: 0;
-    padding-top: 5em;
-    padding-right: 40em;
-}
 
 
 
@@ -250,14 +243,16 @@ nav {
 
 
 
-
+/* attribution panel */
 #attribution {
     position: absolute;
     /* display: flex; */
     width:31em;
     bottom: 0em;
     left: 27em;
+
 }
+
 
 #logos {
     position: relative;
@@ -273,6 +268,19 @@ nav {
     left: 10em;
     bottom: -0.3em;
 
+}
+
+/* year-slider */
+#year-slider {
+    position: absolute;
+    width:32em;
+    top: 5em;
+    left: 27em;
+    margin-left: 2em;
+}
+
+#slider-bar {
+    width: 25em;
 }
 
 
@@ -430,17 +438,9 @@ nav {
     
 }
 
-/* #label-year {
-    font-size: 1.2em;
-
-} */
 
 
-div.slider {
-    /* padding-top: 1em; */
-    /* padding-left: 2em; */
 
-}
 /* #observations-switch, #reliability-switch {
   /* margin-left: -2em; */
 /* } */

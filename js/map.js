@@ -64,9 +64,11 @@ function toggleLeftPanelView(elementId) {
 
   if (attributionLeft == "" || attributionLeft == "0em" ) {
     document.getElementById("attribution").style["left"] = "27em";
+    document.getElementById("year-slider").style["left"] = "27em";
 
   } else {
     document.getElementById("attribution").style["left"] = "0em";
+    document.getElementById("year-slider").style["left"] = "0em";
 
   }
 
@@ -90,7 +92,7 @@ function toggleLeftPanelView(elementId) {
 // year_val()
 // changes the label of the current selected year for the user to see
 function year_val() {
-  let selectedYear = document.getElementById('single-input').value;
+  let selectedYear = document.getElementById('slider-bar').value;
   document.getElementById('label-year').innerHTML = selectedYear;
 }
 
@@ -1284,7 +1286,7 @@ map.on('style.load', async function () {
 
   // load data
   // on slider change
-  let defaultYear = parseInt(document.getElementById('single-input').value);
+  let defaultYear = parseInt(document.getElementById('slider-bar').value);
 
   let verifiedData = await displayData();
   addDataLayer(verifiedData);
@@ -1313,7 +1315,7 @@ map.on('style.load', async function () {
 
   // filter data based upon input
   // let years = document.querySelectorAll('.year-slider');
-  let years = document.getElementById('single-input');
+  let years = document.getElementById('slider-bar');
 
   years.addEventListener('input', async function (e) {
     let selectYear = parseInt(years.value);
@@ -1349,7 +1351,7 @@ map.on('style.load', async function () {
 
   // venue- left dashboard add venues from database
   // split obs data to matching years
-  let selectYear = document.getElementById('single-input').value;
+  let selectYear = document.getElementById('slider-bar').value;
   // let yearRight = document.getElementById('input-right').value;
   let localityParent = document.getElementById('locality-venues');
 
