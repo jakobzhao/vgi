@@ -68,11 +68,13 @@ function toggleLeftPanelView(elementId) {
   if (attributionLeft == "" || attributionLeft == "27em" ) {
     document.getElementById("attribution").style["left"] = "0em";
     document.getElementById("year-slider").style["left"] = "0em";
+    document.getElementById("legend").style["left"] = "0em";
 
   } else {
 
     document.getElementById("attribution").style["left"] = "27em";
     document.getElementById("year-slider").style["left"] = "27em";
+    document.getElementById("legend").style["left"] = "27em";
 
   }
 

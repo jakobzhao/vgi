@@ -789,18 +789,18 @@ div.form-check {
     margin-top: 4em;
 }
 
-#footer {
+/* #footer {
     font-size: 13px;
-    /* position: absolute; */
+
     margin-top: 35em;
     line-height: 1.1em;
-}
+} */
 
-#footer img {
+/* #footer img {
     margin-right: 1em
-}
+} */
 
-.modal-backdrop{
+.modal-backdrop {
     z-index: 1;
 }
 
