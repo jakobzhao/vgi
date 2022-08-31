@@ -1610,6 +1610,10 @@ map.on('style.load', async function () {
         let alertModal = new bootstrap.Modal(alert);
         alertModal.show();
 
+        window.setTimeout(function() {
+          document.getElementById("alert-cls-btn").click();
+      }, 1500);
+
 
         document.getElementById('logInBtn').classList.toggle('d-none');
         document.getElementById('logOutBtn').classList.toggle('d-none');
