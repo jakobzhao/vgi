@@ -1583,18 +1583,17 @@ map.on('style.load', async function () {
 
     // marker.remove();
 
-
-    if (document.getElementById('info-default').classList.contains('d-none')) {
+    if (document.getElementById('info-default').classList.contains('d-none') ) {
       let collapseState = document.getElementById('info').classList.toggle('leftCollapse');
-      // document.getElementById('info-close-btn').classList.toggle('info-btn-collapse');
-      // let btnImg = document.getElementById('leftPanelArrow');
-      // if (collapseState) {
-      //   btnImg.src = './assets/imgs/open-arrow.svg';
-      // } else {
-      //   btnImg.src = './assets/imgs/back-btn.svg';
-      // }
       toggleLeftPanelView('info-default');
+    } else {
+        if(document.getElementById('info').classList.contains('leftCollapse')){
+          document.getElementById('info').classList.toggle('leftCollapse');
+          toggleLeftPanelView('info-default');
+        }
     }
+  
+    // toggleLeftPanelView('info-default');
 
     // load clicked marker info on left panel
    
