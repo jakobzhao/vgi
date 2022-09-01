@@ -14,8 +14,6 @@ var map = new mapboxgl.Map({
 });
 
 
-
-
 //click on the map to hide the locality and/or the code filter menus.
 map.on('click', (e) => {
   let localityList = document.getElementById('localityList');
@@ -53,10 +51,10 @@ document.getElementById('geocoder').appendChild(geocoder);
 // "reviews-container"
 function toggleLeftPanelView(elementId) {
 
-  if(elementId != "all"){
-  $("#info > div").not($("#" + elementId)).addClass('d-none');
-  $('#' + elementId).removeClass('d-none');
-}
+  if (elementId != "all") {
+    $("#info > div").not($("#" + elementId)).addClass('d-none');
+    $('#' + elementId).removeClass('d-none');
+  }
 
   // exceptions
   // let footer = document.getElementById('attribution');
@@ -65,7 +63,7 @@ function toggleLeftPanelView(elementId) {
   // process the attribution
   attributionLeft = document.getElementById("attribution").style["left"];
 
-  if (attributionLeft == "" || attributionLeft == "27em" ) {
+  if (attributionLeft == "" || attributionLeft == "27em") {
     document.getElementById("attribution").style["left"] = "0em";
     document.getElementById("year-slider").style["left"] = "0em";
     document.getElementById("legend").style["left"] = "0em";
@@ -81,11 +79,6 @@ function toggleLeftPanelView(elementId) {
 
   if (elementId == "info-default") {
     document.getElementById('validation-btns').classList.remove('d-none');
-    // if(!(document.getElementById('info-default').contains('d-none'))) {
-    //   document.getElementById('validate-observation-btn').classList.toggle ('d-none');
-    //   document.getElementById('add-review-btn').classList.toggle('d-none');
-    //   document.getElementById('go-back-btn').classList.toggle('d-none');
-    // }
   }
   if (elementId == "validate-observation") {
     document.getElementById('validation-btns').classList.remove('d-none');
@@ -1023,14 +1016,14 @@ function addCones(data, active) {
       );
 
       // initialize geometry and material of our cube object
-      let geometry = new THREE.ConeGeometry(20, 40, 64);
-      let geometrySup = new THREE.CylinderGeometry(1, 1, 80, 32);
+      let geometry = new THREE.ConeGeometry(15, 40, 64);
+      // let geometrySup = new THREE.CylinderGeometry(1, 1, 80, 32);
 
       let material = new THREE.MeshPhysicalMaterial({
         flatShading: true,
         color: '#D3B1C2',
-        // transparent: true,
-        // opacity: 0.5
+        transparent: true,
+        opacity: 0.8
       });
 
       let materialSup = new THREE.MeshBasicMaterial({
@@ -1043,6 +1036,13 @@ function addCones(data, active) {
       let materialOnClick = new THREE.MeshPhysicalMaterial({
         flatShading: true,
         color: '#ff6262',
+        // transparent: true,
+        // opacity: 0.5
+      });
+
+      let green = new THREE.MeshPhysicalMaterial({
+        flatShading: true,
+        color: 'green',
         // transparent: true,
         // opacity: 0.5
       });
@@ -1066,7 +1066,6 @@ function addCones(data, active) {
         }
       });
 
-
       // Bo: temporarily hide the bar under the cone.
       // let lineTemplate = new THREE.Mesh(geometrySup, material);
       // lineTemplate = tb.Object3D({
@@ -1080,13 +1079,22 @@ function addCones(data, active) {
       //   }
       // });
 
-      data.forEach(function (feature) {
+      data.forEach(function (datum) {
         // longitude, latitude, altitude
-        let cone = coneTemplate.duplicate().setCoords([feature.geometry.coordinates[0], feature.geometry.coordinates[1], 20]);
-        // let line = lineTemplate.duplicate().setCoords([feature.geometry.coordinates[0], feature.geometry.coordinates[1], 0]);
+        let cone = coneTemplate.duplicate();
+        cone.setCoords([datum.geometry.coordinates[0], datum.geometry.coordinates[1], 20]);
+        // Bo: Attach properties to each cone.
+        cone.userData["properties"] = datum.properties
+
+        // test for changing color based on confidential levels.
+        // cone.children[0].material.color.set("yellow");
         tb.add(cone);
         // tb.add(line);
       })
+
+
+
+      // tb.repaint();
 
       var highlighted = [];
 
@@ -1159,6 +1167,35 @@ function addCones(data, active) {
     }
   });
 };
+
+// this can be used to colorize the venue based on confidence level.
+let colorizeVenueCbx = document.getElementById('reliability-switch');
+
+colorizeVenueCbx.addEventListener('click', function () {
+
+  if (this.checked) {
+
+    tb.world.children.forEach(feature => {
+      if (feature.type == 'Group') {
+        feature.children[0].material.color.set("green");
+        console.log(feature.userData.properties.placetype);
+      }
+      
+    })
+  }
+  else {
+
+    tb.world.children.forEach(feature => {
+      if (feature.type == 'Group') {
+        feature.children[0].material.color.set("red");
+      }
+    })
+  }
+
+  tb.repaint();
+  
+});
+
 
 function displayNearbyObservations(obsData, e) {
   let observationData = obsData.features;
@@ -1280,6 +1317,8 @@ function addAutoComplete(id, data) {
     }
   });
 }
+
+
 // Add category options in add missing venues
 // function addCategory(category, data) {
 //   category.innerHTML = '';
@@ -1323,10 +1362,8 @@ map.on('style.load', async function () {
 
 
 
-
-
   // filter data based upon input
-  // let years = document.querySelectorAll('.year-slider');
+
   let years = document.getElementById('slider-bar');
 
   years.addEventListener('input', async function (e) {
@@ -1587,7 +1624,7 @@ map.on('style.load', async function () {
       let alertModal = new bootstrap.Modal(alert);
       alertModal.show();
 
-      
+
     } else {
       // add new review
       addNewReview(e, vid);
@@ -1622,9 +1659,9 @@ map.on('style.load', async function () {
         let alertModal = new bootstrap.Modal(alert);
         alertModal.show();
 
-        window.setTimeout(function() {
+        window.setTimeout(function () {
           document.getElementById("alert-cls-btn").click();
-      }, 1500);
+        }, 1500);
 
 
         document.getElementById('logInBtn').classList.toggle('d-none');
@@ -1639,10 +1676,10 @@ map.on('style.load', async function () {
         let alertModal = new bootstrap.Modal(alert);
         alertModal.show();
 
-        let passphrases =  document.getElementsByClassName("passphrase");   
-          passphrases[0].value = "";
-          passphrases[1].value = "";
-          passphrases[2].value = "";
+        let passphrases = document.getElementsByClassName("passphrase");
+        passphrases[0].value = "";
+        passphrases[1].value = "";
+        passphrases[2].value = "";
 
       } else {
         console.log('error.')
@@ -1655,7 +1692,7 @@ map.on('style.load', async function () {
   document.getElementById('login-btn').addEventListener('click', submitPassword);
 
 
-  
+
   // go back button
   document.getElementById('go-back-btn').addEventListener('click', function () {
     if (!(document.getElementById('validate-observation').classList.contains('d-none'))) {

@@ -3,13 +3,13 @@
 // connect with the database
 "use strict";
 (function () {
-        
+
     window.addEventListener("load", init);
 
     // init function
     // added init to async (test for bugs!)
     async function init() {
-        document.querySelector('#observation-parent').addEventListener('click', isLoggedIn);
+        document.querySelector('#observation-container').addEventListener('click', isLoggedIn);
         document.getElementById('submit-edit').addEventListener('click', validateObservation);
         document.querySelector("#submit-button").addEventListener('click', newUser);
         document.getElementById('logOutBtn').addEventListener('click', () => {
@@ -19,34 +19,31 @@
             yearChange();
         });
 
-        
-        let basemapDisplay = document.getElementById('basemap-selection');
+
         let layersDisplay = document.getElementById('layers-container');
         layersDisplay.addEventListener('mouseenter', function (e) {
-            basemapDisplay.classList.remove('d-none');
+            document.getElementById('basemap-selection').classList.remove('d-none');
         })
 
         layersDisplay.addEventListener('mouseleave', function (e) {
-            basemapDisplay.classList.add('d-none');
+            document.getElementById('basemap-selection').classList.add('d-none');
         })
 
-        //displayLoginButton();
+        //toggle off the left panel.
         toggleLeftPanelView('all');
 
-        // if left panel is closed
-//   if (document.getElementById('info').classList.contains('leftCollapse')) {
-    let collapseState = document.getElementById('info').classList.toggle('leftCollapse');
-    document.getElementById('info-close-btn').classList.toggle('info-btn-collapse');
-    let btnImg = document.getElementById('leftPanelArrow');
-    if (collapseState) {
-      btnImg.src = './assets/imgs/open-arrow.svg';
-    } else {
-      btnImg.src = './assets/imgs/back-btn.svg';
-    }
+        // close the left panel.
+        let collapseState = document.getElementById('info').classList.toggle('leftCollapse');
+        document.getElementById('info-close-btn').classList.toggle('info-btn-collapse');
+        let btnImg = document.getElementById('leftPanelArrow');
+        if (collapseState) {
+            btnImg.src = './assets/imgs/open-arrow.svg';
+        } else {
+            btnImg.src = './assets/imgs/back-btn.svg';
+        }
 
-    $('#loader').fadeOut("slow");
-
-
+        // hide the loader.
+        $('#loader').fadeOut("slow");
 
     };
 
