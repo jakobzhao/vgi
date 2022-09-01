@@ -1801,4 +1801,7 @@ map.on('style.load', async function () {
     })
   })
 
+  $('#loader').fadeOut("slow");
+
+
 });
