@@ -1571,26 +1571,33 @@ map.on('style.load', async function () {
    // console.log("data click");
     // get points that are within the boundary for observations
     // get points that are within the boundary for unverified venues
+
+    // Bo: Perhaps highlight the nearby and label their names.
     if (map.getLayer('nearby-observations')) {
       map.removeLayer('nearby-observations');
       map.removeSource('nearby-observations');
     }
+
+
     displayNearbyObservations(observations, e);
 
     // marker.remove();
-    if (document.getElementById('info').classList.contains('leftCollapse')) {
+
+
+    if (document.getElementById('info-default').classList.contains('d-none')) {
       let collapseState = document.getElementById('info').classList.toggle('leftCollapse');
-      document.getElementById('info-close-btn').classList.toggle('info-btn-collapse');
-      let btnImg = document.getElementById('leftPanelArrow');
-      if (collapseState) {
-        btnImg.src = './assets/imgs/open-arrow.svg';
-      } else {
-        btnImg.src = './assets/imgs/back-btn.svg';
-      }
+      // document.getElementById('info-close-btn').classList.toggle('info-btn-collapse');
+      // let btnImg = document.getElementById('leftPanelArrow');
+      // if (collapseState) {
+      //   btnImg.src = './assets/imgs/open-arrow.svg';
+      // } else {
+      //   btnImg.src = './assets/imgs/back-btn.svg';
+      // }
+      toggleLeftPanelView('info-default');
     }
 
     // load clicked marker info on left panel
-    toggleLeftPanelView('info-default');
+   
 
     // // clear 3-D year object
     if (typeof map.getLayer('year-block') !== "undefined") {
@@ -1763,13 +1770,20 @@ map.on('style.load', async function () {
 
   // go back button
   document.getElementById('go-back-btn').addEventListener('click', function () {
-    if (!(document.getElementById('validate-observation').classList.contains('d-none'))) {
-      document.getElementById('validate-observation').classList.toggle('d-none');
-      document.getElementById('validate-observation-btn').classList.toggle('d-none');
-      document.getElementById('add-review-btn').classList.toggle('d-none');
-      document.getElementById('go-back-btn').classList.toggle('d-none');
+
+    console.log("go back");
+
+    if (!(document.getElementById('info-default').classList.contains('d-none'))) {
+  
+      toggleLeftPanelView('info-default')
+      if (!document.getElementById('info').classList.contains('leftCollapse')){
+        document.getElementById('info').classList.toggle('leftCollapse');
     }
-    toggleLeftPanelView('legend');
+    
+    }
+
+    // document.getElementById('info').classList.toggle('leftCollapse');
+    // toggleLeftPanelView('legend');
     if (typeof map.getLayer('selectedMarker') !== "undefined") {
       marker.remove();
       map.removeLayer('selectedMarker');
@@ -1817,9 +1831,6 @@ map.on('style.load', async function () {
       }
       yearSlider.value = 2005;
       yearText.textContent = 'Year: ' + yearSlider.value;
-
-
-     
 
 
     }
