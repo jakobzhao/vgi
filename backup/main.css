@@ -648,7 +648,7 @@ div.form-check {
     margin-top: 4em;
 }
 
-.btn-add-obs {
+.add-observation-button {
     padding: 1em;
     border: transparent;
     height: auto;
@@ -659,7 +659,7 @@ div.form-check {
     outline: none;
 }
 
-.btn-add-obs:hover {
+.add-observation-button:hover {
     background-color: #3287f5;
     padding-right: 15px;
     border-radius: 2%;
@@ -668,11 +668,11 @@ div.form-check {
     transform: translateY(-5px);
 }
 
-.btn-add-obs>span {
+.add-observation-button>span {
     display: none;
 }
 
-.btn-add-obs:hover span {
+.add-observation-button:hover span {
     font-size: 15px;
     display: inline-flex;
     padding-left: 0.5em;
