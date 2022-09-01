@@ -1805,10 +1805,8 @@ map.on('style.load', async function () {
     if (!(document.getElementById('add-observation').classList.contains('d-none'))) {
 
       toggleLeftPanelView('all');
-      collapseLeftPanelView();
-     
+      document.getElementById('info').classList.toggle('leftCollapse');
       document.getElementById('add-observation').classList.toggle('d-none');
-      document.getElementById('legend').classList.toggle('d-none');
       let inputs = document.querySelectorAll('input');
       for (let input of inputs) {
         input.value = '';
