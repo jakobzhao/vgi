@@ -18,13 +18,15 @@
         document.getElementById('year-api').addEventListener('change', () => {
             yearChange();
         });
+
+        
         let basemapDisplay = document.getElementById('basemap-selection');
         let layersDisplay = document.getElementById('layers-container');
         layersDisplay.addEventListener('mouseenter', function (e) {
             basemapDisplay.classList.remove('d-none');
         })
 
-        basemapDisplay.addEventListener('mouseleave', function (e) {
+        layersDisplay.addEventListener('mouseleave', function (e) {
             basemapDisplay.classList.add('d-none');
         })
 
