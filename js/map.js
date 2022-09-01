@@ -35,6 +35,20 @@ let geocoder = new MapboxGeocoder({
 document.getElementById('geocoder').appendChild(geocoder);
 
 
+
+
+function collapseLeftPanelView() {
+  let collapseState = document.getElementById('info').classList.toggle('leftCollapse');
+  document.getElementById('info-close-btn').classList.toggle('info-btn-collapse');
+  let btnImg = document.getElementById('leftPanelArrow');
+  if (collapseState) {
+      btnImg.src = './assets/imgs/open-arrow.svg';
+  } else {
+      btnImg.src = './assets/imgs/back-btn.svg';
+  }
+
+}
+
 // toggleLeftPanelView()
 // Parameter:
 // "legend"       : Shows: DEFAULT LEFT DASHBOARD VIEW
@@ -1786,7 +1800,13 @@ map.on('style.load', async function () {
 
 
   document.getElementById('go-back-btn2').addEventListener('click', function () {
+
+
     if (!(document.getElementById('add-observation').classList.contains('d-none'))) {
+
+      toggleLeftPanelView('all');
+      collapseLeftPanelView();
+     
       document.getElementById('add-observation').classList.toggle('d-none');
       document.getElementById('legend').classList.toggle('d-none');
       let inputs = document.querySelectorAll('input');
@@ -1801,6 +1821,11 @@ map.on('style.load', async function () {
       }
       yearSlider.value = 2005;
       yearText.textContent = 'Year: ' + yearSlider.value;
+
+
+     
+
+
     }
   })
 

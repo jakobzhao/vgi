@@ -33,19 +33,12 @@
         toggleLeftPanelView('all');
 
         // close the left panel.
-        let collapseState = document.getElementById('info').classList.toggle('leftCollapse');
-        document.getElementById('info-close-btn').classList.toggle('info-btn-collapse');
-        let btnImg = document.getElementById('leftPanelArrow');
-        if (collapseState) {
-            btnImg.src = './assets/imgs/open-arrow.svg';
-        } else {
-            btnImg.src = './assets/imgs/back-btn.svg';
-        }
-
+        collapseLeftPanelView();
         // hide the loader.
         $('#loader').fadeOut("slow");
 
     };
+
 
     async function newUser(event) {
         event.preventDefault();
@@ -231,6 +224,9 @@
         yearText.innerHTML = '';
         yearText.textContent = 'Year: ' + yearSlider.value;
     }
+
+
+
 
 
 })();
