@@ -33,7 +33,9 @@
         toggleLeftPanelView('all');
 
         // close the left panel.
-        collapseLeftPanelView();
+        document.getElementById('info').classList.toggle('leftCollapse');
+        
+
         // hide the loader.
         $('#loader').fadeOut("slow");
 
@@ -108,23 +110,17 @@
     // Checks if user is logged in already, on button clicked to add observation.
     function isLoggedIn() {
 
-        let signInView = document.getElementById('logInBtn');
+        let logInView = document.getElementById('logInBtn');
 
-        if (signInView.classList.contains('d-none')) {
+        if (logInView.classList.contains('d-none')) {
             // if contains display none, means that user is logged in
             toggleLeftPanelView('add-observation');
 
-                    // if left panel is closed
-        if (document.getElementById('info').classList.contains('leftCollapse')) {
-            let collapseState = document.getElementById('info').classList.toggle('leftCollapse');
-            document.getElementById('info-close-btn').classList.toggle('info-btn-collapse');
-            let btnImg = document.getElementById('leftPanelArrow');
-            if (collapseState) {
-                btnImg.src = './assets/imgs/open-arrow.svg';
-            } else {
-                btnImg.src = './assets/imgs/back-btn.svg';
-            }
-        }
+        // if left panel is close
+        // if (document.getElementById('info').classList.contains('leftCollapse')) {
+            document.getElementById('info').classList.toggle('leftCollapse');
+     
+        // }
         } else {
             let alert = document.getElementById("alert-modal");
             let alertText = document.getElementById("alert-text");

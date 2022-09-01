@@ -37,17 +37,17 @@ document.getElementById('geocoder').appendChild(geocoder);
 
 
 
-function collapseLeftPanelView() {
-  let collapseState = document.getElementById('info').classList.toggle('leftCollapse');
-  document.getElementById('info-close-btn').classList.toggle('info-btn-collapse');
-  let btnImg = document.getElementById('leftPanelArrow');
-  if (collapseState) {
-      btnImg.src = './assets/imgs/open-arrow.svg';
-  } else {
-      btnImg.src = './assets/imgs/back-btn.svg';
-  }
+// function collapseLeftPanelView() {
+//   let collapseState = document.getElementById('info').classList.toggle('leftCollapse');
+//   document.getElementById('info-close-btn').classList.toggle('info-btn-collapse');
+//   let btnImg = document.getElementById('leftPanelArrow');
+//   if (collapseState) {
+//       btnImg.src = './assets/imgs/open-arrow.svg';
+//   } else {
+//       btnImg.src = './assets/imgs/back-btn.svg';
+//   }
 
-}
+// }
 
 // toggleLeftPanelView()
 // Parameter:
