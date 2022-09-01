@@ -3,12 +3,6 @@
 // connect with the database
 "use strict";
 (function () {
-
-
-
-    
-
-   
         
     window.addEventListener("load", init);
 

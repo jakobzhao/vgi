@@ -34,8 +34,8 @@ let geocoder = new MapboxGeocoder({
   enableGeoLocation: true
 }).onAdd(map);
 
-
 document.getElementById('geocoder').appendChild(geocoder);
+
 
 // toggleLeftPanelView()
 // Parameter:
@@ -306,18 +306,18 @@ function getProperties(data) {
 
 // Add observation and venueSliceData data layer onto map
 function addDataLayer(obsData) {
-  map.loadImage('./assets/imgs/marker.png', function (error, image) {
-    if (error) throw error;
-    map.addImage('init-marker', image, {
-      sdf: true
-    });
-  });
-  map.loadImage('./assets/imgs/red-marker.png', function (error, image) {
-    if (error) throw error;
-    map.addImage('red-marker', image, {
-      sdf: true
-    });
-  });
+  // map.loadImage('./assets/imgs/marker.png', function (error, image) {
+  //   if (error) throw error;
+  //   map.addImage('init-marker', image, {
+  //     sdf: true
+  //   });
+  // });
+  // map.loadImage('./assets/imgs/red-marker.png', function (error, image) {
+  //   if (error) throw error;
+  //   map.addImage('red-marker', image, {
+  //     sdf: true
+  //   });
+  // });
 
   map.addLayer({
     'id': 'data',
@@ -710,8 +710,6 @@ function addExtrusions(feature, e) {
     }
   });
 };
-
-// // add div for the codes corresponding to selected year on the map
 
 
 // add div for the codes corresponding to selected year on the map
@@ -1303,14 +1301,15 @@ map.on('style.load', async function () {
 
   let verifiedData = await displayData();
   addDataLayer(verifiedData);
+  // once the data is added,d filter the data with the year value.
   map.setFilter('data', ["==", ['number', ['get', 'year']], defaultYear]);
 
   // observation data
-  let unverifiedVenues = await getObservations();
-  let verifiedVenues = await getVenueSlice();
+  let observations = await getObservations();
+  let venues = await getVenueSlice();
 
-  addAccordionLayer(unverifiedVenues, 'observation');
-  addAccordionLayer(verifiedVenues, 'venue-slice');
+  addAccordionLayer(observations, 'observation');
+  // addAccordionLayer(venues, 'venue-slice');
 
   // load all code data from database
   let code_data = await allCodes();
@@ -1336,7 +1335,7 @@ map.on('style.load', async function () {
     // filter map view to selected year
     // map.setFilter('data', ["==", ['number', ['get', 'year']], selectYear]);
 
-    let filteredYearData = verifiedVenues.features.filter(function (feature) {
+    let filteredYearData = venues.features.filter(function (feature) {
       return feature.properties.year == selectYear
     });
 
@@ -1471,7 +1470,7 @@ map.on('style.load', async function () {
       map.removeLayer('nearby-observations');
       map.removeSource('nearby-observations');
     }
-    displayNearbyObservations(unverifiedVenues, e);
+    displayNearbyObservations(observations, e);
 
     // marker.remove();
     if (document.getElementById('info').classList.contains('leftCollapse')) {
@@ -1655,6 +1654,8 @@ map.on('style.load', async function () {
 
   document.getElementById('login-btn').addEventListener('click', submitPassword);
 
+
+  
   // go back button
   document.getElementById('go-back-btn').addEventListener('click', function () {
     if (!(document.getElementById('validate-observation').classList.contains('d-none'))) {
@@ -1688,6 +1689,9 @@ map.on('style.load', async function () {
     };
 
   });
+
+
+
   document.getElementById('go-back-btn2').addEventListener('click', function () {
     if (!(document.getElementById('add-observation').classList.contains('d-none'))) {
       document.getElementById('add-observation').classList.toggle('d-none');
@@ -1759,7 +1763,6 @@ map.on('style.load', async function () {
   //footer animation
 
 
-  
   // Change the cursor to a pointer when the it enters a feature in the 'circle' layer.
   map.on('mouseenter', 'data', function () {
     map.getCanvas().style.cursor = 'pointer';
@@ -1801,7 +1804,7 @@ map.on('style.load', async function () {
     })
   })
 
-  $('#loader').fadeOut("slow");
+  // $('#loader').fadeOut("slow");
 
 
 });
