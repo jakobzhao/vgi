@@ -300,18 +300,18 @@ function getProperties(data) {
 
 // Add observation and venueSliceData data layer onto map
 function addDataLayer(obsData) {
-  // map.loadImage('./assets/imgs/marker.png', function (error, image) {
-  //   if (error) throw error;
-  //   map.addImage('init-marker', image, {
-  //     sdf: true
-  //   });
-  // });
-  // map.loadImage('./assets/imgs/red-marker.png', function (error, image) {
-  //   if (error) throw error;
-  //   map.addImage('red-marker', image, {
-  //     sdf: true
-  //   });
-  // });
+  map.loadImage('./assets/imgs/marker.png', function (error, image) {
+    if (error) throw error;
+    map.addImage('init-marker', image, {
+      sdf: true
+    });
+  });
+  map.loadImage('./assets/imgs/red-marker.png', function (error, image) {
+    if (error) throw error;
+    map.addImage('red-marker', image, {
+      sdf: true
+    });
+  });
 
   map.addLayer({
     'id': 'data',
@@ -432,6 +432,8 @@ for (var i = 0; i < layerList.length; i++) {
 
 // function slide-in left panel
 function viewLeftPanel(e) {
+
+  console.log("test");
   // parse the codes to increase readability
   let codeString = "";
   let codes = e.properties.codedescriptorlist;
@@ -1024,7 +1026,7 @@ function addCones(data, active) {
         flatShading: true,
         color: '#D3B1C2',
         transparent: true,
-        opacity: 0.8
+        opacity: 1
       });
 
       let materialSup = new THREE.MeshBasicMaterial({
@@ -1052,7 +1054,7 @@ function addCones(data, active) {
         flatShading: true,
         color: '#69c3bb',
         transparent: true,
-        opacity: 0.9
+        opacity: 1
       });
 
       let coneTemplate = new THREE.Mesh(geometry, material);
@@ -1101,6 +1103,7 @@ function addCones(data, active) {
 
       //add mousing interactions
       map.on('click', function (e) {
+    
         // Clear old objects
         highlighted.forEach(function (h) {
           h.material = material;
@@ -1116,8 +1119,12 @@ function addCones(data, active) {
           var nearestObject = intersect.object;
           nearestObject.material = materialOnClick;
           highlighted.push(nearestObject);
+          // toggleLeftPanelView('info-default');
+          // document.getElementById('info').classList.toggle('leftCollapse');
         } else {
           console.log("change back");
+
+   
         }
 
         // on state change, fire a repaint
@@ -1226,8 +1233,6 @@ colorizeObservationCbx.addEventListener('click', function () {
 });
 
 
-
-
 function displayNearbyObservations(obsData, e) {
   let observationData = obsData.features;
   let selectedData = e.features[0];
@@ -1301,6 +1306,9 @@ function displayNearbyObservations(obsData, e) {
   });
   map.getSource('nearby-observations').setData(result);
 };
+
+
+
 
 function loadOptions(data) {
   let dataSlice = [
@@ -1558,6 +1566,9 @@ map.on('style.load', async function () {
 
   // trigger review/location information on click of location point of map
   map.on('click', 'data', async function (e) {
+
+
+   // console.log("data click");
     // get points that are within the boundary for observations
     // get points that are within the boundary for unverified venues
     if (map.getLayer('nearby-observations')) {
