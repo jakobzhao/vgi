@@ -1774,9 +1774,9 @@ map.on('style.load', async function () {
     return;
   }
   // Enumerate ids of the layers.
-  let unverifiedVenuesBtn = document.getElementById('observation-legend');
-  let verifiedVenuesBtn = document.getElementById('venue-legend');
-  const toggleableLayerIds = [unverifiedVenuesBtn, verifiedVenuesBtn];
+  let observationLegendBtn = document.getElementById('observation-legend');
+  let venueLegendBtn = document.getElementById('venue-legend');
+  const toggleableLayerIds = [observationLegendBtn, venueLegendBtn];
 
   toggleableLayerIds.forEach(element => {
     element.addEventListener('click', function (e) {
