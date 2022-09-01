@@ -630,16 +630,34 @@ div.form-check {
 }
 
 .slider:hover {
-    opacity: 1;
+    opacity: 0.8;
 }
+
+
+/* confident level */
 
 .sliderticks {
     display: flex;
     justify-content: space-between;
-    padding: 0 10px;
+    /* padding-left: 0.8em; */
+    /* margin-left: 0.5em;
+    margin-right: 0.9em; */
+    /* padding-right: 0.8em; */
 }
 
-.sliderticks p {
+.sliderticks > p {
+    display: flex;
+    justify-content: space-between;
+    font-size:x-small; 
+    width:4em;
+    height: 1em;
+    line-height: normal;
+    /* background: #D3D3D3; */
+
+}
+
+
+/* .sliderticks p {
     position: relative;
     display: flex;
     justify-content: center;
@@ -649,7 +667,7 @@ div.form-check {
     height: 10px;
     line-height: 40px;
     margin: 0 0 20px 0;
-}
+} */
 
 #layers {
     bottom: 0;
@@ -802,3 +820,4 @@ div.form-check {
     background-color: transparent !important;
     box-shadow: none !important;
 }
+
