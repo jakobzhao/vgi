@@ -116,7 +116,12 @@
     function isLoggedIn() {
 
         let signInView = document.getElementById('logInBtn');
-        // if left panel is closed
+
+        if (signInView.classList.contains('d-none')) {
+            // if contains display none, means that user is logged in
+            toggleLeftPanelView('add-observation');
+
+                    // if left panel is closed
         if (document.getElementById('info').classList.contains('leftCollapse')) {
             let collapseState = document.getElementById('info').classList.toggle('leftCollapse');
             document.getElementById('info-close-btn').classList.toggle('info-btn-collapse');
@@ -127,10 +132,6 @@
                 btnImg.src = './assets/imgs/back-btn.svg';
             }
         }
-
-        if (signInView.classList.contains('d-none')) {
-            // if contains display none, means that user is logged in
-            toggleLeftPanelView('add-observation');
         } else {
             let alert = document.getElementById("alert-modal");
             let alertText = document.getElementById("alert-text");
