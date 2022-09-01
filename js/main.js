@@ -20,22 +20,17 @@
         });
 
 
-        let layersDisplay = document.getElementById('layers-container');
-        layersDisplay.addEventListener('mouseenter', function (e) {
+        // layer switcher
+        document.getElementById('layers-container').addEventListener('mouseenter', function (e) {
             document.getElementById('basemap-selection').classList.remove('d-none');
         })
 
-        layersDisplay.addEventListener('mouseleave', function (e) {
+        document.getElementById('basemap-selection').addEventListener('mouseleave', function (e) {
             document.getElementById('basemap-selection').classList.add('d-none');
         })
 
-        // //toggle off the left panel.
-        // toggleLeftPanelView('all');
 
-        // // close the left panel.
-        // document.getElementById('info').classList.toggle('leftCollapse');
-        
-
+    
         // hide the loader.
         $('#loader').fadeOut("slow");
 
