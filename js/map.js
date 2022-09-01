@@ -1197,6 +1197,36 @@ colorizeVenueCbx.addEventListener('click', function () {
 });
 
 
+let colorizeObservationCbx = document.getElementById('confidency-switch');
+
+colorizeObservationCbx.addEventListener('click', function () {
+
+  if (this.checked) {
+
+    tb.world.children.forEach(feature => {
+      if (feature.type == 'Group') {
+        feature.children[0].material.color.set("green");
+        console.log(feature.userData.properties.placetype);
+      }
+      
+    })
+  }
+  else {
+
+    tb.world.children.forEach(feature => {
+      if (feature.type == 'Group') {
+        feature.children[0].material.color.set("red");
+      }
+    })
+  }
+
+  tb.repaint();
+  
+});
+
+
+
+
 function displayNearbyObservations(obsData, e) {
   let observationData = obsData.features;
   let selectedData = e.features[0];

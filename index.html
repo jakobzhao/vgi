@@ -529,7 +529,7 @@
             </button>
           </h2>
           <div id="collapseVenue" class="accordion-collapse collapse" >
-            <div class="accordion-body">
+            <div class="accordion-body">ocality-observationsocality-observations
               <p style="font-size:small"> Most venues are plotted on the map. For the venues could not refer to a specific location but still relevant to the mapped locality, they are shown in the list below.
                 Click <a href="#"> here</a> for more details.
               </p>
@@ -553,30 +553,32 @@
         <div class="accordion-item">
           <h2 class="accordion-header" id="headingThree">
             <button id="observation-legend" class="accordion-button collapsed light-text-title" type="button"
-              data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false"
-              aria-controls="collapseThree">
+              data-bs-toggle="collapse" data-bs-target="#collapseObservation" aria-expanded="false"
+              aria-controls="collapseObservation">
               Observations
             </button>
           </h2>
-          <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
-            data-bs-parent="#views">
+          <div id="collapseObservation" class="accordion-collapse collapse">
             <div class="accordion-body">
-              <small>
+              <p style="font-size:small"> 
                 Observations are contributed by users but has not been reviewed by the research team.
                 <!-- While the map shows any venue associated with a specific location, while the table lists 1) the virtual venue and 2) the venue related to the geographical area in the current map view but its physical location is unclear. -->
                 Click <a href="#"> here</a> for more details.
-              </small>
+              </p>
               <div class="container">
-                <div class="row m-1 pt-2" style="font-size: 11px;">
+                <div class="row m-1 pt-2" style="font-size: small;">
                   <div class="col">Name</div>
                   <div class="col col-sm-3">Confidence</div>
                 </div>
               </div>
+           
               <!-- list of observations -->
-              <div id="observation-venues" class="confirmed-venues"></div>
+              <div id="locality-observations" class="confirmed-observations container">
+                
+              </div>
               <div class="form-check form-switch">
-                <input class="form-check-input" type="checkbox" id="observations-switch">
-                <label class="form-check-label" for="observations-switch">Color by how confident the contributor feels
+                <input class="form-check-input" type="checkbox" id="confidency-switch">
+                <label class="form-check-label" for="confidency-switch">Color by how confident the contributor feels
                   about its accuracy. </label>
               </div>
             </div>
