@@ -240,7 +240,7 @@ nav {
     text-align: center;
     top: 50%;
     bottom: 50%;
-    left: 27em;
+    left: 0em;
     transition: transform 1s;
     border: 10x solid black;
 }
@@ -259,7 +259,7 @@ nav {
     /* display: flex; */
     width:31em;
     bottom: 0em;
-    left: 27em;
+    left: 0em;
     text-shadow: 2px 2px 4px gray;
 }
 
@@ -286,7 +286,7 @@ nav {
     display: flex;
     width:32em;
     top: 5em;
-    left: 27em;
+    left: 0em;
     margin-left: 0.5em;
 }
 
@@ -323,7 +323,7 @@ nav {
     /* display: flex; */
     width:31em;
     bottom: 5em;
-    left: 27em;
+    left: 0em;
     margin-left: 0.5em;
 
 }

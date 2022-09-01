@@ -9,9 +9,9 @@
     // init function
     // added init to async (test for bugs!)
     async function init() {
-        document.querySelector('#observation-container').addEventListener('click', isLoggedIn);
+        document.getElementById('observation-container').addEventListener('click', isLoggedIn);
         document.getElementById('submit-edit').addEventListener('click', validateObservation);
-        document.querySelector("#submit-button").addEventListener('click', newUser);
+        document.getElementById("submit-button").addEventListener('click', newUser);
         document.getElementById('logOutBtn').addEventListener('click', () => {
             logOut();
         });
@@ -29,11 +29,11 @@
             document.getElementById('basemap-selection').classList.add('d-none');
         })
 
-        //toggle off the left panel.
-        toggleLeftPanelView('all');
+        // //toggle off the left panel.
+        // toggleLeftPanelView('all');
 
-        // close the left panel.
-        document.getElementById('info').classList.toggle('leftCollapse');
+        // // close the left panel.
+        // document.getElementById('info').classList.toggle('leftCollapse');
         
 
         // hide the loader.
