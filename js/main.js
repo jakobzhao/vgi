@@ -13,7 +13,7 @@
         document.getElementById('submit-edit').addEventListener('click', validateObservation);
         document.querySelector("#submit-button").addEventListener('click', newUser);
         document.getElementById('logOutBtn').addEventListener('click', () => {
-            signOut();
+            logOut();
         });
         document.getElementById('year-api').addEventListener('change', () => {
             yearChange();
@@ -131,7 +131,7 @@
     }
 
     // sign out the user when clicked on sign out
-    function signOut() {
+    function logOut() {
         if (!(document.getElementById('add-observation').classList.contains('d-none'))) {
             let collapseState = document.getElementById('info').classList.toggle('leftCollapse');
             document.getElementById('info-close-btn').classList.toggle('info-btn-collapse');
