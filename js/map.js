@@ -366,7 +366,7 @@ function addAccordionLayer(data, type) {
   };
 
   map.addLayer({
-    'id': (type == 'observation') ? 'unverified-venues' : 'verified-venues',
+    'id': (type == 'observation') ? 'observation-legend' : 'venue-legend',
     'type': 'fill-extrusion',
     'source': {
       'type': 'geojson',
@@ -398,7 +398,7 @@ function addAccordionLayer(data, type) {
   });
 
   // map.addLayer({
-  //   'id': (type == 'observation') ? 'unverified-venues' : 'verified-venues',
+  //   'id': (type == 'observation') ? 'observation-legend' : 'venue-legend',
   //   'type': 'circle',
   //   'source': {
   //     type: 'geojson',
@@ -1770,12 +1770,12 @@ map.on('style.load', async function () {
   });
 
   // If these two layers were not added to the map, abort
-  if (!map.getLayer('unverified-venues') || !map.getLayer('verified-venues')) {
+  if (!map.getLayer('observation-legend') || !map.getLayer('venue-legend')) {
     return;
   }
   // Enumerate ids of the layers.
-  let unverifiedVenuesBtn = document.getElementById('unverified-venues');
-  let verifiedVenuesBtn = document.getElementById('verified-venues');
+  let unverifiedVenuesBtn = document.getElementById('observation-legend');
+  let verifiedVenuesBtn = document.getElementById('venue-legend');
   const toggleableLayerIds = [unverifiedVenuesBtn, verifiedVenuesBtn];
 
   toggleableLayerIds.forEach(element => {

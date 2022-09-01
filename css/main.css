@@ -260,7 +260,7 @@ nav {
     width:31em;
     bottom: 0em;
     left: 27em;
-    text-shadow: 2px 2px 5px gray;
+    text-shadow: 2px 2px 4px gray;
 }
 
 
@@ -319,12 +319,14 @@ nav {
 #legend {
     position: absolute;
     /* display: flex; */
-    /* width:31em; */
+    width:31em;
     bottom: 5em;
     left: 27em;
     margin-left: 0.5em;
-    text-shadow: 2px 2px 5px gray;
+
 }
+
+
 
 /* info review box  */
 .info-review-box {
