@@ -1180,7 +1180,7 @@ colorizeVenueCbx.addEventListener('click', function () {
         feature.children[0].material.color.set("green");
         console.log(feature.userData.properties.placetype);
       }
-      
+
     })
   }
   else {
@@ -1193,7 +1193,7 @@ colorizeVenueCbx.addEventListener('click', function () {
   }
 
   tb.repaint();
-  
+
 });
 
 
@@ -1208,7 +1208,7 @@ colorizeObservationCbx.addEventListener('click', function () {
         feature.children[0].material.color.set("green");
         console.log(feature.userData.properties.placetype);
       }
-      
+
     })
   }
   else {
@@ -1221,7 +1221,7 @@ colorizeObservationCbx.addEventListener('click', function () {
   }
 
   tb.repaint();
-  
+
 });
 
 
@@ -1327,13 +1327,39 @@ function loadOptions(data) {
   for (let data of dataSlice) {
     data.pop();
   }
-  addAutoComplete('#autoEntry', dataSlice[0]);
-  addAutoComplete('#autoUser', dataSlice[1]);
-  addAutoComplete('#autoAmenity', dataSlice[2]);
-  addAutoComplete('#autoCaution', dataSlice[3]);
-  addAutoComplete('#autoOrganization', dataSlice[4]);
+  addCheckBox('#collapseEntry', dataSlice[0])
+  addCheckBox('#collapseUser', dataSlice[1])
+  addCheckBox('#collapseAmenity', dataSlice[2])
+  addCheckBox('#collapseCaution', dataSlice[3])
+  addCheckBox('#collapseOrganization', dataSlice[4])
+
+  // addAutoComplete('#autoEntry', dataSlice[0]);
+  // addAutoComplete('#autoUser', dataSlice[1]);
+  // addAutoComplete('#autoAmenity', dataSlice[2]);
+  // addAutoComplete('#autoCaution', dataSlice[3]);
+  // addAutoComplete('#autoOrganization', dataSlice[4]);
 }
 
+function addCheckBox(id, data) {
+  let mainCategory = document.querySelector(id);
+  for (var descriptor of data) {
+    let container = document.createElement('div');
+    container.classList.add('form-check');
+    let box = document.createElement('input');
+    box.classList.add('form-check-input');
+    box.setAttribute('type', 'checkbox');
+    box.setAttribute('id', descriptor);
+    box.setAttribute('value', descriptor);
+    box.setAttribute('name', 'myCheckBoxes');
+    let label = document.createElement('label');
+    label.classList.add('form-check-label');
+    label.setAttribute('for', descriptor);
+    label.textContent = descriptor;
+    container.appendChild(box);
+    container.appendChild(label);
+    mainCategory.appendChild(container);
+  }
+}
 function addAutoComplete(id, data) {
   new Autocomplete(id, {
     search: input => {
@@ -1769,6 +1795,10 @@ map.on('style.load', async function () {
       }
       let yearSlider = document.getElementById('year-api');
       let yearText = document.getElementById('year-text-label');
+      let checkboxes = document.querySelectorAll('input[name=myCheckBoxes]:checked');
+      for (let box of checkboxes) {
+        box.checked = false;
+      }
       yearSlider.value = 2005;
       yearText.textContent = 'Year: ' + yearSlider.value;
     }

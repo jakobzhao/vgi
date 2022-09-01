@@ -372,7 +372,67 @@
             <label for="type-api">Category:</label>
           </div> -->
 
-          <div class="form-floating mb-1" id="autoEntry">
+          <div id="accordionEntry" class="mb-1" >
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <div class="btn-group type-btn mb-1">
+                  <button type="button" class="btn btn-default collapsed accordion-button type-btn"
+                  data-bs-toggle="collapse" data-bs-target="#collapseEntry" aria-expanded="false" aria-controls="collapseEntry">Entry Descriptors</button>
+                </div>
+              </h2>
+              <div class="collapse form-floating mb-1 collapsedTypes" id="collapseEntry">
+              </div>
+            </div>
+          </div>
+          <div id="accordionUser" class="mb-1" >
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <div class="btn-group type-btn mb-1">
+                  <button type="button" class="btn btn-default collapsed accordion-button type-btn"
+                  data-bs-toggle="collapse" data-bs-target="#collapseUser" aria-expanded="false" aria-controls="collapseUser">Clientele/User Descriptors</button>
+                </div>
+              </h2>
+              <div class="collapse form-floating mb-1 collapsedTypes" id="collapseUser">
+              </div>
+            </div>
+          </div>
+          <div id="accordionAmenity" class="mb-1" >
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <div class="btn-group type-btn mb-1">
+                  <button type="button" class="btn btn-default collapsed accordion-button type-btn"
+                  data-bs-toggle="collapse" data-bs-target="#collapseAmenity" aria-expanded="false" aria-controls="collapseAmenity">Amenity/Service Descriptors</button>
+                </div>
+              </h2>
+              <div class="collapse form-floating mb-1 collapsedTypes" id="collapseAmenity">
+              </div>
+            </div>
+          </div>
+          <div id="accordionCaution" class="mb-1" >
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <div class="btn-group type-btn mb-1">
+                  <button type="button" class="btn btn-default collapsed accordion-button type-btn"
+                  data-bs-toggle="collapse" data-bs-target="#collapseCaution" aria-expanded="false" aria-controls="collapseCaution">Caution/Restriction Descriptors</button>
+                </div>
+              </h2>
+              <div class="collapse form-floating mb-1 collapsedTypes" id="collapseCaution">
+              </div>
+            </div>
+          </div>
+          <div id="accordionOrganization" class="mb-1" >
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <div class="btn-group type-btn mb-1">
+                  <button type="button" class="btn btn-default collapsed accordion-button type-btn"
+                  data-bs-toggle="collapse" data-bs-target="#collapseOrganization" aria-expanded="false" aria-controls="collapseOrganization">Organization/Association Descriptors</button>
+                </div>
+              </h2>
+              <div class="collapse form-floating mb-1 collapsedTypes" id="collapseOrganization">
+              </div>
+            </div>
+          </div>
+          <!-- <div class="form-floating mb-1" id="autoEntry">
             <input class="autocomplete-input form-control" id='EntryGrid' />
             <ul class="autocomplete-result-list"></ul>
             <label for="EntryGrid">Entry:</label>
@@ -382,7 +442,7 @@
             <input class="autocomplete-input form-control" id='UserGrid' />
             <ul class="autocomplete-result-list"></ul>
             <label for="UserGrid">User:</label>
-          </div>
+          </div> -->
 
           <!-- <div class="col-md">
               <div class="form-floating mb-1">
@@ -393,7 +453,7 @@
               </div>
             </div> -->
 
-          <div class="form-floating mb-1" id="autoAmenity">
+          <!-- <div class="form-floating mb-1" id="autoAmenity">
             <input class="autocomplete-input form-control" id='AmenityGrid' />
             <ul class="autocomplete-result-list"></ul>
             <label for="AmenityGrid">Amenity:</label>
@@ -409,7 +469,7 @@
             <input class="autocomplete-input form-control" id='OrganizationGrid' />
             <ul class="autocomplete-result-list"></ul>
             <label for="OrganizationGrid">Organization:</label>
-          </div>
+          </div> -->
 
           <div class="form-floating mb-1">
             <input id="otherGrid" type="text" class="form-control">
@@ -560,7 +620,7 @@
           </h2>
           <div id="collapseObservation" class="accordion-collapse collapse">
             <div class="accordion-body">
-              <p style="font-size:small"> 
+              <p style="font-size:small">
                 Observations are contributed by users but has not been reviewed by the research team.
                 <!-- While the map shows any venue associated with a specific location, while the table lists 1) the virtual venue and 2) the venue related to the geographical area in the current map view but its physical location is unclear. -->
                 Click <a href="#"> here</a> for more details.
@@ -571,10 +631,10 @@
                   <div class="col col-sm-3">Confidence</div>
                 </div>
               </div>
-           
+
               <!-- list of observations -->
               <div id="locality-observations" class="confirmed-observations container">
-                
+
               </div>
               <div class="form-check form-switch">
                 <input class="form-check-input" type="checkbox" id="confidency-switch">

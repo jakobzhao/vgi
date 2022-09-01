@@ -21,7 +21,7 @@ main,
     background: url('../assets/imgs/loading.gif') 50% 50% no-repeat white;
     opacity: 1;
   }
-  
+
 
 /* fixed navbar to fix dashboard overlaying on navbar */
 nav {
@@ -268,7 +268,7 @@ nav {
     position: relative;
     width:16em;
     bottom: -4em;
-    
+
 }
 #acknowledge {
     /* display:flex; */
@@ -481,7 +481,7 @@ nav {
     display: flex;
     font-size: 4em;
     margin-top: -0.4em;
-    
+
 }
 
 
@@ -765,4 +765,40 @@ div.form-check {
 
 .dropdown-menu>li:hover>.dropdown-submenu {
     display: block;
+}
+
+.type-btn {
+    margin-bottom: 1%;
+    width: 100%;
+    border-color: #ced4da !important;
+
+}
+
+
+.collapsedTypes{
+    border-color: #ced4da !important;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.form-check .form-check-input {
+    margin-left: -1em !important;
+    margin-bottom: 0.5em !important;
+}
+
+.form-check {
+    flex: 1 0 40%;
+}
+
+.type-btn {
+    margin-left: -0.2em !important;
+    font-size: 14px;
+    background-color: transparent;
+}
+
+.type-btn:not(.collapsed) {
+    color: black !important;
+    background-color: transparent !important;
+    box-shadow: none !important;
 }
