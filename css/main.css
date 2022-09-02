@@ -300,6 +300,7 @@ h2#name, p#venue-indicator {
     bottom: 0em;
     left: 0em;
     text-shadow: 2px 2px 4px gray;
+    transition: left 1s;
 }
 
 
