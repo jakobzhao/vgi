@@ -13,6 +13,7 @@
         "mapbox",
         "mapboxgl",
         "rtoggle",
-        "sliderticks"
+        "sliderticks",
+        "Streetview"
     ]
 }
