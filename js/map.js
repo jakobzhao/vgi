@@ -450,7 +450,7 @@ function viewLeftPanel(e) {
 
   // left panel location information
   document.getElementById('name').innerHTML = infoNullCheck(e.properties.observedvenuename);
-  document.getElementById('address').innerHTML = infoNullCheck(e.properties.address);
+  document.getElementById('address').innerHTML = infoNullCheck(e.properties.address); 
   document.getElementById('formal-address').innerHTML = infoNullCheck(e.properties.formaladdress);
   document.getElementById('year-info').innerHTML = infoNullCheck(e.properties.year);
   document.getElementById('city').innerHTML = infoNullCheck(e.properties.city);

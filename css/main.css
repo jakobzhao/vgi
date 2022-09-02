@@ -234,13 +234,14 @@ h2#name, p#venue-indicator {
 #img-notes {
     font-size:smaller;
     font-style:italic;
+    line-height: 1.15em;
     margin-top: .5em;
     /* margin-bottom: .5em; */
 }
 
 #ground-truth-btns {
     position: relative;
-    top: 4.8em;
+    top: 7em;
     width: 100%;
     left: -0.5em;
     /* height: 20em; */
