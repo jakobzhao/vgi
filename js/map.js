@@ -1037,7 +1037,7 @@ function addLabels(data) {
 function addCones(data, active) {
 
   if (data.length == 0) {
-    document.getElementById("year-notes").innerHTML = "no venue data is found this year."
+    document.getElementById("year-notes").innerHTML = "No venues of this year have been found in our database."
   } else {
     document.getElementById("year-notes").innerHTML = "";
   }
