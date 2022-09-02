@@ -58,11 +58,11 @@ document.getElementById('geocoder').appendChild(geocoder);
 //                   Hides: DATA PANEL, IMGS CONTAINER, VERIFICATION & REVIEW BTNS, ADD NEW OBSERVATION INFO PANEL
 // "info-default"     : Shows: DATA PANEL, VERIFICATION & REVIEW BTNS, IMGS CONTAINER
 //                 : Hides: DEFAULT PANEL, VERIFICATION PANEL, ADD NEW OBSERVATION INFO PANEL
-// "validate-observation"        : Shows: VERFICATION PANEL
+// "report-issue"        : Shows: VERFICATION PANEL
 //                   Hides: DEFAULT PANEL, DATA PANEL, IMGS CONTAINER, ADD NEW OBSERVATION INFO PANEL
 // "add-observation": Shows: ADD NEW OBSERVATION INFO PANEL
 //                   Hides: DEFAULT PANEL, DATA PANEL, VERIFCATION & REVIEW BTNS, IMGS CONTAINER
-// "validation-btns"
+// "ground-truth-btns"
 // "type-review-box"
 // "reviews-confirmation"
 // "reviews-container"
@@ -95,13 +95,13 @@ function toggleLeftPanelView(elementId) {
 
 
   if (elementId == "info-default") {
-    document.getElementById('validation-btns').classList.remove('d-none');
+    document.getElementById('ground-truth-btns').classList.remove('d-none');
   }
-  if (elementId == "validate-observation") {
-    document.getElementById('validation-btns').classList.remove('d-none');
-    document.getElementById('validate-observation-btn').classList.toggle('d-none');
-    document.getElementById('add-review-btn').classList.toggle('d-none');
-    document.getElementById('go-back-btn').classList.toggle('d-none');
+  if (elementId == "report-issue") {
+    document.getElementById('ground-truth-btns').classList.remove('d-none');
+    // document.getElementById('report-issue-btn').classList.toggle('d-none');
+    // document.getElementById('add-review-btn').classList.toggle('d-none');
+    // document.getElementById('go-back-btn').classList.toggle('d-none');
   }
 };
 
@@ -523,11 +523,12 @@ async function addLeftPanelActions(feature, marker, e) {
   });
 
   // if validate observation is clicked, display movable marker
-  let validateObservation = document.getElementById('validate-observation-btn');
+  let validateObservation = document.getElementById('report-issue-btn');
 
   validateObservation.addEventListener('click', function () {
     // ensure that user is logged-in
     let check = logInCheck();
+    
     if (check) {
       marker.setLngLat(coordinates).addTo(map);
 
@@ -537,6 +538,10 @@ async function addLeftPanelActions(feature, marker, e) {
         document.getElementById('lat-edit').value = lngLat.lat;
       }
       marker.on('dragend', onDragEnd);
+      toggleLeftPanelView('report-issue');
+      if( document.getElementById('info').classList.contains("leftCollapse")){
+       
+      document.getElementById('info').classList.toggle('leftCollapse');}
     }
   });
 };
@@ -604,27 +609,55 @@ Object.entries(localities).forEach(locality => {
 
 
 function logInCheck() {
-  let signInView = document.getElementById('logInBtn');
-  // if left panel is closed
-  if (document.getElementById('info').classList.contains('leftCollapse')) {
-    let collapseState = document.getElementById('info').classList.toggle('leftCollapse');
-    document.getElementById('info-close-btn').classList.toggle('info-btn-collapse');
-    let btnImg = document.getElementById('leftPanelArrow');
-    if (collapseState) {
-      btnImg.src = './assets/imgs/open-arrow.svg';
-    } else {
-      btnImg.src = './assets/imgs/back-btn.svg';
-    }
+
+
+  // let logInView = document.getElementById('logInBtn');
+
+  if (document.getElementById('logInBtn').classList.contains("d-none")) {
+      // if contains display none, means that user is logged in
+      // toggleLeftPanelView('report-issue');
+
+  // // if left panel is close
+  // if (document.getElementById('info').classList.contains('leftCollapse')) {
+  //     document.getElementById('info').classList.toggle('leftCollapse');
+  // }
+  return true;
+  } else {
+      let alert = document.getElementById("alert-modal");
+      let alertText = document.getElementById("alert-text");
+      alertText.innerHTML = "Please log in before making any contribution to this geospatial platform.";
+      let alertModal = new bootstrap.Modal(alert);
+      alertModal.show();
+
+      return false;
+      
   }
 
-  if (signInView.classList.contains('d-none')) {
-    // if contains display none, means that user is logged in
-    toggleLeftPanelView('validate-observation');
-    return true;
-  } else {
-    alert('Please sign in through Google first!');
-  }
-  return false;
+
+
+
+
+  // let signInView = document.getElementById('logInBtn');
+  // // if left panel is closed
+  // if (document.getElementById('info').classList.contains('leftCollapse')) {
+  //   let collapseState = document.getElementById('info').classList.toggle('leftCollapse');
+  //   document.getElementById('info-close-btn').classList.toggle('info-btn-collapse');
+  //   let btnImg = document.getElementById('leftPanelArrow');
+  //   if (collapseState) {
+  //     btnImg.src = './assets/imgs/open-arrow.svg';
+  //   } else {
+  //     btnImg.src = './assets/imgs/back-btn.svg';
+  //   }
+  // }
+
+  // if (signInView.classList.contains('d-none')) {
+  //   // if contains display none, means that user is logged in
+  //   toggleLeftPanelView('report-issue');
+  //   return true;
+  // } else {
+  //   alert('Please sign in through Google first!');
+  // }
+  // return false;
 }
 
 // create and style all incoming reviews from API request
@@ -1842,8 +1875,8 @@ map.on('style.load', async function () {
 
   // validation button
   // toggleview
-  // document.getElementById('validate-observation-btn').addEventListener('click', function() {
-  //   toggleLeftPanelView('validate-observation');
+  // document.getElementById('report-issue-btn').addEventListener('click', function() {
+  //   toggleLeftPanelView('report-issue');
   // })
 
   // close button

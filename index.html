@@ -218,18 +218,15 @@
     <!-- left dashboard -->
     <div id="info" class="d-flex flex-column rounded leftCollapse">
       <div id="info-default" class="d-none">
-        <!-- image holder for location -->
-        <div id="imgs-container">
-        </div>
         <!-- Location information-->
         <div class="d-flex flex-column rounded mx-3">
-          <hr>
+     
           <div class="my-2">
             <h2 id="name"></h2>
             <p id="venue-indicator"></p>
           </div>
           <!-- left dashboard - location information on clicked point div -->
-          <div class="my-2 d-flex flex-column">
+          <div class="my-2 d-flex flex-column" id="feature-list">
             <div class="d-flex flex-row my-1">
               <img src="assets/imgs/address.svg">
               <div id="address" class="ms-2"></div>
@@ -259,12 +256,17 @@
               <div id="type" class="ms-2"></div>
             </div>
           </div>
+
+               <!-- image holder for location -->
+               <div id="imgs-container">
+              </div>
+        <br/>
         </div>
       </div>
 
       <!-- left dashboard - validate observation div -->
-      <form id="validate-observation" class="d-flex flex-column d-none mx-3 mt-5">
-        <h3 class="mt-3 mb-0 pb-2">Ground Truth the Venue</h3>
+      <form id="report-issue" class="d-flex flex-column d-none mx-3 mt-5">
+        <h2 class="mt-3 mb-0 pb-2">Report an Issue</h2>
         <div class="form-floating mb-1">
           <input id="observed-name-edit" type="text" class="form-control" required>
           <label for="observed-name-edit">Name of Location:</label>
@@ -334,14 +336,14 @@
           <label for="notes-edit">Additional Notes:</label>
         </div>
 
-        <button id="submit-edit" type="button" class="btn btn-primary my-3">Submit this verification</button>
+        <button id="submit-edit" type="button" class="btn btn-primary my-3">Submit</button>
       </form>
 
       <!-- left dashboard - add observation div -->
       <div id="add-observation" class="d-none mx-4">
         <form id="user-form" class="d-flex flex-column">
           <!-- <h3 class="mt-3 mb-0 pb-2">Add new observation</h3> -->
-          <h3 class="mt-3 mb-0 pb-2">Add a Missing Venue <button id="go-back-btn2" type="button"
+          <h3 class="mt-3 mb-0 pb-2">Add a Missing Venue<button id="go-back-btn2" type="button"
               class="btn btn-primary mx-2">Return</button>
           </h3>
           <div class="form-floating mb-1">
@@ -507,10 +509,10 @@
       </div>
 
       <!-- left dashboard - buttons -->
-      <div id="validation-btns" class="mx-3 d-flex flex-row flex-wrap d-none">
-        <button id="validate-observation-btn" type="button" class="btn btn-primary mx-2">Verify</button>
-        <button id="add-review-btn" type="button" class="btn btn-primary mx-2">Review</button>
-        <button id="go-back-btn" type="button" class="btn btn-primary mx-2"> Go back</button>
+      <div id="ground-truth-btns" class="mx-3 d-flex flex-row flex-wrap">
+        <button id="report-issue-btn" type="button" class="btn btn-primary mx-2">Report an issue</button>
+        <button id="add-review-btn" type="button" class="btn btn-primary mx-2">Review this venue</button>
+        <button id="go-back-btn" type="button" class="btn btn-primary mx-2"> Close</button>
       </div>
 
       <!-- start a review box -->
