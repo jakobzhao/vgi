@@ -902,7 +902,7 @@ function codeIncludes(codeData, year) {
 // Parameters:
 //  feature: js object that contains complete data of clicked location
 function getStreetView(feature) {
-  let imgParent = document.getElementById('imgs-container');
+  let imgParent = document.getElementById('venue-img-container');
   let location = [feature.geometry.coordinates[1], feature.geometry.coordinates[0]];
 
   let imageURL = "https://maps.googleapis.com/maps/api/streetview?";
@@ -940,7 +940,7 @@ function getStreetView(feature) {
 // Parameters:
 //  feature: javascript object that contains complete data of a clicked location
 function getPhotos(feature) {
-  let imgParent = document.getElementById('imgs-container');
+  let imgParent = document.getElementById('venue-imgs');
   let locationBias = new google.maps.LatLng(feature.geometry.coordinates[1], feature.geometry.coordinates[0]);
   // set request data location name and set location bias
   let request = {

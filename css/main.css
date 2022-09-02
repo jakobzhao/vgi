@@ -212,7 +212,7 @@ h2#name, p#venue-indicator {
     top: 3em;
 }
 /* image element in imgs container */
-#imgs-container {
+#venue-imgs {
 
     position: relative;
     top: 4em;
@@ -223,16 +223,24 @@ h2#name, p#venue-indicator {
     background-position: center;
 }
 
-#imgs-container>img {
+#venue-img-container>img {
     border: 2px solid gray;
     width: 100%;
     height: 20em;
     object-fit: cover;
 }
 
+
+#img-notes {
+    font-size:smaller;
+    font-style:italic;
+    margin-top: .5em;
+    /* margin-bottom: .5em; */
+}
+
 #ground-truth-btns {
     position: relative;
-    top: 4em;
+    top: 4.8em;
     width: 100%;
     left: -0.5em;
     /* height: 20em; */
