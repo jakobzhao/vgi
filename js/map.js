@@ -14,6 +14,22 @@ var map = new mapboxgl.Map({
 });
 
 
+//Bo: not sure why we need these two images, but if we delete it, bugs incur.
+map.loadImage('assets/imgs/marker.png', function (error, image) {
+  if (error) throw error;
+  map.addImage('init-marker', image, {
+    sdf: true
+  });
+});
+
+map.loadImage('assets/imgs/red-marker.png', function (error, image) {
+  if (error) throw error;
+  map.addImage('red-marker', image, {
+    sdf: true
+  });
+});
+
+
 //click on the map to hide the locality and/or the code filter menus.
 map.on('click', (e) => {
   let localityList = document.getElementById('localityList');
@@ -300,18 +316,7 @@ function getProperties(data) {
 
 // Add observation and venueSliceData data layer onto map
 function addDataLayer(obsData) {
-  map.loadImage('./assets/imgs/marker.png', function (error, image) {
-    if (error) throw error;
-    map.addImage('init-marker', image, {
-      sdf: true
-    });
-  });
-  map.loadImage('./assets/imgs/red-marker.png', function (error, image) {
-    if (error) throw error;
-    map.addImage('red-marker', image, {
-      sdf: true
-    });
-  });
+
 
   map.addLayer({
     'id': 'data',
@@ -335,7 +340,7 @@ function addDataLayer(obsData) {
   });
 };
 
-// add accordion layer - for verified and unverified venues
+// add accordion layer - for venues and observations
 function addAccordionLayer(data, type) {
   // let comparisons = verifiedData.feature.length;
   // if(data.features.length < verifiedData.features.length) {
@@ -1413,7 +1418,7 @@ map.on('style.load', async function () {
   let venues = await getVenueSlice();
 
   addAccordionLayer(observations, 'observation');
-  // addAccordionLayer(venues, 'venue-slice');
+  // addAccordionLayer(venues, 'venue-slice');  // Bo: venue has already been added.
 
   // load all code data from database
   let code_data = await allCodes();
