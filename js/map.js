@@ -80,16 +80,16 @@ function toggleLeftPanelView(elementId) {
   // process the attribution
   attributionLeft = document.getElementById("attribution").style["left"];
 
-  if (attributionLeft == "27em") {
+  if (attributionLeft == "28em") {
     document.getElementById("attribution").style["left"] = "0em";
     document.getElementById("year-slider").style["left"] = "0em";
     document.getElementById("legend").style["left"] = "0em";
 
   } else {
 
-    document.getElementById("attribution").style["left"] = "27em";
-    document.getElementById("year-slider").style["left"] = "27em";
-    document.getElementById("legend").style["left"] = "27em";
+    document.getElementById("attribution").style["left"] = "28em";
+    document.getElementById("year-slider").style["left"] = "28em";
+    document.getElementById("legend").style["left"] = "28em";
 
   }
 
@@ -528,7 +528,7 @@ async function addLeftPanelActions(feature, marker, e) {
   validateObservation.addEventListener('click', function () {
     // ensure that user is logged-in
     let check = logInCheck();
-    
+
     if (check) {
       marker.setLngLat(coordinates).addTo(map);
 
@@ -539,8 +539,9 @@ async function addLeftPanelActions(feature, marker, e) {
       }
       marker.on('dragend', onDragEnd);
       toggleLeftPanelView('report-issue');
+      document.getElementById('ground-truth-btns').classList.toggle('d-none');
       if( document.getElementById('info').classList.contains("leftCollapse")){
-       
+
       document.getElementById('info').classList.toggle('leftCollapse');}
     }
   });
@@ -630,7 +631,7 @@ function logInCheck() {
       alertModal.show();
 
       return false;
-      
+
   }
 
 
@@ -1141,7 +1142,7 @@ function addCones(data, active) {
 
       //add mousing interactions
       map.on('click', function (e) {
-    
+
         // Clear old objects
         highlighted.forEach(function (h) {
           h.material = material;
@@ -1162,7 +1163,7 @@ function addCones(data, active) {
         } else {
           console.log("change back");
 
-   
+
         }
 
         // on state change, fire a repaint
@@ -1421,7 +1422,31 @@ function addAutoComplete(id, data) {
   });
 }
 
-
+async function placeInput(place) {
+  if (place.length == 4) {
+    if (place[0].includes('St') || place[0].includes('Street')
+    || place[0].includes('Avenue') || place[0].includes('Ave')
+    || place[0].includes('Northwest') || place[0].includes('Northeast')
+    || place[0].includes('NW') || place[0].includes('NE')
+    || place[0].includes('Southwest') || place[0].includes('Southeast')
+    || place[0].includes('SW') || place[0].includes('SE')) {
+      document.getElementById('location-api').value = '';
+      document.getElementById('address-api').value = place[0].trim();
+    } else {
+      document.getElementById('address-api').value = '';
+      document.getElementById('location-api').value = place[0].trim();
+    }
+    document.getElementById('city-api').value = place[1].trim();
+    let state = place[2].trim().split(' ');
+    document.getElementById('state-api').value = state[0].trim();
+  } else if (place.length == 5) {
+    document.getElementById('location-api').value = place[0].trim();
+    document.getElementById('address-api').value = place[1].trim();
+    document.getElementById('city-api').value = place[2].trim();
+    let state = place[3].trim().split(' ');
+    document.getElementById('state-api').value = state[0];
+  }
+}
 // Add category options in add missing venues
 // function addCategory(category, data) {
 //   category.innerHTML = '';
@@ -1630,11 +1655,11 @@ map.on('style.load', async function () {
           toggleLeftPanelView('info-default');
         }
     }
-  
+
     // toggleLeftPanelView('info-default');
 
     // load clicked marker info on left panel
-   
+
 
     // // clear 3-D year object
     if (typeof map.getLayer('year-block') !== "undefined") {
@@ -1811,12 +1836,12 @@ map.on('style.load', async function () {
     console.log("go back");
 
     if (!(document.getElementById('info-default').classList.contains('d-none'))) {
-  
+
       toggleLeftPanelView('info-default')
       if (!document.getElementById('info').classList.contains('leftCollapse')){
         document.getElementById('info').classList.toggle('leftCollapse');
     }
-    
+
     }
 
     // document.getElementById('info').classList.toggle('leftCollapse');
@@ -1868,7 +1893,7 @@ map.on('style.load', async function () {
       }
       yearSlider.value = 2005;
       yearText.textContent = 'Year: ' + yearSlider.value;
-
+      document.getElementById('slider-bar').value = document.getElementById('year-label').textContent;
 
     }
   })
@@ -1936,6 +1961,22 @@ map.on('style.load', async function () {
   // Change it back to a pointer when it leaves.
   map.on('mouseleave', 'data', function () {
     map.getCanvas().style.cursor = '';
+  });
+
+  map.on('click', function(e) {
+    if (!document.getElementById('add-observation').classList.contains('d-none')) {
+      $.get(
+        "https://api.mapbox.com/geocoding/v5/mapbox.places/" +
+          e.lngLat.lng + "," + e.lngLat.lat + ".json?access_token=" + mapboxgl.accessToken,
+        function(data) {
+          let place = data.features[0].place_name.split(',');
+          placeInput(place);
+          console.log(place);
+        }
+      ).fail(function(jqXHR, textStatus, errorThrown) {
+        alert("There was an error while geocoding: " + errorThrown);
+      });
+    }
   });
 
   // If these two layers were not added to the map, abort

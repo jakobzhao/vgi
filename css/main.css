@@ -188,7 +188,7 @@ nav {
     position: absolute;
     z-index: 1;
     background-color: white;
-    width: 27em;
+    width: 27.5em;
     bottom: 0;
     height: 100%;
     color: black;
@@ -234,6 +234,7 @@ h2#name, p#venue-indicator {
     position: relative;
     top: 4em;
     width: 100%;
+    left: -0.5em;
     /* height: 20em; */
 
 }
@@ -326,6 +327,7 @@ h2#name, p#venue-indicator {
     top: 5em;
     left: 0em;
     margin-left: 0.5em;
+    transition: left 1s;
 }
 
 #year-label {
@@ -350,7 +352,7 @@ h2#name, p#venue-indicator {
     top: -5.5em;
     left: 8em;
     position: relative;
-    width: 25em;
+    width: 40em;
 }
 
 
@@ -363,7 +365,7 @@ h2#name, p#venue-indicator {
     bottom: 5em;
     left: 0em;
     margin-left: 0.5em;
-
+    transition: left 1s;
 }
 
 
@@ -448,11 +450,11 @@ h2#name, p#venue-indicator {
 
 /* TRANSITIONS */
 .leftCollapse {
-    transform: translateX(-27em);
+    transform: translateX(-27.5em);
 }
 
 .info-btn-collapse {
-    transform: translateX(-27em);
+    transform: translateX(-27.5em);
 }
 
 .fade {
@@ -686,7 +688,7 @@ h2#name, p#venue-indicator {
 .sliderticks > p {
     display: flex;
     justify-content: space-between;
-    font-size:x-small; 
+    font-size:x-small;
     width:4em;
     height: 1em;
     line-height: normal;
