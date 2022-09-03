@@ -334,15 +334,16 @@ h2#name, p#venue-indicator {
     position: absolute;
     display: flex;
     width:32em;
-    top: 5em;
+    top: 4em;
     left: 0em;
     margin-left: 0.5em;
     transition: left 1s;
 }
 
 #year-label {
-    font-size: 60px;
+    font-size: xxx-large;
     font-weight: 500;
+    font-size: 3.5em;
 
 }
 
@@ -352,18 +353,12 @@ h2#name, p#venue-indicator {
     position:relative;
     left: 0.5em;
     top: -3.5em;
-    font-size: 15pt;
+    font-size: 1em;
     font-weight: 500;
     color: crimson;
 
 }
 
-#slider-bar {
-    top: -5.5em;
-    left: 8em;
-    position: relative;
-    width: 40em;
-}
 
 
 
@@ -557,13 +552,19 @@ h2#name, p#venue-indicator {
     margin: 3em 1em 1em 1em;
 }
 
+
+
+
 .single-slider {
+    top: -4.2em;
+    left: 8em;
+    position: relative;
+    width: 20em;
     -webkit-appearance: none;
     background: transparent;
-    padding-top: 1.4em;
     margin-left: 1em;
     z-index: 1;
-    width: 100%;
+
 }
 
 .single-slider:focus {
