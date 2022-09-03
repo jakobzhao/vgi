@@ -58,10 +58,10 @@ document.getElementById('geocoder').appendChild(geocoder);
 //                   Hides: DATA PANEL, IMGS CONTAINER, VERIFICATION & REVIEW BTNS, ADD NEW OBSERVATION INFO PANEL
 // "info-default"     : Shows: DATA PANEL, VERIFICATION & REVIEW BTNS, IMGS CONTAINER
 //                 : Hides: DEFAULT PANEL, VERIFICATION PANEL, ADD NEW OBSERVATION INFO PANEL
-// "report-issue"        : Shows: VERFICATION PANEL
+// "report-issue"        : Shows: VERIFICATION PANEL
 //                   Hides: DEFAULT PANEL, DATA PANEL, IMGS CONTAINER, ADD NEW OBSERVATION INFO PANEL
 // "add-observation": Shows: ADD NEW OBSERVATION INFO PANEL
-//                   Hides: DEFAULT PANEL, DATA PANEL, VERIFCATION & REVIEW BTNS, IMGS CONTAINER
+//                   Hides: DEFAULT PANEL, DATA PANEL, VERIFICATION & REVIEW BTNS, IMGS CONTAINER
 // "ground-truth-btns"
 // "type-review-box"
 // "reviews-confirmation"
