@@ -216,8 +216,5 @@
         yearText.textContent = 'Year: ' + yearSlider.value;
     }
 
-
-
-
-
+    
 })();
