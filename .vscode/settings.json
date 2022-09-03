@@ -2,18 +2,29 @@
     "cSpell.words": [
         "basemap",
         "basemaps",
+        "bbox",
         "BTNS",
         "codedescriptorlist",
         "codefilter",
+        "codelist",
+        "createdby",
         "ctrls",
         "damron",
+        "formaladdress",
         "Geocoder",
         "geospatial",
         "LGBTQ",
+        "lgbtqspaces",
         "mapbox",
         "mapboxgl",
+        "navi",
+        "observedvenuename",
+        "placeid",
+        "placetype",
         "rtoggle",
         "sliderticks",
-        "Streetview"
+        "Streetview",
+        "toggleview",
+        "vcolors"
     ]
 }
