@@ -1066,14 +1066,14 @@ function addCones(data, active) {
         flatShading: true,
         color: '#D3B1C2',
         transparent: true,
-        opacity: 0.7
+        opacity:1
       });
 
       let materialSup = new THREE.MeshBasicMaterial({
         flatShading: true,
         color: '#8bd5ee',
         transparent: true,
-        opacity: 0.5
+        opacity: 0.7
       });
 
       let materialOnClick = new THREE.MeshPhysicalMaterial({
