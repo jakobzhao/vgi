@@ -450,7 +450,7 @@ function viewLeftPanel(e) {
 
   // left panel location information
   document.getElementById('name').innerHTML = infoNullCheck(e.properties.observedvenuename);
-  document.getElementById('address').innerHTML = infoNullCheck(e.properties.address); 
+  document.getElementById('address').innerHTML = infoNullCheck(e.properties.address);
   document.getElementById('formal-address').innerHTML = infoNullCheck(e.properties.formaladdress);
   document.getElementById('year-info').innerHTML = infoNullCheck(e.properties.year);
   document.getElementById('city').innerHTML = infoNullCheck(e.properties.city);
@@ -540,9 +540,10 @@ async function addLeftPanelActions(feature, marker, e) {
       marker.on('dragend', onDragEnd);
       toggleLeftPanelView('report-issue');
       document.getElementById('ground-truth-btns').classList.toggle('d-none');
-      if( document.getElementById('info').classList.contains("leftCollapse")){
+      if (document.getElementById('info').classList.contains("leftCollapse")) {
 
-      document.getElementById('info').classList.toggle('leftCollapse');}
+        document.getElementById('info').classList.toggle('leftCollapse');
+      }
     }
   });
 };
@@ -615,22 +616,22 @@ function logInCheck() {
   // let logInView = document.getElementById('logInBtn');
 
   if (document.getElementById('logInBtn').classList.contains("d-none")) {
-      // if contains display none, means that user is logged in
-      // toggleLeftPanelView('report-issue');
+    // if contains display none, means that user is logged in
+    // toggleLeftPanelView('report-issue');
 
-  // // if left panel is close
-  // if (document.getElementById('info').classList.contains('leftCollapse')) {
-  //     document.getElementById('info').classList.toggle('leftCollapse');
-  // }
-  return true;
+    // // if left panel is close
+    // if (document.getElementById('info').classList.contains('leftCollapse')) {
+    //     document.getElementById('info').classList.toggle('leftCollapse');
+    // }
+    return true;
   } else {
-      let alert = document.getElementById("alert-modal");
-      let alertText = document.getElementById("alert-text");
-      alertText.innerHTML = "Please log in before making any contribution to this geospatial platform.";
-      let alertModal = new bootstrap.Modal(alert);
-      alertModal.show();
+    let alert = document.getElementById("alert-modal");
+    let alertText = document.getElementById("alert-text");
+    alertText.innerHTML = "Please log in before making any contribution to this geospatial platform.";
+    let alertModal = new bootstrap.Modal(alert);
+    alertModal.show();
 
-      return false;
+    return false;
 
   }
 
@@ -1065,7 +1066,7 @@ function addCones(data, active) {
         flatShading: true,
         color: '#D3B1C2',
         transparent: true,
-        opacity: 1
+        opacity: 0.7
       });
 
       let materialSup = new THREE.MeshBasicMaterial({
@@ -1135,8 +1136,6 @@ function addCones(data, active) {
       })
 
 
-
-      // tb.repaint();
 
       var highlighted = [];
 
@@ -1219,22 +1218,32 @@ function addCones(data, active) {
 let colorizeVenueCbx = document.getElementById('reliability-switch');
 
 colorizeVenueCbx.addEventListener('click', function () {
-
+  vcolors = chroma.scale('YlOrRd').colors(5);
   if (this.checked) {
-
     tb.world.children.forEach(feature => {
       if (feature.type == 'Group') {
-        feature.children[0].material.color.set("green");
-        console.log(feature.userData.properties.placetype);
+        if (feature.userData.properties.confidence.toLowerCase() == "not confident at all") {
+          feature.children[0].material.color.set(vcolors[0]);
+        } else if (feature.userData.properties.confidence == "slightly confident") {
+          feature.children[0].material.color.set(vcolors[1]);
+        } else if (feature.userData.properties.confidence.toLowerCase() == "somewhat confident") {
+          feature.children[0].material.color.set(vcolors[2]);
+        } else if (feature.userData.properties.confidence.toLowerCase() == "fairly confident") {
+          feature.children[0].material.color.set(vcolors[3]);
+        } else if (feature.userData.properties.confidence.toLowerCase() == "completely confident") {
+          feature.children[0].material.color.set(vcolors[4]);
+        }
+        // feature.children[0].material.color.set("green");
+        // console.log(feature.userData.properties.placetype);
+        console.log(feature.userData.properties.confidence);
       }
 
     })
-  }
-  else {
+  } else {
 
     tb.world.children.forEach(feature => {
       if (feature.type == 'Group') {
-        feature.children[0].material.color.set("red");
+        feature.children[0].material.color.set('#D3B1C2');
       }
     })
   }
@@ -1257,8 +1266,7 @@ colorizeObservationCbx.addEventListener('click', function () {
       }
 
     })
-  }
-  else {
+  } else {
 
     tb.world.children.forEach(feature => {
       if (feature.type == 'Group') {
@@ -1281,16 +1289,17 @@ function displayNearbyObservations(obsData, e) {
     coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
   };
 
-  const polygonRadius = 0.5;
+  // the radius of the searching buffer
+  const polygonRadius = 0.05;
   let options = {
     steps: 100,
-    units: 'kilometers'
+    units: 'miles'
   };
 
-  const circleRadius = 0.02;
+  const circleRadius = 0.01;
   let circleOptions = {
     steps: 100,
-    units: 'kilometers'
+    units: 'miles'
   };
 
   let points = [];
@@ -1306,9 +1315,9 @@ function displayNearbyObservations(obsData, e) {
     element.geometry = turf.circle(element.geometry.coordinates, circleRadius, circleOptions).geometry;
     element.properties = {
       'height': 75,
+      'base': 50,
       // 'height': (((index == 0) ? 50 : (index + 1) * 150 - 45) + 145),
       // 'base': ((index == 0) ? 50 : (index + 1) * 150 - 10),
-      'base': 50,
       'paint': 'green'
     }
   });
@@ -1408,6 +1417,7 @@ function addCheckBox(id, data) {
     mainCategory.appendChild(container);
   }
 }
+
 function addAutoComplete(id, data) {
   new Autocomplete(id, {
     search: input => {
@@ -1424,12 +1434,12 @@ function addAutoComplete(id, data) {
 
 async function placeInput(place) {
   if (place.length == 4) {
-    if (place[0].includes('St') || place[0].includes('Street')
-    || place[0].includes('Avenue') || place[0].includes('Ave')
-    || place[0].includes('Northwest') || place[0].includes('Northeast')
-    || place[0].includes('NW') || place[0].includes('NE')
-    || place[0].includes('Southwest') || place[0].includes('Southeast')
-    || place[0].includes('SW') || place[0].includes('SE')) {
+    if (place[0].includes('St') || place[0].includes('Street') ||
+      place[0].includes('Avenue') || place[0].includes('Ave') ||
+      place[0].includes('Northwest') || place[0].includes('Northeast') ||
+      place[0].includes('NW') || place[0].includes('NE') ||
+      place[0].includes('Southwest') || place[0].includes('Southeast') ||
+      place[0].includes('SW') || place[0].includes('SE')) {
       document.getElementById('location-api').value = '';
       document.getElementById('address-api').value = place[0].trim();
     } else {
@@ -1631,7 +1641,7 @@ map.on('style.load', async function () {
   map.on('click', 'data', async function (e) {
 
 
-   // console.log("data click");
+    // console.log("data click");
     // get points that are within the boundary for observations
     // get points that are within the boundary for unverified venues
 
@@ -1646,14 +1656,14 @@ map.on('style.load', async function () {
 
     // marker.remove();
 
-    if (document.getElementById('info-default').classList.contains('d-none') ) {
+    if (document.getElementById('info-default').classList.contains('d-none')) {
       let collapseState = document.getElementById('info').classList.toggle('leftCollapse');
       toggleLeftPanelView('info-default');
     } else {
-        if(document.getElementById('info').classList.contains('leftCollapse')){
-          document.getElementById('info').classList.toggle('leftCollapse');
-          toggleLeftPanelView('info-default');
-        }
+      if (document.getElementById('info').classList.contains('leftCollapse')) {
+        document.getElementById('info').classList.toggle('leftCollapse');
+        toggleLeftPanelView('info-default');
+      }
     }
 
     // toggleLeftPanelView('info-default');
@@ -1838,9 +1848,9 @@ map.on('style.load', async function () {
     if (!(document.getElementById('info-default').classList.contains('d-none'))) {
 
       toggleLeftPanelView('info-default')
-      if (!document.getElementById('info').classList.contains('leftCollapse')){
+      if (!document.getElementById('info').classList.contains('leftCollapse')) {
         document.getElementById('info').classList.toggle('leftCollapse');
-    }
+      }
 
     }
 
@@ -1891,7 +1901,7 @@ map.on('style.load', async function () {
       for (let box of checkboxes) {
         box.checked = false;
       }
-      yearSlider.value = 2005;
+      yearSlider.value = 2014;
       yearText.textContent = 'Year: ' + yearSlider.value;
       document.getElementById('slider-bar').value = document.getElementById('year-label').textContent;
 
@@ -1963,17 +1973,17 @@ map.on('style.load', async function () {
     map.getCanvas().style.cursor = '';
   });
 
-  map.on('click', function(e) {
+  map.on('click', function (e) {
     if (!document.getElementById('add-observation').classList.contains('d-none')) {
       $.get(
         "https://api.mapbox.com/geocoding/v5/mapbox.places/" +
-          e.lngLat.lng + "," + e.lngLat.lat + ".json?access_token=" + mapboxgl.accessToken,
-        function(data) {
+        e.lngLat.lng + "," + e.lngLat.lat + ".json?access_token=" + mapboxgl.accessToken,
+        function (data) {
           let place = data.features[0].place_name.split(',');
           placeInput(place);
           console.log(place);
         }
-      ).fail(function(jqXHR, textStatus, errorThrown) {
+      ).fail(function (jqXHR, textStatus, errorThrown) {
         alert("There was an error while geocoding: " + errorThrown);
       });
     }
