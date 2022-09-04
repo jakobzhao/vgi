@@ -19,11 +19,28 @@ const localities = {
 
 };
 
+// initialize geometry and material of our cube object
+const geometry = new THREE.ConeGeometry(15, 40, 64);
 const origMaterial = new THREE.MeshPhysicalMaterial({
   flatShading: true,
   color: '#D3B1C2',
   transparent: true,
-  opacity:0.6
+  opacity: 0.6
+});
+
+const materialOnClick = new THREE.MeshPhysicalMaterial({
+  flatShading: true,
+  color: '#ff6262',
+  // transparent: true,
+  // opacity: 0.5
+});
+
+
+const materialOnHover = new THREE.MeshPhysicalMaterial({
+  flatShading: true,
+  color: '#69c3bb',
+  transparent: true,
+  opacity: 1
 });
 
 
@@ -60,29 +77,21 @@ map.loadImage('assets/imgs/red-marker.png', function (error, image) {
 
 
 
-//click on the map to hide the locality and/or the code filter menus.
-map.on('click', (e) => {
-  let localityList = document.getElementById('localityList');
-  localityList.classList.add('d-none');
-
-  let codeDescriptorList = document.getElementById('codeDescriptorList');
-  codeDescriptorList.classList.add('d-none');
-});
 
 
 
 // initiate the Geocoder
-function initiateGeocoder (){
-document.getElementsByClassName('mapboxgl-ctrl-top-right')[0].classList.add('navi-ctrls');
-// geocoding search bar
-let geocoder = new MapboxGeocoder({
-  accessToken: mapboxgl.accessToken,
-  mapboxgl: mapboxgl,
-  placeholder: "Search a local place...",
-  enableGeoLocation: true
-}).onAdd(map);
+function initiateGeocoder() {
+  document.getElementsByClassName('mapboxgl-ctrl-top-right')[0].classList.add('navi-ctrls');
+  // geocoding search bar
+  let geocoder = new MapboxGeocoder({
+    accessToken: mapboxgl.accessToken,
+    mapboxgl: mapboxgl,
+    placeholder: "Search a local place...",
+    enableGeoLocation: true
+  }).onAdd(map);
 
-document.getElementById('geocoder').appendChild(geocoder);
+  document.getElementById('geocoder').appendChild(geocoder);
 }
 
 // year_val()
@@ -227,8 +236,8 @@ async function getVenueSlice() {
     // let venueSliceData = await getVenueSlice.json();
 
 
-     // let cityList = ['Seattle', 'Atlanta', 'Cleveland', 'Nashville'];
-     let cityList = ['Seattle']
+    // let cityList = ['Seattle', 'Atlanta', 'Cleveland', 'Nashville'];
+    let cityList = ['Seattle']
     let venueData = [];
     for (let i = 0; i < cityList.length; i++) {
       let city = cityList[i];
@@ -334,10 +343,10 @@ function addAccordionLayer(data, type) {
   // if(data.features.length < verifiedData.features.length) {
   //   comparisons = data.feature.length;
   // };
-  let dataCleaned = data.features;
+  let features = data.features;
   let test = {
     'type': 'FeatureCollection',
-    'features': dataCleaned.map((location, index) => ({
+    'features': features.map((location, index) => ({
       'type': 'Feature',
       'properties': {
         'height': 50,
@@ -959,68 +968,12 @@ function addCones(data, active) {
         }
       );
 
-      // initialize geometry and material of our cube object
-      let geometry = new THREE.ConeGeometry(15, 40, 64);
       // let geometrySup = new THREE.CylinderGeometry(1, 1, 80, 32);
-
-      let material = new THREE.MeshPhysicalMaterial({
-        flatShading: true,
-        color: '#D3B1C2',
-        transparent: true,
-        opacity:0.8
-      });
-
-      let materialSup = new THREE.MeshBasicMaterial({
-        flatShading: true,
-        color: '#8bd5ee',
-        transparent: true,
-        opacity: 0.7
-      });
-
-      let materialOnClick = new THREE.MeshPhysicalMaterial({
-        flatShading: true,
-        color: '#ff6262',
-        // transparent: true,
-        // opacity: 0.5
-      });
-
-      let green = new THREE.MeshPhysicalMaterial({
-        flatShading: true,
-        color: 'green',
-        // transparent: true,
-        // opacity: 0.5
-      });
-
-      let materialOnHover = new THREE.MeshPhysicalMaterial({
-        flatShading: true,
-        color: '#69c3bb',
-        transparent: true,
-        opacity: 1
-      });
-
-      let coneTemplate = new THREE.Mesh(geometry, material);
-      coneTemplate = tb.Object3D({
-        obj: coneTemplate,
-        units: 'meters'
-      }).set({
-        rotation: {
-          x: -90,
-          y: 0,
-          z: 0
-        }
-      });
-
-      // Bo: temporarily hide the bar under the cone.
-      // let lineTemplate = new THREE.Mesh(geometrySup, material);
-      // lineTemplate = tb.Object3D({
-      //   obj: lineTemplate,
-      //   units: 'meters'
-      // }).set({
-      //   rotation: {
-      //     x: -90,
-      //     y: 0,
-      //     z: 0
-      //   }
+      // let materialSup = new THREE.MeshBasicMaterial({
+      //   flatShading: true,
+      //   color: '#8bd5ee',
+      //   transparent: true,
+      //   opacity: 0.7
       // });
 
       data.forEach(function (datum) {
@@ -1028,8 +981,7 @@ function addCones(data, active) {
 
         // Bo: Warning: the duplicate will make the material of all the cones the same.
         // let cone = coneTemplate.duplicate();
-
-        let baseCone = new THREE.Mesh(geometry, material);
+        let baseCone = new THREE.Mesh(geometry, origMaterial);
         cone = tb.Object3D({
           obj: baseCone,
           units: 'meters'
@@ -1048,7 +1000,6 @@ function addCones(data, active) {
 
 
         tb.add(cone);
-        // console.log(tb.world.children[-1].userData.properties["address"]);
         // tb.add(line);
       })
 
@@ -1057,11 +1008,11 @@ function addCones(data, active) {
       var highlighted = [];
 
       //add mousing interactions
+      // just confine it to the data layer? map.on('click',  function (e) {???
       map.on('click', function (e) {
-
         // Clear old objects
         highlighted.forEach(function (h) {
-          h.material = material;
+          h.material = origMaterial;
         });
         highlighted.length = 0;
 
@@ -1138,30 +1089,30 @@ colorizeVenueCbx.addEventListener('click', function () {
 
   let materials = [];
   let vcolors = chroma.scale('YlOrRd').colors(5);
-  for(let i=0;i<vcolors.length;i++){
+  for (let i = 0; i < vcolors.length; i++) {
     materials.push(new THREE.MeshPhysicalMaterial({
       flatShading: true,
       color: vcolors[i],
       transparent: true,
       opacity: 0.6
-    }));  
+    }));
   }
-  
-  
+
+
   if (this.checked) {
-    
+
     tb.world.children.slice(1).forEach(feature => {
-        if (feature.userData.properties.confidence.toLowerCase() == "not confident at all") {
-          feature.children[0].material = materials[0];
-        } else if (feature.userData.properties.confidence.toLowerCase() == "slightly confident") {
-          feature.children[0].material = materials[1];
-        } else  if (feature.userData.properties.confidence.toLowerCase() == "somewhat confident") {
-          feature.children[0].material = materials[2];
-        } else if (feature.userData.properties.confidence.toLowerCase() == "fairly confident") {
-          feature.children[0].material = materials[3];
-        } else if (feature.userData.properties.confidence.toLowerCase() == "completely confident") {
-          feature.children[0].material = materials[4];
-        }
+      if (feature.userData.properties.confidence.toLowerCase() == "not confident at all") {
+        feature.children[0].material = materials[0];
+      } else if (feature.userData.properties.confidence.toLowerCase() == "slightly confident") {
+        feature.children[0].material = materials[1];
+      } else if (feature.userData.properties.confidence.toLowerCase() == "somewhat confident") {
+        feature.children[0].material = materials[2];
+      } else if (feature.userData.properties.confidence.toLowerCase() == "fairly confident") {
+        feature.children[0].material = materials[3];
+      } else if (feature.userData.properties.confidence.toLowerCase() == "completely confident") {
+        feature.children[0].material = materials[4];
+      }
     })
   } else {
 
@@ -1403,7 +1354,7 @@ map.on('style.load', async function () {
   let venues = await getVenueSlice();
 
   addAccordionLayer(observations, 'observation');
-  // addAccordionLayer(venues, 'venue-slice');  // Bo: venue has already been added.
+  addAccordionLayer(venues, 'venue-slice'); // Bo: venue has already been added.
 
   // load all code data from database
   let code_data = await allCodes();
@@ -1829,7 +1780,20 @@ map.on('style.load', async function () {
     map.getCanvas().style.cursor = '';
   });
 
+
+
+
+
   map.on('click', function (e) {
+
+    //click on the map to hide the locality and/or the code filter menus.
+    let localityList = document.getElementById('localityList');
+    localityList.classList.add('d-none');
+
+    let codeDescriptorList = document.getElementById('codeDescriptorList');
+    codeDescriptorList.classList.add('d-none');
+
+    // geocoding process.
     if (!document.getElementById('add-observation').classList.contains('d-none')) {
       $.get(
         "https://api.mapbox.com/geocoding/v5/mapbox.places/" +
