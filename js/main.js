@@ -12,6 +12,7 @@
         document.getElementById('observation-container').addEventListener('click', isLoggedIn);
         document.getElementById('submit-edit').addEventListener('click', validateObservation);
         document.getElementById("submit-button").addEventListener('click', newUser);
+        document.getElementById('login-btn').addEventListener('click', submitPassword);
         document.getElementById('log-out-btn').addEventListener('click', () => {
             logOut();
         });
@@ -67,6 +68,64 @@
             checkStatus(error);
         }
     }
+
+    async function submitPassword(e) {
+        try {
+    
+          let passphraseAttempts = document.querySelectorAll('.passphrase');
+          let formalizedPassphraseAttempt = "";
+    
+    
+          passphraseAttempts.forEach(passphraseAttempt => {
+            formalizedPassphraseAttempt += passphraseAttempt.value.toLowerCase() + " ";
+          });
+    
+          formalizedPassphraseAttempt = formalizedPassphraseAttempt.split(' ').sort().join(' ').trim();
+    
+          let getResult = await fetch(`https://lgbtqspaces-api.herokuapp.com/api/passphraseCheck/${formalizedPassphraseAttempt}`, {
+            method: 'GET'
+          });
+          let result = await getResult.json();
+          if (result[0]['Result'] == '0') {
+    
+    
+            document.getElementById("login-cls-btn").click();
+    
+            let alert = document.getElementById("alert-modal");
+            let alertText = document.getElementById("alert-text");
+            alertText.innerHTML = "Log in successfully！";
+            let alertModal = new bootstrap.Modal(alert);
+            alertModal.show();
+    
+            window.setTimeout(function () {
+              document.getElementById("alert-cls-btn").click();
+            }, 1500);
+    
+    
+            document.getElementById('log-in-btn').classList.toggle('d-none');
+            document.getElementById('log-out-btn').classList.toggle('d-none');
+    
+    
+          } else if (result[0]['Result'] == '1') {
+    
+            let alert = document.getElementById("alert-modal");
+            let alertText = document.getElementById("alert-text");
+            alertText.innerHTML = "Incorrect passphrase, please try again.";
+            let alertModal = new bootstrap.Modal(alert);
+            alertModal.show();
+    
+            let passphrases = document.getElementsByClassName("passphrase");
+            passphrases[0].value = "";
+            passphrases[1].value = "";
+            passphrases[2].value = "";
+    
+          } else {
+            console.log('error.')
+          }
+        } catch (err) {
+          console.log(err);
+        }
+      }
 
     function clearForm() {
         document.getElementById('location-api').value = '';

@@ -1533,7 +1533,7 @@ map.on('style.load', async function () {
 
   // observation data
   let observations = await getObservations();
-  // let venues = await getVenueSlice();
+  let venues = await getVenueSlice();
 
   addAccordionLayer(observations, 'observation');
   // addAccordionLayer(venues, 'venue-slice');  // Bo: venue has already been added.
@@ -1828,10 +1828,6 @@ map.on('style.load', async function () {
   };
 
 
-
-
-
-  
 
   // go back button
   document.getElementById('go-back-btn').addEventListener('click', function () {
