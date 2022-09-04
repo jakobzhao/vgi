@@ -1287,30 +1287,39 @@ map.on('style.load', async function () {
 
   // load data
   // on slider change
-  let currentYear = parseInt(document.getElementById('slider-bar').value);
-  console.log(currentYear);
-  //TODO@jakobzhao: determine the default locality
-  let venues = await getVenues("Seattle");
+  let selectedYear = parseInt(document.getElementById('slider-bar').value);
+  console.log(selectedYear);
+  //determine the default locality
+  let selectedlocality = "";
+  let localityList = document.getElementById("localityList");
+  localityList.querySelectorAll("a").forEach(localityItem=>{
+    if(localityItem.classList.contains("dropdown-item-checked")){
+      selectedlocality = localityItem.text;
+    }
+  });
+
+  let venues = await getVenues(selectedlocality);
   addVenueLayer(map, venues);
   // filter the venue layer based on the year value.
   //TODO Change the layer data source name to "venuedata".
-  // map.setFilter('data', ["==", ['number', ['get', 'year']], currentYear]);
+
+  
 // filter map view to selected year
   let filteredYearData = venues.features.filter(function (feature) {
     // console.log(feature.properties.year);
-    return feature.properties.year == currentYear
+    return feature.properties.year == selectedYear
   });
 
   // observation data
-  let observations = await getObservations("Seattle");
+  let observations = await getObservations(selectedlocality);
   addObservationLayer(map, observations);
   // addObservationLayer(venues, 'venue-slice'); // Bo: venue has already been added.
 
   // load all code data from database
   let code_data = await allCodes();
   loadOptions(code_data);
-  let defaultCodes = codeIncludes(code_data, currentYear)
-  code_div(defaultCodes, venues, currentYear);
+  let defaultCodes = codeIncludes(code_data, selectedYear)
+  code_div(defaultCodes, venues, selectedYear);
   let active = false;
   // three js 3D object
   addCones(filteredYearData, active);
