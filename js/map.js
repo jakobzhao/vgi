@@ -1039,43 +1039,7 @@ function addCones(data, active) {
           tb.repaint();
         }
       });
-
-
-      var hovered = null;
-
-      //add mousing hover interactions
-      // map.on('mousemove', function(e) {
-      //   if (hovered != null) {
-      //     hovered.material = material;
-      //     if (hovered == highlighted[0]) {
-      //       hovered.material = materialOnClick;
-      //     }
-
-      //     // hovered.material = material;
-      //     hovered = null;
-      //   }
-
-      //   // calculate objects intersecting the picking ray
-      //   var intersect = tb.queryRenderedFeatures(e.point)[0]
-      //   var intersectionExists = typeof intersect == "object"
-
-      //   // if intersect exists, highlight it
-      //   if (intersect) {
-      //     var nearestObject = intersect.object;
-      //     nearestObject.material = materialOnHover;
-      //     hovered = nearestObject;
-      //   } else {
-      //     console.log("change back");
-      //   }
-
-      //   // on state change, fire a repaint
-      //   if (active !== intersectionExists) {
-      //     active = intersectionExists;
-      //     tb.repaint();
-      //   }
-      // });
     },
-
     render: function (gl, matrix) {
       tb.update();
     }
