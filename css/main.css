@@ -108,7 +108,7 @@ nav {
 /* fix height of confirmed venues box */
 .venue-list, .observation-list {
     /* position:relative; */
-    height: 5.5em;
+    height: 10em;
     background-color: rgba(255, 255, 255, 0.2);
     border: 1px solid rgba(218, 218, 218, 0.774);
     box-shadow: inset 0em 0em 0.2em 0.1em rgba(218, 218, 218, 0.774);
@@ -418,7 +418,7 @@ h2#name, p#venue-indicator {
     justify-content: center;
     /* height: 2em; */
     width: 30em;
-    
+
 }
 
 .colorscheme > i {
@@ -918,7 +918,7 @@ h2#name, p#venue-indicator {
     content: '✓';
     font-weight: 600;
   }
-  
+
 
 .type-btn {
     margin-bottom: 1%;
