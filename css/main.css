@@ -106,7 +106,7 @@ nav {
 }
 
 /* fix height of confirmed venues box */
-.confirmed-venues, .confirmed-observations {
+.venue-list, .observation-list {
     height: 5.5em;
     background-color: rgba(255, 255, 255, 0.2);
     border: 1px solid rgba(218, 218, 218, 0.774);
@@ -116,7 +116,7 @@ nav {
 }
 
 /* confirmed venues on-hover */
-.confirmed-venues>div:hover, .confirmed-observations>div:hover {
+.venue-list>div:hover, .observation-list>div:hover {
     padding: 0.5em;
     background: #DBDBDB;
     box-shadow: 15px 0 0 #DBDBDB, -15px 0 0 #DBDBDB;

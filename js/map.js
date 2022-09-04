@@ -39,6 +39,7 @@ map.on('click', (e) => {
   codeDescriptorList.classList.add('d-none');
 });
 
+// initiate the Geocoder
 document.getElementsByClassName('mapboxgl-ctrl-top-right')[0].classList.add('navi-ctrls');
 // geocoding search bar
 let geocoder = new MapboxGeocoder({
@@ -52,15 +53,17 @@ document.getElementById('geocoder').appendChild(geocoder);
 
 
 
+// compose the venue list in order to show it in the legend table.
 function venueList(data) {
   for (let i = 0; i < data.length; i++) {
-    let venueParent = document.getElementById('confirmed-venues');
+    let venueParent = document.getElementById('venue-list');
     let venueDiv = document.createElement('div');
     venueDiv.classList.add('m-3');
     venueDiv.innerHTML = data[i].name;
     venueParent.appendChild(venueDiv);
   };
 };
+
 
 // allCodes
 // Obtain data from database containing information for all the damron codes that appear in
@@ -339,23 +342,6 @@ function addAccordionLayer(data, type) {
     }
   });
 
-  // map.addLayer({
-  //   'id': (type == 'observation') ? 'observation-legend' : 'venue-legend',
-  //   'type': 'circle',
-  //   'source': {
-  //     type: 'geojson',
-  //     data: data
-  //   },
-  //   'layout': {
-  //     'visibility': 'none'
-  //   },
-  //   'paint': {
-  //     'circle-radius': 3,
-  //     'circle-stroke-width': 2,
-  //     'circle-color': (type == 'observation') ? 'red' : 'green',
-  //     'circle-stroke-color': 'white'
-  //   }
-  // });
 };
 
 // basemap switching/styling
@@ -394,7 +380,7 @@ function viewLeftPanel(e) {
   // left panel location information
   document.getElementById('name').innerHTML = infoNullCheck(e.properties.observedvenuename);
   document.getElementById('address').innerHTML = infoNullCheck(e.properties.address);
-  document.getElementById('formal-address').innerHTML = infoNullCheck(e.properties.formaladdress);
+  // document.getElementById('formal-address').innerHTML = infoNullCheck(e.properties.formaladdress);
   document.getElementById('year-info').innerHTML = infoNullCheck(e.properties.year);
   document.getElementById('city').innerHTML = infoNullCheck(e.properties.city);
   document.getElementById('state').innerHTML = infoNullCheck(e.properties.state);
