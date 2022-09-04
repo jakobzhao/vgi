@@ -9,14 +9,14 @@
     // init function
     // added init to async (test for bugs!)
     async function init() {
-        document.getElementById('observation-container').addEventListener('click', isLoggedIn);
+        document.getElementById('add-observation-container').addEventListener('click', isLoggedIn);
         document.getElementById('submit-edit').addEventListener('click', validateObservation);
         document.getElementById("submit-button").addEventListener('click', newUser);
         document.getElementById('login-btn').addEventListener('click', submitPassword);
         document.getElementById('log-out-btn').addEventListener('click', () => {
             logOut();
         });
-        document.getElementById('year-api').addEventListener('change', () => {
+        document.getElementById('current-year-value').addEventListener('change', () => {
             yearChange();
         });
 
@@ -267,7 +267,7 @@
 
     // Change views of year when user move the slider
     function yearChange() {
-        let yearSlider = document.getElementById('year-api');
+        let yearSlider = document.getElementById('current-year-value');
         let yearText = document.getElementById('year-text-label');
         yearText.innerHTML = '';
         yearText.textContent = 'Year: ' + yearSlider.value;

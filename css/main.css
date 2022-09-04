@@ -682,7 +682,7 @@ h2#name, p#venue-indicator {
 }
 
 /* for observation button */
-#observation-container {
+#add-observation-container {
     position: absolute;
     right: 0;
     bottom: 0;

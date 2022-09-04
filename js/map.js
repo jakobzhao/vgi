@@ -58,7 +58,6 @@ map.loadImage('assets/imgs/red-marker.png', function (error, image) {
 
 
 
-
 //click on the map to hide the locality and/or the code filter menus.
 map.on('click', (e) => {
   let localityList = document.getElementById('localityList');
@@ -67,6 +66,7 @@ map.on('click', (e) => {
   let codeDescriptorList = document.getElementById('codeDescriptorList');
   codeDescriptorList.classList.add('d-none');
 });
+
 
 initiateGeocoder();
 // initiate the Geocoder
@@ -83,7 +83,12 @@ let geocoder = new MapboxGeocoder({
 document.getElementById('geocoder').appendChild(geocoder);
 }
 
-
+// year_val()
+// changes the label of the current selected year for the user to see
+function year_val() {
+  let selectedYear = document.getElementById('slider-bar').value;
+  document.getElementById('year-label').innerHTML = selectedYear;
+}
 
 // compose the venue list in order to show it in the legend table.
 function venueList(data) {
@@ -191,7 +196,8 @@ function confirmationReview() {
 // returns a complete GEOJSON data output that is filtered with the matching dates
 async function displayData() {
   try {
-    let cityList = ['Seattle', 'Atlanta', 'Cleveland', 'Nashville']
+    // let cityList = ['Seattle', 'Atlanta', 'Cleveland', 'Nashville'];
+    let cityList = ['Seattle']
     let venueData = [];
     for (let i = 0; i < cityList.length; i++) {
       let city = cityList[i];
@@ -217,7 +223,9 @@ async function getVenueSlice() {
     // });
     // let venueSliceData = await getVenueSlice.json();
 
-    let cityList = ['Seattle', 'Atlanta', 'Cleveland', 'Nashville']
+
+     // let cityList = ['Seattle', 'Atlanta', 'Cleveland', 'Nashville'];
+     let cityList = ['Seattle']
     let venueData = [];
     for (let i = 0; i < cityList.length; i++) {
       let city = cityList[i];
@@ -1297,12 +1305,6 @@ function loadOptions(data) {
   addCheckBox('#collapseAmenity', dataSlice[2])
   addCheckBox('#collapseCaution', dataSlice[3])
   addCheckBox('#collapseOrganization', dataSlice[4])
-
-  // addAutoComplete('#autoEntry', dataSlice[0]);
-  // addAutoComplete('#autoUser', dataSlice[1]);
-  // addAutoComplete('#autoAmenity', dataSlice[2]);
-  // addAutoComplete('#autoCaution', dataSlice[3]);
-  // addAutoComplete('#autoOrganization', dataSlice[4]);
 }
 
 function addCheckBox(id, data) {
@@ -1742,7 +1744,7 @@ map.on('style.load', async function () {
       for (let input of inputs) {
         input.value = '';
       }
-      let yearSlider = document.getElementById('year-api');
+      let yearSlider = document.getElementById('current-year-value');
       let yearText = document.getElementById('year-text-label');
       let checkboxes = document.querySelectorAll('input[name=myCheckBoxes]:checked');
       for (let box of checkboxes) {
