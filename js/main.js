@@ -12,7 +12,7 @@
         document.getElementById('observation-container').addEventListener('click', isLoggedIn);
         document.getElementById('submit-edit').addEventListener('click', validateObservation);
         document.getElementById("submit-button").addEventListener('click', newUser);
-        document.getElementById('logOutBtn').addEventListener('click', () => {
+        document.getElementById('log-out-btn').addEventListener('click', () => {
             logOut();
         });
         document.getElementById('year-api').addEventListener('change', () => {
@@ -29,8 +29,6 @@
             document.getElementById('basemap-selection').classList.add('d-none');
         })
 
-
-    
         // hide the loader.
         $('#loader').fadeOut("slow");
 
@@ -83,8 +81,8 @@
     // // Displays the log in Google button
     // function handleCredentialResponse(response) {
     //     // console.log("Encoded JWT ID token: " + response.credential);
-    //     document.getElementById('logInBtn').classList.toggle('d-none');
-    //     document.getElementById('googlelogOutBtn').classList.toggle('d-none');
+    //     document.getElementById('log-in-btn').classList.toggle('d-none');
+    //     document.getElementById('googlelog-out-btn').classList.toggle('d-none');
     // };
 
     // function displayLoginButton() {
@@ -93,7 +91,7 @@
     //         callback: handleCredentialResponse
     //     });
     //     google.accounts.id.renderButton(
-    //         document.getElementById("logInBtn"),
+    //         document.getElementById("log-in-btn"),
     //         { theme: "filled_black", type: "standard", size: "medium", shape: "pill", text: "signin" }  // customization attributes
     //     );
     //     google.accounts.id.prompt(); // also display the One Tap dialog
@@ -105,7 +103,7 @@
     // Checks if user is logged in already, on button clicked to add observation.
     function isLoggedIn() {
 
-        let logInView = document.getElementById('logInBtn');
+        let logInView = document.getElementById('log-in-btn');
 
         if (logInView.classList.contains('d-none')) {
             // if contains display none, means that user is logged in
@@ -138,8 +136,8 @@
             }
         };
         // google.accounts.id.disableAutoSelect();
-        document.getElementById('logInBtn').classList.toggle('d-none');
-        document.getElementById('logOutBtn').classList.toggle('d-none');
+        document.getElementById('log-in-btn').classList.toggle('d-none');
+        document.getElementById('log-out-btn').classList.toggle('d-none');
     }
 
     async function validateObservation(event) {

@@ -287,6 +287,9 @@ function toGEOJSON(data) {
       "properties": getProperties(data[i])
     }
     feature_list.push(temp);
+    //console.log(getProperties(data[i]).placetype);
+    console.log(getProperties(data[i]).confidence);
+
   }
   // add into feature_list
   // combine with geojson final format with feature collection and feature as feature list
@@ -613,9 +616,9 @@ Object.entries(localities).forEach(locality => {
 function logInCheck() {
 
 
-  // let logInView = document.getElementById('logInBtn');
+  // let logInView = document.getElementById('log-in-btn');
 
-  if (document.getElementById('logInBtn').classList.contains("d-none")) {
+  if (document.getElementById('log-in-btn').classList.contains("d-none")) {
     // if contains display none, means that user is logged in
     // toggleLeftPanelView('report-issue');
 
@@ -639,7 +642,7 @@ function logInCheck() {
 
 
 
-  // let signInView = document.getElementById('logInBtn');
+  // let signInView = document.getElementById('log-in-btn');
   // // if left panel is closed
   // if (document.getElementById('info').classList.contains('leftCollapse')) {
   //   let collapseState = document.getElementById('info').classList.toggle('leftCollapse');
@@ -1811,8 +1814,8 @@ map.on('style.load', async function () {
         }, 1500);
 
 
-        document.getElementById('logInBtn').classList.toggle('d-none');
-        document.getElementById('logOutBtn').classList.toggle('d-none');
+        document.getElementById('log-in-btn').classList.toggle('d-none');
+        document.getElementById('log-out-btn').classList.toggle('d-none');
 
 
       } else if (result[0]['Result'] == '1') {
@@ -2021,7 +2024,7 @@ map.on('style.load', async function () {
     })
   })
 
-  // $('#loader').fadeOut("slow");
+  $('#loader').fadeOut("slow");
 
 
 });

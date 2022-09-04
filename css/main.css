@@ -35,7 +35,7 @@ nav {
     margin-left: 2.5em;
 }
 
-#logInBtn {
+#log-in-btn {
     margin-top: 3px;
 }
 
@@ -551,8 +551,6 @@ h2#name, p#venue-indicator {
 .middle {
     margin: 3em 1em 1em 1em;
 }
-
-
 
 
 .single-slider {
