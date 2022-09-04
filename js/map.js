@@ -1025,6 +1025,7 @@ function addLabels(data) {
     'source': 'venues',
     'layout': {
       'text-field': ['get', 'observedvenuename'],
+      // 'text-field': ['get', 'confidence'],
       'text-variable-anchor': ['left'],
       'text-radial-offset': 0.5,
       'text-justify': 'right',
