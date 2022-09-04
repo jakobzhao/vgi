@@ -1,19 +1,4 @@
 mapboxgl.accessToken = config.accessToken;
-
-let map = new mapboxgl.Map({
-  container: 'map', // container ID
-  style: 'mapbox://styles/mapbox/light-v10', // style URL
-  center: [-122.33502, 47.61497], // starting position [lng, lat]
-  zoom: 14, // starting zoom
-  pitch: 76,
-  bearing: -10.8,
-  logoPosition: 'bottom-right',
-  attributionControl: false,
-  antialias: true,
-  hash: true
-});
-
-
 const localities = {
   'seattle': {
     center: [-122.3321, 47.6062],
@@ -40,6 +25,23 @@ const origMaterial = new THREE.MeshPhysicalMaterial({
   transparent: true,
   opacity:0.6
 });
+
+
+let map = new mapboxgl.Map({
+  container: 'map', // container ID
+  style: 'mapbox://styles/mapbox/light-v10', // style URL
+  center: [-122.33502, 47.61497], // starting position [lng, lat]
+  zoom: 14, // starting zoom
+  pitch: 76,
+  bearing: -10.8,
+  logoPosition: 'bottom-right',
+  attributionControl: false,
+  antialias: true,
+  hash: true
+});
+initiateGeocoder();
+
+
 
 //Bo: not sure why we need these two images, but if we delete it, bugs incur.
 map.loadImage('assets/imgs/marker.png', function (error, image) {
@@ -68,7 +70,7 @@ map.on('click', (e) => {
 });
 
 
-initiateGeocoder();
+
 // initiate the Geocoder
 function initiateGeocoder (){
 document.getElementsByClassName('mapboxgl-ctrl-top-right')[0].classList.add('navi-ctrls');
@@ -89,6 +91,7 @@ function year_val() {
   let selectedYear = document.getElementById('slider-bar').value;
   document.getElementById('year-label').innerHTML = selectedYear;
 }
+
 
 // compose the venue list in order to show it in the legend table.
 function venueList(data) {
@@ -487,10 +490,10 @@ async function addLeftPanelActions(feature, marker, e) {
     }
   });
 
-  // if validate observation is clicked, display movable marker
-  let validateObservation = document.getElementById('report-issue-btn');
+  // if "report an issue" button is clicked, display movable marker
+  let reportIssue = document.getElementById('report-issue-btn');
 
-  validateObservation.addEventListener('click', function () {
+  reportIssue.addEventListener('click', function () {
     // ensure that user is logged-in
     let check = logInCheck();
 
@@ -885,6 +888,10 @@ function setImgURL(service, placeId) {
   });
   return imgElement;
 };
+
+
+
+
 
 function addLabels(data) {
   let result = {}

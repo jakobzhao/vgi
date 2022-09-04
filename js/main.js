@@ -10,7 +10,7 @@
     // added init to async (test for bugs!)
     async function init() {
         document.getElementById('add-observation-container').addEventListener('click', isLoggedIn);
-        document.getElementById('submit-edit').addEventListener('click', validateObservation);
+        document.getElementById('submit-edit').addEventListener('click', reportIssue);
         document.getElementById("submit-button").addEventListener('click', newUser);
         document.getElementById('login-btn').addEventListener('click', submitPassword);
         document.getElementById('log-out-btn').addEventListener('click', () => {
@@ -199,7 +199,7 @@
         document.getElementById('log-out-btn').classList.toggle('d-none');
     }
 
-    async function validateObservation(event) {
+    async function reportIssue(event) {
         try {
             event.preventDefault();
             // Obtain data from user input
