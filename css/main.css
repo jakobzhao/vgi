@@ -627,7 +627,7 @@ h2#name, p#venue-indicator {
 }
 
 
-.single-slider {
+#slider-bar {
     top: -4.2em;
     left: 8em;
     position: relative;
@@ -639,11 +639,11 @@ h2#name, p#venue-indicator {
 
 }
 
-.single-slider:focus {
+#slider-bar:focus {
     outline: none;
 }
 
-.single-slider::-webkit-slider-runnable-track {
+#slider-bar::-webkit-slider-runnable-track {
     width: 100%;
     height: 12.8px;
     cursor: pointer;
@@ -653,7 +653,7 @@ h2#name, p#venue-indicator {
     border: 0px solid #000101;
 }
 
-.single-slider::-webkit-slider-thumb {
+#slider-bar::-webkit-slider-thumb {
     box-shadow: 0px 0px 0px #000000, 0px 0px 0px #0d0d0d;
     border: 0px solid #000000;
     height: 20px;
@@ -665,7 +665,7 @@ h2#name, p#venue-indicator {
     margin-top: -3.6px;
 }
 
-.single-slider:focus::-webkit-slider-runnable-track {
+#slider-bar:focus::-webkit-slider-runnable-track {
     background: rgb(94, 92, 219);
 }
 

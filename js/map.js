@@ -282,7 +282,7 @@ function toGEOJSON(data) {
     }
     feature_list.push(temp);
     //console.log(getProperties(data[i]).placetype);
-    console.log(getProperties(data[i]).confidence);
+    // console.log(getProperties(data[i]).confidence);
 
   }
   // add into feature_list
@@ -712,8 +712,8 @@ function code_div(codes, venueSlices, year) {
       map.setFilter('data', ['in', code.code, ['get', 'codedescriptorlist']]);
 
       // remove 3D layer
-      if (map.getLayer('custom-layer')) {
-        map.removeLayer('custom-layer');
+      if (map.getLayer('venue-slice-cones')) {
+        map.removeLayer('venue-slice-cones');
       };
       if (map.getLayer('poi-labels')) {
         map.removeLayer('poi-labels');
@@ -763,8 +763,8 @@ function code_div(codes, venueSlices, year) {
     // let selectionDiv = document.getElementById('dropdown-container');
     // selectionDiv.classList.toggle('d-none');
     // remove 3D layer
-    if (map.getLayer('custom-layer')) {
-      map.removeLayer('custom-layer');
+    if (map.getLayer('venue-slice-cones')) {
+      map.removeLayer('venue-slice-cones');
     };
     if (map.getLayer('poi-labels')) {
       map.removeLayer('poi-labels');
@@ -787,7 +787,7 @@ function code_div(codes, venueSlices, year) {
 
 
 
-// obtain damron codes of corresponding year
+// obtain damron codes of a corresponding year
 function codeIncludes(codeData, year) {
   let result = {};
   // Obtain damron codes of corresponding year
@@ -900,8 +900,6 @@ function setImgURL(service, placeId) {
 
 
 
-
-
 function addLabels(data) {
   let result = {}
   result.type = "FeatureCollection";
@@ -909,14 +907,14 @@ function addLabels(data) {
   for (var id in data) {
     result.features.push(data[id])
   }
-  console.log(result)
+  // console.log(result)
 
   // added by Bo
   // var mapLayer = map.getLayer('venues');
 
   // if(typeof mapLayer !== 'undefined') {
   //   // Remove map layer & source.
-  //   map.removeLayer('custom-layer').removeSource('venues');
+  //   map.removeLayer('venue-slice-cones').removeSource('venues');
   // }
 
 
@@ -956,7 +954,7 @@ function addCones(data, active) {
 
   addLabels(data);
   map.addLayer({
-    id: 'custom-layer',
+    id: 'venue-slice-cones',
     type: 'custom',
     renderingMode: '3d',
     onAdd: function (map, mbxContext) {
@@ -995,7 +993,7 @@ function addCones(data, active) {
 
         cone.setCoords([datum.geometry.coordinates[0], datum.geometry.coordinates[1], 20]);
         // Bo: Attach properties to each cone.
-        console.log(datum.properties.placetype);
+        // console.log(datum.properties.placetype);
         cone.userData.properties = datum.properties
 
 
@@ -1008,8 +1006,9 @@ function addCones(data, active) {
       var highlighted = [];
 
       //add mousing interactions
-      // just confine it to the data layer? map.on('click',  function (e) {???
-      map.on('click', function (e) {
+      // BO: just confine it to the data layer? map.on('click',  function (e) {???
+      // Bo:  'venue-slice-cones' is added by Bo.
+      map.on('click', 'venue-slice-cones', function (e) {
         // Clear old objects
         highlighted.forEach(function (h) {
           h.material = origMaterial;
@@ -1029,7 +1028,6 @@ function addCones(data, active) {
           // document.getElementById('info').classList.toggle('leftCollapse');
         } else {
           console.log("change back");
-
 
         }
 
@@ -1091,7 +1089,7 @@ colorizeVenueCbx.addEventListener('click', function () {
 });
 
 
-let colorizeObservationCbx = document.getElementById('confidency-switch');
+let colorizeObservationCbx = document.getElementById('confidence-switch');
 
 colorizeObservationCbx.addEventListener('click', function () {
 
@@ -1204,7 +1202,7 @@ function loadOptions(data) {
     [],
     []
   ];
-  console.log(data);
+  // console.log(data);
   Object.entries(data).forEach(([key, value]) => {
     if (value.name == 'Entry Descriptors') {
       dataSlice[0].push(value.code);
@@ -1218,7 +1216,7 @@ function loadOptions(data) {
       dataSlice[4].push(value.code);
     }
   });
-  console.log(dataSlice);
+  // console.log(dataSlice);
   for (let data of dataSlice) {
     data.pop();
   }
@@ -1347,8 +1345,8 @@ map.on('style.load', async function () {
     });
 
     // add 3-d shapes and remove previous existing shapes
-    if (map.getLayer('custom-layer')) {
-      map.removeLayer('custom-layer');
+    if (map.getLayer('venue-slice-cones')) {
+      map.removeLayer('venue-slice-cones');
     };
     if (map.getLayer('poi-labels')) {
       map.removeLayer('poi-labels');
