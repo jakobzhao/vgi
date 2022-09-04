@@ -1024,8 +1024,8 @@ function addLabels(data) {
     'type': 'symbol',
     'source': 'venues',
     'layout': {
-      'text-field': ['get', 'observedvenuename'],
-      // 'text-field': ['get', 'confidence'],
+      // 'text-field': ['get', 'observedvenuename'],
+      'text-field': ['get', 'confidence'],
       'text-variable-anchor': ['left'],
       'text-radial-offset': 0.5,
       'text-justify': 'right',
@@ -1070,7 +1070,7 @@ function addCones(data, active) {
         flatShading: true,
         color: '#D3B1C2',
         transparent: true,
-        opacity:1
+        opacity:0.8
       });
 
       let materialSup = new THREE.MeshBasicMaterial({
@@ -1102,7 +1102,7 @@ function addCones(data, active) {
       });
 
       let coneTemplate = new THREE.Mesh(geometry, material);
-      coneTemplate = tb.Object3D({
+      coneTemplate = window.tb.Object3D({
         obj: coneTemplate,
         units: 'meters'
       }).set({
@@ -1128,14 +1128,31 @@ function addCones(data, active) {
 
       data.forEach(function (datum) {
         // longitude, latitude, altitude
-        let cone = coneTemplate.duplicate();
+
+
+        // Bo: Warning: the duplicate will make the material of all the cones the same.
+        // let cone = coneTemplate.duplicate();
+
+        let baseCone = new THREE.Mesh(geometry, material);
+        cone = window.tb.Object3D({
+          obj: baseCone,
+          units: 'meters'
+        }).set({
+          rotation: {
+            x: -90,
+            y: 0,
+            z: 0
+          }
+        });
+
         cone.setCoords([datum.geometry.coordinates[0], datum.geometry.coordinates[1], 20]);
         // Bo: Attach properties to each cone.
-        cone.userData["properties"] = datum.properties
+        console.log(datum.properties.placetype);
+        cone.userData.properties = datum.properties
 
-        // test for changing color based on confidential levels.
-        // cone.children[0].material.color.set("yellow");
-        tb.add(cone);
+
+        window.tb.add(cone);
+        // console.log(tb.world.children[-1].userData.properties["address"]);
         // tb.add(line);
       })
 
@@ -1153,7 +1170,7 @@ function addCones(data, active) {
         highlighted.length = 0;
 
         // calculate objects intersecting the picking ray
-        var intersect = tb.queryRenderedFeatures(e.point)[0]
+        var intersect = window.tb.queryRenderedFeatures(e.point)[0]
         var intersectionExists = typeof intersect == "object"
 
         // if intersect exists, highlight it
@@ -1172,7 +1189,7 @@ function addCones(data, active) {
         // on state change, fire a repaint
         if (active !== intersectionExists) {
           active = intersectionExists;
-          tb.repaint();
+          window.tb.repaint();
         }
       });
 
@@ -1213,7 +1230,7 @@ function addCones(data, active) {
     },
 
     render: function (gl, matrix) {
-      tb.update();
+      window.tb.update();
     }
   });
 };
@@ -1222,37 +1239,66 @@ function addCones(data, active) {
 let colorizeVenueCbx = document.getElementById('reliability-switch');
 
 colorizeVenueCbx.addEventListener('click', function () {
-  vcolors = chroma.scale('YlOrRd').colors(5);
+
+  let materials = [];
+  let vcolors = chroma.scale('YlOrRd').colors(5);
+  for(let i=0;i<vcolors.length;i++){
+    materials.push(new THREE.MeshPhysicalMaterial({
+      flatShading: true,
+      color: vcolors[i],
+      transparent: true,
+      opacity: 0.6
+    }));  
+  }
+  
+  
   if (this.checked) {
-    tb.world.children.forEach(feature => {
-      if (feature.type == 'Group') {
+    
+
+
+    window.tb.world.children.slice(1).forEach(feature => {
+      
+        // console.log(feature.userData.properties.address);
+        
         if (feature.userData.properties.confidence.toLowerCase() == "not confident at all") {
-          feature.children[0].material.color.set(vcolors[0]);
-        } else if (feature.userData.properties.confidence == "slightly confident") {
-          feature.children[0].material.color.set(vcolors[1]);
-        } else if (feature.userData.properties.confidence.toLowerCase() == "somewhat confident") {
-          feature.children[0].material.color.set(vcolors[2]);
+          feature.children[0].material = materials[0];
+          // feature.children[0].material.needsUpdate = true;
+        } else if (feature.userData.properties.confidence.toLowerCase() == "slightly confident") {
+          feature.children[0].material = materials[1];
+          // feature.children[0].material.needsUpdate = true;
+          // feature.children[0].material.color.set(vcolors[4]);
+        } else  if (feature.userData.properties.confidence.toLowerCase() == "somewhat confident") {
+          feature.children[0].material = materials[2];
+          // feature.children[0].material.needsUpdate = true;
         } else if (feature.userData.properties.confidence.toLowerCase() == "fairly confident") {
-          feature.children[0].material.color.set(vcolors[3]);
+          feature.children[0].material = materials[3];
+          // feature.children[0].material.needsUpdate = true;
         } else if (feature.userData.properties.confidence.toLowerCase() == "completely confident") {
-          feature.children[0].material.color.set(vcolors[4]);
+          feature.children[0].material = materials[4];
+          // feature.children[0].material.needsUpdate = true;
         }
         // feature.children[0].material.color.set("green");
-        // console.log(feature.userData.properties.placetype);
-        console.log(feature.userData.properties.confidence);
-      }
+        //console.log(feature.userData.properties.placetype);
+       
+
 
     })
   } else {
 
-    tb.world.children.forEach(feature => {
-      if (feature.type == 'Group') {
-        feature.children[0].material.color.set('#D3B1C2');
-      }
+    window.tb.world.children.slice(1).forEach(feature => {
+
+      let origMaterial = new THREE.MeshPhysicalMaterial({
+        flatShading: true,
+        color: '#D3B1C2',
+        transparent: true,
+        opacity:0.6
+      });
+      feature.children[0].material = origMaterial;
+
     })
   }
 
-  tb.repaint();
+  window.tb.repaint();
 
 });
 
@@ -1263,7 +1309,7 @@ colorizeObservationCbx.addEventListener('click', function () {
 
   if (this.checked) {
 
-    tb.world.children.forEach(feature => {
+    window.tb.world.children.forEach(feature => {
       if (feature.type == 'Group') {
         feature.children[0].material.color.set("green");
         console.log(feature.userData.properties.placetype);
@@ -1272,14 +1318,14 @@ colorizeObservationCbx.addEventListener('click', function () {
     })
   } else {
 
-    tb.world.children.forEach(feature => {
+    window.tb.world.children.forEach(feature => {
       if (feature.type == 'Group') {
         feature.children[0].material.color.set("red");
       }
     })
   }
 
-  tb.repaint();
+  window.tb.repaint();
 
 });
 
