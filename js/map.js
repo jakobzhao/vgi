@@ -1024,8 +1024,8 @@ function addLabels(data) {
     'type': 'symbol',
     'source': 'venues',
     'layout': {
-      // 'text-field': ['get', 'observedvenuename'],
-      'text-field': ['get', 'confidence'],
+      'text-field': ['get', 'observedvenuename'],
+      // 'text-field': ['get', 'confidence'], // BO: testing purpose.
       'text-variable-anchor': ['left'],
       'text-radial-offset': 0.5,
       'text-justify': 'right',

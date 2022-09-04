@@ -369,6 +369,43 @@ h2#name, p#venue-indicator {
     margin-left: 0.5em;
     transition: left 1s;
 }
+.accordion-button{
+    margin-top: 0em !important;
+    margin-bottom: 0em !important;
+    padding-top: 0.7em;
+    padding-bottom: 0.7em;
+}
+.accordion-header {
+    position: relative;
+    /* height:2em; */
+}
+.accordion-collapse{
+    position: relative;
+    /* height:2em; */
+}
+
+.accordion-body {
+    padding: 0.75rem 1rem;
+}
+.accordion-body > p{
+    margin-bottom: 0em;
+    font-size: small;
+}
+.form-switch{
+    position: relative;
+    top: 0.3em;
+    left: -1.5em;
+
+}
+
+.form-check-label {
+    position: relative;
+    margin-left: 0.5em;
+    top: -0.25em;
+    font-size: 11px;
+}
+
+
 
 .colorscheme {
 
@@ -588,20 +625,6 @@ h2#name, p#venue-indicator {
 }
 
 
-
-
-/* #observations-switch, #reliability-switch {
-  /* margin-left: -2em; */
-/* } */
-
-/* div.form-check { */
-    /* margin-top: 1em; */
-/* } */
-
-.form-check-label {
-    margin-left: 0.3em;
-    font-size: 11px;
-}
 
 
 
