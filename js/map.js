@@ -1,6 +1,6 @@
 mapboxgl.accessToken = config.accessToken;
 
-var map = new mapboxgl.Map({
+let map = new mapboxgl.Map({
   container: 'map', // container ID
   style: 'mapbox://styles/mapbox/light-v10', // style URL
   center: [-122.33502, 47.61497], // starting position [lng, lat]
@@ -13,6 +13,33 @@ var map = new mapboxgl.Map({
   hash: true
 });
 
+
+const localities = {
+  'seattle': {
+    center: [-122.3321, 47.6062],
+    zoom: 14
+  },
+  'atlanta': {
+    center: [-84.3880, 33.7490],
+    zoom: 14
+  },
+  'nashville': {
+    center: [-86.7816, 36.1627],
+    zoom: 14
+  },
+  'cleveland': {
+    center: [-81.6944, 41.4993],
+    zoom: 14
+  }
+
+};
+
+const origMaterial = new THREE.MeshPhysicalMaterial({
+  flatShading: true,
+  color: '#D3B1C2',
+  transparent: true,
+  opacity:0.6
+});
 
 //Bo: not sure why we need these two images, but if we delete it, bugs incur.
 map.loadImage('assets/imgs/marker.png', function (error, image) {
@@ -30,6 +57,8 @@ map.loadImage('assets/imgs/red-marker.png', function (error, image) {
 });
 
 
+
+
 //click on the map to hide the locality and/or the code filter menus.
 map.on('click', (e) => {
   let localityList = document.getElementById('localityList');
@@ -39,7 +68,9 @@ map.on('click', (e) => {
   codeDescriptorList.classList.add('d-none');
 });
 
+initiateGeocoder();
 // initiate the Geocoder
+function initiateGeocoder (){
 document.getElementsByClassName('mapboxgl-ctrl-top-right')[0].classList.add('navi-ctrls');
 // geocoding search bar
 let geocoder = new MapboxGeocoder({
@@ -50,6 +81,7 @@ let geocoder = new MapboxGeocoder({
 }).onAdd(map);
 
 document.getElementById('geocoder').appendChild(geocoder);
+}
 
 
 
@@ -63,7 +95,6 @@ function venueList(data) {
     venueParent.appendChild(venueDiv);
   };
 };
-
 
 // allCodes
 // Obtain data from database containing information for all the damron codes that appear in
@@ -353,10 +384,7 @@ function switchLayer(layer) {
 
   // adjust slider text color when changing basemaps
   // document.getElementById('slider-time').setAttribute("style", "color: black;");
-
-
   var layers = map.getStyle().layers;
-
 };
 
 // assign switch layer function for all radio button inputs
@@ -478,27 +506,6 @@ async function addLeftPanelActions(feature, marker, e) {
 };
 
 // if a specific locality is selected, recenter the map to that locality
-
-const localities = {
-  'seattle': {
-    center: [-122.3321, 47.6062],
-    zoom: 14
-  },
-  'atlanta': {
-    center: [-84.3880, 33.7490],
-    zoom: 14
-  },
-  'nashville': {
-    center: [-86.7816, 36.1627],
-    zoom: 14
-  },
-  'cleveland': {
-    center: [-81.6944, 41.4993],
-    zoom: 14
-  }
-
-};
-
 
 let localityFilterBtn = document.getElementById("localityFilterBtn");
 localityFilterBtn.addEventListener('click', function () {
@@ -1128,45 +1135,22 @@ colorizeVenueCbx.addEventListener('click', function () {
   
   if (this.checked) {
     
-
-
     tb.world.children.slice(1).forEach(feature => {
-      
-        // console.log(feature.userData.properties.address);
-        
         if (feature.userData.properties.confidence.toLowerCase() == "not confident at all") {
           feature.children[0].material = materials[0];
-          // feature.children[0].material.needsUpdate = true;
         } else if (feature.userData.properties.confidence.toLowerCase() == "slightly confident") {
           feature.children[0].material = materials[1];
-          // feature.children[0].material.needsUpdate = true;
-          // feature.children[0].material.color.set(vcolors[4]);
         } else  if (feature.userData.properties.confidence.toLowerCase() == "somewhat confident") {
           feature.children[0].material = materials[2];
-          // feature.children[0].material.needsUpdate = true;
         } else if (feature.userData.properties.confidence.toLowerCase() == "fairly confident") {
           feature.children[0].material = materials[3];
-          // feature.children[0].material.needsUpdate = true;
         } else if (feature.userData.properties.confidence.toLowerCase() == "completely confident") {
           feature.children[0].material = materials[4];
-          // feature.children[0].material.needsUpdate = true;
         }
-        // feature.children[0].material.color.set("green");
-        //console.log(feature.userData.properties.placetype);
-       
-
-
     })
   } else {
 
     tb.world.children.slice(1).forEach(feature => {
-
-      let origMaterial = new THREE.MeshPhysicalMaterial({
-        flatShading: true,
-        color: '#D3B1C2',
-        transparent: true,
-        opacity:0.6
-      });
       feature.children[0].material = origMaterial;
 
     })
@@ -1884,7 +1868,7 @@ map.on('style.load', async function () {
     })
   })
 
-  $('#loader').fadeOut("slow");
+  // $('#loader').fadeOut("slow");
 
 
 });
