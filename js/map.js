@@ -979,7 +979,7 @@ function addLabels(data) {
 function addCones(data, active) {
 
   if (data.length == 0) {
-    document.getElementById("year-notes").innerHTML = "No venues of this year have been found in our database."
+    document.getElementById("year-notes").innerHTML = "No venues of this year have been found from this locale of this year in our database."
   } else {
     document.getElementById("year-notes").innerHTML = "";
   }
