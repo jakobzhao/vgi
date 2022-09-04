@@ -360,12 +360,9 @@ h2#name, p#venue-indicator {
 }
 
 
-
-
 /* legend */
 #legend {
     position: absolute;
-    /* display: flex; */
     width:31em;
     bottom: 5em;
     left: 0em;
@@ -373,6 +370,67 @@ h2#name, p#venue-indicator {
     transition: left 1s;
 }
 
+.colorscheme {
+
+    position: relative;
+    display: flex;
+    justify-content: center;
+    /* height: 2em; */
+    width: 30em;
+    
+}
+
+.colorscheme > i {
+
+    position: relative;
+    display: inline-block;
+    border:rgba(193, 193, 193, 0.462) solid 1px;
+    width: 18%;
+    height: 1.2em;
+}
+.color-1{
+
+    background: #ffffcc;
+}
+
+.color-2{
+
+    background: #fed976;
+}
+
+.color-3{
+   
+    background: #fd8d3c;
+}
+
+.color-4{
+   
+    background: #e31a1c;
+}
+
+.color-5{
+ 
+    background: #800026;
+}
+
+.color-labels {
+
+    position: relative;
+    display: flex;
+    top: 0.5em;
+    left:3em;
+    width: 45em;
+    font-size: x-small;
+    /* justify-content: center; */
+    /* height: 2em; */
+    /* width: 30em; */
+}
+
+.color-labels > span {
+    width: 7em;
+    padding-left: 1.6em;
+    margin-right: 1.6em;
+}
 
 
 /* info review box  */
