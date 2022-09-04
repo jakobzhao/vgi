@@ -460,17 +460,25 @@ function infoNullCheck(string) {
 // left panel functionalities (validate observation marker view, selected marker view, map zoom to selected point)
 async function addLeftPanelActions(feature, marker, e) {
   let coordinates = feature.geometry.coordinates.slice();
-  while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-    coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-  };
-  map.flyTo({
-    center: feature.geometry.coordinates,
-    zoom: 16.5,
-    speed: 0.3,
-    pitch: 75,
-    bearing: -25,
-    essential: true
-  });
+
+  //for those in the list (no specific latlng was found, the program should skip the following lines.)
+  try {
+    while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+      coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+    };
+
+    map.flyTo({
+      center: feature.geometry.coordinates,
+      zoom: 16.5,
+      speed: 0.3,
+      pitch: 75,
+      bearing: -25,
+      essential: true
+    });
+    
+  } catch (error) {
+    console.log(error);
+  }
 
   if (typeof map.getLayer('selectedMarker') !== "undefined") {
     map.removeLayer('selectedMarker');
@@ -1335,6 +1343,7 @@ map.on('style.load', async function () {
   let years = document.getElementById('slider-bar');
 
   years.addEventListener('input', async function (e) {
+
     let selectYear = parseInt(years.value);
 
     // filter map view to selected year
@@ -1386,30 +1395,43 @@ map.on('style.load', async function () {
 
   for (let i = 0; i < localityFeatures.length; i++) {
     if (localityFeatures[i].properties.year == selectYear) {
-      if (localityFeatures[i].properties.confidence < 0.85) {
-        // bootstrap row
-        let rowDiv = document.createElement('div');
-        rowDiv.classList.add('row', "m-1");
-        let venueName = document.createElement('div');
-        let venueConfidence = document.createElement('div');
-        venueName.classList.add('col');
-        venueConfidence.classList.add("col", "col-sm-3");
+      // if (localityFeatures[i].properties.confidence < 0.85) {
+      // bootstrap row
+      let rowDiv = document.createElement('div');
+      rowDiv.classList.add('row', "m-1");
+      let venueName = document.createElement('div');
+      let venuePlaceType = document.createElement('div');
+      venueName.classList.add('col');
+      venuePlaceType.classList.add("col", "col-sm-3");
 
-        let confidence = parseFloat(localityFeatures[i].properties.confidence);
+      let placetype = localityFeatures[i].properties.placetype;
 
-        venueName.innerHTML = localityFeatures[i].properties.observedvenuename;
-        venueConfidence.innerHTML = confidence.toFixed(2);
+      venueName.innerHTML = localityFeatures[i].properties.observedvenuename;
+      venuePlaceType.innerHTML = placetype;
 
-        rowDiv.appendChild(venueName);
-        rowDiv.appendChild(venueConfidence);
+      rowDiv.appendChild(venueName);
+      rowDiv.appendChild(venuePlaceType);
 
-        localityParent.appendChild(rowDiv);
-        rowDiv.addEventListener('click', function () {
-          viewLeftPanel(localityFeatures[i]);
-          addLeftPanelActions(localityFeatures[i], marker);
-          // addExtrusions(localityFeatures[i]);
-        });
-      }
+      localityParent.appendChild(rowDiv);
+      rowDiv.addEventListener('click', function () {
+
+        viewLeftPanel(localityFeatures[i]);
+        addLeftPanelActions(localityFeatures[i], marker);
+        getStreetView(localityFeatures[i]);
+        // addExtrusions(localityFeatures[i]);
+        if (document.getElementById('info-default').classList.contains('d-none')) {
+          let collapseState = document.getElementById('info').classList.toggle('leftCollapse');
+          toggleLeftPanelView('info-default');
+        } else {
+          if (document.getElementById('info').classList.contains('leftCollapse')) {
+            document.getElementById('info').classList.toggle('leftCollapse');
+            toggleLeftPanelView('info-default');
+          }
+        }
+
+
+      });
+      // }
     }
   }
 
