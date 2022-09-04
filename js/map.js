@@ -283,6 +283,30 @@ function getProperties(data) {
 // Add observation and venueSliceData data layer onto map
 function addVenueLayer(map, obsData) {
 
+  if (map.getLayer('venue-slice-cones')) {
+    map.removeLayer('venue-slice-cones');
+  };
+  if (map.getLayer('poi-labels')) {
+    map.removeLayer('poi-labels');
+    map.removeSource('venues');
+  };
+
+  if (map.getLayer('data')) {
+    map.removeLayer('data');
+    map.removeSource("data");
+  };
+  if (map.getLayer('observation')) {
+    map.removeLayer('observation');
+  };
+  
+  // if (map.getLayer('venues')) {
+  //   map.removeLayer('venues');
+  // };
+
+  // if (map.getLayer('venue')) {
+  //   map.removeLayer('venues');
+  // };
+
 
   map.addLayer({
     'id': 'data',
@@ -527,7 +551,7 @@ Object.entries(localities).forEach(locality => {
   }
   
 
-  localityItem.addEventListener('click', function handleClick(event) {
+  localityItem.addEventListener('click', async function handleClick(event) {
 
     let localityList = document.getElementById("localityList");
     localityList.querySelectorAll("a").forEach(localityItem=>{
@@ -536,7 +560,7 @@ Object.entries(localities).forEach(locality => {
       }
     });
     
-    lName = this.innerText.toLowerCase();
+    selectedlocality = this.innerText;
     map.flyTo({
       center: localities[locality[0]].center,
       zoom: localities[locality[0]].zoom,
@@ -549,6 +573,45 @@ Object.entries(localities).forEach(locality => {
     localityList.classList.add('d-none');
     // localityItem.classList.add("dropdown-item-checked");
     localityItem.querySelector("a").classList.add("dropdown-item-checked");
+
+    
+
+
+    venues =  await getVenues(selectedlocality);
+    addVenueLayer(map, venues);
+    // filter the venue layer based on the year value.
+    //TODO Change the layer data source name to "venuedata".
+  
+  
+  // filter map view to selected year
+    let filteredYearData = venues.features.filter(function (feature) {
+      // console.log(feature.properties.year);
+      let selectedYear = parseInt(document.getElementById('slider-bar').value);
+      return feature.properties.year == selectedYear
+    });
+  
+    // observation data
+    // let observations = await getObservations(selectedlocality);
+    // addObservationLayer(map, observations);
+    // // addObservationLayer(venues, 'venue-slice'); // Bo: venue has already been added.
+  
+    // // load all code data from database
+    // let code_data = await allCodes();
+    // loadOptions(code_data);
+    // let defaultCodes = codeIncludes(code_data, selectedYear)
+    // code_div(defaultCodes, venues, selectedYear);
+    let active = false;
+    // three js 3D object
+    addCones(filteredYearData, active);
+  
+
+
+
+
+
+
+
+
   });
 
   localityList.appendChild(localityItem);
@@ -1288,7 +1351,7 @@ map.on('style.load', async function () {
   // load data
   // on slider change
   let selectedYear = parseInt(document.getElementById('slider-bar').value);
-  console.log(selectedYear);
+  // console.log(selectedYear);
   //determine the default locality
   let selectedlocality = "";
   let localityList = document.getElementById("localityList");
@@ -1303,7 +1366,7 @@ map.on('style.load', async function () {
   // filter the venue layer based on the year value.
   //TODO Change the layer data source name to "venuedata".
 
-  
+
 // filter map view to selected year
   let filteredYearData = venues.features.filter(function (feature) {
     // console.log(feature.properties.year);
@@ -1331,13 +1394,30 @@ map.on('style.load', async function () {
 
   years.addEventListener('input', async function (e) {
 
-    let selectYear = parseInt(document.getElementById('slider-bar').value);
+    let selectedYear = parseInt(document.getElementById('slider-bar').value);
 
-    // filter map view to selected year
+
+    let selectedlocality = "";
+    let localityList = document.getElementById("localityList");
+    localityList.querySelectorAll("a").forEach(localityItem=>{
+      if(localityItem.classList.contains("dropdown-item-checked")){
+        selectedlocality = localityItem.text;
+      }
+    });
+    venues =  await getVenues(selectedlocality);
+    addVenueLayer(map, venues);
+    // filter the venue layer based on the year value.
+    //TODO Change the layer data source name to "venuedata".
+    
+  // filter map view to selected year
+
     let filteredYearData = venues.features.filter(function (feature) {
       // console.log(feature.properties.year);
-      return feature.properties.year == selectYear
+      let selectedYear = parseInt(document.getElementById('slider-bar').value);
+      return feature.properties.year == selectedYear
     });
+  
+
 
     // add 3-d shapes and remove previous existing shapes
     if (map.getLayer('venue-slice-cones')) {
@@ -1351,9 +1431,9 @@ map.on('style.load', async function () {
     console.log(filteredYearData);
     addCones(filteredYearData, false);
 
-    let result = codeIncludes(code_data, selectYear);
+    let result = codeIncludes(code_data, selectedYear);
     // construct div for each damron code available
-    code_div(result, venues, selectYear);
+    code_div(result, venues, selectedYear);
   });
 
 
