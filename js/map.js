@@ -52,66 +52,6 @@ document.getElementById('geocoder').appendChild(geocoder);
 
 
 
-// toggleLeftPanelView()
-// Parameter:
-// "legend"       : Shows: DEFAULT LEFT DASHBOARD VIEW
-//                   Hides: DATA PANEL, IMGS CONTAINER, VERIFICATION & REVIEW BTNS, ADD NEW OBSERVATION INFO PANEL
-// "info-default"     : Shows: DATA PANEL, VERIFICATION & REVIEW BTNS, IMGS CONTAINER
-//                 : Hides: DEFAULT PANEL, VERIFICATION PANEL, ADD NEW OBSERVATION INFO PANEL
-// "report-issue"        : Shows: VERIFICATION PANEL
-//                   Hides: DEFAULT PANEL, DATA PANEL, IMGS CONTAINER, ADD NEW OBSERVATION INFO PANEL
-// "add-observation": Shows: ADD NEW OBSERVATION INFO PANEL
-//                   Hides: DEFAULT PANEL, DATA PANEL, VERIFICATION & REVIEW BTNS, IMGS CONTAINER
-// "ground-truth-btns"
-// "type-review-box"
-// "reviews-confirmation"
-// "reviews-container"
-function toggleLeftPanelView(elementId) {
-
-  if (elementId != "all") {
-    $("#info > div").not($("#" + elementId)).addClass('d-none');
-    $('#' + elementId).removeClass('d-none');
-  }
-
-  // exceptions
-  // let footer = document.getElementById('attribution');
-  // footer.classList.remove('d-none');
-
-  // process the attribution
-  attributionLeft = document.getElementById("attribution").style["left"];
-
-  if (attributionLeft == "28em") {
-    document.getElementById("attribution").style["left"] = "0em";
-    document.getElementById("year-slider").style["left"] = "0em";
-    document.getElementById("legend").style["left"] = "0em";
-
-  } else {
-
-    document.getElementById("attribution").style["left"] = "28em";
-    document.getElementById("year-slider").style["left"] = "28em";
-    document.getElementById("legend").style["left"] = "28em";
-
-  }
-
-
-  if (elementId == "info-default") {
-    document.getElementById('ground-truth-btns').classList.remove('d-none');
-  }
-  if (elementId == "report-issue") {
-    document.getElementById('ground-truth-btns').classList.remove('d-none');
-    // document.getElementById('report-issue-btn').classList.toggle('d-none');
-    // document.getElementById('add-review-btn').classList.toggle('d-none');
-    // document.getElementById('go-back-btn').classList.toggle('d-none');
-  }
-};
-
-// year_val()
-// changes the label of the current selected year for the user to see
-function year_val() {
-  let selectedYear = document.getElementById('slider-bar').value;
-  document.getElementById('year-label').innerHTML = selectedYear;
-}
-
 function venueList(data) {
   for (let i = 0; i < data.length; i++) {
     let venueParent = document.getElementById('confirmed-venues');
@@ -612,58 +552,6 @@ Object.entries(localities).forEach(locality => {
 });
 
 
-
-function logInCheck() {
-
-
-  // let logInView = document.getElementById('log-in-btn');
-
-  if (document.getElementById('log-in-btn').classList.contains("d-none")) {
-    // if contains display none, means that user is logged in
-    // toggleLeftPanelView('report-issue');
-
-    // // if left panel is close
-    // if (document.getElementById('info').classList.contains('leftCollapse')) {
-    //     document.getElementById('info').classList.toggle('leftCollapse');
-    // }
-    return true;
-  } else {
-    let alert = document.getElementById("alert-modal");
-    let alertText = document.getElementById("alert-text");
-    alertText.innerHTML = "Please log in before making any contribution to this geospatial platform.";
-    let alertModal = new bootstrap.Modal(alert);
-    alertModal.show();
-
-    return false;
-
-  }
-
-
-
-
-
-  // let signInView = document.getElementById('log-in-btn');
-  // // if left panel is closed
-  // if (document.getElementById('info').classList.contains('leftCollapse')) {
-  //   let collapseState = document.getElementById('info').classList.toggle('leftCollapse');
-  //   document.getElementById('info-close-btn').classList.toggle('info-btn-collapse');
-  //   let btnImg = document.getElementById('leftPanelArrow');
-  //   if (collapseState) {
-  //     btnImg.src = './assets/imgs/open-arrow.svg';
-  //   } else {
-  //     btnImg.src = './assets/imgs/back-btn.svg';
-  //   }
-  // }
-
-  // if (signInView.classList.contains('d-none')) {
-  //   // if contains display none, means that user is logged in
-  //   toggleLeftPanelView('report-issue');
-  //   return true;
-  // } else {
-  //   alert('Please sign in through Google first!');
-  // }
-  // return false;
-}
 
 // create and style all incoming reviews from API request
 function constructReviews(reviewData) {
