@@ -19,6 +19,7 @@ const localities = {
 
 };
 
+
 // initialize geometry and material of our cube object
 const geometry = new THREE.ConeGeometry(15, 40, 64);
 const origMaterial = new THREE.MeshPhysicalMaterial({
@@ -56,6 +57,15 @@ let map = new mapboxgl.Map({
   antialias: true,
   hash: true
 });
+
+
+  // create temporary marker if user wants to validate a location
+  let marker = new mapboxgl.Marker({
+    draggable: true
+  });
+
+let venues = null;
+let observations = null;
 initiateGeocoder();
 createLocalityList();
 
@@ -93,7 +103,7 @@ function initiateGeocoder() {
 
 // year_val()
 // changes the label of the current selected year for the user to see
-document.getElementById("slider-bar").addEventListener("input", function(e){
+document.getElementById("slider-bar").addEventListener("input", function (e) {
   let selectedYear = document.getElementById('slider-bar').value;
   document.getElementById('year-label').innerHTML = selectedYear;
 
@@ -205,16 +215,15 @@ function confirmationReview() {
 // returns a complete GEOJSON data output that is filtered with the matching dates
 async function getVenues(locality) {
   try {
-    // let cityList = ['Seattle', 'Atlanta', 'Cleveland', 'Nashville'];
-    // let cityList = ['Seattle']
+
     let venueData = [];
     // for (let i = 0; i < cityList.length; i++) {
     //   let city = cityList[i];
-      let getVenueData = await fetch(`https://lgbtqspaces-api.herokuapp.com/api/venues/${locality}`, {
-        method: 'GET'
-      });
-      getVenueData = await getVenueData.json();
-      venueData = venueData.concat(getVenueData);
+    let getVenueData = await fetch(`https://lgbtqspaces-api.herokuapp.com/api/venues/${locality}`, {
+      method: 'GET'
+    });
+    getVenueData = await getVenueData.json();
+    venueData = venueData.concat(getVenueData);
     // }
     return toGEOJSON(venueData);
   } catch (error) {
@@ -225,7 +234,7 @@ async function getVenues(locality) {
 // getObservations
 async function getObservations(locality) {
   try {
-    // let city = "Seattle";
+
     let getObservationData = await fetch(`https://lgbtqspaces-api.herokuapp.com/api/observations/${locality}`, {
       method: 'GET'
     });
@@ -298,14 +307,7 @@ function addVenueLayer(map, obsData) {
   if (map.getLayer('observation')) {
     map.removeLayer('observation');
   };
-  
-  // if (map.getLayer('venues')) {
-  //   map.removeLayer('venues');
-  // };
 
-  // if (map.getLayer('venue')) {
-  //   map.removeLayer('venues');
-  // };
 
 
   map.addLayer({
@@ -336,6 +338,27 @@ function addObservationLayer(map, data, type) {
   // if(data.features.length < venues.features.length) {
   //   comparisons = data.feature.length;
   // };
+
+
+  if (map.getLayer('venue-slice-cones')) {
+    map.removeLayer('venue-slice-cones');
+  };
+  if (map.getLayer('poi-labels')) {
+    map.removeLayer('poi-labels');
+    map.removeSource('venues');
+  };
+
+  if (map.getLayer('data')) {
+    map.removeLayer('data');
+    map.removeSource("data");
+  };
+  if (map.getLayer('observation')) {
+    map.removeLayer('observation');
+    map.removeSource("observation");
+  };
+
+
+
   let features = data.features;
   let test = {
     'type': 'FeatureCollection',
@@ -468,7 +491,7 @@ async function addLeftPanelActions(feature, marker, e) {
       bearing: -25,
       essential: true
     });
-    
+
   } catch (error) {
     console.log(error);
   }
@@ -528,95 +551,59 @@ async function addLeftPanelActions(feature, marker, e) {
 
 // if a specific locality is selected, recenter the map to that locality
 function createLocalityList() {
-let localityFilterBtn = document.getElementById("localityFilterBtn");
-localityFilterBtn.addEventListener('click', function () {
-  let localityList = document.getElementById('localityList');
-  localityList.classList.remove('d-none');
+  let localityFilterBtn = document.getElementById("localityFilterBtn");
+  localityFilterBtn.addEventListener('click', function () {
+    let localityList = document.getElementById('localityList');
+    localityList.classList.remove('d-none');
 
-  let codeDescriptorList = document.getElementById('codeDescriptorList');
-  codeDescriptorList.classList.add('d-none');
-});
-
-
-Object.entries(localities).forEach(locality => {
-
-  let localityItem = document.createElement("li");
-
-  localityName = locality[0].charAt(0).toUpperCase() + locality[0].slice(1);
-  if (localityName == "Seattle"){
-    localityItem.innerHTML = '<a class="dropdown-item dropdown-item-checked" href="#">' + localityName + '</a>';
-
-  } else {
-    localityItem.innerHTML = '<a class="dropdown-item" href="#">' + localityName + '</a>';
-  }
-  
-
-  localityItem.addEventListener('click', async function handleClick(event) {
-
-    let localityList = document.getElementById("localityList");
-    localityList.querySelectorAll("a").forEach(localityItem=>{
-      if(localityItem.classList.contains("dropdown-item-checked")){
-        localityItem.classList.remove("dropdown-item-checked");
-      }
-    });
-    
-    selectedlocality = this.innerText;
-    map.flyTo({
-      center: localities[locality[0]].center,
-      zoom: localities[locality[0]].zoom,
-      speed: 0.9,
-      pitch: 75,
-      bearing: -25,
-      essential: true
-    });
-
-    localityList.classList.add('d-none');
-    // localityItem.classList.add("dropdown-item-checked");
-    localityItem.querySelector("a").classList.add("dropdown-item-checked");
-
-    
-
-
-    venues =  await getVenues(selectedlocality);
-    addVenueLayer(map, venues);
-    // filter the venue layer based on the year value.
-    //TODO Change the layer data source name to "venuedata".
-  
-  
-  // filter map view to selected year
-    let filteredYearData = venues.features.filter(function (feature) {
-      // console.log(feature.properties.year);
-      let selectedYear = parseInt(document.getElementById('slider-bar').value);
-      return feature.properties.year == selectedYear
-    });
-  
-    // observation data
-    // let observations = await getObservations(selectedlocality);
-    // addObservationLayer(map, observations);
-    // // addObservationLayer(venues, 'venue-slice'); // Bo: venue has already been added.
-  
-    // // load all code data from database
-    // let code_data = await allCodes();
-    // loadOptions(code_data);
-    // let defaultCodes = codeIncludes(code_data, selectedYear)
-    // code_div(defaultCodes, venues, selectedYear);
-    let active = false;
-    // three js 3D object
-    addCones(filteredYearData, active);
-  
-
-
-
-
-
-
-
-
+    let codeDescriptorList = document.getElementById('codeDescriptorList');
+    codeDescriptorList.classList.add('d-none');
   });
 
-  localityList.appendChild(localityItem);
 
-});
+  Object.entries(localities).forEach(locality => {
+
+    let localityItem = document.createElement("li");
+
+    localityName = locality[0].charAt(0).toUpperCase() + locality[0].slice(1);
+    if (localityName == "Seattle") {
+      localityItem.innerHTML = '<a class="dropdown-item dropdown-item-checked" href="#">' + localityName + '</a>';
+    } else {
+      localityItem.innerHTML = '<a class="dropdown-item" href="#">' + localityName + '</a>';
+    }
+
+    localityList.appendChild(localityItem);
+    localityItem.addEventListener('click', async function handleClick(event) {
+
+      let localityList = document.getElementById("localityList");
+      localityList.querySelectorAll("a").forEach(localityItem => {
+        if (localityItem.classList.contains("dropdown-item-checked")) {
+          localityItem.classList.remove("dropdown-item-checked");
+        }
+      });
+
+      map.flyTo({
+        center: localities[locality[0]].center,
+        zoom: localities[locality[0]].zoom,
+        speed: 0.9,
+        pitch: 75,
+        bearing: -25,
+        essential: true
+      });
+
+      localityList.classList.add('d-none');
+      localityItem.querySelector("a").classList.add("dropdown-item-checked");
+
+
+      let selectedLocality = this.innerText;
+      let selectedYear = parseInt(document.getElementById('slider-bar').value);
+
+      updateMap(selectedYear, selectedLocality);
+  
+
+    });
+
+  });
 
 }
 
@@ -1162,85 +1149,85 @@ colorizeObservationCbx.addEventListener('click', function () {
 });
 
 
-function displayNearbyObservations(obsData, e) {
-  let observationData = obsData.features;
-  let selectedData = e.features[0];
+// function displayNearbyObservations(obsData, e) {
+//   let observationData = obsData.features;
+//   let selectedData = e.features[0];
 
-  let coordinates = selectedData.geometry.coordinates.slice();
-  while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-    coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-  };
+//   let coordinates = selectedData.geometry.coordinates.slice();
+//   while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+//     coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+//   };
 
-  // the radius of the searching buffer
-  const polygonRadius = 0.05;
-  let options = {
-    steps: 100,
-    units: 'miles'
-  };
+//   // the radius of the searching buffer
+//   const polygonRadius = 0.05;
+//   let options = {
+//     steps: 100,
+//     units: 'miles'
+//   };
 
-  const circleRadius = 0.01;
-  let circleOptions = {
-    steps: 100,
-    units: 'miles'
-  };
+//   const circleRadius = 0.01;
+//   let circleOptions = {
+//     steps: 100,
+//     units: 'miles'
+//   };
 
-  let points = [];
-  observationData.forEach((element, index) => {
-    points.push(element.geometry.coordinates);
-  });
+//   let points = [];
+//   observationData.forEach((element, index) => {
+//     points.push(element.geometry.coordinates);
+//   });
 
-  let turfPoints = turf.points(points);
-  let searchWithin = turf.circle(coordinates, polygonRadius, options);
-  let result = turf.pointsWithinPolygon(turfPoints, searchWithin);
-  // for each point that is within the circle boundary
-  result.features.forEach((element, index) => {
-    element.geometry = turf.circle(element.geometry.coordinates, circleRadius, circleOptions).geometry;
-    element.properties = {
-      'height': 75,
-      'base': 50,
-      // 'height': (((index == 0) ? 50 : (index + 1) * 150 - 45) + 145),
-      // 'base': ((index == 0) ? 50 : (index + 1) * 150 - 10),
-      'paint': 'green'
-    }
-  });
+//   let turfPoints = turf.points(points);
+//   let searchWithin = turf.circle(coordinates, polygonRadius, options);
+//   let result = turf.pointsWithinPolygon(turfPoints, searchWithin);
+//   // for each point that is within the circle boundary
+//   result.features.forEach((element, index) => {
+//     element.geometry = turf.circle(element.geometry.coordinates, circleRadius, circleOptions).geometry;
+//     element.properties = {
+//       'height': 75,
+//       'base': 50,
+//       // 'height': (((index == 0) ? 50 : (index + 1) * 150 - 45) + 145),
+//       // 'base': ((index == 0) ? 50 : (index + 1) * 150 - 10),
+//       'paint': 'green'
+//     }
+//   });
 
-  map.addLayer({
-    id: 'nearby-observations',
-    type: 'fill-extrusion',
-    source: {
-      type: 'geojson',
-      data: {
-        "type": "FeatureCollection",
-        "features": []
-      },
-      tolerance: 0
-    },
-    paint: {
-      'fill-extrusion-color': [
-        'case',
-        ['boolean', ['feature-state', 'hover'], false],
-        'red',
-        'pink'
-      ],
-      'fill-extrusion-base': {
-        'type': 'identity',
-        'property': 'base'
-      },
-      'fill-extrusion-height': {
-        'type': 'identity',
-        'property': 'height'
-      },
-      'fill-extrusion-opacity': 1,
-      'fill-extrusion-vertical-gradient': false,
-    }
-  });
-  map.getSource('nearby-observations').setData(result);
-};
-
-
+//   map.addLayer({
+//     id: 'nearby-observations',
+//     type: 'fill-extrusion',
+//     source: {
+//       type: 'geojson',
+//       data: {
+//         "type": "FeatureCollection",
+//         "features": []
+//       },
+//       tolerance: 0
+//     },
+//     paint: {
+//       'fill-extrusion-color': [
+//         'case',
+//         ['boolean', ['feature-state', 'hover'], false],
+//         'red',
+//         'pink'
+//       ],
+//       'fill-extrusion-base': {
+//         'type': 'identity',
+//         'property': 'base'
+//       },
+//       'fill-extrusion-height': {
+//         'type': 'identity',
+//         'property': 'height'
+//       },
+//       'fill-extrusion-opacity': 1,
+//       'fill-extrusion-vertical-gradient': false,
+//     }
+//   });
+//   map.getSource('nearby-observations').setData(result);
+// };
 
 
-function loadOptions(data) {
+
+
+function createCodeCategories(data) {
   let dataSlice = [
     [],
     [],
@@ -1345,42 +1332,40 @@ async function placeInput(place) {
 // }
 
 ////////////////////////////////////////////////////////////////////////////////////
-// MAP ON LOAD
-map.on('style.load', async function () {
 
-  // load data
-  // on slider change
+
+
+
+// YEAR SLIDING
+document.getElementById('slider-bar').addEventListener('input', async function (e) {
+
   let selectedYear = parseInt(document.getElementById('slider-bar').value);
-  // console.log(selectedYear);
-  //determine the default locality
-  let selectedlocality = "";
-  let localityList = document.getElementById("localityList");
-  localityList.querySelectorAll("a").forEach(localityItem=>{
-    if(localityItem.classList.contains("dropdown-item-checked")){
-      selectedlocality = localityItem.text;
-    }
-  });
+  let selectedLocality = document.querySelector(".dropdown-item-checked").text;
 
-  let venues = await getVenues(selectedlocality);
+  updateMap(selectedYear, selectedLocality);
+
+});
+
+
+async function updateMap(selectedYear, selectedLocality) {
+
+  venues = await getVenues(selectedLocality);
+
   addVenueLayer(map, venues);
-  // filter the venue layer based on the year value.
-  //TODO Change the layer data source name to "venuedata".
-
-
-// filter map view to selected year
   let filteredYearData = venues.features.filter(function (feature) {
-    // console.log(feature.properties.year);
     return feature.properties.year == selectedYear
   });
 
   // observation data
-  let observations = await getObservations(selectedlocality);
-  addObservationLayer(map, observations);
+  // observations = await getObservations(selectedLocality);
+  // addObservationLayer(map, observations);
   // addObservationLayer(venues, 'venue-slice'); // Bo: venue has already been added.
 
-  // load all code data from database
+
+  // load all codes
   let code_data = await allCodes();
-  loadOptions(code_data);
+  createCodeCategories(code_data);
+
   let defaultCodes = codeIncludes(code_data, selectedYear)
   code_div(defaultCodes, venues, selectedYear);
   let active = false;
@@ -1388,82 +1373,27 @@ map.on('style.load', async function () {
   addCones(filteredYearData, active);
 
 
-  // filter data based upon input
-
-  let years = document.getElementById('slider-bar');
-
-  years.addEventListener('input', async function (e) {
-
-    let selectedYear = parseInt(document.getElementById('slider-bar').value);
-
-
-    let selectedlocality = "";
-    let localityList = document.getElementById("localityList");
-    localityList.querySelectorAll("a").forEach(localityItem=>{
-      if(localityItem.classList.contains("dropdown-item-checked")){
-        selectedlocality = localityItem.text;
-      }
-    });
-    venues =  await getVenues(selectedlocality);
-    addVenueLayer(map, venues);
-    // filter the venue layer based on the year value.
-    //TODO Change the layer data source name to "venuedata".
-    
-  // filter map view to selected year
-
-    let filteredYearData = venues.features.filter(function (feature) {
-      // console.log(feature.properties.year);
-      let selectedYear = parseInt(document.getElementById('slider-bar').value);
-      return feature.properties.year == selectedYear
-    });
-  
-
-
-    // add 3-d shapes and remove previous existing shapes
-    if (map.getLayer('venue-slice-cones')) {
-      map.removeLayer('venue-slice-cones');
-    };
-    if (map.getLayer('poi-labels')) {
-      map.removeLayer('poi-labels');
-      map.removeSource('venues');
-    };
-    // add new custom layer
-    console.log(filteredYearData);
-    addCones(filteredYearData, false);
-
-    let result = codeIncludes(code_data, selectedYear);
-    // construct div for each damron code available
-    code_div(result, venues, selectedYear);
-  });
 
 
 
-  // create temporary marker if user wants to validate a location
-  var marker = new mapboxgl.Marker({
-    draggable: true
-  });
-
-  // venue- left dashboard add venues from database
-  // split obs data to matching years
-  let selectYear = document.getElementById('slider-bar').value;
-  // let yearRight = document.getElementById('input-right').value;
+  // create venue list
   let localityParent = document.getElementById('locality-venues');
-
+  localityParent.innerHTML = "";
   let localityFeatures = venues.features;
-  // sort locality features
-  localityFeatures.sort((a, b) => {
-    let firstYear = parseFloat(a.properties.year);
-    let secondYear = parseFloat(b.properties.year);
-    let difference = firstYear - secondYear;
-    // if ( difference  == 0 ) {
-    //   difference = a.properties.observedvenuename.localeCompare(b.properties.observedvenuename);
-    // }
-    return difference;
-  })
+  // // sort locality features
+  // Bo: Sort by name
+  // localityFeatures.sort((a, b) => {
+  //   let firstYear = parseFloat(a.properties.year);
+  //   let secondYear = parseFloat(b.properties.year);
+  //   let difference = firstYear - secondYear;
+  //   // if ( difference  == 0 ) {
+  //   //   difference = a.properties.observedvenuename.localeCompare(b.properties.observedvenuename);
+  //   // }
+  //   return difference;
+  // })
 
   for (let i = 0; i < localityFeatures.length; i++) {
-    if (localityFeatures[i].properties.year == selectYear) {
-      // if (localityFeatures[i].properties.confidence < 0.85) {
+    if (localityFeatures[i].properties.year == selectedYear) {
       // bootstrap row
       let rowDiv = document.createElement('div');
       rowDiv.classList.add('row', "m-1");
@@ -1496,19 +1426,27 @@ map.on('style.load', async function () {
             toggleLeftPanelView('info-default');
           }
         }
-
-
       });
-      // }
     }
   }
 
-  if (localityParent.firstChild == null) {
-    let localityPar = document.createElement('div');
-    localityPar.classList.add('m-3');
-    localityPar.innerHTML = "No low confidence location nearby."
-    localityParent.appendChild(localityPar);
-  };
+
+}
+
+// MAP ON LOAD
+map.on('style.load', async function () {
+
+  let selectedYear = parseInt(document.getElementById('slider-bar').value);
+  let selectedLocality = document.querySelector(".dropdown-item-checked").text;
+
+  updateMap(selectedYear, selectedLocality);
+  
+  // if (localityParent.firstChild == null) {
+  //   let localityPar = document.createElement('div');
+  //   localityPar.classList.add('m-3');
+  //   localityPar.innerHTML = "No low confidence location nearby."
+  //   localityParent.appendChild(localityPar);
+  // };
 
   // when click on extrusion
   map.on('click', 'year-block', function (e) {
@@ -1571,7 +1509,7 @@ map.on('style.load', async function () {
     }
 
 
-    displayNearbyObservations(observations, e);
+    // displayNearbyObservations(observations, e);
 
     // marker.remove();
 
@@ -1891,6 +1829,5 @@ map.on('style.load', async function () {
   })
 
   // $('#loader').fadeOut("slow");
-
 
 });

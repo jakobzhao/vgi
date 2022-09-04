@@ -23,7 +23,7 @@
         "placeid",
         "placetype",
         "rtoggle",
-        "selectedlocality",
+        "selectedLocality",
         "sliderticks",
         "Streetview",
         "toggleview",
