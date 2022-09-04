@@ -333,7 +333,7 @@ function addVenueLayer(map, obsData) {
 };
 
 // add accordion layer - for venues and observations
-function addObservationLayer(map, data, type) {
+function addObservationLayer(map, data) {
   // let comparisons = venues.feature.length;
   // if(data.features.length < venues.features.length) {
   //   comparisons = data.feature.length;
@@ -1041,7 +1041,7 @@ function addCones(data, active) {
       //add mousing interactions
       // BO: just confine it to the data layer? map.on('click',  function (e) {???
       // Bo:  'venue-slice-cones' is added by Bo.
-      map.on('click', 'venue-slice-cones', function (e) {
+      map.on('click', 'data', function (e) {
         // Clear old objects
         highlighted.forEach(function (h) {
           h.material = origMaterial;
@@ -1350,7 +1350,6 @@ document.getElementById('slider-bar').addEventListener('input', async function (
 async function updateMap(selectedYear, selectedLocality) {
 
   venues = await getVenues(selectedLocality);
-
   addVenueLayer(map, venues);
   let filteredYearData = venues.features.filter(function (feature) {
     return feature.properties.year == selectedYear
@@ -1359,7 +1358,9 @@ async function updateMap(selectedYear, selectedLocality) {
   // observation data
   // observations = await getObservations(selectedLocality);
   // addObservationLayer(map, observations);
-  // addObservationLayer(venues, 'venue-slice'); // Bo: venue has already been added.
+  // let filteredYearObservations = observations.features.filter(function (feature) {
+  //   return feature.properties.year == selectedYear
+  // });
 
 
   // load all codes
@@ -1371,8 +1372,6 @@ async function updateMap(selectedYear, selectedLocality) {
   let active = false;
   // three js 3D object
   addCones(filteredYearData, active);
-
-
 
 
 
@@ -1498,10 +1497,6 @@ map.on('style.load', async function () {
   // trigger review/location information on click of location point of map
   map.on('click', 'data', async function (e) {
 
-    // console.log("data click");
-    // get points that are within the boundary for observations
-    // get points that are within the boundary for unverified venues
-
     // Bo: Perhaps highlight the nearby and label their names.
     if (map.getLayer('nearby-observations')) {
       map.removeLayer('nearby-observations');
@@ -1510,7 +1505,6 @@ map.on('style.load', async function () {
 
 
     // displayNearbyObservations(observations, e);
-
     // marker.remove();
 
     if (document.getElementById('info-default').classList.contains('d-none')) {
