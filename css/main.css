@@ -912,6 +912,14 @@ h2#name, p#venue-indicator {
     display: block;
 }
 
+.dropdown-item-checked::before {
+    position: relative;
+    left: -0.3rem;
+    content: '✓';
+    font-weight: 600;
+  }
+  
+
 .type-btn {
     margin-bottom: 1%;
     width: 100%;

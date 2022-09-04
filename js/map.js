@@ -57,6 +57,7 @@ let map = new mapboxgl.Map({
   hash: true
 });
 initiateGeocoder();
+createLocalityList();
 
 
 
@@ -74,10 +75,6 @@ map.loadImage('assets/imgs/red-marker.png', function (error, image) {
     sdf: true
   });
 });
-
-
-
-
 
 
 // initiate the Geocoder
@@ -203,61 +200,33 @@ function confirmationReview() {
   timeOutID;
 }
 
-// displayData
+// getVenues
 // Obtain the data from the database given the input values from the year slider
 // returns a complete GEOJSON data output that is filtered with the matching dates
-async function displayData() {
+async function getVenues(locality) {
   try {
     // let cityList = ['Seattle', 'Atlanta', 'Cleveland', 'Nashville'];
-    let cityList = ['Seattle']
+    // let cityList = ['Seattle']
     let venueData = [];
-    for (let i = 0; i < cityList.length; i++) {
-      let city = cityList[i];
-      let getVenueData = await fetch(`https://lgbtqspaces-api.herokuapp.com/api/venues/${city}`, {
+    // for (let i = 0; i < cityList.length; i++) {
+    //   let city = cityList[i];
+      let getVenueData = await fetch(`https://lgbtqspaces-api.herokuapp.com/api/venues/${locality}`, {
         method: 'GET'
       });
       getVenueData = await getVenueData.json();
       venueData = venueData.concat(getVenueData);
-    }
+    // }
     return toGEOJSON(venueData);
   } catch (error) {
     console.log(error);
   }
 };
 
-// getVenueSlice
-// Obtain data from database that contains all the venue slices in database
-async function getVenueSlice() {
-  try {
-    // let city = 'Seattle';
-    // let getVenueSlice = await fetch(`https://lgbtqspaces-api.herokuapp.com/api/venueSlice/${city}`, {
-    //   method: 'GET'
-    // });
-    // let venueSliceData = await getVenueSlice.json();
-
-
-    // let cityList = ['Seattle', 'Atlanta', 'Cleveland', 'Nashville'];
-    let cityList = ['Seattle']
-    let venueData = [];
-    for (let i = 0; i < cityList.length; i++) {
-      let city = cityList[i];
-      let getVenueData = await fetch(`https://lgbtqspaces-api.herokuapp.com/api/venueSlice/${city}`, {
-        method: 'GET'
-      });
-      getVenueData = await getVenueData.json();
-      venueData = venueData.concat(getVenueData);
-    }
-    return toGEOJSON(venueData);
-  } catch (err) {
-    console.log(err);
-  }
-};
-
 // getObservations
-async function getObservations() {
+async function getObservations(locality) {
   try {
-    let city = "Seattle";
-    let getObservationData = await fetch(`https://lgbtqspaces-api.herokuapp.com/api/observations/${city}`, {
+    // let city = "Seattle";
+    let getObservationData = await fetch(`https://lgbtqspaces-api.herokuapp.com/api/observations/${locality}`, {
       method: 'GET'
     });
     let observationData = await getObservationData.json();
@@ -312,7 +281,7 @@ function getProperties(data) {
 };
 
 // Add observation and venueSliceData data layer onto map
-function addDataLayer(obsData) {
+function addVenueLayer(map, obsData) {
 
 
   map.addLayer({
@@ -338,9 +307,9 @@ function addDataLayer(obsData) {
 };
 
 // add accordion layer - for venues and observations
-function addAccordionLayer(data, type) {
-  // let comparisons = verifiedData.feature.length;
-  // if(data.features.length < verifiedData.features.length) {
+function addObservationLayer(map, data, type) {
+  // let comparisons = venues.feature.length;
+  // if(data.features.length < venues.features.length) {
   //   comparisons = data.feature.length;
   // };
   let features = data.features;
@@ -362,7 +331,7 @@ function addAccordionLayer(data, type) {
   };
 
   map.addLayer({
-    'id': (type == 'observation') ? 'observation-legend' : 'venue-legend',
+    'id': 'observation',
     'type': 'fill-extrusion',
     'source': {
       'type': 'geojson',
@@ -534,7 +503,7 @@ async function addLeftPanelActions(feature, marker, e) {
 };
 
 // if a specific locality is selected, recenter the map to that locality
-
+function createLocalityList() {
 let localityFilterBtn = document.getElementById("localityFilterBtn");
 localityFilterBtn.addEventListener('click', function () {
   let localityList = document.getElementById('localityList');
@@ -550,10 +519,23 @@ Object.entries(localities).forEach(locality => {
   let localityItem = document.createElement("li");
 
   localityName = locality[0].charAt(0).toUpperCase() + locality[0].slice(1);
-  localityItem.innerHTML = '<a class="dropdown-item" href="#">' + localityName + '</a>';
+  if (localityName == "Seattle"){
+    localityItem.innerHTML = '<a class="dropdown-item dropdown-item-checked" href="#">' + localityName + '</a>';
+
+  } else {
+    localityItem.innerHTML = '<a class="dropdown-item" href="#">' + localityName + '</a>';
+  }
+  
 
   localityItem.addEventListener('click', function handleClick(event) {
 
+    let localityList = document.getElementById("localityList");
+    localityList.querySelectorAll("a").forEach(localityItem=>{
+      if(localityItem.classList.contains("dropdown-item-checked")){
+        localityItem.classList.remove("dropdown-item-checked");
+      }
+    });
+    
     lName = this.innerText.toLowerCase();
     map.flyTo({
       center: localities[locality[0]].center,
@@ -565,14 +547,15 @@ Object.entries(localities).forEach(locality => {
     });
 
     localityList.classList.add('d-none');
-
+    // localityItem.classList.add("dropdown-item-checked");
+    localityItem.querySelector("a").classList.add("dropdown-item-checked");
   });
 
   localityList.appendChild(localityItem);
 
 });
 
-
+}
 
 // create and style all incoming reviews from API request
 function constructReviews(reviewData) {
@@ -915,15 +898,6 @@ function addLabels(data) {
   for (var id in data) {
     result.features.push(data[id])
   }
-  // console.log(result)
-
-  // added by Bo
-  // var mapLayer = map.getLayer('venues');
-
-  // if(typeof mapLayer !== 'undefined') {
-  //   // Remove map layer & source.
-  //   map.removeLayer('venue-slice-cones').removeSource('venues');
-  // }
 
 
   map.addSource('venues', {
@@ -961,6 +935,7 @@ function addCones(data, active) {
   }
 
   addLabels(data);
+
   map.addLayer({
     id: 'venue-slice-cones',
     type: 'custom',
@@ -1312,30 +1287,33 @@ map.on('style.load', async function () {
 
   // load data
   // on slider change
-  let defaultYear = parseInt(document.getElementById('slider-bar').value);
-
-  let verifiedData = await displayData();
-  addDataLayer(verifiedData);
-  // once the data is added,d filter the data with the year value.
-  map.setFilter('data', ["==", ['number', ['get', 'year']], defaultYear]);
+  let currentYear = parseInt(document.getElementById('slider-bar').value);
+  console.log(currentYear);
+  //TODO@jakobzhao: determine the default locality
+  let venues = await getVenues("Seattle");
+  addVenueLayer(map, venues);
+  // filter the venue layer based on the year value.
+  //TODO Change the layer data source name to "venuedata".
+  // map.setFilter('data', ["==", ['number', ['get', 'year']], currentYear]);
+// filter map view to selected year
+  let filteredYearData = venues.features.filter(function (feature) {
+    // console.log(feature.properties.year);
+    return feature.properties.year == currentYear
+  });
 
   // observation data
-  let observations = await getObservations();
-  let venues = await getVenueSlice();
-
-  addAccordionLayer(observations, 'observation');
-  addAccordionLayer(venues, 'venue-slice'); // Bo: venue has already been added.
+  let observations = await getObservations("Seattle");
+  addObservationLayer(map, observations);
+  // addObservationLayer(venues, 'venue-slice'); // Bo: venue has already been added.
 
   // load all code data from database
   let code_data = await allCodes();
   loadOptions(code_data);
-  let defaultCodes = codeIncludes(code_data, defaultYear)
-  code_div(defaultCodes, verifiedData, defaultYear);
+  let defaultCodes = codeIncludes(code_data, currentYear)
+  code_div(defaultCodes, venues, currentYear);
   let active = false;
   // three js 3D object
-  let onScreenData = map.getSource('data')._data.features;
-  addCones(onScreenData, active);
-
+  addCones(filteredYearData, active);
 
 
   // filter data based upon input
@@ -1344,12 +1322,11 @@ map.on('style.load', async function () {
 
   years.addEventListener('input', async function (e) {
 
-    let selectYear = parseInt(years.value);
+    let selectYear = parseInt(document.getElementById('slider-bar').value);
 
     // filter map view to selected year
-    // map.setFilter('data', ["==", ['number', ['get', 'year']], selectYear]);
-
     let filteredYearData = venues.features.filter(function (feature) {
+      // console.log(feature.properties.year);
       return feature.properties.year == selectYear
     });
 
@@ -1367,8 +1344,10 @@ map.on('style.load', async function () {
 
     let result = codeIncludes(code_data, selectYear);
     // construct div for each damron code available
-    code_div(result, verifiedData, selectYear);
+    code_div(result, venues, selectYear);
   });
+
+
 
   // create temporary marker if user wants to validate a location
   var marker = new mapboxgl.Marker({
@@ -1381,7 +1360,7 @@ map.on('style.load', async function () {
   // let yearRight = document.getElementById('input-right').value;
   let localityParent = document.getElementById('locality-venues');
 
-  let localityFeatures = verifiedData.features;
+  let localityFeatures = venues.features;
   // sort locality features
   localityFeatures.sort((a, b) => {
     let firstYear = parseFloat(a.properties.year);
@@ -1765,9 +1744,6 @@ map.on('style.load', async function () {
   });
 
 
-
-
-
   map.on('click', function (e) {
 
     //click on the map to hide the locality and/or the code filter menus.
@@ -1794,13 +1770,13 @@ map.on('style.load', async function () {
   });
 
   // If these two layers were not added to the map, abort
-  if (!map.getLayer('observation-legend') || !map.getLayer('venue-legend')) {
+  if (!map.getLayer('observation-layer') || !map.getLayer('data')) {
     return;
   }
   // Enumerate ids of the layers.
-  let observationLegendBtn = document.getElementById('observation-legend');
-  let venueLegendBtn = document.getElementById('venue-legend');
-  const toggleableLayerIds = [observationLegendBtn, venueLegendBtn];
+  let observationLyrBtn = document.getElementById('observation-layer');
+  let venueLyrBtn = document.getElementById('venue-layer');
+  const toggleableLayerIds = [observationLyrBtn, venueLyrBtn];
 
   toggleableLayerIds.forEach(element => {
     element.addEventListener('click', function (e) {
