@@ -943,6 +943,7 @@ function getStreetView(feature) {
 // Requests uses a location bias and location names to search (similar to a google search)
 // Parameters:
 //  feature: javascript object that contains complete data of a clicked location
+
 function getPhotos(feature) {
   let imgParent = document.getElementById('venue-imgs');
   let locationBias = new google.maps.LatLng(feature.geometry.coordinates[1], feature.geometry.coordinates[0]);
@@ -1102,7 +1103,7 @@ function addCones(data, active) {
       });
 
       let coneTemplate = new THREE.Mesh(geometry, material);
-      coneTemplate = window.tb.Object3D({
+      coneTemplate = tb.Object3D({
         obj: coneTemplate,
         units: 'meters'
       }).set({
@@ -1129,12 +1130,11 @@ function addCones(data, active) {
       data.forEach(function (datum) {
         // longitude, latitude, altitude
 
-
         // Bo: Warning: the duplicate will make the material of all the cones the same.
         // let cone = coneTemplate.duplicate();
 
         let baseCone = new THREE.Mesh(geometry, material);
-        cone = window.tb.Object3D({
+        cone = tb.Object3D({
           obj: baseCone,
           units: 'meters'
         }).set({
@@ -1151,7 +1151,7 @@ function addCones(data, active) {
         cone.userData.properties = datum.properties
 
 
-        window.tb.add(cone);
+        tb.add(cone);
         // console.log(tb.world.children[-1].userData.properties["address"]);
         // tb.add(line);
       })
@@ -1170,7 +1170,7 @@ function addCones(data, active) {
         highlighted.length = 0;
 
         // calculate objects intersecting the picking ray
-        var intersect = window.tb.queryRenderedFeatures(e.point)[0]
+        var intersect = tb.queryRenderedFeatures(e.point)[0]
         var intersectionExists = typeof intersect == "object"
 
         // if intersect exists, highlight it
@@ -1189,7 +1189,7 @@ function addCones(data, active) {
         // on state change, fire a repaint
         if (active !== intersectionExists) {
           active = intersectionExists;
-          window.tb.repaint();
+          tb.repaint();
         }
       });
 
@@ -1230,7 +1230,7 @@ function addCones(data, active) {
     },
 
     render: function (gl, matrix) {
-      window.tb.update();
+      tb.update();
     }
   });
 };
@@ -1256,7 +1256,7 @@ colorizeVenueCbx.addEventListener('click', function () {
     
 
 
-    window.tb.world.children.slice(1).forEach(feature => {
+    tb.world.children.slice(1).forEach(feature => {
       
         // console.log(feature.userData.properties.address);
         
@@ -1285,7 +1285,7 @@ colorizeVenueCbx.addEventListener('click', function () {
     })
   } else {
 
-    window.tb.world.children.slice(1).forEach(feature => {
+    tb.world.children.slice(1).forEach(feature => {
 
       let origMaterial = new THREE.MeshPhysicalMaterial({
         flatShading: true,
@@ -1298,7 +1298,7 @@ colorizeVenueCbx.addEventListener('click', function () {
     })
   }
 
-  window.tb.repaint();
+  tb.repaint();
 
 });
 
@@ -1309,7 +1309,7 @@ colorizeObservationCbx.addEventListener('click', function () {
 
   if (this.checked) {
 
-    window.tb.world.children.forEach(feature => {
+    tb.world.children.forEach(feature => {
       if (feature.type == 'Group') {
         feature.children[0].material.color.set("green");
         console.log(feature.userData.properties.placetype);
@@ -1318,14 +1318,14 @@ colorizeObservationCbx.addEventListener('click', function () {
     })
   } else {
 
-    window.tb.world.children.forEach(feature => {
+    tb.world.children.forEach(feature => {
       if (feature.type == 'Group') {
         feature.children[0].material.color.set("red");
       }
     })
   }
 
-  window.tb.repaint();
+  tb.repaint();
 
 });
 
@@ -1533,7 +1533,7 @@ map.on('style.load', async function () {
 
   // observation data
   let observations = await getObservations();
-  let venues = await getVenueSlice();
+  // let venues = await getVenueSlice();
 
   addAccordionLayer(observations, 'observation');
   // addAccordionLayer(venues, 'venue-slice');  // Bo: venue has already been added.
@@ -1690,7 +1690,6 @@ map.on('style.load', async function () {
   // trigger review/location information on click of location point of map
   map.on('click', 'data', async function (e) {
 
-
     // console.log("data click");
     // get points that are within the boundary for observations
     // get points that are within the boundary for unverified venues
@@ -1828,72 +1827,16 @@ map.on('style.load', async function () {
     }
   };
 
-  async function submitPassword(e) {
-    try {
-
-      let passphraseAttempts = document.querySelectorAll('.passphrase');
-      let formalizedPassphraseAttempt = "";
 
 
-      passphraseAttempts.forEach(passphraseAttempt => {
-        formalizedPassphraseAttempt += passphraseAttempt.value.toLowerCase() + " ";
-      });
-
-      formalizedPassphraseAttempt = formalizedPassphraseAttempt.split(' ').sort().join(' ').trim();
-
-      let getResult = await fetch(`https://lgbtqspaces-api.herokuapp.com/api/passphraseCheck/${formalizedPassphraseAttempt}`, {
-        method: 'GET'
-      });
-      let result = await getResult.json();
-      if (result[0]['Result'] == '0') {
 
 
-        document.getElementById("login-cls-btn").click();
-
-        let alert = document.getElementById("alert-modal");
-        let alertText = document.getElementById("alert-text");
-        alertText.innerHTML = "Log in successfully！";
-        let alertModal = new bootstrap.Modal(alert);
-        alertModal.show();
-
-        window.setTimeout(function () {
-          document.getElementById("alert-cls-btn").click();
-        }, 1500);
-
-
-        document.getElementById('log-in-btn').classList.toggle('d-none');
-        document.getElementById('log-out-btn').classList.toggle('d-none');
-
-
-      } else if (result[0]['Result'] == '1') {
-
-        let alert = document.getElementById("alert-modal");
-        let alertText = document.getElementById("alert-text");
-        alertText.innerHTML = "Incorrect passphrase, please try again.";
-        let alertModal = new bootstrap.Modal(alert);
-        alertModal.show();
-
-        let passphrases = document.getElementsByClassName("passphrase");
-        passphrases[0].value = "";
-        passphrases[1].value = "";
-        passphrases[2].value = "";
-
-      } else {
-        console.log('error.')
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  }
-
-  document.getElementById('login-btn').addEventListener('click', submitPassword);
-
-
+  
 
   // go back button
   document.getElementById('go-back-btn').addEventListener('click', function () {
 
-    console.log("go back");
+    // console.log("go back");
 
     if (!(document.getElementById('info-default').classList.contains('d-none'))) {
 
