@@ -96,11 +96,11 @@ function initiateGeocoder() {
 
 // year_val()
 // changes the label of the current selected year for the user to see
-function year_val() {
+document.getElementById("slider-bar").addEventListener("input", function(e){
   let selectedYear = document.getElementById('slider-bar').value;
   document.getElementById('year-label').innerHTML = selectedYear;
-}
 
+});
 
 // compose the venue list in order to show it in the legend table.
 function venueList(data) {
