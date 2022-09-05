@@ -91,11 +91,11 @@ nav {
     font-style: italic;
 }
 
-.clear-button {
-    display: flex;
+#clear-button > a {
     justify-content: center;
+    font-size:small;
     font-style:italic;
-    font-weight: 500;
+    word-wrap: break-word;
 }
 
 /* map views */

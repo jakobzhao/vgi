@@ -744,6 +744,7 @@ function code_div(codes, venueSlices, year) {
 
 
 
+      ////////////////
     // for each code_div add event listener on click to add filter features of the map
     codeItem.addEventListener('click', function () {
 
@@ -777,21 +778,22 @@ function code_div(codes, venueSlices, year) {
           console.log(result)
           addCones(result, false);
         });
+
+        document.getElementById("clear-button").innerHTML = '<a class="dropdown-item" title="Clear all selected filters" href="#"> The filter "'+ code.code + '" is applied. \n  </br> Click here to remove this filter. </a>';
     })
     categoryMenu.appendChild(codeItem);
 
   });
 
 
-
-  ///////////////////////////////clear function///////////////////////////////////////////
+  //////////////////////////////clear function///////////////////////////////////////////
   let divider = document.createElement("li");
   divider.innerHTML = '<hr class="dropdown-divider">';
   let clear = document.createElement("li");
   clear.classList.add("metaDescriptor");
   clear.setAttribute("id", "clear-button");
   // clear.classList.add('');
-  clear.innerHTML = '<a class="dropdown-item clear-button" title="Clear all selected filters" href="#"> Clear </a>';
+  clear.innerHTML = '<a class="dropdown-item" title="Clear all selected filters" href="#"> No filter is currently applied. </a>';
 
   clear.addEventListener('click', function () {
     codeParent.classList.add('d-none');
@@ -814,6 +816,7 @@ function code_div(codes, venueSlices, year) {
     });
     console.log(onScreenData);
     addCones(onScreenData, false);
+  
 
   });
 
@@ -821,6 +824,7 @@ function code_div(codes, venueSlices, year) {
   codeParent.appendChild(clear);
 
   ///////////////////////////////clear function///////////////////////////////////////////
+
 
 }
 
