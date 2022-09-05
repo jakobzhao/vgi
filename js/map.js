@@ -749,9 +749,9 @@ function code_div(codes, venueSlices, year) {
     codeItem.addEventListener('click', function () {
 
       codeParent.classList.add('d-none');
-      map.setFilter('data', ['in', code.code, ['get', 'codedescriptorlist']]);
+      // map.setFilter('data', ['in', code.code, ['get', 'codedescriptorlist']]);
 
-      // remove 3D layer
+      //remove 3D layer
       if (map.getLayer('venue-slice-cones')) {
         map.removeLayer('venue-slice-cones');
       };
@@ -778,12 +778,12 @@ function code_div(codes, venueSlices, year) {
           console.log(result)
           addCones(result, false);
         });
-
+///////////////////////////////////////////////////////////////////////////////////////////
  
-
-
         document.getElementById("clear-button").innerHTML = '<a class="dropdown-item" title="Clear all selected filters" href="#"> The filter <span id="applied-filter">'+ code.code + '</span> is applied. \n  </br> Click here to remove this filter. </a>';
     })
+   
+   
     categoryMenu.appendChild(codeItem);
 
   });
@@ -984,7 +984,7 @@ function addLabels(data) {
 function addCones(data, active) {
 
   if (data.length == 0) {
-    document.getElementById("year-notes").innerHTML = "No venues of this year have been found from this locale of this year in our database."
+    document.getElementById("year-notes").innerHTML = "No venues from this locale of this year has been found in our database."
   } else {
     document.getElementById("year-notes").innerHTML = "";
   }
@@ -1092,7 +1092,7 @@ document.getElementById('reliability-switch').addEventListener('click', function
       flatShading: true,
       color: vcolors[i],
       transparent: true,
-      opacity: 0.6
+      opacity: 0.4
     }));
   }
 
