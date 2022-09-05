@@ -779,7 +779,10 @@ function code_div(codes, venueSlices, year) {
           addCones(result, false);
         });
 
-        document.getElementById("clear-button").innerHTML = '<a class="dropdown-item" title="Clear all selected filters" href="#"> The filter "'+ code.code + '" is applied. \n  </br> Click here to remove this filter. </a>';
+ 
+
+
+        document.getElementById("clear-button").innerHTML = '<a class="dropdown-item" title="Clear all selected filters" href="#"> The filter <span id="applied-filter">'+ code.code + '</span> is applied. \n  </br> Click here to remove this filter. </a>';
     })
     categoryMenu.appendChild(codeItem);
 
