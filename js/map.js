@@ -1392,7 +1392,7 @@ async function updateMap(selectedYear, selectedLocality) {
   // })
 
   for (let i = 0; i < localityFeatures.length; i++) {
-    if (localityFeatures[i].properties.year == selectedYear) {
+    if (localityFeatures[i].properties.year == selectedYear && localityFeatures[i].properties.placetype != "P" && localityFeatures[i].properties.placetype != "T") {
       // bootstrap row
       let rowDiv = document.createElement('div');
       rowDiv.classList.add('row', "m-1");
