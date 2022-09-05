@@ -694,7 +694,7 @@ function addExtrusions(feature, e) {
 // add div for the codes corresponding to selected year on the map
 function code_div(codes, venueSlices, year) {
 
-  let codeFilterBtn = document.getElementById("damron-code-btn");
+  let codeFilterBtn = document.getElementById("code-filter-btn");
   let codeParent = document.getElementById('codeDescriptorList');
 
   codeFilterBtn.addEventListener('click', function () {
