@@ -352,11 +352,15 @@ function addObservationLayer(map, data) {
     map.removeLayer('data');
     map.removeSource("data");
   };
+
   if (map.getLayer('observation')) {
     map.removeLayer('observation');
-    map.removeSource("observation");
+ 
   };
-
+  if (map.getSource('observation')) {
+    map.removeSource('observation');
+ 
+  };
 
 
   let features = data.features;
@@ -1430,6 +1434,50 @@ async function updateMap(selectedYear, selectedLocality) {
   }
 
 
+
+
+
+    // if (localityParent.firstChild == null) {
+  //   let localityPar = document.createElement('div');
+  //   localityPar.classList.add('m-3');
+  //   localityPar.innerHTML = "No low confidence location nearby."
+  //   localityParent.appendChild(localityPar);
+  // };
+
+
+  // If these two layers were not added to the map, abort
+  if (!map.getLayer('observation') || !map.getLayer('data')) {
+    return;
+  }
+  // Enumerate ids of the layers.
+  let observationLyrBtn = document.getElementById('observation-layer');
+  let venueLyrBtn = document.getElementById('venue-layer');
+  const toggleableLayerIds = [observationLyrBtn, venueLyrBtn];
+
+  toggleableLayerIds.forEach(element => {
+    element.addEventListener('click', function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      let clickedLayer = element.id;
+      // get visibility status of current layer
+      const visibility = map.getLayoutProperty(
+        clickedLayer,
+        'visibility'
+      );
+      // Toggle layer visibility by changing the layout object's visibility property.
+      if (visibility === 'none') {
+        map.setLayoutProperty(clickedLayer, 'visibility', 'visible');
+      } else {
+        map.setLayoutProperty(
+          clickedLayer,
+          'visibility',
+          'none'
+        );
+      }
+    })
+  })
+
+
 }
 
 // MAP ON LOAD
@@ -1440,13 +1488,14 @@ map.on('style.load', async function () {
 
   updateMap(selectedYear, selectedLocality);
   
-  // if (localityParent.firstChild == null) {
-  //   let localityPar = document.createElement('div');
-  //   localityPar.classList.add('m-3');
-  //   localityPar.innerHTML = "No low confidence location nearby."
-  //   localityParent.appendChild(localityPar);
-  // };
 
+
+  // $('#loader').fadeOut("slow");
+
+});
+
+////////////////////////////////////////////////////
+////////////////////////////////////////////////////
   // when click on extrusion
   map.on('click', 'year-block', function (e) {
     new mapboxgl.Popup()
@@ -1751,10 +1800,6 @@ map.on('style.load', async function () {
 
   });
 
-
-  //footer animation
-
-
   // Change the cursor to a pointer when the it enters a feature in the 'circle' layer.
   map.on('mouseenter', 'data', function () {
     map.getCanvas().style.cursor = 'pointer';
@@ -1789,39 +1834,3 @@ map.on('style.load', async function () {
       });
     }
   });
-
-  // If these two layers were not added to the map, abort
-  if (!map.getLayer('observation-layer') || !map.getLayer('data')) {
-    return;
-  }
-  // Enumerate ids of the layers.
-  let observationLyrBtn = document.getElementById('observation-layer');
-  let venueLyrBtn = document.getElementById('venue-layer');
-  const toggleableLayerIds = [observationLyrBtn, venueLyrBtn];
-
-  toggleableLayerIds.forEach(element => {
-    element.addEventListener('click', function (e) {
-      e.preventDefault();
-      e.stopPropagation();
-      let clickedLayer = element.id;
-      // get visibility status of current layer
-      const visibility = map.getLayoutProperty(
-        clickedLayer,
-        'visibility'
-      );
-      // Toggle layer visibility by changing the layout object's visibility property.
-      if (visibility === 'none') {
-        map.setLayoutProperty(clickedLayer, 'visibility', 'visible');
-      } else {
-        map.setLayoutProperty(
-          clickedLayer,
-          'visibility',
-          'none'
-        );
-      }
-    })
-  })
-
-  // $('#loader').fadeOut("slow");
-
-});
