@@ -101,13 +101,7 @@ function initiateGeocoder() {
   document.getElementById('geocoder').appendChild(geocoder);
 }
 
-// year_val()
-// changes the label of the current selected year for the user to see
-document.getElementById("slider-bar").addEventListener("input", function (e) {
-  let selectedYear = document.getElementById('slider-bar').value;
-  document.getElementById('year-label').innerHTML = selectedYear;
 
-});
 
 // compose the venue list in order to show it in the legend table.
 function venueList(data) {
@@ -1082,9 +1076,7 @@ function addCones(data, active) {
 };
 
 // this can be used to colorize the venue based on confidence level.
-let colorizeVenueCbx = document.getElementById('reliability-switch');
-
-colorizeVenueCbx.addEventListener('click', function () {
+document.getElementById('reliability-switch').addEventListener('click', function () {
 
   let materials = [];
   let vcolors = chroma.scale('YlOrRd').colors(5);
@@ -1126,9 +1118,9 @@ colorizeVenueCbx.addEventListener('click', function () {
 });
 
 
-let colorizeObservationCbx = document.getElementById('confidence-switch');
 
-colorizeObservationCbx.addEventListener('click', function () {
+
+document.getElementById('confidence-switch').addEventListener('click', function () {
 
   if (this.checked) {
 
@@ -1344,11 +1336,19 @@ async function placeInput(place) {
 document.getElementById('slider-bar').addEventListener('input', async function (e) {
 
   let selectedYear = parseInt(document.getElementById('slider-bar').value);
+  document.getElementById('year-label').innerHTML = selectedYear;
   let selectedLocality = document.querySelector(".dropdown-item-checked").text;
 
   updateMap(selectedYear, selectedLocality);
 
 });
+
+// // changes the label of the current selected year for the user to see
+// document.getElementById("slider-bar").addEventListener("input", function (e) {
+//   let selectedYear = document.getElementById('slider-bar').value;
+  
+
+// });
 
 
 async function updateMap(selectedYear, selectedLocality) {
@@ -1434,9 +1434,6 @@ async function updateMap(selectedYear, selectedLocality) {
   }
 
 
-
-
-
     // if (localityParent.firstChild == null) {
   //   let localityPar = document.createElement('div');
   //   localityPar.classList.add('m-3');
@@ -1485,13 +1482,7 @@ map.on('style.load', async function () {
 
   let selectedYear = parseInt(document.getElementById('slider-bar').value);
   let selectedLocality = document.querySelector(".dropdown-item-checked").text;
-
   updateMap(selectedYear, selectedLocality);
-  
-
-
-  // $('#loader').fadeOut("slow");
-
 });
 
 ////////////////////////////////////////////////////
