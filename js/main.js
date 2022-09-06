@@ -4,276 +4,290 @@
 "use strict";
 (function () {
 
-    window.addEventListener("load", init);
+  window.addEventListener("load", init);
 
-    // init function
-    // added init to async (test for bugs!)
-    async function init() {
-        document.getElementById('add-observation-container').addEventListener('click', isLoggedIn);
-        document.getElementById('submit-edit').addEventListener('click', reportIssue);
-        document.getElementById("submit-button").addEventListener('click', newUser);
-        document.getElementById('login-btn').addEventListener('click', submitPassword);
-        document.getElementById('log-out-btn').addEventListener('click', () => {
-            logOut();
-        });
-        document.getElementById('current-year-value').addEventListener('change', () => {
-            yearChange();
-        });
-
-
-        // layer switcher
-        document.getElementById('layers-container').addEventListener('mouseenter', function (e) {
-            document.getElementById('basemap-selection').classList.remove('d-none');
-        })
-
-        document.getElementById('basemap-selection').addEventListener('mouseleave', function (e) {
-            document.getElementById('basemap-selection').classList.add('d-none');
-        })
-
-        // hide the loader.
-        $('#loader').fadeOut("slow");
-
-    };
+  // init function
+  // added init to async (test for bugs!)
+  async function init() {
+    document.getElementById('add-observation-container').addEventListener('click', isLoggedIn);
+    document.getElementById('submit-edit').addEventListener('click', reportIssue);
+    document.getElementById("submit-button").addEventListener('click', newUser);
+    document.getElementById('login-btn').addEventListener('click', submitPassword);
+    document.getElementById('log-out-btn').addEventListener('click', () => {
+      logOut();
+    });
+    document.getElementById('current-year-value').addEventListener('change', () => {
+      yearChange();
+    });
 
 
-    async function newUser(event) {
-        event.preventDefault();
-        // Obtain data from user input
-        let data = new URLSearchParams();
-        let checkboxes = document.querySelectorAll('input[name=myCheckBoxes]:checked');
-        let result = '';
-        for (let box of checkboxes) {
-            result += box.value;
-            result += ', ';
-            box.checked = false;
-        }
-        result += document.getElementById('otherGrid').value
-        data.append("location", document.getElementById('location-api').value);
-        data.append("address", document.getElementById('address-api').value);
-        data.append("city", document.getElementById('city-api').value);
-        data.append("state", document.getElementById('state-api').value);
-        data.append("type", result);
-        data.append("year", document.getElementById('submit-year').value);
-        // POST fetch request
-        let settings = {
-            method: 'POST',
-            body: data
-        }
+    // layer switcher
+    document.getElementById('layers-container').addEventListener('mouseenter', function (e) {
+      document.getElementById('basemap-selection').classList.remove('d-none');
+    })
 
-        try {
-            let sendData = await fetch('https://lgbtqspaces-api.herokuapp.com/api/user_observation', settings);
-            clearForm();
-            console.log("User has been added to the database");
-        } catch (error) {
-            checkStatus(error);
-        }
+    document.getElementById('basemap-selection').addEventListener('mouseleave', function (e) {
+      document.getElementById('basemap-selection').classList.add('d-none');
+    })
+
+    // hide the loader.
+    $('#loader').fadeOut("slow");
+
+  };
+
+
+  async function newUser(event) {
+    event.preventDefault();
+    // Obtain data from user input
+    let data = new URLSearchParams();
+    let checkboxes = document.querySelectorAll('input[name=myCheckBoxes]:checked');
+    let result = '';
+    for (let box of checkboxes) {
+      result += box.value;
+      result += ', ';
+      box.checked = false;
     }
-
-    async function submitPassword(e) {
-        try {
-    
-          let passphraseAttempts = document.querySelectorAll('.passphrase');
-          let formalizedPassphraseAttempt = "";
-    
-    
-          passphraseAttempts.forEach(passphraseAttempt => {
-            formalizedPassphraseAttempt += passphraseAttempt.value.toLowerCase() + " ";
-          });
-    
-          formalizedPassphraseAttempt = formalizedPassphraseAttempt.split(' ').sort().join(' ').trim();
-    
-          let getResult = await fetch(`https://lgbtqspaces-api.herokuapp.com/api/passphraseCheck/${formalizedPassphraseAttempt}`, {
-            method: 'GET'
-          });
-          let result = await getResult.json();
-          if (result[0]['Result'] == '0') {
-    
-    
-            document.getElementById("login-cls-btn").click();
-    
-            let alert = document.getElementById("alert-modal");
-            let alertText = document.getElementById("alert-text");
-            alertText.innerHTML = "Log in successfully！";
-            let alertModal = new bootstrap.Modal(alert);
-            alertModal.show();
-    
-            window.setTimeout(function () {
-              document.getElementById("alert-cls-btn").click();
-            }, 1500);
-    
-    
-            document.getElementById('log-in-btn').classList.toggle('d-none');
-            document.getElementById('log-out-btn').classList.toggle('d-none');
-    
-    
-          } else if (result[0]['Result'] == '1') {
-    
-            let alert = document.getElementById("alert-modal");
-            let alertText = document.getElementById("alert-text");
-            alertText.innerHTML = "Incorrect passphrase, please try again.";
-            let alertModal = new bootstrap.Modal(alert);
-            alertModal.show();
-    
-            let passphrases = document.getElementsByClassName("passphrase");
-            passphrases[0].value = "";
-            passphrases[1].value = "";
-            passphrases[2].value = "";
-    
-          } else {
-            console.log('error.')
-          }
-        } catch (err) {
-          console.log(err);
-        }
+    if (document.getElementById('otherGrid').value.length > 0) {
+      result += document.getElementById('otherGrid').value
+    } else {
+      result = result.slice(0, -2);
+    }
+    data.append("location", document.getElementById('location-api').value);
+    data.append("address", document.getElementById('address-api').value);
+    data.append("city", document.getElementById('city-api').value);
+    data.append("state", document.getElementById('state-api').value);
+    data.append("type", result);
+    data.append("year", document.getElementById('current-year-value').value);
+    if (document.getElementById('location-api').value != '' && document.getElementById('address-api').value != '' &&
+      document.getElementById('city-api').value != '' && document.getElementById('state-api').value != '') {
+      // POST fetch request
+      let settings = {
+        method: 'POST',
+        body: data
       }
-
-    function clearForm() {
-        document.getElementById('location-api').value = '';
-        document.getElementById('address-api').value = '';
-        document.getElementById('city-api').value = '';
-        document.getElementById('state-api').value = '';
-        //document.getElementById('type-api').value = '';
-        document.getElementById('submit-year').value = '';
+      try {
+        let sendData = await fetch('https://lgbtqspaces-api.herokuapp.com/api/user_observation', settings);
+        clearForm();
+        console.log(sendData.statusText());
+      } catch (error) {
+        handleError(error);
+      }
     }
+  }
 
-    // // displayLoginButton()
-    // // Displays the log in Google button
-    // function handleCredentialResponse(response) {
-    //     // console.log("Encoded JWT ID token: " + response.credential);
-    //     document.getElementById('log-in-btn').classList.toggle('d-none');
-    //     document.getElementById('googlelog-out-btn').classList.toggle('d-none');
-    // };
+  async function submitPassword(e) {
+    try {
 
-    // function displayLoginButton() {
-    //     google.accounts.id.initialize({
-    //         client_id: "297181745349-pqlf8v2v6biopsm6bg42js8bbvrs4ing.apps.googleusercontent.com",
-    //         callback: handleCredentialResponse
-    //     });
-    //     google.accounts.id.renderButton(
-    //         document.getElementById("log-in-btn"),
-    //         { theme: "filled_black", type: "standard", size: "medium", shape: "pill", text: "signin" }  // customization attributes
-    //     );
-    //     google.accounts.id.prompt(); // also display the One Tap dialog
-    // };
+      let passphraseAttempts = document.querySelectorAll('.passphrase');
+      let formalizedPassphraseAttempt = "";
 
 
+      passphraseAttempts.forEach(passphraseAttempt => {
+        formalizedPassphraseAttempt += passphraseAttempt.value.toLowerCase() + " ";
+      });
 
-    // isLoggedIn()
-    // Checks if user is logged in already, on button clicked to add observation.
-    function isLoggedIn() {
+      formalizedPassphraseAttempt = formalizedPassphraseAttempt.split(' ').sort().join(' ').trim();
 
-        let logInView = document.getElementById('log-in-btn');
+      let getResult = await fetch(`https://lgbtqspaces-api.herokuapp.com/api/passphraseCheck/${formalizedPassphraseAttempt}`, {
+        method: 'GET'
+      });
+      let result = await getResult.json();
+      if (result[0]['Result'] == '0') {
 
-        if (logInView.classList.contains('d-none')) {
-            // if contains display none, means that user is logged in
-            toggleLeftPanelView('add-observation');
 
-        // if left panel is close
-        // if (document.getElementById('info').classList.contains('leftCollapse')) {
-            document.getElementById('info').classList.toggle('leftCollapse');
-     
-        // }
-        } else {
-            let alert = document.getElementById("alert-modal");
-            let alertText = document.getElementById("alert-text");
-            alertText.innerHTML = "Please log in before making any contribution to this geospatial platform.";
-            let alertModal = new bootstrap.Modal(alert);
-            alertModal.show();
-        }
-    }
+        document.getElementById("login-cls-btn").click();
 
-    // sign out the user when clicked on sign out
-    function logOut() {
-        if (!(document.getElementById('add-observation').classList.contains('d-none'))) {
-            let collapseState = document.getElementById('info').classList.toggle('leftCollapse');
-            document.getElementById('info-close-btn').classList.toggle('info-btn-collapse');
-            let btnImg = document.getElementById('leftPanelArrow');
-            if (collapseState) {
-                btnImg.src = './assets/imgs/open-arrow.svg';
-            } else {
-                btnImg.src = './assets/imgs/back-btn.svg';
-            }
-        };
-        // google.accounts.id.disableAutoSelect();
+        let alert = document.getElementById("alert-modal");
+        let alertText = document.getElementById("alert-text");
+        alertText.innerHTML = "Log in successfully！";
+        let alertModal = new bootstrap.Modal(alert);
+        alertModal.show();
+
+        window.setTimeout(function () {
+          document.getElementById("alert-cls-btn").click();
+        }, 1500);
+
+
         document.getElementById('log-in-btn').classList.toggle('d-none');
         document.getElementById('log-out-btn').classList.toggle('d-none');
+
+
+      } else if (result[0]['Result'] == '1') {
+
+        let alert = document.getElementById("alert-modal");
+        let alertText = document.getElementById("alert-text");
+        alertText.innerHTML = "Incorrect passphrase, please try again.";
+        let alertModal = new bootstrap.Modal(alert);
+        alertModal.show();
+
+        let passphrases = document.getElementsByClassName("passphrase");
+        passphrases[0].value = "";
+        passphrases[1].value = "";
+        passphrases[2].value = "";
+
+      } else {
+        console.log('error.')
+      }
+    } catch (err) {
+      console.log(err);
     }
+  }
 
-    async function reportIssue(event) {
-        try {
-            event.preventDefault();
-            // Obtain data from user input
-            let newVenue = new URLSearchParams();
-            newVenue.append("state", document.getElementById('state-edit').value);
-            newVenue.append("city", document.getElementById('city-edit').value);
-            newVenue.append("year", document.getElementById('year-edit').value);
-            newVenue.append("type", document.getElementById('type-edit').value);
-            newVenue.append("name", document.getElementById('observed-name-edit').value);
-            newVenue.append("address", document.getElementById('address-edit').value);
-            newVenue.append("unit", "null");
-            newVenue.append("loc_notes", "null");
-            newVenue.append("temp_notes", "null");
-            newVenue.append("notes", document.getElementById('notes-edit').value);
-            newVenue.append("latitude", document.getElementById('lat-edit').value);
-            newVenue.append("longitude", document.getElementById('long-edit').value);
-            newVenue.append("codelist", document.getElementById('codelist-edit').value);
-            newVenue.append("geocoder", "mapbox");
-            newVenue.append("createdby", "user");
+  function clearForm() {
+    document.getElementById('location-api').value = '';
+    document.getElementById('address-api').value = '';
+    document.getElementById('city-api').value = '';
+    document.getElementById('state-api').value = '';
+    //document.getElementById('type-api').value = '';
+    document.getElementById('current-year-value').value = 2014;
+  }
 
-            // delete the ORIGINAL SELECTED POINT in the observation table
-            let nameYearData = new URLSearchParams();
-            nameYearData.append("name", document.getElementById('name').textContent);
-            nameYearData.append("year", document.getElementById('year-info').textContent);
+  // // displayLoginButton()
+  // // Displays the log in Google button
+  // function handleCredentialResponse(response) {
+  //     // console.log("Encoded JWT ID token: " + response.credential);
+  //     document.getElementById('log-in-btn').classList.toggle('d-none');
+  //     document.getElementById('googlelog-out-btn').classList.toggle('d-none');
+  // };
 
-            // POST fetch request
-            let venueData = {
-                method: 'POST',
-                body: newVenue
-            };
+  // function displayLoginButton() {
+  //     google.accounts.id.initialize({
+  //         client_id: "297181745349-pqlf8v2v6biopsm6bg42js8bbvrs4ing.apps.googleusercontent.com",
+  //         callback: handleCredentialResponse
+  //     });
+  //     google.accounts.id.renderButton(
+  //         document.getElementById("log-in-btn"),
+  //         { theme: "filled_black", type: "standard", size: "medium", shape: "pill", text: "signin" }  // customization attributes
+  //     );
+  //     google.accounts.id.prompt(); // also display the One Tap dialog
+  // };
 
-            // DELETE fetch request
-            let nameYear = {
-                method: 'DELETE',
-                body: nameYearData
-            };
 
-            let sendData = await fetch('https://lgbtqspaces-api.herokuapp.com/api/add-venue', venueData);
-            console.log("Observation has been confirmed. Added to the list of venues. Please refresh the page.");
-        } catch (error) {
-            checkStatus(error);
-        }
+
+  // isLoggedIn()
+  // Checks if user is logged in already, on button clicked to add observation.
+  function isLoggedIn() {
+
+    let logInView = document.getElementById('log-in-btn');
+
+    if (logInView.classList.contains('d-none')) {
+      // if contains display none, means that user is logged in
+      toggleLeftPanelView('add-observation');
+
+      // if left panel is close
+      // if (document.getElementById('info').classList.contains('leftCollapse')) {
+      document.getElementById('info').classList.toggle('leftCollapse');
+
+      // }
+    } else {
+      let alert = document.getElementById("alert-modal");
+      let alertText = document.getElementById("alert-text");
+      alertText.innerHTML = "Please log in before making any contribution to this geospatial platform.";
+      let alertModal = new bootstrap.Modal(alert);
+      alertModal.show();
+    }
+  }
+
+  // sign out the user when clicked on sign out
+  function logOut() {
+    if (!(document.getElementById('add-observation').classList.contains('d-none'))) {
+      let collapseState = document.getElementById('info').classList.toggle('leftCollapse');
+      document.getElementById('info-close-btn').classList.toggle('info-btn-collapse');
+      let btnImg = document.getElementById('leftPanelArrow');
+      if (collapseState) {
+        btnImg.src = './assets/imgs/open-arrow.svg';
+      } else {
+        btnImg.src = './assets/imgs/back-btn.svg';
+      }
     };
+    // google.accounts.id.disableAutoSelect();
+    document.getElementById('log-in-btn').classList.toggle('d-none');
+    document.getElementById('log-out-btn').classList.toggle('d-none');
+  }
 
-    // // confirmedVenues
-    // // Obtain data from database that contains all the venues in the city
-    // async function confirmedVenues() {
-    //     try {
-    //         let getVenues = await fetch('https://lgbtqspaces-api.herokuapp.com/api/all-venues', {method: 'GET'});
-    //         let venueData = await getVenues.json();
-    //         console.log(venueData);
-    //     } catch (err) {
-    //     console.log(err);
-    //     }
-    // };
+  async function reportIssue(event) {
+    try {
+      event.preventDefault();
+      // Obtain data from user input
+      let newVenue = new URLSearchParams();
+      let checkboxes = document.querySelectorAll('input[name=myCheckBoxes]:checked');
+      let result = '';
+      for (let box of checkboxes) {
+        result += box.value;
+        result += ', ';
+        box.checked = false;
+      }
+      result = result.slice(0, -2);
+      newVenue.append("state", document.getElementById('state-edit').value);
+      newVenue.append("city", document.getElementById('city-edit').value);
+      newVenue.append("year", document.getElementById('year-edit').value);
+      newVenue.append("type", result);
+      newVenue.append("name", document.getElementById('observed-name-edit').value);
+      newVenue.append("address", document.getElementById('address-edit').value);
+      newVenue.append("unit", "null");
+      newVenue.append("loc_notes", "null");
+      newVenue.append("temp_notes", "null");
+      newVenue.append("notes", document.getElementById('notes-edit').value);
+      newVenue.append("latitude", document.getElementById('lat-edit').value);
+      newVenue.append("longitude", document.getElementById('long-edit').value);
+      newVenue.append("codelist", document.getElementById('codelist-edit').value);
+      newVenue.append("geocoder", "mapbox");
+      newVenue.append("createdby", "user");
 
-    // status checks
-    function checkStatus(response) {
-        if (response.ok) {
-            return response;
-        } else {
-            throw Error("Error in request: " + response.statusText);
-        }
+      // delete the ORIGINAL SELECTED POINT in the observation table
+      let nameYearData = new URLSearchParams();
+      nameYearData.append("name", document.getElementById('name').textContent);
+      nameYearData.append("year", document.getElementById('year-info').textContent);
+
+      // POST fetch request
+      let venueData = {
+        method: 'POST',
+        body: newVenue
+      };
+
+      // DELETE fetch request
+      let nameYear = {
+        method: 'DELETE',
+        body: nameYearData
+      };
+
+      let sendData = await fetch('https://lgbtqspaces-api.herokuapp.com/api/add-venue', venueData);
+      console.log("Observation has been confirmed. Added to the list of venues. Please refresh the page.");
+    } catch (error) {
+      checkStatus(error);
     }
+  };
 
-    // Change views of year when user move the slider
-    function yearChange() {
-        let yearSlider = document.getElementById('current-year-value');
-        let yearText = document.getElementById('year-text-label');
-        yearText.innerHTML = '';
-        yearText.textContent = 'Year: ' + yearSlider.value;
+  // // confirmedVenues
+  // // Obtain data from database that contains all the venues in the city
+  // async function confirmedVenues() {
+  //     try {
+  //         let getVenues = await fetch('https://lgbtqspaces-api.herokuapp.com/api/all-venues', {method: 'GET'});
+  //         let venueData = await getVenues.json();
+  //         console.log(venueData);
+  //     } catch (err) {
+  //     console.log(err);
+  //     }
+  // };
+
+  // status checks
+  function checkStatus(response) {
+    if (response.ok) {
+      return response;
+    } else {
+      throw Error("Error in request: " + response.statusText);
     }
+  }
 
-    
+  // Change views of year when user move the slider
+  function yearChange() {
+    let yearSlider = document.getElementById('current-year-value');
+    let yearText = document.getElementById('year-text-label');
+    yearText.innerHTML = '';
+    yearText.textContent = 'Year: ' + yearSlider.value;
+  }
+
+
 })();
 
 
@@ -294,93 +308,98 @@
 // "reviews-container"
 function toggleLeftPanelView(elementId) {
 
-    if (elementId != "all") {
-      $("#info > div").not($("#" + elementId)).addClass('d-none');
-      $('#' + elementId).removeClass('d-none');
-    }
-  
-    // exceptions
-    // let footer = document.getElementById('attribution');
-    // footer.classList.remove('d-none');
-  
-    // process the attribution
-    let attributionLeft = document.getElementById("attribution").style["left"];
-  
-    if (attributionLeft == "28em") {
-      document.getElementById("attribution").style["left"] = "0em";
-      document.getElementById("year-slider").style["left"] = "0em";
-      document.getElementById("legend").style["left"] = "0em";
-  
-    } else {
-  
-      document.getElementById("attribution").style["left"] = "28em";
-      document.getElementById("year-slider").style["left"] = "28em";
-      document.getElementById("legend").style["left"] = "28em";
-  
-    }
-  
-  
-    if (elementId == "info-default") {
-      document.getElementById('ground-truth-btns').classList.remove('d-none');
-    }
-    if (elementId == "report-issue") {
-      document.getElementById('ground-truth-btns').classList.remove('d-none');
-      // document.getElementById('report-issue-btn').classList.toggle('d-none');
-      // document.getElementById('add-review-btn').classList.toggle('d-none');
-      // document.getElementById('go-back-btn').classList.toggle('d-none');
-    }
-  };
-  
+  if (elementId != "all") {
+    $("#info > div").not($("#" + elementId)).addClass('d-none');
+    $('#' + elementId).removeClass('d-none');
+  }
 
-  function logInCheck() {
+  // exceptions
+  // let footer = document.getElementById('attribution');
+  // footer.classList.remove('d-none');
 
+  // process the attribution
+  let attributionLeft = document.getElementById("attribution").style["left"];
 
-    // let logInView = document.getElementById('log-in-btn');
-  
-    if (document.getElementById('log-in-btn').classList.contains("d-none")) {
-      // if contains display none, means that user is logged in
-      // toggleLeftPanelView('report-issue');
-  
-      // // if left panel is close
-      // if (document.getElementById('info').classList.contains('leftCollapse')) {
-      //     document.getElementById('info').classList.toggle('leftCollapse');
-      // }
-      return true;
-    } else {
-      let alert = document.getElementById("alert-modal");
-      let alertText = document.getElementById("alert-text");
-      alertText.innerHTML = "Please log in before making any contribution to this geospatial platform.";
-      let alertModal = new bootstrap.Modal(alert);
-      alertModal.show();
-  
-      return false;
-  
-    }
-  
-  
-  
-    // let signInView = document.getElementById('log-in-btn');
-    // // if left panel is closed
-    // if (document.getElementById('info').classList.contains('leftCollapse')) {
-    //   let collapseState = document.getElementById('info').classList.toggle('leftCollapse');
-    //   document.getElementById('info-close-btn').classList.toggle('info-btn-collapse');
-    //   let btnImg = document.getElementById('leftPanelArrow');
-    //   if (collapseState) {
-    //     btnImg.src = './assets/imgs/open-arrow.svg';
-    //   } else {
-    //     btnImg.src = './assets/imgs/back-btn.svg';
-    //   }
-    // }
-  
-    // if (signInView.classList.contains('d-none')) {
-    //   // if contains display none, means that user is logged in
-    //   toggleLeftPanelView('report-issue');
-    //   return true;
-    // } else {
-    //   alert('Please sign in through Google first!');
-    // }
-    // return false;
+  if (attributionLeft == "28em") {
+    document.getElementById("attribution").style["left"] = "0em";
+    document.getElementById("year-slider").style["left"] = "0em";
+    document.getElementById("legend").style["left"] = "0em";
+
+  } else {
+
+    document.getElementById("attribution").style["left"] = "28em";
+    document.getElementById("year-slider").style["left"] = "28em";
+    document.getElementById("legend").style["left"] = "28em";
+
   }
 
 
-  
+  if (elementId == "info-default") {
+    document.getElementById('ground-truth-btns').classList.remove('d-none');
+  }
+  if (elementId == "report-issue") {
+    document.getElementById('ground-truth-btns').classList.remove('d-none');
+    // document.getElementById('report-issue-btn').classList.toggle('d-none');
+    // document.getElementById('add-review-btn').classList.toggle('d-none');
+    // document.getElementById('go-back-btn').classList.toggle('d-none');
+  }
+};
+
+
+function logInCheck() {
+
+
+  // let logInView = document.getElementById('log-in-btn');
+
+  if (document.getElementById('log-in-btn').classList.contains("d-none")) {
+    // if contains display none, means that user is logged in
+    // toggleLeftPanelView('report-issue');
+
+    // // if left panel is close
+    // if (document.getElementById('info').classList.contains('leftCollapse')) {
+    //     document.getElementById('info').classList.toggle('leftCollapse');
+    // }
+    return true;
+  } else {
+    let alert = document.getElementById("alert-modal");
+    let alertText = document.getElementById("alert-text");
+    alertText.innerHTML = "Please log in before making any contribution to this geospatial platform.";
+    let alertModal = new bootstrap.Modal(alert);
+    alertModal.show();
+
+    return false;
+
+  }
+
+
+
+  // let signInView = document.getElementById('log-in-btn');
+  // // if left panel is closed
+  // if (document.getElementById('info').classList.contains('leftCollapse')) {
+  //   let collapseState = document.getElementById('info').classList.toggle('leftCollapse');
+  //   document.getElementById('info-close-btn').classList.toggle('info-btn-collapse');
+  //   let btnImg = document.getElementById('leftPanelArrow');
+  //   if (collapseState) {
+  //     btnImg.src = './assets/imgs/open-arrow.svg';
+  //   } else {
+  //     btnImg.src = './assets/imgs/back-btn.svg';
+  //   }
+  // }
+
+  // if (signInView.classList.contains('d-none')) {
+  //   // if contains display none, means that user is logged in
+  //   toggleLeftPanelView('report-issue');
+  //   return true;
+  // } else {
+  //   alert('Please sign in through Google first!');
+  // }
+  // return false;
+}
+
+
+function handleError(err) {
+  let error = "Error happens during fetching, please try again later";
+  let message = "Error reason: " + err;
+  console.log(error);
+  console.log(message);
+}

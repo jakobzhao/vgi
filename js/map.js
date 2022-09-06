@@ -1,4 +1,8 @@
 mapboxgl.accessToken = config.accessToken;
+
+let current_category = '';
+let current_confidence = '';
+
 const localities = {
   'seattle': {
     center: [-122.3321, 47.6062],
@@ -349,11 +353,11 @@ function addObservationLayer(map, data) {
 
   if (map.getLayer('observation')) {
     map.removeLayer('observation');
- 
+
   };
   if (map.getSource('observation')) {
     map.removeSource('observation');
- 
+
   };
 
 
@@ -461,9 +465,9 @@ function viewLeftPanel(e) {
   document.getElementById('zip-edit').value = e.properties.zip;
   document.getElementById('long-edit').value = e.geometry.coordinates[0];
   document.getElementById('lat-edit').value = e.geometry.coordinates[1];
-  document.getElementById('type-edit').value = e.properties.category;
+  //document.getElementById('type-edit').value = e.properties.category;
   document.getElementById('notes-edit').value = e.properties.notes;
-  document.getElementById('codelist-edit').value = codeString;
+  //document.getElementById('codelist-edit').value = codeString;
   document.getElementById('confidence-edit').value = e.properties.confidence;
 
 };
@@ -538,11 +542,12 @@ async function addLeftPanelActions(feature, marker, e) {
       }
       marker.on('dragend', onDragEnd);
       toggleLeftPanelView('report-issue');
+      //document.getElementById(current_category+'verify').checked = true;
       document.getElementById('ground-truth-btns').classList.toggle('d-none');
-      if (document.getElementById('info').classList.contains("leftCollapse")) {
+      // if (document.getElementById('info').classList.contains("leftCollapse")) {
 
-        document.getElementById('info').classList.toggle('leftCollapse');
-      }
+      //   document.getElementById('info').classList.toggle('leftCollapse');
+      // }
     }
   });
 };
@@ -597,7 +602,7 @@ function createLocalityList() {
       let selectedYear = parseInt(document.getElementById('slider-bar').value);
 
       updateMap(selectedYear, selectedLocality);
-  
+
 
     });
 
@@ -779,11 +784,11 @@ function code_div(codes, venueSlices, year) {
           addCones(result, false);
         });
 ///////////////////////////////////////////////////////////////////////////////////////////
- 
+
         document.getElementById("clear-button").innerHTML = '<a class="dropdown-item" title="Clear all selected filters" href="#"> The filter <span id="applied-filter">'+ code.code + '</span> is applied. \n  </br> Click here to remove this filter. </a>';
     })
-   
-   
+
+
     categoryMenu.appendChild(codeItem);
 
   });
@@ -819,7 +824,7 @@ function code_div(codes, venueSlices, year) {
     });
     console.log(onScreenData);
     addCones(onScreenData, false);
-  
+
 
   });
 
@@ -1062,6 +1067,8 @@ function addCones(data, active) {
           var nearestObject = intersect.object;
           nearestObject.material = materialOnClick;
           highlighted.push(nearestObject);
+          console.log(nearestObject.parent.userData.properties)
+          current_category = nearestObject.parent.userData.properties.category;
           // toggleLeftPanelView('info-default');
           // document.getElementById('info').classList.toggle('leftCollapse');
         } else {
@@ -1256,14 +1263,19 @@ function createCodeCategories(data) {
   for (let data of dataSlice) {
     data.pop();
   }
-  addCheckBox('#collapseEntry', dataSlice[0])
-  addCheckBox('#collapseUser', dataSlice[1])
-  addCheckBox('#collapseAmenity', dataSlice[2])
-  addCheckBox('#collapseCaution', dataSlice[3])
-  addCheckBox('#collapseOrganization', dataSlice[4])
+  addCheckBox('#collapseEntry', dataSlice[0], 'add')
+  addCheckBox('#collapseUser', dataSlice[1], 'add')
+  addCheckBox('#collapseAmenity', dataSlice[2], 'add')
+  addCheckBox('#collapseCaution', dataSlice[3], 'add')
+  addCheckBox('#collapseOrganization', dataSlice[4], 'add')
+  addCheckBox('#collapseEntryVerify', dataSlice[0], 'verify')
+  addCheckBox('#collapseUserVerify', dataSlice[1], 'verify')
+  addCheckBox('#collapseAmenityVerify', dataSlice[2], 'verify')
+  addCheckBox('#collapseCautionVerify', dataSlice[3], 'verify')
+  addCheckBox('#collapseOrganizationVerify', dataSlice[4], 'verify')
 }
 
-function addCheckBox(id, data) {
+function addCheckBox(id, data, type) {
   let mainCategory = document.querySelector(id);
   for (var descriptor of data) {
     let container = document.createElement('div');
@@ -1271,7 +1283,7 @@ function addCheckBox(id, data) {
     let box = document.createElement('input');
     box.classList.add('form-check-input');
     box.setAttribute('type', 'checkbox');
-    box.setAttribute('id', descriptor);
+    box.setAttribute('id', descriptor + type);
     box.setAttribute('value', descriptor);
     box.setAttribute('name', 'myCheckBoxes');
     let label = document.createElement('label');
@@ -1353,7 +1365,7 @@ document.getElementById('slider-bar').addEventListener('input', async function (
 // // changes the label of the current selected year for the user to see
 // document.getElementById("slider-bar").addEventListener("input", function (e) {
 //   let selectedYear = document.getElementById('slider-bar').value;
-  
+
 
 // });
 

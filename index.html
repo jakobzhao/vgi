@@ -248,12 +248,12 @@
             </div>
             <div class="d-flex flex-row my-1">
               <!-- <img src="assets/imgs/state.svg"> -->
-               <b>State:</b> 
+               <b>State:</b>
               <div id="state" class="ms-2"></div>
             </div>
             <div class="d-flex flex-row my-1">
               <!-- <img src="assets/imgs/damron-code.svg">  -->
-              <b>Codes: </b> 
+              <b>Codes: </b>
               <div id="code" class="ms-2"></div>
             </div>
             <div class="d-flex flex-row my-1">
@@ -261,12 +261,12 @@
                <b>Categories:</b>
               <div id="type" class="ms-2"></div>
             </div>
-        
+
           </div>
-          
+
                <!-- image holder for location -->
                <div id="venue-imgs">
-                
+
                 <div id="venue-img-container"></div>
                   <p id="img-notes">This image is scraped in real-time by searching the venue name or location on a few primary online image sources (e.g., Google Streetview, Google Images, etc.).</div>
         <br/>
@@ -320,26 +320,94 @@
           <label for="lat-edit">Latitude:</label>
         </div>
 
-        <div class="form-floating mb-1">
+        <!-- <div class="form-floating mb-1">
           <input id="type-edit" type="text" class="form-control" required>
           <label for="type-edit">Category:</label>
-        </div>
-        <div class="border-outline mb-1">
-          <!-- <input id="codelist-edit" type="text" class="form-control">
-          <label for="codelist-edit">Code List:</label> -->
+        </div> -->
+        <!-- <div class="border-outline mb-1">
+          <input id="codelist-edit" type="text" class="form-control">
+          <label for="codelist-edit">Code List:</label>
           <label for="codelist-edit">Code List:</label>
           <select id="codelist-edit" class="selectpicker form-control" multiple data-selected-text-format="count > 3">
             <option value="1">One</option>
             <option value="2">Two</option>
             <option value="3">Three</option>
           </select>
+        </div> -->
+        <div id="accordionEntryVerify" class="mb-1" >
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <div class="btn-group type-btn mb-1">
+                <button type="button" class="btn btn-default collapsed accordion-button type-btn"
+                data-bs-toggle="collapse" data-bs-target="#collapseEntryVerify" aria-expanded="false" aria-controls="collapseEntryVerify">Entry Descriptors</button>
+              </div>
+            </h2>
+            <div class="collapse form-floating mb-1 collapsedTypes" id="collapseEntryVerify">
+            </div>
+          </div>
         </div>
-
-        <div class="form-floating mb-1">
+        <div id="accordionUserVerify" class="mb-1" >
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <div class="btn-group type-btn mb-1">
+                <button type="button" class="btn btn-default collapsed accordion-button type-btn"
+                data-bs-toggle="collapse" data-bs-target="#collapseUserVerify" aria-expanded="false" aria-controls="collapseUserVerify">Clientele/User Descriptors</button>
+              </div>
+            </h2>
+            <div class="collapse form-floating mb-1 collapsedTypes" id="collapseUserVerify">
+            </div>
+          </div>
+        </div>
+        <div id="accordionAmenityVerify" class="mb-1" >
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <div class="btn-group type-btn mb-1">
+                <button type="button" class="btn btn-default collapsed accordion-button type-btn"
+                data-bs-toggle="collapse" data-bs-target="#collapseAmenityVerify" aria-expanded="false" aria-controls="collapseAmenityVerify">Amenity/Service Descriptors</button>
+              </div>
+            </h2>
+            <div class="collapse form-floating mb-1 collapsedTypes" id="collapseAmenityVerify">
+            </div>
+          </div>
+        </div>
+        <div id="accordionCautionVerify" class="mb-1" >
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <div class="btn-group type-btn mb-1">
+                <button type="button" class="btn btn-default collapsed accordion-button type-btn"
+                data-bs-toggle="collapse" data-bs-target="#collapseCautionVerify" aria-expanded="false" aria-controls="collapseCautionVerify">Caution/Restriction Descriptors</button>
+              </div>
+            </h2>
+            <div class="collapse form-floating mb-1 collapsedTypes" id="collapseCautionVerify">
+            </div>
+          </div>
+        </div>
+        <div id="accordionOrganizationVerify" class="mb-1" >
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <div class="btn-group type-btn mb-1">
+                <button type="button" class="btn btn-default collapsed accordion-button type-btn"
+                data-bs-toggle="collapse" data-bs-target="#collapseOrganizationVerify" aria-expanded="false" aria-controls="collapseOrganizationVerify">Organization/Association Descriptors</button>
+              </div>
+            </h2>
+            <div class="collapse form-floating mb-1 collapsedTypes" id="collapseOrganizationVerify">
+            </div>
+          </div>
+        </div>
+        <!-- <div class="form-floating mb-1">
           <input id="confidence-edit" type="text" class="form-control" required>
           <label for="confidence-edit">Confidence Level:</label>
+        </div> -->
+        <label for="confidence-observation-verify">Confidence Level:</label>
+        <div id="confidence-observation-verify"></div>
+        <input type="range" class="form-range" min="1" max="5" step="1">
+        <div class="sliderticks">
+          <p>not at all</p>
+          <p>slightly</p>
+          <p>somewhat</p>
+          <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fairly</p>
+          <p>completely</p>
         </div>
-
         <div class="form-floating mb-1">
           <input id="notes-edit" type="text" class="form-control">
           <label for="notes-edit">Additional Notes:</label>
@@ -492,7 +560,7 @@
           </div> -->
           <label for="year-text" class="form-label" id="year-text-label">Year: 2005</label>
           <div class="form-floating mb-1" id="year-text">
-            <input type="range" class="form-range" id='current-year-value' min="1968" max="2014" step="1" value="2005">
+            <input type="range" class="form-range" id='current-year-value' min="1968" max="2014" step="1" value="2014">
           </div>
           <!-- <div class="form-floating mb-1">
             <input id="type-note" type="text" class="form-control">
@@ -519,7 +587,7 @@
 
       <!-- left dashboard - buttons -->
       <div id="ground-truth-btns" class="mx-3 d-flex flex-row flex-wrap">
-      
+
         <button id="report-issue-btn" type="button" class="btn btn-primary mx-2">Report an issue</button>
         <button id="add-review-btn" type="button" class="btn btn-primary mx-2">Review this venue</button>
         <button id="go-back-btn" type="button" class="btn btn-primary mx-2"> Close</button>
