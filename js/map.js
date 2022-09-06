@@ -456,6 +456,7 @@ function viewLeftPanel(e) {
   //vid for comment
   document.getElementById('vid-review').innerHTML = e.properties.vid;
 
+  //wait to be updated
   // Edit observation pre-filled values
   document.getElementById('observed-name-edit').value = e.properties.observedvenuename;
   document.getElementById('address-edit').value = e.properties.address;
@@ -468,7 +469,7 @@ function viewLeftPanel(e) {
   //document.getElementById('type-edit').value = e.properties.category;
   document.getElementById('notes-edit').value = e.properties.notes;
   //document.getElementById('codelist-edit').value = codeString;
-  document.getElementById('confidence-edit').value = e.properties.confidence;
+  //document.getElementById('confidence-edit').value = e.properties.confidence;
 
 };
 
