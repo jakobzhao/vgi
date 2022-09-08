@@ -990,7 +990,7 @@ function addLabels(data) {
 function addCones(data, active) {
 
   if (data.length == 0) {
-    document.getElementById("year-notes").innerHTML = "No venues from this locale of this year has been found in our database."
+    document.getElementById("year-notes").innerHTML = "No venues from this locale of this year has been found in our database. If you know any venue does not shown on this database, please help us improve. "
   } else {
     document.getElementById("year-notes").innerHTML = "";
   }
