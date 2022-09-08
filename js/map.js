@@ -2,6 +2,8 @@ mapboxgl.accessToken = config.accessToken;
 
 let current_category = '';
 let current_confidence = '';
+let current_observation_data;
+let current_venue_data;
 
 const localities = {
   'seattle': {
@@ -48,6 +50,7 @@ const materialOnHover = new THREE.MeshPhysicalMaterial({
   opacity: 1
 });
 
+const cubeGeometry = new THREE.BoxGeometry(30, 30, 30);
 
 let map = new mapboxgl.Map({
   container: 'map', // container ID
@@ -1142,6 +1145,85 @@ function addCones(data, active) {
   });
 };
 
+function addCubes(data, active) {
+  // if (data.length == 0) {
+  //   document.getElementById("year-notes").innerHTML = "No observations from this locale of this year has been found in our database. If you know any venue does not shown on this database, please help us improve. "
+  // } else {
+  //   document.getElementById("year-notes").innerHTML = "";
+  // }
+  if (map.getLayer('observation-cubes')) {
+    map.removeLayer('observation-cubes');
+  };
+  map.addLayer({
+    id: 'observation-cubes',
+    type: 'custom',
+    renderingMode: '3d',
+    onAdd: function (map, mbxContext) {
+      mbxContext = map.getCanvas().getContext('webgl');
+      window.tb = new Threebox(
+        map,
+        mbxContext, {
+          defaultLights: true
+        }
+      );
+
+      data.forEach(function (datum) {
+        let baseCube = new THREE.Mesh(cubeGeometry, origMaterial);
+        cube = tb.Object3D({
+          obj: baseCube,
+          units: 'meters'
+        })
+        // .set({
+        //   rotation: {
+        //     x: -90,
+        //     y: 0,
+        //     z: 0
+        //   }
+        // });
+
+        cube.setCoords([datum.geometry.coordinates[0], datum.geometry.coordinates[1], 20]);
+        cube.userData.properties = datum.properties
+        tb.add(cube);
+        // tb.add(line);
+      })
+
+      var highlighted = [];
+      map.on('click', 'data', function (e) {
+        console.log(e);
+        highlighted.forEach(function (h) {
+          h.material = origMaterial;
+        });
+        highlighted.length = 0;
+
+        // calculate objects intersecting the picking ray
+        var intersect = tb.queryRenderedFeatures(e.point)[0]
+        var intersectionExists = typeof intersect == "object"
+
+        // if intersect exists, highlight it
+        if (intersect) {
+          var nearestObject = intersect.object;
+          nearestObject.material = materialOnClick;
+          highlighted.push(nearestObject);
+          console.log(nearestObject.parent.userData.properties)
+          // toggleLeftPanelView('info-default');
+          // document.getElementById('info').classList.toggle('leftCollapse');
+        } else {
+          console.log("change back");
+        }
+
+        // on state change, fire a repaint
+        if (active !== intersectionExists) {
+          active = intersectionExists;
+          tb.repaint();
+        }
+      });
+    },
+    render: function (gl, matrix) {
+      tb.update();
+    }
+  });
+};
+
 // this can be used to colorize the venue based on confidence level.
 document.getElementById('reliability-switch').addEventListener('click', function () {
 
@@ -1388,6 +1470,21 @@ async function placeInput(place) {
     document.getElementById('state-api').value = state[0];
   }
 }
+
+let obserLayer = document.getElementById('observation-layer')
+obserLayer.addEventListener('click', function (e) {
+  if (obserLayer.classList.contains('collapsed')) {
+    if (map.getLayer('observation-cubes')) {
+      map.removeLayer('observation-cubes');
+      map.removeLayer('poi-labels');
+      map.removeSource('venues');
+      map.removeLayer('venue-slice-cones');
+    };
+    addCones(current_venue_data, false);
+  } else {
+    addCubes(current_observation_data, false);
+  }
+})
 // Add category options in add missing venues
 // function addCategory(category, data) {
 //   category.innerHTML = '';
@@ -1434,6 +1531,8 @@ async function updateMap(selectedYear, selectedLocality) {
   let filteredYearObservationData = observationData.features.filter(function (feature) {
     return feature.properties.year == selectedYear
   });
+  current_observation_data = filteredYearObservationData;
+  current_venue_data = filteredYearData;
   console.log(filteredYearData);
   console.log(filteredYearObservationData);
   // observation data
@@ -1453,7 +1552,7 @@ async function updateMap(selectedYear, selectedLocality) {
   let active = false;
   // three js 3D object
   addCones(filteredYearData, active);
-
+  //addCubes(filteredYearObservationData, active);
   // create venue list and observation list
   makeLocalityList('locality-venues', venues, selectedYear);
   makeLocalityList('locality-observations', observationData, selectedYear);

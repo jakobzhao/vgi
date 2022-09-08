@@ -77,15 +77,15 @@
   async function submitPassword(e) {
     let passphraseAttempts = document.querySelectorAll('.passphrase');
     let formalizedPassphraseAttempt = "";
-    let textLength = [];
+    let textLengths = [];
 
     passphraseAttempts.forEach(passphraseAttempt => {
       formalizedPassphraseAttempt += passphraseAttempt.value.toLowerCase() + " ";
-      textLength.push(passphraseAttempt.value.length);
+      textLengths.push(passphraseAttempt.value.length);
     });
 
     formalizedPassphraseAttempt = formalizedPassphraseAttempt.split(' ').sort().join(' ').trim();
-    if (!textLength.includes(0)) {
+    if (!textLengths.includes(0)) {
       try {
         let getResult = await fetch(`https://lgbtqspaces-api.herokuapp.com/api/passphraseCheck/${formalizedPassphraseAttempt}`, {
           method: 'GET'
