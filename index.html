@@ -552,13 +552,14 @@
 
           <div class="form-floating mb-1">
             <input id="otherGrid" type="text" class="form-control">
-            <label for="otherGrid">Input any code/descriptor that does not appear in the descriptor categories above.</label>
+            <label for="otherGrid">Others:</label>
+            <small id="helpInfo" class="form-text text-muted">Input any code/descriptor that does not appear in the descriptor categories above. Using comma to seperate categories.</small>
           </div>
           <!-- <div class="form-floating mb-1">
             <input id="submit-year" type="number" class="form-control" required>
             <label for="submit-year">Year:</label>
           </div> -->
-          <label for="year-text" class="form-label" id="year-text-label">Year: 2005</label>
+          <label for="year-text" class="form-label" id="year-text-label">Year: 2014</label>
           <div class="form-floating mb-1" id="year-text">
             <input type="range" class="form-range" id='current-year-value' min="1968" max="2014" step="1" value="2014">
           </div>
@@ -632,7 +633,7 @@
     <div id="year-slider" class="d-flex">
       <div class="container">
         <div class="item">
-          <p id="year-label">2005</p>
+          <p id="year-label">2014</p>
           <!-- Bo: I feel it is unnecessary to show the base year -->
           <!-- <div class="form-check form-switch base-year">
                       <input class="form-check-input" type="checkbox" checked id="base-year-selection">
@@ -640,7 +641,7 @@
                     </div> -->
           <!-- </div> -->
           <div>
-            <input type="range" id="slider-bar" min="1965" max="2014" value="2005" >
+            <input type="range" id="slider-bar" min="1965" max="2014" value="2014" >
           </div>
         </div>
         <div id="year-notes" class="item"></div>
