@@ -1752,7 +1752,7 @@ map.on('style.load', async function () {
       for (let box of checkboxes) {
         box.checked = false;
       }
-      yearSlider.value = 2005;
+      yearSlider.value = 2014;
       yearText.textContent = 'Year: ' + yearSlider.value;
       document.getElementById('slider-bar').value = document.getElementById('year-label').textContent;
 
