@@ -58,8 +58,7 @@
     data.append("state", document.getElementById('state-api').value);
     data.append("type", result);
     data.append("year", document.getElementById('current-year-value').value);
-    if (document.getElementById('location-api').value != '' && document.getElementById('address-api').value != '' &&
-      document.getElementById('city-api').value != '' && document.getElementById('state-api').value != '') {
+    if (requiredInputCheck()) {
       // POST fetch request
       let settings = {
         method: 'POST',
@@ -113,12 +112,8 @@
 
 
       } else if (result[0]['Result'] == '1') {
-
-        let alert = document.getElementById("alert-modal");
-        let alertText = document.getElementById("alert-text");
-        alertText.innerHTML = "Incorrect passphrase, please try again.";
-        let alertModal = new bootstrap.Modal(alert);
-        alertModal.show();
+        let alertText = "Incorrect passphrase, please try again.";
+        makeAlert(alertText);
 
         let passphrases = document.getElementsByClassName("passphrase");
         passphrases[0].value = "";
@@ -180,11 +175,8 @@
 
       // }
     } else {
-      let alert = document.getElementById("alert-modal");
-      let alertText = document.getElementById("alert-text");
-      alertText.innerHTML = "Please log in before making any contribution to this geospatial platform.";
-      let alertModal = new bootstrap.Modal(alert);
-      alertModal.show();
+      let alertText = "Please log in before making any contribution to this geospatial platform.";
+      makeAlert(alertText);
     }
   }
 
@@ -361,17 +353,11 @@ function logInCheck() {
     // }
     return true;
   } else {
-    let alert = document.getElementById("alert-modal");
-    let alertText = document.getElementById("alert-text");
-    alertText.innerHTML = "Please log in before making any contribution to this geospatial platform.";
-    let alertModal = new bootstrap.Modal(alert);
-    alertModal.show();
-
+    let alertText = "Please log in before making any contribution to this geospatial platform.";
+    makeAlert(alertText);
     return false;
 
   }
-
-
 
   // let signInView = document.getElementById('log-in-btn');
   // // if left panel is closed
@@ -402,4 +388,27 @@ function handleError(err) {
   let message = "Error reason: " + err;
   console.log(error);
   console.log(message);
+}
+
+function requiredInputCheck() {
+  let location = document.getElementById('location-api').value;
+  let address = document.getElementById('address-api').value;
+  let city = document.getElementById('city-api').value;
+  let state = document.getElementById('state-api').value;
+  if (location.length == 0 || address.length == 0 || city.length == 0 || state.length == 0) {
+    //
+    let alertText = "Please fill the required area before submiting:<br><br> Name, Address, City and State.";
+    makeAlert(alertText);
+    return false;
+  } else {
+    return true;
+  }
+}
+
+function makeAlert(alertText) {
+  let alert = document.getElementById("alert-modal");
+  let alertTextBox = document.getElementById("alert-text");
+  alertTextBox.innerHTML = alertText;
+  let alertModal = new bootstrap.Modal(alert);
+  alertModal.show();
 }
