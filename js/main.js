@@ -98,7 +98,7 @@
 
           let alert = document.getElementById("alert-modal");
           let alertText = document.getElementById("alert-text");
-          alertText.innerHTML = "Log in successfully！";
+          alertText.innerHTML = "Log in successfully!";
           let alertModal = new bootstrap.Modal(alert);
           alertModal.show();
 
