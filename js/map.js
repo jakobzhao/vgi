@@ -1053,6 +1053,10 @@ function addCones(data, active) {
       // BO: just confine it to the data layer? map.on('click',  function (e) {???
       // Bo:  'venue-slice-cones' is added by Bo.
       map.on('click', 'data', function (e) {
+        //
+        if (!(document.getElementById('report-issue').classList.contains('d-none'))) {
+          document.getElementById('report-issue').classList.add('d-none');
+        }
         // Clear old objects
         highlighted.forEach(function (h) {
           h.material = origMaterial;
@@ -1442,6 +1446,7 @@ async function updateMap(selectedYear, selectedLocality) {
         // addExtrusions(localityFeatures[i]);
         if (document.getElementById('info-default').classList.contains('d-none')) {
           let collapseState = document.getElementById('info').classList.toggle('leftCollapse');
+
           toggleLeftPanelView('info-default');
         } else {
           if (document.getElementById('info').classList.contains('leftCollapse')) {
@@ -1453,6 +1458,14 @@ async function updateMap(selectedYear, selectedLocality) {
     }
   }
 
+  // function checkIssue() {
+  //   let issues = document.querySelectorAll('.issuePanel');
+  //   for (let issue of issues) {
+  //     if(!issue.classList.contains('d-none')){
+  //       issue.classList.add('d-none');
+  //     }
+  //   }
+  // }
 
     // if (localityParent.firstChild == null) {
   //   let localityPar = document.createElement('div');
@@ -1844,4 +1857,13 @@ map.on('style.load', async function () {
         alert("There was an error while geocoding: " + errorThrown);
       });
     }
+  });
+
+  document.getElementById('return-btn').addEventListener('click', function () {
+
+    if (!(document.getElementById('report-issue').classList.contains('d-none'))) {
+      document.getElementById('report-issue').classList.add('d-none');
+    }
+    document.getElementById('info-default').classList.remove('d-none');
+    document.getElementById('ground-truth-btns').classList.remove('d-none');
   });
