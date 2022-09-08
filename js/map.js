@@ -986,7 +986,55 @@ function addLabels(data) {
   });
 }
 
+function makeLocalityList(localityID, data, selectedYear) {
+  let localityParent = document.getElementById(localityID);
+  localityParent.innerHTML = "";
+  let localityFeatures = data.features;
+  for (let i = 0; i < localityFeatures.length; i++) {
+    let type = '';
+    if (localityID == 'locality-venues') {
+      type = localityFeatures[i].properties.placetype;
+    } else {
+      type = localityFeatures[i].properties.place_type;
+    }
+    if (localityFeatures[i].properties.year == selectedYear && type != "P" && type != "T") {
+      // bootstrap row
+      let rowDiv = document.createElement('div');
+      rowDiv.classList.add('row', "m-1");
+      let Name = document.createElement('div');
+      let PlaceType = document.createElement('div');
+      Name.classList.add('col');
+      PlaceType.classList.add("col", "col-sm-3");
 
+      let placetype = type;
+
+      Name.innerHTML = localityFeatures[i].properties.observedvenuename;
+      PlaceType.innerHTML = placetype;
+
+      rowDiv.appendChild(Name);
+      rowDiv.appendChild(PlaceType);
+
+      localityParent.appendChild(rowDiv);
+      rowDiv.addEventListener('click', function () {
+
+        viewLeftPanel(localityFeatures[i]);
+        addLeftPanelActions(localityFeatures[i], marker);
+        getStreetView(localityFeatures[i]);
+        // addExtrusions(localityFeatures[i]);
+        if (document.getElementById('info-default').classList.contains('d-none')) {
+          let collapseState = document.getElementById('info').classList.toggle('leftCollapse');
+
+          toggleLeftPanelView('info-default');
+        } else {
+          if (document.getElementById('info').classList.contains('leftCollapse')) {
+            document.getElementById('info').classList.toggle('leftCollapse');
+            toggleLeftPanelView('info-default');
+          }
+        }
+      });
+    }
+  }
+}
 function addCones(data, active) {
 
   if (data.length == 0) {
@@ -1378,11 +1426,16 @@ document.getElementById('slider-bar').addEventListener('input', async function (
 async function updateMap(selectedYear, selectedLocality) {
 
   venues = await getVenues(selectedLocality);
+  let observationData = await getObservations(selectedLocality);
   addVenueLayer(map, venues);
   let filteredYearData = venues.features.filter(function (feature) {
     return feature.properties.year == selectedYear
   });
-
+  let filteredYearObservationData = observationData.features.filter(function (feature) {
+    return feature.properties.year == selectedYear
+  });
+  console.log(filteredYearData);
+  console.log(filteredYearObservationData);
   // observation data
   // observations = await getObservations(selectedLocality);
   // addObservationLayer(map, observations);
@@ -1401,12 +1454,9 @@ async function updateMap(selectedYear, selectedLocality) {
   // three js 3D object
   addCones(filteredYearData, active);
 
-
-
-  // create venue list
-  let localityParent = document.getElementById('locality-venues');
-  localityParent.innerHTML = "";
-  let localityFeatures = venues.features;
+  // create venue list and observation list
+  makeLocalityList('locality-venues', venues, selectedYear);
+  makeLocalityList('locality-observations', observationData, selectedYear);
   // // sort locality features
   // Bo: Sort by name
   // localityFeatures.sort((a, b) => {
@@ -1419,44 +1469,7 @@ async function updateMap(selectedYear, selectedLocality) {
   //   return difference;
   // })
 
-  for (let i = 0; i < localityFeatures.length; i++) {
-    if (localityFeatures[i].properties.year == selectedYear && localityFeatures[i].properties.placetype != "P" && localityFeatures[i].properties.placetype != "T") {
-      // bootstrap row
-      let rowDiv = document.createElement('div');
-      rowDiv.classList.add('row', "m-1");
-      let venueName = document.createElement('div');
-      let venuePlaceType = document.createElement('div');
-      venueName.classList.add('col');
-      venuePlaceType.classList.add("col", "col-sm-3");
 
-      let placetype = localityFeatures[i].properties.placetype;
-
-      venueName.innerHTML = localityFeatures[i].properties.observedvenuename;
-      venuePlaceType.innerHTML = placetype;
-
-      rowDiv.appendChild(venueName);
-      rowDiv.appendChild(venuePlaceType);
-
-      localityParent.appendChild(rowDiv);
-      rowDiv.addEventListener('click', function () {
-
-        viewLeftPanel(localityFeatures[i]);
-        addLeftPanelActions(localityFeatures[i], marker);
-        getStreetView(localityFeatures[i]);
-        // addExtrusions(localityFeatures[i]);
-        if (document.getElementById('info-default').classList.contains('d-none')) {
-          let collapseState = document.getElementById('info').classList.toggle('leftCollapse');
-
-          toggleLeftPanelView('info-default');
-        } else {
-          if (document.getElementById('info').classList.contains('leftCollapse')) {
-            document.getElementById('info').classList.toggle('leftCollapse');
-            toggleLeftPanelView('info-default');
-          }
-        }
-      });
-    }
-  }
 
   // function checkIssue() {
   //   let issues = document.querySelectorAll('.issuePanel');
