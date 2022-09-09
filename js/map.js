@@ -549,6 +549,7 @@ async function addLeftPanelActions(feature, marker, e) {
 
       //   document.getElementById('info').classList.toggle('leftCollapse');
       // }
+      document.getElementById('info').classList.toggle('leftCollapse');
     }
   });
 };
@@ -1055,6 +1056,7 @@ function addCones(data, active) {
       map.on('click', 'data', function (e) {
         //
         if (!(document.getElementById('report-issue').classList.contains('d-none'))) {
+          
           document.getElementById('report-issue').classList.add('d-none');
         }
         // Clear old objects
@@ -1579,7 +1581,8 @@ map.on('style.load', async function () {
 
     // displayNearbyObservations(observations, e);
     // marker.remove();
-
+    
+    //left collapse control
     if (document.getElementById('info-default').classList.contains('d-none')) {
       let collapseState = document.getElementById('info').classList.toggle('leftCollapse');
       toggleLeftPanelView('info-default');
@@ -1589,6 +1592,8 @@ map.on('style.load', async function () {
         toggleLeftPanelView('info-default');
       }
     }
+    
+
 
     // toggleLeftPanelView('info-default');
 
@@ -1859,6 +1864,8 @@ map.on('style.load', async function () {
     }
   });
 
+
+  // Yufei: return function on report an issue panel
   document.getElementById('return-btn').addEventListener('click', function () {
 
     if (!(document.getElementById('report-issue').classList.contains('d-none'))) {
