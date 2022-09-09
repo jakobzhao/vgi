@@ -67,7 +67,7 @@
       try {
         let sendData = await fetch('https://lgbtqspaces-api.herokuapp.com/api/user_observation', settings);
         clearForm();
-        console.log(sendData.statusText());
+        makeAlert('Your observation has been successfully submitted!')
       } catch (error) {
         handleError(error);
       }
@@ -75,56 +75,59 @@
   }
 
   async function submitPassword(e) {
-    try {
+    let passphraseAttempts = document.querySelectorAll('.passphrase');
+    let formalizedPassphraseAttempt = "";
+    let textLengths = [];
 
-      let passphraseAttempts = document.querySelectorAll('.passphrase');
-      let formalizedPassphraseAttempt = "";
+    passphraseAttempts.forEach(passphraseAttempt => {
+      formalizedPassphraseAttempt += passphraseAttempt.value.toLowerCase() + " ";
+      textLengths.push(passphraseAttempt.value.length);
+    });
 
-
-      passphraseAttempts.forEach(passphraseAttempt => {
-        formalizedPassphraseAttempt += passphraseAttempt.value.toLowerCase() + " ";
-      });
-
-      formalizedPassphraseAttempt = formalizedPassphraseAttempt.split(' ').sort().join(' ').trim();
-
-      let getResult = await fetch(`https://lgbtqspaces-api.herokuapp.com/api/passphraseCheck/${formalizedPassphraseAttempt}`, {
-        method: 'GET'
-      });
-      let result = await getResult.json();
-      if (result[0]['Result'] == '0') {
-
-
-        document.getElementById("login-cls-btn").click();
-
-        let alert = document.getElementById("alert-modal");
-        let alertText = document.getElementById("alert-text");
-        alertText.innerHTML = "Log in successfully！";
-        let alertModal = new bootstrap.Modal(alert);
-        alertModal.show();
-
-        window.setTimeout(function () {
-          document.getElementById("alert-cls-btn").click();
-        }, 1500);
+    formalizedPassphraseAttempt = formalizedPassphraseAttempt.split(' ').sort().join(' ').trim();
+    if (!textLengths.includes(0)) {
+      try {
+        let getResult = await fetch(`https://lgbtqspaces-api.herokuapp.com/api/passphraseCheck/${formalizedPassphraseAttempt}`, {
+          method: 'GET'
+        });
+        let result = await getResult.json();
+        if (result[0]['Result'] == '0') {
 
 
-        document.getElementById('log-in-btn').classList.toggle('d-none');
-        document.getElementById('log-out-btn').classList.toggle('d-none');
+          document.getElementById("login-cls-btn").click();
+
+          let alert = document.getElementById("alert-modal");
+          let alertText = document.getElementById("alert-text");
+          alertText.innerHTML = "Log in successfully!";
+          let alertModal = new bootstrap.Modal(alert);
+          alertModal.show();
+
+          window.setTimeout(function () {
+            document.getElementById("alert-cls-btn").click();
+          }, 1500);
 
 
-      } else if (result[0]['Result'] == '1') {
-        let alertText = "Incorrect passphrase, please try again.";
-        makeAlert(alertText);
+          document.getElementById('log-in-btn').classList.toggle('d-none');
+          document.getElementById('log-out-btn').classList.toggle('d-none');
 
-        let passphrases = document.getElementsByClassName("passphrase");
-        passphrases[0].value = "";
-        passphrases[1].value = "";
-        passphrases[2].value = "";
 
-      } else {
-        console.log('error.')
+        } else if (result[0]['Result'] == '1') {
+          let alertText = "Incorrect passphrase, please try again.";
+          makeAlert(alertText);
+
+          let passphrases = document.getElementsByClassName("passphrase");
+          passphrases[0].value = "";
+          passphrases[1].value = "";
+          passphrases[2].value = "";
+
+        } else {
+          console.log('error.')
+        }
+      } catch (err) {
+        console.log(err);
       }
-    } catch (err) {
-      console.log(err);
+    } else {
+      makeAlert('There is empty space in the passphrase!');
     }
   }
 
@@ -412,3 +415,4 @@ function makeAlert(alertText) {
   let alertModal = new bootstrap.Modal(alert);
   alertModal.show();
 }
+

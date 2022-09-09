@@ -201,7 +201,7 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">Alert</h5>
+            <h5 class="modal-title">Notify</h5>
           </div>
           <div class="modal-body" id="alert-text">
             Please log in before making any contribution to this geospatial platform.
@@ -309,8 +309,7 @@
           <input id="year-edit" type="text" class="form-control" required>
           <label for="year-edit">Year:</label>
         </div>
-
-        <p class="m-0 description-form">Adjust the blue marker to change longitude and latitude.</p>
+        <small class="form-text text-muted">Adjust the blue marker to change longitude and latitude.</small>
         <div class="form-floating mb-1">
           <input id="long-edit" type="text" class="form-control" readonly>
           <label for="long-edit">Longitude:</label>
@@ -394,6 +393,10 @@
             </div>
           </div>
         </div>
+        <div class="form-floating mb-1">
+          <input id="notes-edit" type="text" class="form-control">
+          <label for="notes-edit">Additional Notes:</label>
+        </div>
         <!-- <div class="form-floating mb-1">
           <input id="confidence-edit" type="text" class="form-control" required>
           <label for="confidence-edit">Confidence Level:</label>
@@ -408,13 +411,10 @@
           <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fairly</p>
           <p>completely</p>
         </div>
-        <div class="form-floating mb-1">
-          <input id="notes-edit" type="text" class="form-control">
-          <label for="notes-edit">Additional Notes:</label>
+        <div class="btn-group" role="group">
+          <button id="return-btn" type="button" class="btn btn-primary my-3"> Cancel</button>
+          <button id="submit-edit" type="button" class="btn btn-primary my-3">Submit</button>
         </div>
-
-        <button id="submit-edit" type="button" class="btn btn-primary my-3">Submit</button>
-        <button id="return-btn" type="button" class="btn btn-primary mx-2"> Close</button>
       </form>
 
       <!-- left dashboard - add observation div -->
@@ -424,8 +424,8 @@
           <h3 class="mt-3 mb-0 pb-2">Add a Missing Venue<button id="go-back-btn2" type="button"
               class="btn btn-primary mx-2">Return</button>
           </h3>
+          <small class="form-text text-muted">Click a point on the map to get location information.</small>
           <div class="form-floating mb-1">
-
             <input id="location-api" type="text" class="form-control" required>
             <label for="location-api">Name:</label>
           </div>
@@ -554,7 +554,7 @@
           <div class="form-floating mb-1">
             <input id="otherGrid" type="text" class="form-control">
             <label for="otherGrid">Others:</label>
-            <small id="helpInfo" class="form-text text-muted">Input any code/descriptor that does not appear in the descriptor categories above. Using comma to seperate categories.</small>
+            <small class="form-text text-muted">Input any code/descriptor that does not appear in the descriptor categories above. Using comma to seperate categories.</small>
           </div>
           <!-- <div class="form-floating mb-1">
             <input id="submit-year" type="number" class="form-control" required>

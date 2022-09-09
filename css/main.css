@@ -970,3 +970,9 @@ h2#name, p#venue-indicator {
     box-shadow: none !important;
 }
 
+.my-3 {
+    margin-top: 1rem!important;
+    margin-bottom: 1rem!important;
+    margin-left: 1em;
+    margin-right: 1em;
+}
