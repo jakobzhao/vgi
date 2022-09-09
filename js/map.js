@@ -1106,6 +1106,7 @@ function addCones(data, active) {
       // Bo:  'venue-slice-cones' is added by Bo.
       map.on('click', 'data', function (e) {
         //
+        marker.remove();
         if (!(document.getElementById('report-issue').classList.contains('d-none'))) {
           
           document.getElementById('report-issue').classList.add('d-none');
@@ -1979,7 +1980,7 @@ map.on('style.load', async function () {
 
   // Yufei: return function on report an issue panel
   document.getElementById('return-btn').addEventListener('click', function () {
-
+    marker.remove();
     if (!(document.getElementById('report-issue').classList.contains('d-none'))) {
       document.getElementById('report-issue').classList.add('d-none');
     }
