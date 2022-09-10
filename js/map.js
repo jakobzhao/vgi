@@ -58,7 +58,7 @@ const materialOnHover = new THREE.MeshPhysicalMaterial({
 });
 
 const cubeGeometry = new THREE.BoxGeometry(30, 30, 30);
-const lineGeometry =  new THREE.CylinderGeometry( 1, 1, 50, 32 );
+const lineGeometry =  new THREE.CylinderGeometry( 1, 1, 35, 32 );
 
 
 let map = new mapboxgl.Map({
@@ -1206,7 +1206,7 @@ function addCubes(data, active) {
         });
 
         
-        line.setCoords([datum.geometry.coordinates[0], datum.geometry.coordinates[1], 25]);
+        line.setCoords([datum.geometry.coordinates[0], datum.geometry.coordinates[1], 18]);
         //the third parameter indicates the height of the cube. 
         cube.setCoords([datum.geometry.coordinates[0], datum.geometry.coordinates[1], 50]);
         cube.userData.properties = datum.properties;
