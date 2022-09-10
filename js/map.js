@@ -35,6 +35,13 @@ const origMaterial = new THREE.MeshPhysicalMaterial({
   opacity: 0.6
 });
 
+const transMaterial = new THREE.MeshPhysicalMaterial({
+  flatShading: true,
+  color: '#D3B1C2',
+  transparent: true,
+  opacity: 0.2
+});
+
 const materialOnClick = new THREE.MeshPhysicalMaterial({
   flatShading: true,
   color: '#ff6262',
@@ -51,6 +58,8 @@ const materialOnHover = new THREE.MeshPhysicalMaterial({
 });
 
 const cubeGeometry = new THREE.BoxGeometry(30, 30, 30);
+const lineGeometry =  new THREE.CylinderGeometry( 1, 1, 50, 32 );
+
 
 let map = new mapboxgl.Map({
   container: 'map', // container ID
@@ -1073,7 +1082,7 @@ function addCones(data, active) {
       data.forEach(function (datum) {
         // longitude, latitude, altitude
 
-        // Bo: Warning: the duplicate will make the material of all the cones the same.
+        // @jakobzhao: Warning: the duplicate function will make the material of all the cones the same.
         // let cone = coneTemplate.duplicate();
         let baseCone = new THREE.Mesh(geometry, origMaterial);
         cone = tb.Object3D({
@@ -1102,8 +1111,8 @@ function addCones(data, active) {
       var highlighted = [];
 
       //add mousing interactions
-      // BO: just confine it to the data layer? map.on('click',  function (e) {???
-      // Bo:  'venue-slice-cones' is added by Bo.
+      // @jakobzhao: just confine it to the data layer? map.on('click',  function (e) {???
+      // @jakobzhao:  'venue-slice-cones' is added by Bo.
       map.on('click', 'data', function (e) {
         //
         marker.remove();
@@ -1169,25 +1178,40 @@ function addCubes(data, active) {
           defaultLights: true
         }
       );
-
+      
       data.forEach(function (datum) {
         let baseCube = new THREE.Mesh(cubeGeometry, origMaterial);
+        let baseLine = new THREE.Mesh(lineGeometry, transMaterial);
         cube = tb.Object3D({
           obj: baseCube,
           units: 'meters'
         })
-        // .set({
-        //   rotation: {
-        //     x: -90,
-        //     y: 0,
-        //     z: 0
-        //   }
-        // });
+        .set({
+          rotation: {
+            x: 0,
+            y: 0,
+            z: 0
+          }
+        });
+        line = tb.Object3D({
+          obj: baseLine,
+          units: 'meters'
+        })
+        .set({
+          rotation: {
+            x: 90,
+            y: 0,
+            z: 0
+          }
+        });
 
-        cube.setCoords([datum.geometry.coordinates[0], datum.geometry.coordinates[1], 20]);
-        cube.userData.properties = datum.properties
+        
+        line.setCoords([datum.geometry.coordinates[0], datum.geometry.coordinates[1], 25]);
+        //the third parameter indicates the height of the cube. 
+        cube.setCoords([datum.geometry.coordinates[0], datum.geometry.coordinates[1], 50]);
+        cube.userData.properties = datum.properties;
         tb.add(cube);
-        // tb.add(line);
+        tb.add(line);
       })
 
       var highlighted = [];
