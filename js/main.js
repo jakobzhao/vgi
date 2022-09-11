@@ -174,12 +174,11 @@
         document.getElementById('report-issue').classList.add('d-none');
       }
       toggleLeftPanelView('add-observation');
-
+      marker.remove()
       // if left panel is close
-      // if (document.getElementById('info').classList.contains('leftCollapse')) {
-      document.getElementById('info').classList.toggle('leftCollapse');
-
-      // }
+      if (document.getElementById('info').classList.contains('leftCollapse')) {
+        document.getElementById('info').classList.toggle('leftCollapse');
+      }
     } else {
       let alertText = "Please log in before making any contribution to this geospatial platform.";
       makeAlert(alertText);
@@ -318,7 +317,7 @@ function toggleLeftPanelView(elementId) {
   // process the attribution
   let attributionLeft = document.getElementById("attribution").style["left"];
 
-  if (attributionLeft == "28em" && elementId != 'report-issue') {
+  if (attributionLeft == "28em" && elementId == 'all') {
     document.getElementById("attribution").style["left"] = "0em";
     document.getElementById("year-slider").style["left"] = "0em";
     document.getElementById("legend").style["left"] = "0em";

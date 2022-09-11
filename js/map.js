@@ -617,7 +617,7 @@ async function addLeftPanelActions(feature, marker, e) {
       //   document.getElementById('info').classList.toggle('leftCollapse');
       // }
       if (document.getElementById('info').classList.contains('leftCollapse')) {
-        document.getElementById('info').classList.toggle('leftCollapse');
+        document.getElementById('info').classList.remove('leftCollapse')
       }
     }
   });
@@ -1178,7 +1178,6 @@ function addCones(data, active) {
         //
         marker.remove();
         if (!(document.getElementById('report-issue').classList.contains('d-none'))) {
-
           document.getElementById('report-issue').classList.add('d-none');
         }
         // Clear old objects
@@ -1789,15 +1788,18 @@ map.on('style.load', async function () {
     // marker.remove();
 
     //left collapse control
-    if (document.getElementById('info-default').classList.contains('d-none')) {
-      let collapseState = document.getElementById('info').classList.toggle('leftCollapse');
+
+    if (document.getElementById('info').classList.contains('leftCollapse')) {
+      document.getElementById('info').classList.toggle('leftCollapse');
       toggleLeftPanelView('info-default');
-    } else {
-      if (document.getElementById('info').classList.contains('leftCollapse')) {
-        document.getElementById('info').classList.toggle('leftCollapse');
-        toggleLeftPanelView('info-default');
-      }
     }
+
+    if (!document.getElementById('add-observation').classList.contains('d-none')){
+      document.getElementById('add-observation').classList.add('d-none')
+      //clearForm();
+      toggleLeftPanelView('info-default');
+    }
+
 
 
 
@@ -1922,7 +1924,7 @@ map.on('style.load', async function () {
 
     if (!(document.getElementById('info-default').classList.contains('d-none'))) {
 
-      toggleLeftPanelView('info-default')
+      toggleLeftPanelView('all')
       if (!document.getElementById('info').classList.contains('leftCollapse')) {
         document.getElementById('info').classList.toggle('leftCollapse');
       }
