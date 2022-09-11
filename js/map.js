@@ -281,9 +281,49 @@ function toGEOJSON(data) {
   };
 };
 
+function toSecondaryGEOJSON(data) {
+  let feature_list = [];
+  // for loop
+  for (let i = 0; i < data.length; i++) {
+    let temp = {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [data[i].properties.longitude, data[i].properties.latitude]
+      },
+      "properties": getSecondaryProperties(data[i])
+    }
+    feature_list.push(temp);
+    //console.log(getProperties(data[i]).placetype);
+    // console.log(getProperties(data[i]).confidence);
+
+  }
+  // add into feature_list
+  // combine with geojson final format with feature collection and feature as feature list
+  return {
+    "type": "FeatureCollection",
+    "features": feature_list
+  };
+};
+
 // getProperties(data)
 // Parameters: data - input array elements from JSON
 // Returns an object that is to be added onto the geoJSON output
+function getSecondaryProperties(data) {
+  let result = {};
+  for (const properties in data) {
+    //if (properties != 'longitude' && properties != 'latitude') {
+      // convert code string to javascript array
+      if (properties == 'codedescriptorlist' && data.codedescriptorlist != null) {
+        result[properties] = data[properties].split(', ');
+      } else {
+        result[properties] = data[properties];
+      }
+    //}
+  }
+  return result;
+};
+
 function getProperties(data) {
   let result = {};
   for (const properties in data) {
@@ -298,26 +338,25 @@ function getProperties(data) {
   }
   return result;
 };
-
 // Add observation and venueSliceData data layer onto map
 function addVenueLayer(map, obsData) {
 
-  if (map.getLayer('venue-slice-cones')) {
-    map.removeLayer('venue-slice-cones');
-  };
-  if (map.getLayer('poi-labels')) {
-    map.removeLayer('poi-labels');
-    map.removeSource('venues');
-  };
+  // if (map.getLayer('venue-slice-cones')) {
+  //   map.removeLayer('venue-slice-cones');
+  // };
+  // if (map.getLayer('poi-labels')) {
+  //   map.removeLayer('poi-labels');
+  //   map.removeSource('venues');
+  // };
 
   if (map.getLayer('data')) {
     map.removeLayer('data');
     map.removeSource("data");
   };
   if (map.getLayer('observation')) {
-    map.removeLayer('observation');
+     map.removeLayer('observation');
   };
-
+  //removeAllLayers();
 
 
   map.addLayer({
@@ -340,6 +379,7 @@ function addVenueLayer(map, obsData) {
       'icon-color': '#ff6262'
     }
   });
+  console.log(map.getLayer('data'));
 };
 
 // add accordion layer - for venues and observations
@@ -350,28 +390,28 @@ function addObservationLayer(map, data) {
   // };
 
 
-  if (map.getLayer('venue-slice-cones')) {
-    map.removeLayer('venue-slice-cones');
-  };
-  if (map.getLayer('poi-labels')) {
-    map.removeLayer('poi-labels');
-    map.removeSource('venues');
-  };
+  // if (map.getLayer('venue-slice-cones')) {
+  //   map.removeLayer('venue-slice-cones');
+  // };
+  // if (map.getLayer('poi-labels')) {
+  //   map.removeLayer('poi-labels');
+  //   map.removeSource('venues');
+  // };
 
-  if (map.getLayer('data')) {
-    map.removeLayer('data');
-    map.removeSource("data");
-  };
+  // if (map.getLayer('data')) {
+  //   map.removeLayer('data');
+  //   map.removeSource("data");
+  // };
 
-  if (map.getLayer('observation')) {
-    map.removeLayer('observation');
+  // if (map.getLayer('observation')) {
+  //   map.removeLayer('observation');
 
-  };
-  if (map.getSource('observation')) {
-    map.removeSource('observation');
+  // };
+  // if (map.getSource('observation')) {
+  //   map.removeSource('observation');
 
-  };
-
+  // };
+  //removeAllLayers();
 
   let features = data.features;
   let test = {
@@ -441,6 +481,21 @@ function switchLayer(layer) {
 for (var i = 0; i < layerList.length; i++) {
   layerList[i].onclick = switchLayer;
 };
+
+function removeAllLayers() {
+  let layers = ['observation-cubes', 'nearby-observations', 'buffer-point', 'year-block', 'poi-labels', 'venue-slice-cones'];
+  let sources = ['venues'];
+  for (let layer of layers) {
+    if (map.getLayer(layer)) {
+      map.removeLayer(layer);
+    };
+  }
+  for (let source of sources) {
+    if (map.getSource(source)) {
+      map.removeSource(source);
+    };
+  }
+}
 
 // function slide-in left panel
 function viewLeftPanel(e) {
@@ -826,13 +881,14 @@ function code_div(codes, venueSlices, year) {
     // let selectionDiv = document.getElementById('dropdown-container');
     // selectionDiv.classList.toggle('d-none');
     // remove 3D layer
-    if (map.getLayer('venue-slice-cones')) {
-      map.removeLayer('venue-slice-cones');
-    };
-    if (map.getLayer('poi-labels')) {
-      map.removeLayer('poi-labels');
-      map.removeSource('venues');
-    };
+    // if (map.getLayer('venue-slice-cones')) {
+    //   map.removeLayer('venue-slice-cones');
+    // };
+    // if (map.getLayer('poi-labels')) {
+    //   map.removeLayer('poi-labels');
+    //   map.removeSource('venues');
+    // };
+    removeAllLayers();
     let onScreenData = venueSlices.features.filter(function (feature) {
       return feature.properties.year == year
     });
@@ -972,7 +1028,10 @@ function addLabels(data) {
   for (var id in data) {
     result.features.push(data[id])
   }
-
+  if (map.getLayer('poi-labels')) {
+    map.removeLayer('poi-labels');
+    map.removeSource('venues');
+  };
 
   map.addSource('venues', {
     'type': 'geojson',
@@ -1117,7 +1176,7 @@ function addCones(data, active) {
         //
         marker.remove();
         if (!(document.getElementById('report-issue').classList.contains('d-none'))) {
-          
+
           document.getElementById('report-issue').classList.add('d-none');
         }
         // Clear old objects
@@ -1163,6 +1222,12 @@ function addCubes(data, active) {
   // } else {
   //   document.getElementById("year-notes").innerHTML = "";
   // }
+  if (data.length == 0) {
+    document.getElementById("year-notes").innerHTML = "No observations from this locale of this year has been found in our database. If you know any venue does not shown on this database, please help us improve. "
+  } else {
+    document.getElementById("year-notes").innerHTML = "";
+  }
+  addLabels(data);
   if (map.getLayer('observation-cubes')) {
     map.removeLayer('observation-cubes');
   };
@@ -1178,7 +1243,7 @@ function addCubes(data, active) {
           defaultLights: true
         }
       );
-      
+
       data.forEach(function (datum) {
         let baseCube = new THREE.Mesh(cubeGeometry, origMaterial);
         let baseLine = new THREE.Mesh(lineGeometry, transMaterial);
@@ -1205,9 +1270,9 @@ function addCubes(data, active) {
           }
         });
 
-        
+
         line.setCoords([datum.geometry.coordinates[0], datum.geometry.coordinates[1], 18]);
-        //the third parameter indicates the height of the cube. 
+        //the third parameter indicates the height of the cube.
         cube.setCoords([datum.geometry.coordinates[0], datum.geometry.coordinates[1], 50]);
         cube.userData.properties = datum.properties;
         tb.add(cube);
@@ -1501,12 +1566,7 @@ async function placeInput(place) {
 let obserLayer = document.getElementById('observation-layer')
 obserLayer.addEventListener('click', function (e) {
   if (obserLayer.classList.contains('collapsed')) {
-    if (map.getLayer('observation-cubes')) {
-      map.removeLayer('observation-cubes');
-      map.removeLayer('poi-labels');
-      map.removeSource('venues');
-      map.removeLayer('venue-slice-cones');
-    };
+    removeAllLayers();
     addCones(current_venue_data, false);
   } else {
     addCubes(current_observation_data, false);
@@ -1551,24 +1611,25 @@ async function updateMap(selectedYear, selectedLocality) {
 
   venues = await getVenues(selectedLocality);
   let observationData = await getObservations(selectedLocality);
-  addVenueLayer(map, venues);
   let filteredYearData = venues.features.filter(function (feature) {
     return feature.properties.year == selectedYear
   });
+  addVenueLayer(map, venues);
+  //console.log(venues)
+  //console.log(toSecondaryGEOJSON(filteredYearData))
+  //addVenueLayer(map, toSecondaryGEOJSON(filteredYearData));
   let filteredYearObservationData = observationData.features.filter(function (feature) {
     return feature.properties.year == selectedYear
   });
   current_observation_data = filteredYearObservationData;
   current_venue_data = filteredYearData;
-  console.log(filteredYearData);
-  console.log(filteredYearObservationData);
   // observation data
   // observations = await getObservations(selectedLocality);
   // addObservationLayer(map, observations);
   // let filteredYearObservations = observations.features.filter(function (feature) {
   //   return feature.properties.year == selectedYear
   // });
-
+  removeAllLayers();
 
   // load all codes
   let code_data = await allCodes();
@@ -1578,7 +1639,13 @@ async function updateMap(selectedYear, selectedLocality) {
   code_div(defaultCodes, venues, selectedYear);
   let active = false;
   // three js 3D object
-  addCones(filteredYearData, active);
+  if (!document.getElementById('observation-layer').classList.contains('collapsed')) {
+    addCubes(filteredYearObservationData, active);
+    //addObservationLayer(map, toGEOJSON(filteredYearObservationData));
+  } else {
+    addCones(filteredYearData, active);
+    //(map, toGEOJSON(filteredYearData));
+  }
   //addCubes(filteredYearObservationData, active);
   // create venue list and observation list
   makeLocalityList('locality-venues', venues, selectedYear);
@@ -1718,7 +1785,7 @@ map.on('style.load', async function () {
 
     // displayNearbyObservations(observations, e);
     // marker.remove();
-    
+
     //left collapse control
     if (document.getElementById('info-default').classList.contains('d-none')) {
       let collapseState = document.getElementById('info').classList.toggle('leftCollapse');
@@ -1729,7 +1796,7 @@ map.on('style.load', async function () {
         toggleLeftPanelView('info-default');
       }
     }
-    
+
 
 
     // toggleLeftPanelView('info-default');
