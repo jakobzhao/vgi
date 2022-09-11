@@ -1590,15 +1590,17 @@ obserLayer.addEventListener('click', function (e) {
 
 
 // YEAR SLIDING
-document.getElementById('slider-bar').addEventListener('input', async function (e) {
-
+let yearSlider = document.getElementById('slider-bar');
+yearSlider.addEventListener('input', function (e) {
   let selectedYear = parseInt(document.getElementById('slider-bar').value);
   document.getElementById('year-label').innerHTML = selectedYear;
-  let selectedLocality = document.querySelector(".dropdown-item-checked").text;
-
-  updateMap(selectedYear, selectedLocality);
-
 });
+
+yearSlider.addEventListener('change', async function (e) {
+  let selectedYear = parseInt(document.getElementById('slider-bar').value);
+  let selectedLocality = document.querySelector(".dropdown-item-checked").text;
+  updateMap(selectedYear, selectedLocality);
+})
 
 // // changes the label of the current selected year for the user to see
 // document.getElementById("slider-bar").addEventListener("input", function (e) {
