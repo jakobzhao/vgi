@@ -289,7 +289,7 @@ function toSecondaryGEOJSON(data) {
       "type": "Feature",
       "geometry": {
         "type": "Point",
-        "coordinates": [data[i].properties.longitude, data[i].properties.latitude]
+        "coordinates": [data[i].geometry.coordinates[0], data[i].geometry.coordinates[1]]
       },
       "properties": getSecondaryProperties(data[i])
     }
@@ -311,15 +311,15 @@ function toSecondaryGEOJSON(data) {
 // Returns an object that is to be added onto the geoJSON output
 function getSecondaryProperties(data) {
   let result = {};
-  for (const properties in data) {
-    //if (properties != 'longitude' && properties != 'latitude') {
+  for (const properties in data.properties) {
+    if (properties != 'longitude' && properties != 'latitude') {
       // convert code string to javascript array
       if (properties == 'codedescriptorlist' && data.codedescriptorlist != null) {
-        result[properties] = data[properties].split(', ');
+        result[properties] = data.properties[properties].split(', ');
       } else {
-        result[properties] = data[properties];
+        result[properties] = data.properties[properties];
       }
-    //}
+    }
   }
   return result;
 };
@@ -499,7 +499,6 @@ function removeAllLayers() {
 
 // function slide-in left panel
 function viewLeftPanel(e) {
-
   console.log("test");
   // parse the codes to increase readability
   let codeString = "";
@@ -1229,9 +1228,9 @@ function addCubes(data, active) {
     document.getElementById("year-notes").innerHTML = "";
   }
   addLabels(data);
-  if (map.getLayer('observation-cubes')) {
-    map.removeLayer('observation-cubes');
-  };
+  // if (map.getLayer('observation-cubes')) {
+  //   map.removeLayer('observation-cubes');
+  // };
   map.addLayer({
     id: 'observation-cubes',
     type: 'custom',
@@ -1297,7 +1296,6 @@ function addCubes(data, active) {
           var nearestObject = intersect.object;
           nearestObject.material = materialOnClick;
           highlighted.push(nearestObject);
-          console.log(nearestObject.parent.userData.properties)
           // toggleLeftPanelView('info-default');
           // document.getElementById('info').classList.toggle('leftCollapse');
         } else {
@@ -1570,6 +1568,8 @@ obserLayer.addEventListener('click', function (e) {
     removeAllLayers();
     addCones(current_venue_data, false);
   } else {
+    removeAllLayers();
+    addCones(current_venue_data, false);
     addCubes(current_observation_data, false);
   }
 })
@@ -1617,10 +1617,10 @@ async function updateMap(selectedYear, selectedLocality) {
   let filteredYearData = venues.features.filter(function (feature) {
     return feature.properties.year == selectedYear
   });
-  addVenueLayer(map, venues);
-  //console.log(venues)
-  //console.log(toSecondaryGEOJSON(filteredYearData))
-  //addVenueLayer(map, toSecondaryGEOJSON(filteredYearData));
+  //addVenueLayer(map, venues);
+  console.log(venues);
+  console.log(toSecondaryGEOJSON(filteredYearData));
+  addVenueLayer(map, toSecondaryGEOJSON(filteredYearData));
   let filteredYearObservationData = observationData.features.filter(function (feature) {
     return feature.properties.year == selectedYear
   });
@@ -1642,13 +1642,12 @@ async function updateMap(selectedYear, selectedLocality) {
   code_div(defaultCodes, venues, selectedYear);
   let active = false;
   // three js 3D object
+  addCones(filteredYearData, active);
   if (!document.getElementById('observation-layer').classList.contains('collapsed')) {
     addCubes(filteredYearObservationData, active);
     //addObservationLayer(map, toGEOJSON(filteredYearObservationData));
-  } else {
-    addCones(filteredYearData, active);
-    //(map, toGEOJSON(filteredYearData));
   }
+  //(map, toGEOJSON(filteredYearData));
   //addCubes(filteredYearObservationData, active);
   // create venue list and observation list
   makeLocalityList('locality-venues', venues, selectedYear);
@@ -1778,7 +1777,6 @@ map.on('style.load', async function () {
 
   // trigger review/location information on click of location point of map
   map.on('click', 'data', async function (e) {
-
     // Bo: Perhaps highlight the nearby and label their names.
     if (map.getLayer('nearby-observations')) {
       map.removeLayer('nearby-observations');
@@ -1917,7 +1915,9 @@ map.on('style.load', async function () {
     }
   };
 
-
+  map.on('click', 'observation-cubes', function(e) {
+    console.log(e)
+  })
 
   // go back button
   document.getElementById('go-back-btn').addEventListener('click', function () {
