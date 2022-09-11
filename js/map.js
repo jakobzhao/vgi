@@ -432,7 +432,7 @@ function addObservationLayer(map, data) {
   };
 
   map.addLayer({
-    'id': 'observation',
+    'id': 'observations',
     'type': 'fill-extrusion',
     'source': {
       'type': 'geojson',
@@ -1222,11 +1222,6 @@ function addCubes(data, active) {
   // } else {
   //   document.getElementById("year-notes").innerHTML = "";
   // }
-  if (data.length == 0) {
-    document.getElementById("year-notes").innerHTML = "No observations from this locale of this year has been found in our database. If you know any venue does not shown on this database, please help us improve. "
-  } else {
-    document.getElementById("year-notes").innerHTML = "";
-  }
   addLabels(data);
   // if (map.getLayer('observation-cubes')) {
   //   map.removeLayer('observation-cubes');
@@ -1279,35 +1274,6 @@ function addCubes(data, active) {
         tb.add(line);
       })
 
-      var highlighted = [];
-      map.on('click', 'data', function (e) {
-        console.log(e);
-        highlighted.forEach(function (h) {
-          h.material = origMaterial;
-        });
-        highlighted.length = 0;
-
-        // calculate objects intersecting the picking ray
-        var intersect = tb.queryRenderedFeatures(e.point)[0]
-        var intersectionExists = typeof intersect == "object"
-
-        // if intersect exists, highlight it
-        if (intersect) {
-          var nearestObject = intersect.object;
-          nearestObject.material = materialOnClick;
-          highlighted.push(nearestObject);
-          // toggleLeftPanelView('info-default');
-          // document.getElementById('info').classList.toggle('leftCollapse');
-        } else {
-          console.log("change back");
-        }
-
-        // on state change, fire a repaint
-        if (active !== intersectionExists) {
-          active = intersectionExists;
-          tb.repaint();
-        }
-      });
     },
     render: function (gl, matrix) {
       tb.update();
@@ -1628,7 +1594,7 @@ async function updateMap(selectedYear, selectedLocality) {
   current_venue_data = filteredYearData;
   // observation data
   // observations = await getObservations(selectedLocality);
-  // addObservationLayer(map, observations);
+  // addObservationLayer(map, toSecondaryGEOJSON(filteredYearObservationData));
   // let filteredYearObservations = observations.features.filter(function (feature) {
   //   return feature.properties.year == selectedYear
   // });
@@ -1644,8 +1610,8 @@ async function updateMap(selectedYear, selectedLocality) {
   // three js 3D object
   addCones(filteredYearData, active);
   if (!document.getElementById('observation-layer').classList.contains('collapsed')) {
-    addCubes(filteredYearObservationData, active);
     //addObservationLayer(map, toGEOJSON(filteredYearObservationData));
+    addCubes(filteredYearObservationData, active);
   }
   //(map, toGEOJSON(filteredYearData));
   //addCubes(filteredYearObservationData, active);
@@ -1915,9 +1881,13 @@ map.on('style.load', async function () {
     }
   };
 
-  map.on('click', 'observation-cubes', function(e) {
-    console.log(e)
-  })
+  // map.on('click', 'observations', function(e) {
+  //   console.log(e)
+  //   new mapboxgl.Popup()
+  //     .setLngLat(e.lngLat)
+  //     .setHTML(e.features[0].properties.name)
+  //     .addTo(map);
+  // })
 
   // go back button
   document.getElementById('go-back-btn').addEventListener('click', function () {
