@@ -616,7 +616,9 @@ async function addLeftPanelActions(feature, marker, e) {
 
       //   document.getElementById('info').classList.toggle('leftCollapse');
       // }
-      document.getElementById('info').classList.toggle('leftCollapse');
+      if (document.getElementById('info').classList.contains('leftCollapse')) {
+        document.getElementById('info').classList.toggle('leftCollapse');
+      }
     }
   });
 };

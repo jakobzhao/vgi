@@ -170,6 +170,9 @@
 
     if (logInView.classList.contains('d-none')) {
       // if contains display none, means that user is logged in
+      if (!document.getElementById('report-issue').classList.contains('d-none')) {
+        document.getElementById('report-issue').classList.add('d-none');
+      }
       toggleLeftPanelView('add-observation');
 
       // if left panel is close
@@ -315,7 +318,7 @@ function toggleLeftPanelView(elementId) {
   // process the attribution
   let attributionLeft = document.getElementById("attribution").style["left"];
 
-  if (attributionLeft == "28em") {
+  if (attributionLeft == "28em" && elementId != 'report-issue') {
     document.getElementById("attribution").style["left"] = "0em";
     document.getElementById("year-slider").style["left"] = "0em";
     document.getElementById("legend").style["left"] = "0em";
