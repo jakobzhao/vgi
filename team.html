@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Shifting LGBTQ+ Spaces</title>
+    <link rel="icon" type="image/x-icon" href="assets/imgs/logo.png">
+    <!-- <link href="css/bootstrap.min.css" rel="stylesheet"> -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <!-- external CSS & js -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,800" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- font awesome kit -->
+    <!-- <script src="https://use.fontawesome.com/releases/v5.15.3/js/all.js" crossorigin="anonymous"></script> -->
+
+
+    <link rel="stylesheet" href="css/simplebar.css" />
+    <link rel='stylesheet' href="css/pages.css" />
+
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js"
+        integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+
+    <!-- bootstrap 5.1 is required for the overall structure of the platform -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous">
+    </script>
+    <script src="js/simplebar.min.js"></script>
+
+
+
+    <!-- Promise polyfill script is required -->
+    <!-- to use MapBox GL Geocoder in IE 11. -->
+    <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.min.js"></script>
+
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-md py-1 navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#"><img width="40px" src="assets/imgs/logo.png"></img>
+                <div id="project-name">Shifting LGBTQ+ Spaces</div>
+            </a>
+            <div style="position:relative; left:-35.5em; bottom:10px;color: white"><small><i>beta</i></small></div>
+            <div id="navbar-tabs">
+                <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="index.html">Map</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="methodology.html">Methodology</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="#">Team</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link active" href="about.html">About</a>
+                    </li>
+
+                    <li>
+                        <button id="log-out-btn" class="btn btn-outline-light d-none">Log out</button>
+                    </li>
+                    <li class="nav-item d-flex">
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                            data-bs-target="#login-modal" id="log-in-btn">
+                            Log In
+                        </button>
+                        <!-- Modals -->
+                        <div class="modal fade" id="login-modal" tabindex="-1" aria-labelledby="login-modal-label"
+                            aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="login-modal-label">Log In with Passphrase</h5>
+                                    </div>
+                                    <div class="modal-body" id="signin-body">
+                                        <div class="mb-3">
+                                            <label class="form-label ">Please input each word of the passphrase to the
+                                                input fields
+                                                below.</label>
+
+                                            <form class="passphrase-control">
+                                                <input type="password" class="form-control passphrase">
+                                                <input type="password" class="form-control passphrase">
+                                                <input type="password" class="form-control passphrase">
+                                            </form>
+                                            <!-- intentionally left blank -->
+                                            <label class="form-label "> </label>
+                                            <label class="form-label "> We welcome everyone's contributions to this
+                                                dataset! To ensure the contribution is reliable, we will only invite
+                                                users who are familiar with the history of the venues of a local area.
+                                                In order to protect the contributor's privacy, we would not adopt a
+                                                normal log-in process that requires storing your personal information to
+                                                this geospatial platform. Instead, we will share a passphrase of three
+                                                words to reliable local experts. The passphrase will be updated once a
+                                                while. So please keep in touch. In the meantime, if you want to
+                                                contribute to this platform, feel free to contact us in order to gain a
+                                                passphrase. </label>
+
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer" id="signin-footers">
+                                        <button type="button" class="btn btn-primary" id="login-btn">Submit</button>
+                                        <button type="button" class="btn btn-secondary" id="login-cls-btn"
+                                            data-bs-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+
+        <div data-simplebar data-simplebar-auto-hide="true" class="grid-container">
+            <div class="grid-box">
+                <div class="about-main-content">
+
+                    <h2>Primary Investigators</h2>
+                    <div class="row text-center">
+                        <!-- Team item-->
+                        <div class="col-xl-3 col-sm-6 mb-5">
+                            <div class="rounded "><img src="assets/imgs/head/knopp.jpg" alt="" width="100"
+                                    class="img-fluid rounded-circle mb-3 about-img-thumbnail shadow-sm">
+                                <h5 class="mb-0">Dr. Larry Knopp</h5><span class="small text-uppercase ">Primary
+                                    Investigator</span>
+                                <ul class="social mb-0 list-inline mt-3">
+                                    <li class="list-inline-item"><a href="mailto:zhaobo@uw.edu"
+                                            class="about-social-link" target="_blank"><i class="fa fa-envelope"></i></a>
+                                    </li>
+                                    <li class="list-inline-item"><a href="https://github.com/jakobzhao"
+                                            class="about-social-link" target="_blank"><i class="fa fa-github"></i></a>
+                                    </li>
+                                    <li class="list-inline-item"><a href="https://www.linkedin.com/in/zhaobo/"
+                                            class="about-social-link" target="_blank"><i class="fa fa-linkedin"></i></a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- End-->
+
+                        <!-- Team item-->
+                        <div class="col-xl-3 col-sm-6 mb-5">
+                            <div class="rounded "><img src="assets/imgs/head/brown.jpg" alt="" width="100"
+                                    class="img-fluid rounded-circle mb-3 about-img-thumbnail shadow-sm">
+                                <h5 class="mb-0">Dr. Michael Brown</h5><span class="small text-uppercase ">Co-PI</span>
+                                <ul class="social mb-0 list-inline mt-3">
+                                    <li class="list-inline-item"><a href="#" class="about-social-link"
+                                            target="_blank"><i class="fa fa-envelope"></i></a></li>
+                                    <li class="list-inline-item"><a href="#" class="about-social-link"
+                                            target="_blank"><i class="fa fa-github"></i></a></li>
+                                    <li class="list-inline-item"><a href="#" class="about-social-link"
+                                            target="_blank"><i class="fa fa-linkedin"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- End-->
+
+                        <!-- Team item-->
+                        <div class="col-xl-3 col-sm-6 mb-5">
+                            <div class="rounded "><img src="assets/imgs/head/zhao.jpg" alt="" width="100"
+                                    class="img-fluid rounded-circle mb-3 about-img-thumbnail shadow-sm">
+                                <h5 class="mb-0">Dr. Bo Zhao</h5><span class="small text-uppercase ">Co-PI</span>
+                                <ul class="social mb-0 list-inline mt-3">
+                                    <li class="list-inline-item"><a href="#" class="about-social-link"
+                                            target="_blank"><i class="fa fa-envelope"></i></a></li>
+                                    <li class="list-inline-item"><a href="#" class="about-social-link"
+                                            target="_blank"><i class="fa fa-github"></i></a></li>
+                                    <li class="list-inline-item"><a href="#" class="about-social-link"
+                                            target="_blank"><i class="fa fa-linkedin"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- End-->
+
+
+                    </div>
+                    <!-- End-->
+                    <hr>
+                    <h2>Researchers</h2>
+                    <div class="row text-center">
+                        <!-- Team item-->
+                        <div class="col-xl-3 col-sm-6 mb-5">
+                            <div class="rounded "><img src="assets/imgs/head/xu.png" alt="" width="100"
+                                    class="img-fluid rounded-circle mb-3 about-img-thumbnail shadow-sm">
+                                <h5 class="mb-0">Ayanda Masiela</h5><span class="small text-uppercase ">Lead WebGIS
+                                    Developer</span>
+                                <p class="small">"As the project's student leader, I created the main skeleton,
+                                    functions as well as the styles for the website. Meanwhile, I am responsible of the
+                                    infection, overall and occupation(work with Kyle) risks' anlysis and visualization."
+                                </p>
+                                <ul class="social mb-0 list-inline mt-3">
+                                    <li class="list-inline-item"><a href="mailto:xuf3@uw.edu" class="about-social-link"
+                                            target="_blank"><i class="fa fa-envelope"></i></a></li>
+                                    <li class="list-inline-item"><a
+                                            href="https://github.com/xuf3https://github.com/xuf3"
+                                            class="about-social-link" target="_blank"><i class="fa fa-github"></i></a>
+                                    </li>
+                                    <li class="list-inline-item"><a
+                                            href="https://www.linkedin.com/in/fengyu-xu-36b4a4163/"
+                                            class="about-social-link" target="_blank"><i class="fa fa-linkedin"></i></a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- End-->
+
+                        <!-- Team item-->
+                        <div class="col-xl-3 col-sm-6 mb-5">
+                            <div class="rounded "><img src="assets/imgs/head/bao.png" alt="" width="100"
+                                    class="img-fluid rounded-circle mb-3 about-img-thumbnail shadow-sm">
+                                <h5 class="mb-0">Theodore Davenport</h5><span class="small text-uppercase ">Web
+                                    developer</span>
+                                <p class="small">Mainly on data collection, processing, and visualization for the
+                                    unemployment-related statistics used in the dashboard. Meanwhile assisted Fengyu in
+                                    the infection data processing and visualization. Also worked on some minor bug
+                                    fixes.</p>
+                                <ul class="social mb-0 list-inline mt-3">
+                                    <li class="list-inline-item"><a href="mailto:bxq98@uw.edu" class="about-social-link"
+                                            target="_blank"><i class="fa fa-envelope"></i></a></li>
+                                    <li class="list-inline-item"><a href="https://github.com/whichsteven"
+                                            class="about-social-link" target="_blank"><i class="fa fa-github"></i></a>
+                                    </li>
+                                    <li class="list-inline-item"><a href="https://www.linkedin.com/in/xb297/"
+                                            class="about-social-link" target="_blank"><i class="fa fa-linkedin"></i></a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- End-->
+
+                        <!-- Team item-->
+                        <div class="col-xl-3 col-sm-6 mb-5">
+                            <div class="rounded "><img src="assets/imgs/head/ho.jpg" alt="" width="100"
+                                    class="img-fluid rounded-circle mb-3 about-img-thumbnail shadow-sm">
+                                <h5 class="mb-0">Caitlin M. Alcorn</h5><span class="small text-uppercase ">Web
+                                    developer</span>
+                                <p class="small">Wrote Python scripts to collect Twitter Data and using the data to
+                                    generate wrod cloud as well as sentiment intensity score. Also contributed in the
+                                    development of the "methodology", "resource", and "about" page.</p>
+                                <ul class="social mb-0 list-inline mt-3">
+                                    <li class="list-inline-item"><a href="mailto:jouh@uw.edu" class="about-social-link"
+                                            target="_blank"><i class="fa fa-envelope"></i></a></li>
+                                    <li class="list-inline-item"><a href="https://github.com/jouho"
+                                            class="about-social-link" target="_blank"><i class="fa fa-github"></i></a>
+                                    </li>
+                                    <li class="list-inline-item"><a href="https://www.linkedin.com/in/jou-ho-6a2655192/"
+                                            class="about-social-link" target="_blank"><i class="fa fa-linkedin"></i></a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- End-->
+
+                        <!-- Team item-->
+                        <div class="col-xl-3 col-sm-6 mb-5">
+                            <div class="rounded "><img src="assets/imgs/head/kyle.jpg" alt="" width="100"
+                                    class="img-fluid rounded-circle mb-3 about-img-thumbnail shadow-sm">
+                                <h5 class="mb-0">Lizhi Peng</h5><span class="small text-uppercase ">Web
+                                    developer</span>
+                                <p class="small">Developed a high-fidelity prototype for the dashboard and contributed
+                                    to front-end implementation with a focus on Occupational Risk.</p>
+                                <ul class="social mb-0 list-inline mt-3">
+                                    <li class="list-inline-item"><a href="mailto:kcroland@uw.edu"
+                                            class="about-social-link" target="_blank"><i class="fa fa-envelope"></i></a>
+                                    </li>
+                                    <li class="list-inline-item"><a href="#" class="about-social-link"
+                                            target="_blank"><i class="fa fa-github"></i></a></li>
+                                    <li class="list-inline-item"><a href="#" class="about-social-link"
+                                            target="_blank"><i class="fa fa-linkedin"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- End-->
+                        <!-- Team item-->
+                        <div class="col-xl-3 col-sm-6 mb-5">
+                            <div class="rounded "><img src="assets/imgs/head/cao.jpg" alt="" width="100"
+                                    class="img-fluid rounded-circle mb-3 about-img-thumbnail shadow-sm">
+                                <h5 class="mb-0">Yuke Cao</h5><span class="small text-uppercase ">Web developer</span>
+                                <p class="small">Contributed in developing "resource" page and sentiment chart. Helped
+                                    with maintenance of website and debug.</p>
+                                <ul class="social mb-0 list-inline mt-3">
+                                    <li class="list-inline-item"><a href="mailto:yuke295@uw.edu"
+                                            class="about-social-link"><i class="fa fa-envelope" target="_blank"></i></a>
+                                    </li>
+                                    <li class="list-inline-item"><a href="https://github.com/Yuke295"
+                                            class="about-social-link"><i class="fa fa-github" target="_blank"></i></a>
+                                    </li>
+                                    <li class="list-inline-item"><a
+                                            href="https://www.linkedin.com/in/yuke-cao-261838191/"
+                                            class="about-social-link" target="_blank"><i class="fa fa-linkedin"></i></a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- End-->
+                    </div>
+                    <hr>
+                    <h2>Geospatial Platform Team</h2>
+                    <div class="row text-center">
+
+                        <!-- Team item-->
+                        <div class="col-xl-3 col-sm-6 mb-5">
+                            <div class="rounded "><img src="assets/imgs/head/cao.jpg" alt="" width="100"
+                                    class="img-fluid rounded-circle mb-3 about-img-thumbnail shadow-sm">
+                                <h5 class="mb-0">Kevin Ko</h5><span class="small text-uppercase ">Web developer</span>
+                                <p class="small">Contributed in developing "resource" page and sentiment chart. Helped
+                                    with maintenance of website and debug.</p>
+                                <ul class="social mb-0 list-inline mt-3">
+                                    <li class="list-inline-item"><a href="mailto:yuke295@uw.edu"
+                                            class="about-social-link"><i class="fa fa-envelope" target="_blank"></i></a>
+                                    </li>
+                                    <li class="list-inline-item"><a href="https://github.com/Yuke295"
+                                            class="about-social-link"><i class="fa fa-github" target="_blank"></i></a>
+                                    </li>
+                                    <li class="list-inline-item"><a
+                                            href="https://www.linkedin.com/in/yuke-cao-261838191/"
+                                            class="about-social-link" target="_blank"><i class="fa fa-linkedin"></i></a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- End-->
+
+                        <!-- Team item-->
+                        <div class="col-xl-3 col-sm-6 mb-5">
+                            <div class="rounded "><img src="assets/imgs/head/cao.jpg" alt="" width="100"
+                                    class="img-fluid rounded-circle mb-3 about-img-thumbnail shadow-sm">
+                                <h5 class="mb-0">Zhiyuan "Kerwin" Jiao</h5><span class="small text-uppercase ">Web developer</span>
+                                <p class="small">Contributed in developing "resource" page and sentiment chart. Helped
+                                    with maintenance of website and debug.</p>
+                                <ul class="social mb-0 list-inline mt-3">
+                                    <li class="list-inline-item"><a href="mailto:yuke295@uw.edu"
+                                            class="about-social-link"><i class="fa fa-envelope" target="_blank"></i></a>
+                                    </li>
+                                    <li class="list-inline-item"><a href="https://github.com/Yuke295"
+                                            class="about-social-link"><i class="fa fa-github" target="_blank"></i></a>
+                                    </li>
+                                    <li class="list-inline-item"><a
+                                            href="https://www.linkedin.com/in/yuke-cao-261838191/"
+                                            class="about-social-link" target="_blank"><i class="fa fa-linkedin"></i></a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- End-->
+
+                        <!-- Team item-->
+                        <div class="col-xl-3 col-sm-6 mb-5">
+                            <div class="rounded "><img src="assets/imgs/head/cao.jpg" alt="" width="100"
+                                    class="img-fluid rounded-circle mb-3 about-img-thumbnail shadow-sm">
+                                <h5 class="mb-0">Qianheng "Joshua" Zhang</h5><span class="small text-uppercase ">Web developer</span>
+                                <p class="small">Contributed in developing "resource" page and sentiment chart. Helped
+                                    with maintenance of website and debug.</p>
+                                <ul class="social mb-0 list-inline mt-3">
+                                    <li class="list-inline-item"><a href="mailto:yuke295@uw.edu"
+                                            class="about-social-link"><i class="fa fa-envelope" target="_blank"></i></a>
+                                    </li>
+                                    <li class="list-inline-item"><a href="https://github.com/Yuke295"
+                                            class="about-social-link"><i class="fa fa-github" target="_blank"></i></a>
+                                    </li>
+                                    <li class="list-inline-item"><a
+                                            href="https://www.linkedin.com/in/yuke-cao-261838191/"
+                                            class="about-social-link" target="_blank"><i class="fa fa-linkedin"></i></a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- End-->
+                        <!-- Team item-->
+                        <div class="col-xl-3 col-sm-6 mb-5">
+                            <div class="rounded "><img src="assets/imgs/head/cao.jpg" alt="" width="100"
+                                    class="img-fluid rounded-circle mb-3 about-img-thumbnail shadow-sm">
+                                <h5 class="mb-0">Yufei “Lexi” Xia</h5><span class="small text-uppercase ">Web developer</span>
+                                <p class="small">Contributed in developing "resource" page and sentiment chart. Helped
+                                    with maintenance of website and debug.</p>
+                                <ul class="social mb-0 list-inline mt-3">
+                                    <li class="list-inline-item"><a href="mailto:yuke295@uw.edu"
+                                            class="about-social-link"><i class="fa fa-envelope" target="_blank"></i></a>
+                                    </li>
+                                    <li class="list-inline-item"><a href="https://github.com/Yuke295"
+                                            class="about-social-link"><i class="fa fa-github" target="_blank"></i></a>
+                                    </li>
+                                    <li class="list-inline-item"><a
+                                            href="https://www.linkedin.com/in/yuke-cao-261838191/"
+                                            class="about-social-link" target="_blank"><i class="fa fa-linkedin"></i></a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- End-->
+                       
+
+                    </div>
+
+
+                    <div class="logo"><a href="https://uw.edu" target="_blank"><img src="assets/imgs/uw.png"
+                                width="250px"></a></div>
+
+
+
+                </div>
+            </div>
+    </main>
+
+</body>
+
+</html>

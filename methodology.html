@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Shifting LGBTQ+ Spaces</title>
+    <link rel="icon" type="image/x-icon" href="assets/imgs/logo.png">
+    <!-- <link href="css/bootstrap.min.css" rel="stylesheet"> -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <!-- external CSS & js -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,800" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+   <!-- font awesome kit -->
+   <!-- <script src="https://use.fontawesome.com/releases/v5.15.3/js/all.js" crossorigin="anonymous"></script> -->
+
+
+    <link rel="stylesheet" href="css/simplebar.css" />
+    <link rel='stylesheet' href="css/pages.css" />
+
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js"
+        integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+
+    <!-- bootstrap 5.1 is required for the overall structure of the platform -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous">
+    </script>
+    <script src="js/simplebar.min.js"></script>
+
+ 
+
+    <!-- Promise polyfill script is required -->
+    <!-- to use MapBox GL Geocoder in IE 11. -->
+    <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.min.js"></script>
+
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-md py-1 navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#"><img width="40px" src="assets/imgs/logo.png"></img>
+                <div id="project-name">Shifting LGBTQ+ Spaces</div>
+            </a>
+            <div style="position:relative; left:-35.5em; bottom:10px;color: white"><small><i>beta</i></small></div>
+            <div id="navbar-tabs">
+                <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="index.html">Map</a>
+                      </li>
+            
+                      <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="#">Methodology</a>
+                      </li>
+            
+                      <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="team.html">Team</a>
+                      </li>
+            
+                      <li class="nav-item">
+                        <a class="nav-link active" href="about.html">About</a>
+                      </li>
+
+                    <li>
+                        <button id="log-out-btn" class="btn btn-outline-light d-none">Log out</button>
+                    </li>
+                    <li class="nav-item d-flex">
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                            data-bs-target="#login-modal" id="log-in-btn">
+                            Log In
+                        </button>
+                        <!-- Modals -->
+                        <div class="modal fade" id="login-modal" tabindex="-1" aria-labelledby="login-modal-label"
+                            aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="login-modal-label">Log In with Passphrase</h5>
+                                    </div>
+                                    <div class="modal-body" id="signin-body">
+                                        <div class="mb-3">
+                                            <label class="form-label ">Please input each word of the passphrase to the
+                                                input fields
+                                                below.</label>
+
+                                            <form class="passphrase-control">
+                                                <input type="password" class="form-control passphrase">
+                                                <input type="password" class="form-control passphrase">
+                                                <input type="password" class="form-control passphrase">
+                                            </form>
+                                            <!-- intentionally left blank -->
+                                            <label class="form-label "> </label>
+                                            <label class="form-label "> We welcome everyone's contributions to this
+                                                dataset! To ensure the contribution is reliable, we will only invite
+                                                users who are familiar with the history of the venues of a local area.
+                                                In order to protect the contributor's privacy, we would not adopt a
+                                                normal log-in process that requires storing your personal information to
+                                                this geospatial platform. Instead, we will share a passphrase of three
+                                                words to reliable local experts. The passphrase will be updated once a
+                                                while. So please keep in touch. In the meantime, if you want to
+                                                contribute to this platform, feel free to contact us in order to gain a
+                                                passphrase. </label>
+
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer" id="signin-footers">
+                                        <button type="button" class="btn btn-primary" id="login-btn">Submit</button>
+                                        <button type="button" class="btn btn-secondary" id="login-cls-btn"
+                                            data-bs-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+
+
+        <div data-simplebar data-simplebar-auto-hide="true" class="grid-container">
+            <div class="grid-box">
+                <div class="about-main-content">
+                    <img class="border border-secondary" style="float:right; margin-left: 20px"
+                        src="assets\screenshot.png" alt="dashboard overview" width="700px">
+                    <p>We have built this dashboard to enable local governments, communities, and workplaces to enact
+                        locally appropriate health- and economic-protective policies for workers during this period of
+                        economic recovery. This dashboard will
+                        provide specific information about occupational risk factors and a county level COVID and
+                        unemployment assessment.
+                    </p>
+                    <h2>How to Use This Dashboard</h2>
+                    <p>This dashboard will be useful for county and local governments, employers and workers. Using the
+                        data and visualizations on the dashboards, you can determine current workplace risk for an
+                        occupation in a specific county in regards to
+                        the local COVID risk.
+                    </p>
+                    <p>On the dashboard page, you will be immediately directed to a choropleth map which shows our
+                        overall risk matrix for each county. This matrix was calculated by... This map view can be
+                        changed to view infection risk, unemployment risk,
+                        and occupation risk, by clicking on the appropriate tap above the map. On the dashboard you will
+                        see infographics which show COVID risk and unemployment over time, and occupational risk at the
+                        state level. From this map, you can click
+                        on a county and see six infographics. These infographics are:</p>
+                    <ul style="">
+                        <li>a line graph showing COVID-19 cases, COVID-19 deaths and number of hospitalizations
+                            associated with COVID-19 within that county.</li>
+                        <li>a wordcloud which summarizes key terms which appeared in social media content about COVID-19
+                            in that county. </li>
+                        <li>a line graph showing the unemployment rate in that county throughout 2020.</li>
+                        <li>the most recent unemployment insurance benefit per claimant in the county.</li>
+                        <li>a ranking of the 10 occupations which are currently hiring the most in that county.</li>
+                        <li>a scatterplot showing occupational risk. This scatterplot takes data from the Bureau of
+                            Labor Statistics which calculates exposure to disease or infections and physical proximity
+                            on a scale of 0-100. Across the x-axis is exposure to
+                            disease or infections ("How often does this job require exposure to disease/infections?"),
+                            and across the y-axis is ("To what extent does this job require the worker to perform job
+                            tasks in close physical proximity to other people?").
+                            You can use the drop-down menu to choose an occupation and see the risk level. Or you can
+                            hover over points on the scatter plot to see what occupation it represents.
+                        </li>
+                    </ul>
+                    <p>More information about how these data are collected, processed and visualized are explained and
+                        can be accessed in the <a href="methodology.html" target="_parent">methodology page</a>.</p>
+     
+
+
+                    <!-- acknowledgement -->
+                    <hr>
+                    <h2>Acknowledgement</h2>
+
+                    <div class="attribution">
+
+                        <p class="text-left">
+                            Funded by <a href="https://www.washington.edu/populationhealth/" target="_blank">the
+                                Population Health Initiative at University of Washington (UW)</a>, <a
+                                href="https://sph.washington.edu/" target="_blank">School of Public Health</a>,
+                            <a href="https://geography.washington.edu/" target="_blank">Department of Geography</a> and
+                            <a href="https://labor.washington.edu/" target="_blank">the Harry Bridges Center for Labor
+                                Studies</a>;</p>
+                        <p class="text-left"> Hosted upon the server offered by <a target="_blank"
+                                href="https://csde.washington.edu/">UW's Center for Studies in Demography and Ecology
+                                (CSDE)</a>;</p>
+                        <p class="text-left"> Maintained by <a href="https://hgis.uw.edu" target="_blank">the UW's
+                                Humanistic GIS Laboratory</a>. For more details about this project, please contact <a
+                                href="mailto://zhaobo@uw.edu">Bo Zhao</a>.</p>
+                    </div>
+
+                    <div class="logo"><a href="https://uw.edu" target="_blank"><img src="assets/imgs/uw.png"
+                                width="250px"></a></div>
+
+
+
+                </div>
+            </div>
+    </main>
+
+</body>
+
+</html>

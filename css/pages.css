@@ -1,0 +1,325 @@
+/*general css style*/
+html,
+body,
+main,
+#map {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background: #121212;
+    display: flex;
+    flex-flow: column;
+    font-family: 'Source Sans Pro', sans-serif;
+    color: rgb(247 247 247 /70%);
+    overflow-y: hidden;
+    overflow-x: hidden;
+}
+
+
+
+/* fixed navbar to fix dashboard overlaying on navbar */
+nav {
+    position: absolute;
+    z-index: 999;
+}
+
+#project-name{
+    font-size: larger;
+    margin-top: -1.5em;
+    margin-left: 2.5em;
+}
+
+#log-in-btn {
+    margin-top: 3px;
+}
+
+/* for search bar  */
+.map-overlay-top {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding-top: 5.75em;
+    padding-right: 3.5em;
+}
+
+
+
+
+/* side panel background */
+.bg-opaque-white {
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.85);
+}
+
+/* fix height of right panel */
+.box-shadow-info {
+    box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+    border-radius: 5px;
+}
+
+  
+  a {
+    color: rgb(247 247 247 /80%);
+  }
+  
+  a:hover {
+    color: rgb(247 247 247 /95%);
+    pointer-events: auto;
+  }
+  
+  hr {
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+  
+  h4 {
+    font-size: x-large;
+    text-indent: 0.5em;
+  
+  }
+  
+  .fa {
+    /* padding: 20px; */
+    font-size: large;
+    width: 50px;
+    color: gray;
+    text-align: center;
+    text-decoration: none;
+  }
+  
+  /* Add a hover effect if you want */
+  .fa:hover {
+    color: white;
+    text-decoration: none;
+  }
+  
+  
+  .logo {
+    position: relative;
+    text-align: center;
+    margin-top: 20px;
+    padding-bottom: 50px;
+  }
+  
+  .attribution p {
+    /* font-size: small; */
+    /* margin-top: 70px; */
+    /* padding-left: 1rem; */
+    /* padding-right: 1rem; */
+    text-indent: 0!important;
+    /* text-align: center !important; */
+    color: rgb(247 247 247 /70%);
+  }
+  
+  
+  .simplebar-content-wrapper {
+    /* overflow: auto; */
+  }
+  
+  /* navbar */
+  .navbar {
+    dispay: block;
+  }
+  
+  .navbar-brand img {
+    margin-right: 5px;
+  }
+  
+  .navbar-nav {
+    /* flex-direction: row; */
+  }
+  
+  .nav-link {
+    padding-right: .5rem !important;
+    padding-left: .5rem !important;
+    color: white
+  }
+  
+  .navbar>.container {
+    justify-content: left;
+    margin-left: 0;
+  }
+  
+  .ml-auto, .mx-auto {
+    margin-left: 0 !important;
+  }
+  
+  /* Fixes dropdown menus placed on the right side */
+  .ml-auto .dropdown-menu {
+    left: auto !important;
+    right: 0px;
+  }
+  
+  /* main window */
+  .grid-container {
+    height: 100vh;
+    min-width: 1024px;
+    padding: 10px;
+    /* padding-top: 66px; */
+    background-color: #121212;
+    display: grid;
+  }
+  
+  .grid-box {
+    background-color: #343a40;
+    border-radius: 2px;
+    text-align: center;
+    /* margin-bottom: 5rem; */
+  }
+  
+  /* About Page CSS */
+  .about-main-content {
+    padding-top: 2em;
+    padding-bottom: 1em;
+    padding-left: 3em;
+    padding-right: 3em;
+    text-align: left;
+  }
+  
+  .about-main-content p {
+    text-indent: 1em;
+  }
+  
+  .about-img-thumbnail {
+    padding: .25rem;
+    background-color: #fff;
+    border: 1px solid #dee2e6;
+    border-radius: .25rem;
+    max-width: 100%;
+    height: auto;
+  }
+  
+  .about-social-link {
+    width: 30px;
+    height: 30px;
+    border: 1px solid #ddd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #666;
+    border-radius: 50%;
+    transition: all 0.3s;
+    /* font-size: 0.9rem; */
+  }
+  
+  #about-contact {
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    grid-template-rows: 40px;
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+    width: 50%;
+    margin: 0 auto;
+    margin-bottom: 1em;
+    margin-top: 1em;
+  }
+  
+  .mb-0 {
+    color: rgb(247 247 247 /70%);
+  }
+  
+  /* css for the resource page */
+  .re-container {
+    padding: 20px;
+  }
+  
+  .external-re {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: space-between;
+  }
+  
+  .re-flex-item {
+    text-align: left;
+    padding: 10px;
+    width: 438px;
+    margin-bottom: 20px;
+  }
+  
+  .re-table {
+    border-collapse: collapse;
+    width: 100vw;
+    font-size: 15px;
+    margin-bottom: 20px;
+  }
+  
+  td, th {
+    /*border: 1px solid #dddddd;*/
+    text-align: left;
+    padding: 2px;
+  }
+  
+  .re-table th {
+    font-size: x-large;
+  }
+  
+  /*methodology page
+  Please use 'mtd' as prefix
+  */
+  .mtd-main-content {
+    padding-top: 2em;
+    padding-bottom: 1em;
+    padding-left: 3em;
+    padding-right: 3em;
+    text-align: left;
+  }
+  
+  .mtd-main-content p {
+    text-indent: 1em;
+  }
+  
+  /* resource page css*/
+  .resource-container {
+    padding-top: 15px;
+    padding-left: 18px;
+    height: 100vh;
+    background-color: #343a40;
+    margin: 20px;
+    margin-top: 9vh;
+  }
+  
+  .resource-main-content {
+    padding-top: 2em;
+    padding-bottom: 1em;
+    padding-left: 3em;
+    padding-right: 3em;
+    text-align: left;
+  }
+  
+  .resource-main-content p {
+    text-indent: 1em;
+  }
+  
+  /* ocp risk table */
+  .tg  {border-collapse:collapse;border-spacing:0;width:50%}
+  .tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+    overflow:hidden;padding:10px 5px;word-break:normal;}
+  .tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+    font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
+  .tg .tg-nltl{background-color:#f56b00;text-align:left;vertical-align:top}
+  .tg .tg-cxgh{background-color:#ffcb2f;text-align:left;vertical-align:top}
+  .tg .tg-0lax{text-align:left;vertical-align:top;color:white}
+  .tg .tg-7dil{background-color:#009901;text-align:left;vertical-align:top}
+  .tg .tg-fd62{background-color:#32cb00;text-align:left;vertical-align:top}
+  .tg .tg-s7ni{background-color:#f8ff00;text-align:left;vertical-align:top}
+  .tg tbody {
+    color:black;
+  }
+  
+  /* unemp risk table */
+  .tg-unemp  {border-collapse:collapse;border-spacing:0;width:50%}
+  .tg-unemp td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+    overflow:hidden;padding:10px 5px;word-break:normal;}
+  .tg-unemp th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+    font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
+  .tg-unemp .tg-unemp-nltl{background-color:#f56b00;text-align:left;vertical-align:top}
+  .tg-unemp .tg-unemp-cxgh{background-color:#ffcb2f;text-align:left;vertical-align:top}
+  .tg-unemp .tg-unemp-0lax{text-align:left;vertical-align:top;color:white}
+  .tg-unemp .tg-unemp-7dil{background-color:#009901;text-align:left;vertical-align:top}
+  .tg-unemp .tg-unemp-fd62{background-color:#32cb00;text-align:left;vertical-align:top}
+  .tg-unemp .tg-unemp-s7ni{background-color:#f8ff00;text-align:left;vertical-align:top}
+  .tg-unemp tbody {
+    color:black;
+  }
