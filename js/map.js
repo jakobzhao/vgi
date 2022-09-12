@@ -44,7 +44,8 @@ const transMaterial = new THREE.MeshPhysicalMaterial({
 
 const materialOnClick = new THREE.MeshPhysicalMaterial({
   flatShading: true,
-  color: '#ff6262',
+  // color: '#ff6262',
+  color: '#00ffff',
   // transparent: true,
   // opacity: 0.5
 });
@@ -1795,36 +1796,36 @@ map.on('style.load', async function () {
     let feature = e.features[0];
     viewLeftPanel(feature);
     addLeftPanelActions(feature, marker, e);
-    addExtrusions(feature, e);
-    // buffer
-    let turfPoint = turf.point(feature.geometry.coordinates);
-    let buffer = turf.buffer(turfPoint, 500, {
-      units: 'meters'
-    });
-    map.addLayer({
-      id: 'buffer-point',
-      source: {
-        type: 'geojson',
-        data: {
-          "type": "FeatureCollection",
-          "features": []
-        }
-      },
-      type: "fill",
-      paint: {
-        'fill-color': 'red',
-        'fill-opacity': 0.1
-      }
-    });
+    // addExtrusions(feature, e);
+    // // buffer
+    // let turfPoint = turf.point(feature.geometry.coordinates);
+    // let buffer = turf.buffer(turfPoint, 500, {
+    //   units: 'meters'
+    // });
+    // map.addLayer({
+    //   id: 'buffer-point',
+    //   source: {
+    //     type: 'geojson',
+    //     data: {
+    //       "type": "FeatureCollection",
+    //       "features": []
+    //     }
+    //   },
+    //   type: "fill",
+    //   paint: {
+    //     'fill-color': 'red',
+    //     'fill-opacity': 0.1
+    //   }
+    // });
 
-    map.getSource('buffer-point').setData(buffer);
-    // indicate that this point is a venue
-    let venueIndicator = document.getElementById('venue-indicator');
-    if (e.features[0].properties.v_id !== undefined) {
-      venueIndicator.innerHTML = "this is a confirmed venue";
-    } else {
-      venueIndicator.innerHTML = '';
-    };
+    // map.getSource('buffer-point').setData(buffer);
+    // // indicate that this point is a venue
+    // let venueIndicator = document.getElementById('venue-indicator');
+    // if (e.features[0].properties.v_id !== undefined) {
+    //   venueIndicator.innerHTML = "this is a confirmed venue";
+    // } else {
+    //   venueIndicator.innerHTML = '';
+    // };
 
     // add reviews
     // if add review button is clicked, display add review div box
