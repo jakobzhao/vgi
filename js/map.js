@@ -942,6 +942,14 @@ function getStreetView(feature) {
     document.getElementById("venue-img-container"),
     {
       position: location,
+      imageDate: '2014-01-01',
+        addressControlOptions: {
+          position: google.maps.ControlPosition.BOTTOM_CENTER
+        },
+        imageDateControl: true,
+        linksControl: false,
+        panControl: true,
+        enableCloseButton: false,
       pov: {
         heading: 34,
         pitch: 10,
