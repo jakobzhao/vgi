@@ -930,35 +930,55 @@ function codeIncludes(codeData, year) {
 // Parameters:
 //  feature: js object that contains complete data of clicked location
 function getStreetView(feature) {
-  let imgParent = document.getElementById('venue-img-container');
-  let location = [feature.geometry.coordinates[1], feature.geometry.coordinates[0]];
-
-  let imageURL = "https://maps.googleapis.com/maps/api/streetview?";
-  let imgParams = new URLSearchParams({
-    location: location[0] + ", " + location[1],
-    size: "1280x720",
-    fov: 90,
-    heading: 70,
-    pitch: 0,
-    // API key linked to personal account currently (GOOGLE CLOUD CONSOLE)
-    key: "AIzaSyC7zg5Rb4UJNKsiXIol35wzC0uZmHddj0Q"
+  // let imgParent = document.getElementById('venue-img-container');
+  let location = {lat: feature.geometry.coordinates[1], lng: feature.geometry.coordinates[0]};
+  // console.log(location);
+  const map = new google.maps.Map(document.getElementById("gmap"), {
+    center: location,
+    zoom: 14,
   });
 
-  let fetchURL = imageURL + imgParams.toString();
-  console.log(fetchURL);
+  const panorama = new google.maps.StreetViewPanorama(
+    document.getElementById("venue-img-container"),
+    {
+      position: location,
+      pov: {
+        heading: 34,
+        pitch: 10,
+      },
+    }
+  );
+  map.setStreetView(panorama);
+  // map.setStreetView(panorama);
 
-  fetch(fetchURL)
-    .then(response => response.blob())
-    .then(imageBlob => {
-      // remove all current/previous loaded images
-      while (imgParent.firstChild) {
-        imgParent.removeChild(imgParent.firstChild);
-      }
-      let imgChild = document.createElement('img');
-      let imageObjectURL = URL.createObjectURL(imageBlob);
-      imgChild.src = imageObjectURL;
-      imgParent.appendChild(imgChild);
-    })
+
+
+  // let imageURL = "https://maps.googleapis.com/maps/api/streetview?";
+  // let imgParams = new URLSearchParams({
+  //   location: location[0] + ", " + location[1],
+  //   size: "1280x720",
+  //   fov: 90,
+  //   heading: 70,
+  //   pitch: 0,
+  //   // API key linked to personal account currently (GOOGLE CLOUD CONSOLE)
+  //   key: "AIzaSyC7zg5Rb4UJNKsiXIol35wzC0uZmHddj0Q"
+  // });
+
+  // let fetchURL = imageURL + imgParams.toString();
+  // console.log(fetchURL);
+
+  // fetch(fetchURL)
+  //   .then(response => response.blob())
+  //   .then(imageBlob => {
+  //     // remove all current/previous loaded images
+  //     while (imgParent.firstChild) {
+  //       imgParent.removeChild(imgParent.firstChild);
+  //     }
+  //     let imgChild = document.createElement('img');
+  //     let imageObjectURL = URL.createObjectURL(imageBlob);
+  //     imgChild.src = imageObjectURL;
+  //     imgParent.appendChild(imgChild);
+  //   })
 
 }
 
@@ -1128,7 +1148,10 @@ function addCones(data, active) {
       window.tb = new Threebox(
         map,
         mbxContext, {
-          defaultLights: true
+          defaultLights: true,
+          // realSunlight: true,
+          // enableSelectingObjects: true,
+          // enableTooltips: true
         }
       );
 
@@ -1146,7 +1169,7 @@ function addCones(data, active) {
         // @jakobzhao: Warning: the duplicate function will make the material of all the cones the same.
         // let cone = coneTemplate.duplicate();
         let baseCone = new THREE.Mesh(geometry, origMaterial);
-        cone = tb.Object3D({
+        cone = window.tb.Object3D({
           obj: baseCone,
           units: 'meters'
         }).set({
@@ -1158,12 +1181,14 @@ function addCones(data, active) {
         });
 
         cone.setCoords([datum.geometry.coordinates[0], datum.geometry.coordinates[1], 20]);
+        // cone.castShadow = true;
+        // tb.lights.dirLight.target = cone;
         // Bo: Attach properties to each cone.
         // console.log(datum.properties.placetype);
         cone.userData.properties = datum.properties
 
 
-        tb.add(cone);
+        window.tb.add(cone);
         // tb.add(line);
       })
 
