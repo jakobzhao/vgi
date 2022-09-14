@@ -44,8 +44,7 @@ const transMaterial = new THREE.MeshPhysicalMaterial({
 
 const materialOnClick = new THREE.MeshPhysicalMaterial({
   flatShading: true,
-  // color: '#ff6262',
-  color: '#00ffff',
+  color: '#ff6262',
   // transparent: true,
   // opacity: 0.5
 });
@@ -930,63 +929,35 @@ function codeIncludes(codeData, year) {
 // Parameters:
 //  feature: js object that contains complete data of clicked location
 function getStreetView(feature) {
-  // let imgParent = document.getElementById('venue-img-container');
-  let location = {lat: feature.geometry.coordinates[1], lng: feature.geometry.coordinates[0]};
-  // console.log(location);
-  const map = new google.maps.Map(document.getElementById("gmap"), {
-    center: location,
-    zoom: 14,
+  let imgParent = document.getElementById('venue-img-container');
+  let location = [feature.geometry.coordinates[1], feature.geometry.coordinates[0]];
+
+  let imageURL = "https://maps.googleapis.com/maps/api/streetview?";
+  let imgParams = new URLSearchParams({
+    location: location[0] + ", " + location[1],
+    size: "1280x720",
+    fov: 90,
+    heading: 70,
+    pitch: 0,
+    // API key linked to personal account currently (GOOGLE CLOUD CONSOLE)
+    key: "AIzaSyC7zg5Rb4UJNKsiXIol35wzC0uZmHddj0Q"
   });
 
-  const panorama = new google.maps.StreetViewPanorama(
-    document.getElementById("venue-img-container"),
-    {
-      position: location,
-      imageDate: '2014-01-01',
-        addressControlOptions: {
-          position: google.maps.ControlPosition.BOTTOM_CENTER
-        },
-        imageDateControl: true,
-        linksControl: false,
-        panControl: true,
-        enableCloseButton: false,
-      pov: {
-        heading: 34,
-        pitch: 10,
-      },
-    }
-  );
-  map.setStreetView(panorama);
-  // map.setStreetView(panorama);
+  let fetchURL = imageURL + imgParams.toString();
+  console.log(fetchURL);
 
-
-
-  // let imageURL = "https://maps.googleapis.com/maps/api/streetview?";
-  // let imgParams = new URLSearchParams({
-  //   location: location[0] + ", " + location[1],
-  //   size: "1280x720",
-  //   fov: 90,
-  //   heading: 70,
-  //   pitch: 0,
-  //   // API key linked to personal account currently (GOOGLE CLOUD CONSOLE)
-  //   key: "AIzaSyC7zg5Rb4UJNKsiXIol35wzC0uZmHddj0Q"
-  // });
-
-  // let fetchURL = imageURL + imgParams.toString();
-  // console.log(fetchURL);
-
-  // fetch(fetchURL)
-  //   .then(response => response.blob())
-  //   .then(imageBlob => {
-  //     // remove all current/previous loaded images
-  //     while (imgParent.firstChild) {
-  //       imgParent.removeChild(imgParent.firstChild);
-  //     }
-  //     let imgChild = document.createElement('img');
-  //     let imageObjectURL = URL.createObjectURL(imageBlob);
-  //     imgChild.src = imageObjectURL;
-  //     imgParent.appendChild(imgChild);
-  //   })
+  fetch(fetchURL)
+    .then(response => response.blob())
+    .then(imageBlob => {
+      // remove all current/previous loaded images
+      while (imgParent.firstChild) {
+        imgParent.removeChild(imgParent.firstChild);
+      }
+      let imgChild = document.createElement('img');
+      let imageObjectURL = URL.createObjectURL(imageBlob);
+      imgChild.src = imageObjectURL;
+      imgParent.appendChild(imgChild);
+    })
 
 }
 
@@ -1156,10 +1127,7 @@ function addCones(data, active) {
       window.tb = new Threebox(
         map,
         mbxContext, {
-          defaultLights: true,
-          // realSunlight: true,
-          // enableSelectingObjects: true,
-          // enableTooltips: true
+          defaultLights: true
         }
       );
 
@@ -1177,7 +1145,7 @@ function addCones(data, active) {
         // @jakobzhao: Warning: the duplicate function will make the material of all the cones the same.
         // let cone = coneTemplate.duplicate();
         let baseCone = new THREE.Mesh(geometry, origMaterial);
-        cone = window.tb.Object3D({
+        cone = tb.Object3D({
           obj: baseCone,
           units: 'meters'
         }).set({
@@ -1189,14 +1157,12 @@ function addCones(data, active) {
         });
 
         cone.setCoords([datum.geometry.coordinates[0], datum.geometry.coordinates[1], 20]);
-        // cone.castShadow = true;
-        // tb.lights.dirLight.target = cone;
         // Bo: Attach properties to each cone.
         // console.log(datum.properties.placetype);
         cone.userData.properties = datum.properties
 
 
-        window.tb.add(cone);
+        tb.add(cone);
         // tb.add(line);
       })
 
@@ -1503,6 +1469,7 @@ function createCodeCategories(data) {
 
 function addCheckBox(id, data, type) {
   let mainCategory = document.querySelector(id);
+  mainCategory.innerHTML = '';
   for (var descriptor of data) {
     let container = document.createElement('div');
     container.classList.add('form-check');
@@ -1829,36 +1796,36 @@ map.on('style.load', async function () {
     let feature = e.features[0];
     viewLeftPanel(feature);
     addLeftPanelActions(feature, marker, e);
-    // addExtrusions(feature, e);
-    // // buffer
-    // let turfPoint = turf.point(feature.geometry.coordinates);
-    // let buffer = turf.buffer(turfPoint, 500, {
-    //   units: 'meters'
-    // });
-    // map.addLayer({
-    //   id: 'buffer-point',
-    //   source: {
-    //     type: 'geojson',
-    //     data: {
-    //       "type": "FeatureCollection",
-    //       "features": []
-    //     }
-    //   },
-    //   type: "fill",
-    //   paint: {
-    //     'fill-color': 'red',
-    //     'fill-opacity': 0.1
-    //   }
-    // });
+    addExtrusions(feature, e);
+    // buffer
+    let turfPoint = turf.point(feature.geometry.coordinates);
+    let buffer = turf.buffer(turfPoint, 500, {
+      units: 'meters'
+    });
+    map.addLayer({
+      id: 'buffer-point',
+      source: {
+        type: 'geojson',
+        data: {
+          "type": "FeatureCollection",
+          "features": []
+        }
+      },
+      type: "fill",
+      paint: {
+        'fill-color': 'red',
+        'fill-opacity': 0.1
+      }
+    });
 
-    // map.getSource('buffer-point').setData(buffer);
-    // // indicate that this point is a venue
-    // let venueIndicator = document.getElementById('venue-indicator');
-    // if (e.features[0].properties.v_id !== undefined) {
-    //   venueIndicator.innerHTML = "this is a confirmed venue";
-    // } else {
-    //   venueIndicator.innerHTML = '';
-    // };
+    map.getSource('buffer-point').setData(buffer);
+    // indicate that this point is a venue
+    let venueIndicator = document.getElementById('venue-indicator');
+    if (e.features[0].properties.v_id !== undefined) {
+      venueIndicator.innerHTML = "this is a confirmed venue";
+    } else {
+      venueIndicator.innerHTML = '';
+    };
 
     // add reviews
     // if add review button is clicked, display add review div box
