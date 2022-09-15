@@ -1530,14 +1530,54 @@ async function placeInput(place) {
 }
 
 let obserLayer = document.getElementById('observation-layer')
+let venueLayer = document.getElementById('venue-layer');
+
 obserLayer.addEventListener('click', function (e) {
   if (obserLayer.classList.contains('collapsed')) {
-    removeAllLayers();
-    addCones(current_venue_data, false);
+    //removeAllLayers();
+    if (map.getLayer('observation-cubes')) {
+      map.removeLayer('observation-cubes');
+      if (map.getLayer('poi-labels')) {
+        map.removeLayer('poi-labels');
+        map.removeSource('venues');
+      }
+    }
+    if (!venueLayer.classList.contains('collapsed')) {
+      if (map.getLayer('venue-slice-cones')) {
+        map.removeLayer('venue-slice-cones');
+      }
+      addCones(current_venue_data, false);
+    }
+    //addCones(current_venue_data, false);
   } else {
-    removeAllLayers();
-    addCones(current_venue_data, false);
+    if (map.getLayer('observation-cubes')) {
+      map.removeLayer('observation-cubes');
+    }
+    // removeAllLayers();
+    // addCones(current_venue_data, false);
     addCubes(current_observation_data, false);
+  }
+})
+venueLayer.addEventListener('click', function (e) {
+  if (venueLayer.classList.contains('collapsed')) {
+    if (map.getLayer('venue-slice-cones')) {
+      map.removeLayer('venue-slice-cones');
+      if (map.getLayer('poi-labels')) {
+        map.removeLayer('poi-labels');
+        map.removeSource('venues');
+      }
+    }
+    if (!obserLayer.classList.contains('collapsed')) {
+      if (map.getLayer('observation-cubes')) {
+        map.removeLayer('observation-cubes');
+      }
+      addCubes(current_observation_data, false);
+    }
+  } else {
+    if (map.getLayer('venue-slice-cones')) {
+      map.removeLayer('venue-slice-cones');
+    }
+    addCones(current_venue_data, false);
   }
 })
 // Add category options in add missing venues
@@ -1609,8 +1649,13 @@ async function updateMap(selectedYear, selectedLocality) {
   code_div(defaultCodes, venues, selectedYear);
   let active = false;
   // three js 3D object
-  addCones(filteredYearData, active);
-  if (!document.getElementById('observation-layer').classList.contains('collapsed')) {
+
+  if (!document.getElementById('venue-layer').classList.contains('collapsed') && !document.getElementById('observation-layer').classList.contains('collapsed')) {
+    addCones(filteredYearData, active);
+    addCubes(filteredYearObservationData, active);
+  } else if (!document.getElementById('venue-layer').classList.contains('collapsed')) {
+    addCones(filteredYearData, active);
+  } else if (!document.getElementById('observation-layer').classList.contains('collapsed')) {
     //addObservationLayer(map, toGEOJSON(filteredYearObservationData));
     addCubes(filteredYearObservationData, active);
   }
