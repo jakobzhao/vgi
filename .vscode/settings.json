@@ -29,5 +29,6 @@
         "toggleable",
         "toggleview",
         "vcolors"
-    ]
+    ],
+    "liveServer.settings.port": 5501
 }

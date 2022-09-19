@@ -1295,14 +1295,15 @@ function addCubes(data, active) {
     type: 'custom',
     renderingMode: '3d',
     onAdd: function (map, mbxContext) {
-      mbxContext = map.getCanvas().getContext('webgl');
-      window.tb = new Threebox(
-        map,
-        mbxContext, {
-          defaultLights: true
-        }
-      );
-
+      if (!map.getLayer('venue-slice-cones')) {
+        mbxContext = map.getCanvas().getContext('webgl');
+        window.tb = new Threebox(
+          map,
+          mbxContext, {
+            defaultLights: true
+          }
+        );
+      }
       data.forEach(function (datum) {
         let baseCube = new THREE.Mesh(cubeGeometry, origMaterial);
         let baseLine = new THREE.Mesh(lineGeometry, transMaterial);
