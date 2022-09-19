@@ -541,24 +541,53 @@ function viewLeftPanel(e) {
   document.getElementById('notes-edit').value = e.properties.notes;
   //document.getElementById('codelist-edit').value = codeString;
   //document.getElementById('confidence-edit').value = e.properties.confidence;
+  document.getElementById('subMap').innerHTML = '';
   let subMap = new mapboxgl.Map({
     container: 'subMap', // container ID
     style: 'mapbox://styles/mapbox/light-v10', // style URL
     center: e.geometry.coordinates,
-    zoom: 14, // starting zoom
-    pitch: 76,
-    bearing: -10.8,
-    logoPosition: 'bottom-right',
+    zoom: 10, // starting zoom
+    // pitch: 76,
+    // bearing: -10.8,
     attributionControl: false,
     antialias: true,
-    hash: true
   });
   subMap.on('load', function () {
-    // filteredLocalData.forEach(function (datum) {
-    //   console.log(datum)
-    //   new mapboxgl.Marker().setLngLat(datum.geometry.coordinates).addTo(subMap);
+    let yearList = [];
+    let address = [];
+    let timelineOfAddress = {};
+    for (let data of filteredLocalData) {
+      let key = (data.geometry.coordinates[0] + ', ' + data.geometry.coordinates[1])
+      if (!yearList.includes(Number(data.properties.year))) {
+        yearList.push(Number(data.properties.year))
+      }
+      if (!address.includes(key)) {
+        console.log(1)
+        address.push(key)
+        timelineOfAddress[key] = [data.properties.year];
+      } else {
+        console.log(2)
+        timelineOfAddress[key].push(data.properties.year);
+      }
+    }
+    yearList = yearList.sort();
+    console.log(timelineOfAddress)
+    filteredLocalData.forEach(function (datum) {
+      let key = (datum.geometry.coordinates[0] + ', ' + datum.geometry.coordinates[1])
+      let popup;
+      let text = 'Year: ';
+      if (timelineOfAddress[key].length > 1) {
+        text = text + Math.min(...timelineOfAddress[key]).toString() + ' to ' + Math.max(...timelineOfAddress[key]).toString() + '<br>';
+      } else {
+        text = text + Math.min(...timelineOfAddress[key]).toString() + '<br>';
+      }
+      text = text + 'Address: ' + datum.properties.address;
+      popup = new mapboxgl.Popup({ offset: 25 }).setHTML(
+        text
+      );
+      new mapboxgl.Marker().setLngLat(datum.geometry.coordinates).setPopup(popup).addTo(subMap);
 
-    // });
+    });
     // subMap.addLayer({
     //     id: 'submap-cones',
     //     type: 'custom',
