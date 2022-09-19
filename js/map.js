@@ -58,7 +58,7 @@ const materialOnHover = new THREE.MeshPhysicalMaterial({
 });
 
 const cubeGeometry = new THREE.BoxGeometry(30, 30, 30);
-const lineGeometry =  new THREE.CylinderGeometry( 1, 1, 35, 32 );
+const lineGeometry = new THREE.CylinderGeometry(1, 1, 35, 32);
 
 
 let map = new mapboxgl.Map({
@@ -75,10 +75,10 @@ let map = new mapboxgl.Map({
 });
 
 
-  // create temporary marker if user wants to validate a location
-  let marker = new mapboxgl.Marker({
-    draggable: true
-  });
+// create temporary marker if user wants to validate a location
+let marker = new mapboxgl.Marker({
+  draggable: true
+});
 
 let venues = null;
 let observations = null;
@@ -354,7 +354,7 @@ function addVenueLayer(map, obsData) {
     map.removeSource("data");
   };
   if (map.getLayer('observation')) {
-     map.removeLayer('observation');
+    map.removeLayer('observation');
   };
   //removeAllLayers();
 
@@ -553,54 +553,64 @@ function viewLeftPanel(e) {
     antialias: true,
     hash: true
   });
-  // map.addLayer({
-  //   id: 'venue-slice-cones',
-  //   type: 'custom',
-  //   renderingMode: '3d',
-  //   onAdd: function (map, mbxContext) {
-  //     mbxContext = map.getCanvas().getContext('webgl');
-  //     window.tb = new Threebox(
-  //       map,
-  //       mbxContext, {
-  //         defaultLights: true
-  //       }
-  //     );
+  subMap.on('load', function () {
+    // filteredLocalData.forEach(function (datum) {
+    //   console.log(datum)
+    //   new mapboxgl.Marker().setLngLat(datum.geometry.coordinates).addTo(subMap);
 
-  //     // let geometrySup = new THREE.CylinderGeometry(1, 1, 80, 32);
-  //     // let materialSup = new THREE.MeshBasicMaterial({
-  //     //   flatShading: true,
-  //     //   color: '#8bd5ee',
-  //     //   transparent: true,
-  //     //   opacity: 0.7
-  //     // });
+    // });
+    // subMap.addLayer({
+    //     id: 'submap-cones',
+    //     type: 'custom',
+    //     renderingMode: '3d',
+    //     onAdd: function (subMap, submbxContext) {
+    //       submbxContext = map.getCanvas().getContext('webgl');
+    //       window.tb = new Threebox(
+    //         subMap,
+    //         submbxContext, {
+    //           defaultLights: true
+    //         }
+    //       );
 
-  //     data.forEach(function (datum) {
-  //       // longitude, latitude, altitude
+    //       // let geometrySup = new THREE.CylinderGeometry(1, 1, 80, 32);
+    //       // let materialSup = new THREE.MeshBasicMaterial({
+    //       //   flatShading: true,
+    //       //   color: '#8bd5ee',
+    //       //   transparent: true,
+    //       //   opacity: 0.7
+    //       // });
 
-  //       // @jakobzhao: Warning: the duplicate function will make the material of all the cones the same.
-  //       // let cone = coneTemplate.duplicate();
-  //       let baseCone = new THREE.Mesh(geometry, origMaterial);
-  //       cone = tb.Object3D({
-  //         obj: baseCone,
-  //         units: 'meters'
-  //       }).set({
-  //         rotation: {
-  //           x: -90,
-  //           y: 0,
-  //           z: 0
-  //         }
-  //       });
+    //       filteredLocalData.forEach(function (datum) {
+    //         console.log(datum)
+    //         // longitude, latitude, altitude
 
-  //       cone.setCoords([datum.geometry.coordinates[0], datum.geometry.coordinates[1], 20]);
-  //       // Bo: Attach properties to each cone.
-  //       // console.log(datum.properties.placetype);
-  //       cone.userData.properties = datum.properties
+    //         // @jakobzhao: Warning: the duplicate function will make the material of all the cones the same.
+    //         // let cone = coneTemplate.duplicate();
+    //         let baseCone = new THREE.Mesh(geometry, origMaterial);
+    //         cone = tb.Object3D({
+    //           obj: baseCone,
+    //           units: 'meters'
+    //         }).set({
+    //           rotation: {
+    //             x: -90,
+    //             y: 0,
+    //             z: 0
+    //           }
+    //         });
 
-
-  //       tb.add(cone);
-  //       // tb.add(line);
-  //     })
-  //   })
+    //         cone.setCoords([datum.geometry.coordinates[0], datum.geometry.coordinates[1], 20]);
+    //         // Bo: Attach properties to each cone.
+    //         // console.log(datum.properties.placetype);
+    //         cone.userData.properties = datum.properties
+    //         tb.add(cone);
+    //         // tb.add(line);
+    //       })
+    //     },
+    //     render: function (gl, matrix) {
+    //       tb.update();
+    //     }
+    //   })
+    })
 };
 
 function infoNullCheck(string) {
@@ -615,9 +625,10 @@ async function addLeftPanelActions(feature, marker, e) {
     while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
       coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
     };
-
+    let point = feature.geometry.coordinates;
+    point[0] -= 0.001
     map.flyTo({
-      center: feature.geometry.coordinates,
+      center: point,
       zoom: 16.5,
       speed: 0.3,
       pitch: 75,
@@ -883,7 +894,7 @@ function code_div(codes, venueSlices, year) {
 
 
 
-      ////////////////
+    ////////////////
     // for each code_div add event listener on click to add filter features of the map
     codeItem.addEventListener('click', function () {
 
@@ -917,9 +928,9 @@ function code_div(codes, venueSlices, year) {
           console.log(result)
           addCones(result, false);
         });
-///////////////////////////////////////////////////////////////////////////////////////////
+      ///////////////////////////////////////////////////////////////////////////////////////////
 
-        document.getElementById("clear-button").innerHTML = '<a class="dropdown-item" title="Clear all selected filters" href="#"> The filter <span id="applied-filter">'+ code.code + '</span> is applied. \n  </br> Click here to remove this filter. </a>';
+      document.getElementById("clear-button").innerHTML = '<a class="dropdown-item" title="Clear all selected filters" href="#"> The filter <span id="applied-filter">' + code.code + '</span> is applied. \n  </br> Click here to remove this filter. </a>';
     })
 
 
@@ -1172,6 +1183,7 @@ function makeLocalityList(localityID, data, selectedYear) {
     }
   }
 }
+
 function addCones(data, active) {
 
   if (data.length == 0) {
@@ -1308,27 +1320,27 @@ function addCubes(data, active) {
         let baseCube = new THREE.Mesh(cubeGeometry, origMaterial);
         let baseLine = new THREE.Mesh(lineGeometry, transMaterial);
         cube = tb.Object3D({
-          obj: baseCube,
-          units: 'meters'
-        })
-        .set({
-          rotation: {
-            x: 0,
-            y: 0,
-            z: 0
-          }
-        });
+            obj: baseCube,
+            units: 'meters'
+          })
+          .set({
+            rotation: {
+              x: 0,
+              y: 0,
+              z: 0
+            }
+          });
         line = tb.Object3D({
-          obj: baseLine,
-          units: 'meters'
-        })
-        .set({
-          rotation: {
-            x: 90,
-            y: 0,
-            z: 0
-          }
-        });
+            obj: baseLine,
+            units: 'meters'
+          })
+          .set({
+            rotation: {
+              x: 90,
+              y: 0,
+              z: 0
+            }
+          });
 
 
         line.setCoords([datum.geometry.coordinates[0], datum.geometry.coordinates[1], 18]);
@@ -1752,7 +1764,7 @@ async function updateMap(selectedYear, selectedLocality) {
   //   }
   // }
 
-    // if (localityParent.firstChild == null) {
+  // if (localityParent.firstChild == null) {
   //   let localityPar = document.createElement('div');
   //   localityPar.classList.add('m-3');
   //   localityPar.innerHTML = "No low confidence location nearby."
@@ -1805,42 +1817,22 @@ map.on('style.load', async function () {
 
 ////////////////////////////////////////////////////
 ////////////////////////////////////////////////////
-  // when click on extrusion
-  map.on('click', 'year-block', function (e) {
-    new mapboxgl.Popup()
-      .setLngLat(e.lngLat)
-      .setHTML(e.features[0].properties.name)
-      .addTo(map);
-    // highlight extrusion on hover
-    // display popup for location information of extrusion
-    // might have to create API function call to retrieve all the possible years
-    // once click on extrusion add left panel commands to display possible information?
-  })
+// when click on extrusion
+map.on('click', 'year-block', function (e) {
+  new mapboxgl.Popup()
+    .setLngLat(e.lngLat)
+    .setHTML(e.features[0].properties.name)
+    .addTo(map);
+  // highlight extrusion on hover
+  // display popup for location information of extrusion
+  // might have to create API function call to retrieve all the possible years
+  // once click on extrusion add left panel commands to display possible information?
+})
 
-  // update block color on hover
-  let hoveredStateId = null;
-  map.on('mousemove', 'year-block', function (e) {
-    if (e.features.length > 0) {
-      if (hoveredStateId !== null) {
-        map.setFeatureState({
-          source: 'year-block',
-          id: hoveredStateId
-        }, {
-          hover: false
-        });
-      }
-      hoveredStateId = e.features[0].id;
-      map.setFeatureState({
-        source: 'year-block',
-        id: hoveredStateId
-      }, {
-        hover: true
-      });
-    }
-  });
-
-  // change color of extrusion back after mouse leaves
-  map.on('mouseleave', 'year-block', () => {
+// update block color on hover
+let hoveredStateId = null;
+map.on('mousemove', 'year-block', function (e) {
+  if (e.features.length > 0) {
     if (hoveredStateId !== null) {
       map.setFeatureState({
         source: 'year-block',
@@ -1849,319 +1841,339 @@ map.on('style.load', async function () {
         hover: false
       });
     }
-    hoveredStateId = null;
-  });
-
-  // trigger review/location information on click of location point of map
-  map.on('click', 'data', async function (e) {
-    // Bo: Perhaps highlight the nearby and label their names.
-    if (map.getLayer('nearby-observations')) {
-      map.removeLayer('nearby-observations');
-      map.removeSource('nearby-observations');
-    }
-
-
-    // displayNearbyObservations(observations, e);
-    // marker.remove();
-
-    //left collapse control
-
-    if (document.getElementById('info').classList.contains('leftCollapse')) {
-      document.getElementById('info').classList.toggle('leftCollapse');
-      toggleLeftPanelView('info-default');
-    }
-
-    if (!document.getElementById('add-observation').classList.contains('d-none')){
-      document.getElementById('add-observation').classList.add('d-none')
-      //clearForm();
-      toggleLeftPanelView('info-default');
-    }
-
-
-
-
-    // toggleLeftPanelView('info-default');
-
-    // load clicked marker info on left panel
-
-
-    // // clear 3-D year object
-    if (typeof map.getLayer('year-block') !== "undefined") {
-      map.removeLayer('year-block');
-      map.removeSource('year-block');
-    };
-
-    if (typeof map.getLayer('buffer-point') !== "undefined") {
-      map.removeLayer('buffer-point');
-      map.removeSource('buffer-point');
-    };
-
-    // clear review box is open
-    let reviewBox = document.getElementById('type-review-box');
-    reviewBox.classList.add('d-none');
-    // map.removeLayer('year-block');
-    // map.removeSource('year-block');
-
-    // add all left panel actions (including zoom and adding data points)
-    let feature = e.features[0];
-    viewLeftPanel(feature);
-    addLeftPanelActions(feature, marker, e);
-    addExtrusions(feature, e);
-    // buffer
-    let turfPoint = turf.point(feature.geometry.coordinates);
-    let buffer = turf.buffer(turfPoint, 500, {
-      units: 'meters'
+    hoveredStateId = e.features[0].id;
+    map.setFeatureState({
+      source: 'year-block',
+      id: hoveredStateId
+    }, {
+      hover: true
     });
-    map.addLayer({
-      id: 'buffer-point',
-      source: {
-        type: 'geojson',
-        data: {
-          "type": "FeatureCollection",
-          "features": []
-        }
-      },
-      type: "fill",
-      paint: {
-        'fill-color': 'red',
-        'fill-opacity': 0.1
-      }
+  }
+});
+
+// change color of extrusion back after mouse leaves
+map.on('mouseleave', 'year-block', () => {
+  if (hoveredStateId !== null) {
+    map.setFeatureState({
+      source: 'year-block',
+      id: hoveredStateId
+    }, {
+      hover: false
     });
+  }
+  hoveredStateId = null;
+});
 
-    map.getSource('buffer-point').setData(buffer);
-    // indicate that this point is a venue
-    let venueIndicator = document.getElementById('venue-indicator');
-    if (e.features[0].properties.v_id !== undefined) {
-      venueIndicator.innerHTML = "this is a confirmed venue";
-    } else {
-      venueIndicator.innerHTML = '';
-    };
-
-    // add reviews
-    // if add review button is clicked, display add review div box
-    let addReview = document.getElementById('add-review-btn');
-    addReview.addEventListener('click', () => {
-      let reviewBox = document.getElementById('type-review-box');
-      let textBox = document.getElementById('user-review-input');
-      textBox.value = '';
-      reviewBox.classList.remove('d-none');
-    });
-
-    let reviewCloseBtn = document.getElementById('cancel-review-btn');
-    reviewCloseBtn.addEventListener('click', () => {
-      let reviewBox = document.getElementById('type-review-box');
-      let textBox = document.getElementById('user-review-input');
-      textBox.value = '';
-      reviewBox.classList.add('d-none');
-    });
-
-    // update frontend with new divs for each comment
-    // publish comment on click
-    // ** database only supports location with existing vids
-    let vid = parseInt(document.getElementById('vid-review').innerHTML);
-    let reviewParent = document.getElementById('reviews-container');
-
-    while (reviewParent.firstChild) {
-      reviewParent.removeChild(reviewParent.lastChild);
-    };
-
-    document.getElementById('publish-btn').removeEventListener('click', submitNewReview);
-    document.getElementById('publish-btn').addEventListener('click', submitNewReview);
-    // get all comments of the location
-    await getReviews(vid);
-    // get all photos of the location by the google API
-    getStreetView(feature);
-  });
-
-  // helper function to submit new review
-  function submitNewReview(e) {
-    let vid = parseInt(document.getElementById('vid-review').innerHTML);
-    let submitCheck = document.getElementById('user-review-input').value;
-    // check if
-    if (/^\s*$/g.test(submitCheck)) {
-      let alert = document.getElementById("alert-modal");
-      let alertText = document.getElementById("alert-text");
-      alertText.innerHTML = "Invalid comment. No text detected!";
-      let alertModal = new bootstrap.Modal(alert);
-      alertModal.show();
+// trigger review/location information on click of location point of map
+map.on('click', 'data', async function (e) {
+  // Bo: Perhaps highlight the nearby and label their names.
+  if (map.getLayer('nearby-observations')) {
+    map.removeLayer('nearby-observations');
+    map.removeSource('nearby-observations');
+  }
 
 
-    } else {
-      // add new review
-      addNewReview(e, vid);
-    }
+  // displayNearbyObservations(observations, e);
+  // marker.remove();
+
+  //left collapse control
+
+  if (document.getElementById('info').classList.contains('leftCollapse')) {
+    document.getElementById('info').classList.toggle('leftCollapse');
+    toggleLeftPanelView('info-default');
+  }
+
+  if (!document.getElementById('add-observation').classList.contains('d-none')) {
+    document.getElementById('add-observation').classList.add('d-none')
+    //clearForm();
+    toggleLeftPanelView('info-default');
+  }
+
+
+
+
+  // toggleLeftPanelView('info-default');
+
+  // load clicked marker info on left panel
+
+
+  // // clear 3-D year object
+  if (typeof map.getLayer('year-block') !== "undefined") {
+    map.removeLayer('year-block');
+    map.removeSource('year-block');
   };
 
-  // map.on('click', 'observations', function(e) {
-  //   console.log(e)
-  //   new mapboxgl.Popup()
-  //     .setLngLat(e.lngLat)
-  //     .setHTML(e.features[0].properties.name)
-  //     .addTo(map);
-  // })
+  if (typeof map.getLayer('buffer-point') !== "undefined") {
+    map.removeLayer('buffer-point');
+    map.removeSource('buffer-point');
+  };
 
-  // go back button
-  document.getElementById('go-back-btn').addEventListener('click', function () {
+  // clear review box is open
+  let reviewBox = document.getElementById('type-review-box');
+  reviewBox.classList.add('d-none');
+  // map.removeLayer('year-block');
+  // map.removeSource('year-block');
 
-    // console.log("go back");
-
-    if (!(document.getElementById('info-default').classList.contains('d-none'))) {
-
-      toggleLeftPanelView('all')
-      if (!document.getElementById('info').classList.contains('leftCollapse')) {
-        document.getElementById('info').classList.toggle('leftCollapse');
+  // add all left panel actions (including zoom and adding data points)
+  let feature = e.features[0];
+  viewLeftPanel(feature);
+  addLeftPanelActions(feature, marker, e);
+  addExtrusions(feature, e);
+  // buffer
+  let turfPoint = turf.point(feature.geometry.coordinates);
+  let buffer = turf.buffer(turfPoint, 500, {
+    units: 'meters'
+  });
+  map.addLayer({
+    id: 'buffer-point',
+    source: {
+      type: 'geojson',
+      data: {
+        "type": "FeatureCollection",
+        "features": []
       }
-
+    },
+    type: "fill",
+    paint: {
+      'fill-color': 'red',
+      'fill-opacity': 0.1
     }
-
-    // document.getElementById('info').classList.toggle('leftCollapse');
-    // toggleLeftPanelView('legend');
-    if (typeof map.getLayer('selectedMarker') !== "undefined") {
-      marker.remove();
-      map.removeLayer('selectedMarker');
-      map.removeSource('selectedMarker');
-    };
-
-    if (typeof map.getLayer('nearby-observations') !== "undefined") {
-      marker.remove();
-      map.removeLayer('nearby-observations');
-      map.removeSource('nearby-observations');
-    };
-
-    if (typeof map.getLayer('buffer-point') !== "undefined") {
-      map.removeLayer('buffer-point');
-      map.removeSource('buffer-point');
-    };
-
-    if (typeof map.getLayer('year-block') !== 'undefined') {
-      // clear 3-D year object
-      map.removeLayer('year-block');
-      map.removeSource('year-block');
-    };
-
   });
 
+  map.getSource('buffer-point').setData(buffer);
+  // indicate that this point is a venue
+  let venueIndicator = document.getElementById('venue-indicator');
+  if (e.features[0].properties.v_id !== undefined) {
+    venueIndicator.innerHTML = "this is a confirmed venue";
+  } else {
+    venueIndicator.innerHTML = '';
+  };
+
+  // add reviews
+  // if add review button is clicked, display add review div box
+  let addReview = document.getElementById('add-review-btn');
+  addReview.addEventListener('click', () => {
+    let reviewBox = document.getElementById('type-review-box');
+    let textBox = document.getElementById('user-review-input');
+    textBox.value = '';
+    reviewBox.classList.remove('d-none');
+  });
+
+  let reviewCloseBtn = document.getElementById('cancel-review-btn');
+  reviewCloseBtn.addEventListener('click', () => {
+    let reviewBox = document.getElementById('type-review-box');
+    let textBox = document.getElementById('user-review-input');
+    textBox.value = '';
+    reviewBox.classList.add('d-none');
+  });
+
+  // update frontend with new divs for each comment
+  // publish comment on click
+  // ** database only supports location with existing vids
+  let vid = parseInt(document.getElementById('vid-review').innerHTML);
+  let reviewParent = document.getElementById('reviews-container');
+
+  while (reviewParent.firstChild) {
+    reviewParent.removeChild(reviewParent.lastChild);
+  };
+
+  document.getElementById('publish-btn').removeEventListener('click', submitNewReview);
+  document.getElementById('publish-btn').addEventListener('click', submitNewReview);
+  // get all comments of the location
+  await getReviews(vid);
+  // get all photos of the location by the google API
+  getStreetView(feature);
+});
+
+// helper function to submit new review
+function submitNewReview(e) {
+  let vid = parseInt(document.getElementById('vid-review').innerHTML);
+  let submitCheck = document.getElementById('user-review-input').value;
+  // check if
+  if (/^\s*$/g.test(submitCheck)) {
+    let alert = document.getElementById("alert-modal");
+    let alertText = document.getElementById("alert-text");
+    alertText.innerHTML = "Invalid comment. No text detected!";
+    let alertModal = new bootstrap.Modal(alert);
+    alertModal.show();
 
 
-  document.getElementById('go-back-btn2').addEventListener('click', function () {
+  } else {
+    // add new review
+    addNewReview(e, vid);
+  }
+};
 
+// map.on('click', 'observations', function(e) {
+//   console.log(e)
+//   new mapboxgl.Popup()
+//     .setLngLat(e.lngLat)
+//     .setHTML(e.features[0].properties.name)
+//     .addTo(map);
+// })
 
-    if (!(document.getElementById('add-observation').classList.contains('d-none'))) {
+// go back button
+document.getElementById('go-back-btn').addEventListener('click', function () {
 
-      toggleLeftPanelView('all');
+  // console.log("go back");
+
+  if (!(document.getElementById('info-default').classList.contains('d-none'))) {
+
+    toggleLeftPanelView('all')
+    if (!document.getElementById('info').classList.contains('leftCollapse')) {
       document.getElementById('info').classList.toggle('leftCollapse');
-      document.getElementById('add-observation').classList.toggle('d-none');
-      let inputs = document.querySelectorAll('input');
-      for (let input of inputs) {
-        input.value = '';
-      }
-      let yearSlider = document.getElementById('current-year-value');
-      let yearText = document.getElementById('year-text-label');
-      let checkboxes = document.querySelectorAll('input[name=myCheckBoxes]:checked');
-      for (let box of checkboxes) {
-        box.checked = false;
-      }
-      yearSlider.value = 2014;
-      yearText.textContent = 'Year: ' + yearSlider.value;
-      document.getElementById('slider-bar').value = document.getElementById('year-label').textContent;
-
     }
-  })
 
-  // validation button
-  // toggleview
-  // document.getElementById('report-issue-btn').addEventListener('click', function() {
-  //   toggleLeftPanelView('report-issue');
-  // })
+  }
 
-  // close button
-  document.getElementById('info-close-btn').addEventListener('click', function (e) {
-    // trigger slideout/slide-in btn
-    let collapsed = document.getElementById('info').classList.toggle('leftCollapse');
-    document.getElementById('info-close-btn').classList.toggle('info-btn-collapse');
-    let btnImg = document.getElementById('leftPanelArrow');
-    if (collapsed) {
-      btnImg.src = './assets/imgs/open-arrow.svg';
-    } else {
-      btnImg.src = './assets/imgs/back-btn.svg';
-    }
-    toggleLeftPanelView('legend');
-    // let padding = {};
-
-    // padding['left'] = collapsed ? 0 : 100;
-    // map.easeTo({
-    //   zoom: padding['left'] = collapsed ? 13  : 12,
-    //   duration: 1000
-    // })
-    // clear marker
-
-    if (typeof map.getLayer('selectedMarker') !== "undefined") {
-      marker.remove();
-      map.removeLayer('selectedMarker');
-      map.removeSource('selectedMarker');
-    };
-
-    if (typeof map.getLayer('nearby-observations') !== "undefined") {
-      marker.remove();
-      map.removeLayer('nearby-observations');
-      map.removeSource('nearby-observations');
-    };
-
-    if (typeof map.getLayer('buffer-point') !== "undefined") {
-      map.removeLayer('buffer-point');
-      map.removeSource('buffer-point');
-    };
-
-    if (typeof map.getLayer('year-block') !== 'undefined') {
-      // clear 3-D year object
-      map.removeLayer('year-block');
-      map.removeSource('year-block');
-    };
-
-  });
-
-  // Change the cursor to a pointer when the it enters a feature in the 'circle' layer.
-  map.on('mouseenter', 'data', function () {
-    map.getCanvas().style.cursor = 'pointer';
-  });
-  // Change it back to a pointer when it leaves.
-  map.on('mouseleave', 'data', function () {
-    map.getCanvas().style.cursor = '';
-  });
-
-
-  map.on('click', function (e) {
-
-    //click on the map to hide the locality and/or the code filter menus.
-    let localityList = document.getElementById('localityList');
-    localityList.classList.add('d-none');
-
-    let codeDescriptorList = document.getElementById('codeDescriptorList');
-    codeDescriptorList.classList.add('d-none');
-
-    // geocoding process.
-    if (!document.getElementById('add-observation').classList.contains('d-none')) {
-      $.get(
-        "https://api.mapbox.com/geocoding/v5/mapbox.places/" +
-        e.lngLat.lng + "," + e.lngLat.lat + ".json?access_token=" + mapboxgl.accessToken,
-        function (data) {
-          let place = data.features[0].place_name.split(',');
-          placeInput(place);
-          console.log(place);
-        }
-      ).fail(function (jqXHR, textStatus, errorThrown) {
-        alert("There was an error while geocoding: " + errorThrown);
-      });
-    }
-  });
-
-
-  // Yufei: return function on report an issue panel
-  document.getElementById('return-btn').addEventListener('click', function () {
+  // document.getElementById('info').classList.toggle('leftCollapse');
+  // toggleLeftPanelView('legend');
+  if (typeof map.getLayer('selectedMarker') !== "undefined") {
     marker.remove();
-    if (!(document.getElementById('report-issue').classList.contains('d-none'))) {
-      document.getElementById('report-issue').classList.add('d-none');
+    map.removeLayer('selectedMarker');
+    map.removeSource('selectedMarker');
+  };
+
+  if (typeof map.getLayer('nearby-observations') !== "undefined") {
+    marker.remove();
+    map.removeLayer('nearby-observations');
+    map.removeSource('nearby-observations');
+  };
+
+  if (typeof map.getLayer('buffer-point') !== "undefined") {
+    map.removeLayer('buffer-point');
+    map.removeSource('buffer-point');
+  };
+
+  if (typeof map.getLayer('year-block') !== 'undefined') {
+    // clear 3-D year object
+    map.removeLayer('year-block');
+    map.removeSource('year-block');
+  };
+
+});
+
+
+
+document.getElementById('go-back-btn2').addEventListener('click', function () {
+
+
+  if (!(document.getElementById('add-observation').classList.contains('d-none'))) {
+
+    toggleLeftPanelView('all');
+    document.getElementById('info').classList.toggle('leftCollapse');
+    document.getElementById('add-observation').classList.toggle('d-none');
+    let inputs = document.querySelectorAll('input');
+    for (let input of inputs) {
+      input.value = '';
     }
-    document.getElementById('info-default').classList.remove('d-none');
-    document.getElementById('ground-truth-btns').classList.remove('d-none');
-  });
+    let yearSlider = document.getElementById('current-year-value');
+    let yearText = document.getElementById('year-text-label');
+    let checkboxes = document.querySelectorAll('input[name=myCheckBoxes]:checked');
+    for (let box of checkboxes) {
+      box.checked = false;
+    }
+    yearSlider.value = 2014;
+    yearText.textContent = 'Year: ' + yearSlider.value;
+    document.getElementById('slider-bar').value = document.getElementById('year-label').textContent;
+
+  }
+})
+
+// validation button
+// toggleview
+// document.getElementById('report-issue-btn').addEventListener('click', function() {
+//   toggleLeftPanelView('report-issue');
+// })
+
+// close button
+document.getElementById('info-close-btn').addEventListener('click', function (e) {
+  // trigger slideout/slide-in btn
+  let collapsed = document.getElementById('info').classList.toggle('leftCollapse');
+  document.getElementById('info-close-btn').classList.toggle('info-btn-collapse');
+  let btnImg = document.getElementById('leftPanelArrow');
+  if (collapsed) {
+    btnImg.src = './assets/imgs/open-arrow.svg';
+  } else {
+    btnImg.src = './assets/imgs/back-btn.svg';
+  }
+  toggleLeftPanelView('legend');
+  // let padding = {};
+
+  // padding['left'] = collapsed ? 0 : 100;
+  // map.easeTo({
+  //   zoom: padding['left'] = collapsed ? 13  : 12,
+  //   duration: 1000
+  // })
+  // clear marker
+
+  if (typeof map.getLayer('selectedMarker') !== "undefined") {
+    marker.remove();
+    map.removeLayer('selectedMarker');
+    map.removeSource('selectedMarker');
+  };
+
+  if (typeof map.getLayer('nearby-observations') !== "undefined") {
+    marker.remove();
+    map.removeLayer('nearby-observations');
+    map.removeSource('nearby-observations');
+  };
+
+  if (typeof map.getLayer('buffer-point') !== "undefined") {
+    map.removeLayer('buffer-point');
+    map.removeSource('buffer-point');
+  };
+
+  if (typeof map.getLayer('year-block') !== 'undefined') {
+    // clear 3-D year object
+    map.removeLayer('year-block');
+    map.removeSource('year-block');
+  };
+
+});
+
+// Change the cursor to a pointer when the it enters a feature in the 'circle' layer.
+map.on('mouseenter', 'data', function () {
+  map.getCanvas().style.cursor = 'pointer';
+});
+// Change it back to a pointer when it leaves.
+map.on('mouseleave', 'data', function () {
+  map.getCanvas().style.cursor = '';
+});
+
+
+map.on('click', function (e) {
+
+  //click on the map to hide the locality and/or the code filter menus.
+  let localityList = document.getElementById('localityList');
+  localityList.classList.add('d-none');
+
+  let codeDescriptorList = document.getElementById('codeDescriptorList');
+  codeDescriptorList.classList.add('d-none');
+
+  // geocoding process.
+  if (!document.getElementById('add-observation').classList.contains('d-none')) {
+    $.get(
+      "https://api.mapbox.com/geocoding/v5/mapbox.places/" +
+      e.lngLat.lng + "," + e.lngLat.lat + ".json?access_token=" + mapboxgl.accessToken,
+      function (data) {
+        let place = data.features[0].place_name.split(',');
+        placeInput(place);
+        console.log(place);
+      }
+    ).fail(function (jqXHR, textStatus, errorThrown) {
+      alert("There was an error while geocoding: " + errorThrown);
+    });
+  }
+});
+
+
+// Yufei: return function on report an issue panel
+document.getElementById('return-btn').addEventListener('click', function () {
+  marker.remove();
+  if (!(document.getElementById('report-issue').classList.contains('d-none'))) {
+    document.getElementById('report-issue').classList.add('d-none');
+  }
+  document.getElementById('info-default').classList.remove('d-none');
+  document.getElementById('ground-truth-btns').classList.remove('d-none');
+});
