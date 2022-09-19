@@ -1333,7 +1333,7 @@ function addCubes(data, active) {
 
         line.setCoords([datum.geometry.coordinates[0], datum.geometry.coordinates[1], 18]);
         //the third parameter indicates the height of the cube.
-        cube.setCoords([datum.geometry.coordinates[0], datum.geometry.coordinates[1], 50]);
+        cube.setCoords([datum.geometry.coordinates[0], datum.geometry.coordinates[1], 55.2]);
         cube.userData.properties = datum.properties;
         tb.add(cube);
         tb.add(line);
