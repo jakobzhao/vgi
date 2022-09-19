@@ -500,6 +500,11 @@ function removeAllLayers() {
 // function slide-in left panel
 function viewLeftPanel(e) {
   console.log("test");
+  console.log(e.properties.vid)
+  let filteredLocalData = venues.features.filter(function (feature) {
+    return feature.properties.vid == e.properties.vid
+  });
+  console.log(filteredLocalData)
   // parse the codes to increase readability
   let codeString = "";
   let codes = e.properties.codedescriptorlist;
@@ -536,7 +541,66 @@ function viewLeftPanel(e) {
   document.getElementById('notes-edit').value = e.properties.notes;
   //document.getElementById('codelist-edit').value = codeString;
   //document.getElementById('confidence-edit').value = e.properties.confidence;
+  let subMap = new mapboxgl.Map({
+    container: 'subMap', // container ID
+    style: 'mapbox://styles/mapbox/light-v10', // style URL
+    center: e.geometry.coordinates,
+    zoom: 14, // starting zoom
+    pitch: 76,
+    bearing: -10.8,
+    logoPosition: 'bottom-right',
+    attributionControl: false,
+    antialias: true,
+    hash: true
+  });
+  // map.addLayer({
+  //   id: 'venue-slice-cones',
+  //   type: 'custom',
+  //   renderingMode: '3d',
+  //   onAdd: function (map, mbxContext) {
+  //     mbxContext = map.getCanvas().getContext('webgl');
+  //     window.tb = new Threebox(
+  //       map,
+  //       mbxContext, {
+  //         defaultLights: true
+  //       }
+  //     );
 
+  //     // let geometrySup = new THREE.CylinderGeometry(1, 1, 80, 32);
+  //     // let materialSup = new THREE.MeshBasicMaterial({
+  //     //   flatShading: true,
+  //     //   color: '#8bd5ee',
+  //     //   transparent: true,
+  //     //   opacity: 0.7
+  //     // });
+
+  //     data.forEach(function (datum) {
+  //       // longitude, latitude, altitude
+
+  //       // @jakobzhao: Warning: the duplicate function will make the material of all the cones the same.
+  //       // let cone = coneTemplate.duplicate();
+  //       let baseCone = new THREE.Mesh(geometry, origMaterial);
+  //       cone = tb.Object3D({
+  //         obj: baseCone,
+  //         units: 'meters'
+  //       }).set({
+  //         rotation: {
+  //           x: -90,
+  //           y: 0,
+  //           z: 0
+  //         }
+  //       });
+
+  //       cone.setCoords([datum.geometry.coordinates[0], datum.geometry.coordinates[1], 20]);
+  //       // Bo: Attach properties to each cone.
+  //       // console.log(datum.properties.placetype);
+  //       cone.userData.properties = datum.properties
+
+
+  //       tb.add(cone);
+  //       // tb.add(line);
+  //     })
+  //   })
 };
 
 function infoNullCheck(string) {
@@ -1231,14 +1295,15 @@ function addCubes(data, active) {
     type: 'custom',
     renderingMode: '3d',
     onAdd: function (map, mbxContext) {
-      mbxContext = map.getCanvas().getContext('webgl');
-      window.tb = new Threebox(
-        map,
-        mbxContext, {
-          defaultLights: true
-        }
-      );
-
+      if (!map.getLayer('venue-slice-cones')) {
+        mbxContext = map.getCanvas().getContext('webgl');
+        window.tb = new Threebox(
+          map,
+          mbxContext, {
+            defaultLights: true
+          }
+        );
+      }
       data.forEach(function (datum) {
         let baseCube = new THREE.Mesh(cubeGeometry, origMaterial);
         let baseLine = new THREE.Mesh(lineGeometry, transMaterial);
