@@ -1228,13 +1228,15 @@ function addCones(data, active) {
     type: 'custom',
     renderingMode: '3d',
     onAdd: function (map, mbxContext) {
-      mbxContext = map.getCanvas().getContext('webgl');
-      window.tb = new Threebox(
-        map,
-        mbxContext, {
-          defaultLights: true
-        }
-      );
+      if (!map.getLayer('observation-cubes')) {
+        mbxContext = map.getCanvas().getContext('webgl');
+        window.tb = new Threebox(
+          map,
+          mbxContext, {
+            defaultLights: true
+          }
+        );
+      }
 
       // let geometrySup = new THREE.CylinderGeometry(1, 1, 80, 32);
       // let materialSup = new THREE.MeshBasicMaterial({
