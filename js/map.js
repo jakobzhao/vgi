@@ -280,6 +280,7 @@ function toGEOJSON(data) {
     "features": feature_list
   };
 };
+
 function toPolygonGEOJSON(data) {
   let feature_list = [];
   let options = {
@@ -616,7 +617,7 @@ function viewLeftPanel(e) {
       'data': toPolygonGEOJSON(filteredLocalData)
     })
     subMap.addLayer({
-      'id' : 'year-extrusion',
+      'id': 'year-extrusion',
       'type': 'fill-extrusion',
       'source': 'dataByYear',
       'paint': {
@@ -624,111 +625,55 @@ function viewLeftPanel(e) {
           'type': 'identity',
           'property': 'color'
         },
-         'fill-extrusion-height': {
+        'fill-extrusion-height': {
           'type': 'identity',
           'property': 'height'
         },
-         'fill-extrusion-base': {
+        'fill-extrusion-base': {
           'type': 'identity',
           'property': 'base'
         },
-         'fill-extrusion-opacity': 0.7
+        'fill-extrusion-opacity': 0.7
       }
     })
-    // let yearList = [];
-    // let address = [];
-    // let timelineOfAddress = {};
-    // for (let data of filteredLocalData) {
-    //   let key = (data.geometry.coordinates[0] + ', ' + data.geometry.coordinates[1])
-    //   if (!yearList.includes(Number(data.properties.year))) {
-    //     yearList.push(Number(data.properties.year))
-    //   }
-    //   if (!address.includes(key)) {
-    //     console.log(1)
-    //     address.push(key)
-    //     timelineOfAddress[key] = [data.properties.year];
-    //   } else {
-    //     console.log(2)
-    //     timelineOfAddress[key].push(data.properties.year);
-    //   }
-    // }
-    // yearList = yearList.sort();
-    // console.log(timelineOfAddress)
-    // filteredLocalData.forEach(function (datum) {
-    //   let key = (datum.geometry.coordinates[0] + ', ' + datum.geometry.coordinates[1])
-    //   let popup;
-    //   let text = 'Year: ';
-    //   if (timelineOfAddress[key].length > 1) {
-    //     text = text + Math.min(...timelineOfAddress[key]).toString() + ' to ' + Math.max(...timelineOfAddress[key]).toString() + '<br>';
-    //   } else {
-    //     text = text + Math.min(...timelineOfAddress[key]).toString() + '<br>';
-    //   }
-    //   text = text + 'Address: ' + datum.properties.address;
-    //   popup = new mapboxgl.Popup({ offset: 25 }).setHTML(
-    //     text
-    //   );
-    //   new mapboxgl.Marker().setLngLat(datum.geometry.coordinates).setPopup(popup).addTo(subMap);
-
+    let yearList = [];
+    let address = [];
+    let timelineOfAddress = {};
+    let text;
+    for (let data of filteredLocalData) {
+      let key = (data.geometry.coordinates[0] + ', ' + data.geometry.coordinates[1])
+      if (!yearList.includes(Number(data.properties.year))) {
+        yearList.push(Number(data.properties.year))
+      }
+      if (!address.includes(key)) {
+        console.log(1)
+        address.push(key)
+        timelineOfAddress[key] = [data.properties.year];
+      } else {
+        console.log(2)
+        timelineOfAddress[key].push(data.properties.year);
+      }
+    }
+    yearList = yearList.sort();
+    console.log(timelineOfAddress)
+    filteredLocalData.forEach(function (datum) {
+      let key = (datum.geometry.coordinates[0] + ', ' + datum.geometry.coordinates[1])
+      text = '<strong>Year Range: </strong>';
+      if (timelineOfAddress[key].length > 1) {
+        text = text + Math.min(...timelineOfAddress[key]).toString() + ' to ' + Math.max(...timelineOfAddress[key]).toString() + '<br>';
+      } else {
+        text = text + Math.min(...timelineOfAddress[key]).toString() + '<br>';
+      }
     });
-  subMap.on('click', 'year-extrusion', function(e) {
-    new mapboxgl.Popup()
-    .setLngLat(e.lngLat)
-    .setHTML("<strong>Address: </strong>" + e.features[0].properties.name + '<br>' +
-              '<strong>Year: </strong>' + e.features[0].properties.year)
-    .addTo(subMap);
+    console.log(text)
+    subMap.on('click', 'year-extrusion', function (e) {
+      new mapboxgl.Popup()
+        .setLngLat(e.lngLat)
+        .setHTML("<strong>Address: </strong>" + e.features[0].properties.name + '<br>' +
+          '<strong>Clicked Year: </strong>' + e.features[0].properties.year + '<br>' + text)
+        .addTo(subMap);
+    })
   })
-    // subMap.addLayer({
-    //     id: 'submap-cones',
-    //     type: 'custom',
-    //     renderingMode: '3d',
-    //     onAdd: function (subMap, submbxContext) {
-    //       submbxContext = map.getCanvas().getContext('webgl');
-    //       window.tb = new Threebox(
-    //         subMap,
-    //         submbxContext, {
-    //           defaultLights: true
-    //         }
-    //       );
-
-    //       // let geometrySup = new THREE.CylinderGeometry(1, 1, 80, 32);
-    //       // let materialSup = new THREE.MeshBasicMaterial({
-    //       //   flatShading: true,
-    //       //   color: '#8bd5ee',
-    //       //   transparent: true,
-    //       //   opacity: 0.7
-    //       // });
-
-    //       filteredLocalData.forEach(function (datum) {
-    //         console.log(datum)
-    //         // longitude, latitude, altitude
-
-    //         // @jakobzhao: Warning: the duplicate function will make the material of all the cones the same.
-    //         // let cone = coneTemplate.duplicate();
-    //         let baseCone = new THREE.Mesh(geometry, origMaterial);
-    //         cone = tb.Object3D({
-    //           obj: baseCone,
-    //           units: 'meters'
-    //         }).set({
-    //           rotation: {
-    //             x: -90,
-    //             y: 0,
-    //             z: 0
-    //           }
-    //         });
-
-    //         cone.setCoords([datum.geometry.coordinates[0], datum.geometry.coordinates[1], 20]);
-    //         // Bo: Attach properties to each cone.
-    //         // console.log(datum.properties.placetype);
-    //         cone.userData.properties = datum.properties
-    //         tb.add(cone);
-    //         // tb.add(line);
-    //       })
-    //     },
-    //     render: function (gl, matrix) {
-    //       tb.update();
-    //     }
-    //   })
-    //})
 };
 
 function infoNullCheck(string) {
@@ -1754,7 +1699,7 @@ obserLayer.addEventListener('click', function (e) {
     // addCones(current_venue_data, false);
     addCubes(current_observation_data, false);
   }
-})
+});
 venueLayer.addEventListener('click', function (e) {
   if (venueLayer.classList.contains('collapsed')) {
     if (map.getLayer('venue-slice-cones')) {
