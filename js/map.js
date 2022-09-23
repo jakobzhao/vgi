@@ -566,7 +566,7 @@ function viewLeftPanel(e) {
   console.log(filteredLocalData)
   // parse the codes to increase readability
   let codeString = "";
-  let codes = e.properties.codedescriptorlist;
+  let codes = e.properties.descriptorlist;
   for (let i = 0; i < codes.length; i++) {
     if (codes[i] !== '[' && codes[i] !== '"' && codes[i] !== '.' && codes[i] !== ']' && codes[i] !== "'") {
       codeString += codes[i];
@@ -581,7 +581,6 @@ function viewLeftPanel(e) {
   document.getElementById('city').innerHTML = infoNullCheck(e.properties.city);
   document.getElementById('state').innerHTML = infoNullCheck(e.properties.state);
   document.getElementById('code').innerHTML = infoNullCheck(codeString);
-  document.getElementById('type').innerHTML = infoNullCheck(e.properties.category);
 
   //vid for comment
   document.getElementById('vid-review').innerHTML = e.properties.vid;
@@ -994,24 +993,20 @@ function code_div(codes, venueSlices, year) {
         map.removeSource('venues');
       };
 
-      fetch('assets/CodeLookup.json')
-        .then((response) => response.json())
-        .then((codeLookup) => {
-          let codefilter = [];
-          codeLookupList = Object.values(codeLookup);
-          codefilter = codeLookupList.filter(function (feature) {
-            return feature.Descriptor == code.code
-          })
-          console.log(codefilter[0][year])
-          let result = [];
-          venueSlices.features.filter(function (feature) {
-            if (Array.isArray(feature.properties.codedescriptorlist) && feature.properties.codedescriptorlist.includes(codefilter[0][year])) {
-              result.push(feature);
+      let result = [];
+      venueSlices.features.filter(function (feature) {
+        if (feature.properties.year == year){
+          dlist = feature.properties.descriptorlist;
+          if (Array.isArray(dlist)){
+            for (i = 0; i <  dlist.length; i++) {
+              if (dlist[i].includes(code.code)) {
+                result.push(feature);
+              }
             }
-          });
-          console.log(result)
-          addCones(result, false);
-        });
+          }
+        }
+      });
+      addCones(result, false);
       ///////////////////////////////////////////////////////////////////////////////////////////
 
       document.getElementById("clear-button").innerHTML = '<a class="dropdown-item" title="Clear all selected filters" href="#"> The filter <span id="applied-filter">' + code.code + '</span> is applied. \n  </br> Click here to remove this filter. </a>';
@@ -1281,15 +1276,13 @@ function addCones(data, active) {
     type: 'custom',
     renderingMode: '3d',
     onAdd: function (map, mbxContext) {
-      if (!map.getLayer('observation-cubes')) {
-        mbxContext = map.getCanvas().getContext('webgl');
-        window.tb = new Threebox(
-          map,
-          mbxContext, {
-            defaultLights: true
-          }
-        );
-      }
+      mbxContext = map.getCanvas().getContext('webgl');
+      window.tb = new Threebox(
+        map,
+        mbxContext, {
+          defaultLights: true
+        }
+      );
 
       // let geometrySup = new THREE.CylinderGeometry(1, 1, 80, 32);
       // let materialSup = new THREE.MeshBasicMaterial({
