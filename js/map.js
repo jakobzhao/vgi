@@ -1589,7 +1589,7 @@ document.getElementById('confidence-switch').addEventListener('click', function 
 
 
 
-
+//Code filters in the missing venues and report
 function createCodeCategories(data) {
   let dataSlice = [
     [],
@@ -1598,7 +1598,6 @@ function createCodeCategories(data) {
     [],
     []
   ];
-  // console.log(data);
   Object.entries(data).forEach(([key, value]) => {
     if (value.name == 'Entry Descriptors') {
       dataSlice[0].push(value.code);
@@ -1628,6 +1627,7 @@ function createCodeCategories(data) {
   addCheckBox('#collapseOrganizationVerify', dataSlice[4], 'verify')
 }
 
+// check the box
 function addCheckBox(id, data, type) {
   let mainCategory = document.querySelector(id);
   mainCategory.innerHTML = '';
@@ -1650,20 +1650,7 @@ function addCheckBox(id, data, type) {
   }
 }
 
-function addAutoComplete(id, data) {
-  new Autocomplete(id, {
-    search: input => {
-      if (input.length < 1) {
-        return []
-      }
-      return data.filter(option => {
-        return option.toLowerCase()
-          .includes(input.toLowerCase())
-      })
-    }
-  });
-}
-
+// Click the map will auto input an address for the user by geocoder
 async function placeInput(place) {
   if (place.length == 4) {
     if (place[0].includes('St') || place[0].includes('Street') ||
@@ -1811,13 +1798,13 @@ async function updateMap(selectedYear, selectedLocality) {
   let active = false;
   // three js 3D object
 
+  //switch event
   if (!document.getElementById('venue-layer').classList.contains('collapsed') && !document.getElementById('observation-layer').classList.contains('collapsed')) {
     addCones(filteredYearData, active);
     addCubes(filteredYearObservationData, active);
   } else if (!document.getElementById('venue-layer').classList.contains('collapsed')) {
     addCones(filteredYearData, active);
   } else if (!document.getElementById('observation-layer').classList.contains('collapsed')) {
-    //addObservationLayer(map, toGEOJSON(filteredYearObservationData));
     addCubes(filteredYearObservationData, active);
   }
   //(map, toGEOJSON(filteredYearData));
