@@ -559,7 +559,7 @@ function removeAllLayers() {
 // function slide-in left panel
 function viewLeftPanel(e) {
   console.log("test");
-  console.log(e.properties.vid)
+  console.log(e)
   let filteredLocalData = venues.features.filter(function (feature) {
     return feature.properties.vid == e.properties.vid
   });
@@ -597,9 +597,11 @@ function viewLeftPanel(e) {
   document.getElementById('long-edit').value = e.geometry.coordinates[0];
   document.getElementById('lat-edit').value = e.geometry.coordinates[1];
   //document.getElementById('type-edit').value = e.properties.category;
-  document.getElementById('notes-edit').value = e.properties.notes;
+  document.getElementById('notes-edit').value = e.properties.placenotes;
   //document.getElementById('codelist-edit').value = codeString;
   //document.getElementById('confidence-edit').value = e.properties.confidence;
+
+  // Inset map, extrusion, and functions
   document.getElementById('subMap').innerHTML = '';
   let subMap = new mapboxgl.Map({
     container: 'subMap', // container ID
@@ -687,6 +689,7 @@ function viewLeftPanel(e) {
   })
 };
 
+// Go to
 function goToButton(vsid) {
   let data = venues.features.filter(function (feature) {
     return feature.properties.vsid == vsid
