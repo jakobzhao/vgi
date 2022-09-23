@@ -281,6 +281,7 @@ function toGEOJSON(data) {
   };
 };
 
+// Creating polygon geojson file for inset map view
 function toPolygonGEOJSON(data) {
   let feature_list = [];
   let options = {
@@ -293,9 +294,6 @@ function toPolygonGEOJSON(data) {
   let colorCode = ['#ffffb2', '#fecc5c', '#fd8d3c', '#f03b20', '#bd0026']
   for (let i = 0; i < data.length; i++) {
     let coordinates = data[i].geometry.coordinates.slice();
-    // while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-    //   coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-    // };
     if (data[i].properties.year < 1975) {
       color = colorCode[0]
       polygonRadius = radiusList[0]
@@ -322,6 +320,8 @@ function toPolygonGEOJSON(data) {
       "properties": {
         'name': data[i].properties.address,
         'year': data[i].properties.year,
+        'vid': data[i].properties.vid,
+        'vsid': data[i].properties.vsid,
         'height': (data[i].properties.year - 1950) * 10,
         'base': 0,
         'color': color,
@@ -639,6 +639,7 @@ function viewLeftPanel(e) {
     let yearList = [];
     let address = [];
     let timelineOfAddress = {};
+    let referenceList = {};
     let text;
     for (let data of filteredLocalData) {
       let key = (data.geometry.coordinates[0] + ', ' + data.geometry.coordinates[1])
@@ -646,35 +647,52 @@ function viewLeftPanel(e) {
         yearList.push(Number(data.properties.year))
       }
       if (!address.includes(key)) {
-        console.log(1)
         address.push(key)
         timelineOfAddress[key] = [data.properties.year];
       } else {
-        console.log(2)
         timelineOfAddress[key].push(data.properties.year);
       }
     }
     yearList = yearList.sort();
-    console.log(timelineOfAddress)
     filteredLocalData.forEach(function (datum) {
       let key = (datum.geometry.coordinates[0] + ', ' + datum.geometry.coordinates[1])
       text = '<strong>Year Range: </strong>';
       if (timelineOfAddress[key].length > 1) {
-        text = text + Math.min(...timelineOfAddress[key]).toString() + ' to ' + Math.max(...timelineOfAddress[key]).toString() + '<br>';
+        text = text + Math.min(...timelineOfAddress[key]).toString() + ' to ' + Math.max(...timelineOfAddress[key]).toString();
       } else {
-        text = text + Math.min(...timelineOfAddress[key]).toString() + '<br>';
+        text = text + Math.min(...timelineOfAddress[key]).toString();
       }
+      referenceList[datum.properties.year] = text;
     });
-    console.log(text)
     subMap.on('click', 'year-extrusion', function (e) {
+      let button = document.createElement('button');
+      button.setAttribute('id', 'go-btn');
+      button.setAttribute('type', 'button');
+      button.classList.add('btn');
+      button.classList.add('btn-primary');
+      button.classList.add('my-3');
+      button.textContent = 'Go to';
+      let vsid = e.features[0].properties.vsid
+      button.addEventListener('click', function() {
+        goToButton(vsid);
+      })
+      let container = document.createElement('div');
+      container.innerHTML = "<strong>Address: </strong>" + e.features[0].properties.name + '<br>' + '<strong>Clicked Year: </strong>' + e.features[0].properties.year + '<br>' + referenceList[e.features[0].properties.year];
+      container.appendChild(button);
       new mapboxgl.Popup()
         .setLngLat(e.lngLat)
-        .setHTML("<strong>Address: </strong>" + e.features[0].properties.name + '<br>' +
-          '<strong>Clicked Year: </strong>' + e.features[0].properties.year + '<br>' + text)
+        .setDOMContent(container)
         .addTo(subMap);
     })
   })
 };
+
+function goToButton(vsid) {
+  let data = venues.features.filter(function (feature) {
+    return feature.properties.vsid == vsid
+  });
+  viewLeftPanel(data[0]);
+}
 
 function infoNullCheck(string) {
   return ((string != "null") ? string : 'data unavailable');
@@ -1044,8 +1062,6 @@ function code_div(codes, venueSlices, year) {
 
 
 }
-
-
 
 // obtain damron codes of a corresponding year
 function codeIncludes(codeData, year) {

@@ -1009,3 +1009,13 @@ h2#name, p#venue-indicator {
 #subMap a.mapboxgl-ctrl-logo {
     visibility: hidden;
 }
+
+#go-btn {
+    margin: auto;
+    margin-top: 0;
+    margin-bottom: 0 !important;
+    padding-top: 0;
+    padding-bottom: 0;
+    height: 40%;
+    width: 100%;
+}
