@@ -4,7 +4,11 @@ let current_category = '';
 let current_confidence = '';
 let current_observation_data;
 let current_venue_data;
-
+let current_code_filter = [];
+let on_Screen_Data_Venue;
+let on_Screen_Data_Observe;
+let venue_status = true;
+let observation_status = false;
 const localities = {
   'seattle': {
     center: [-122.3321, 47.6062],
@@ -340,6 +344,7 @@ function toPolygonGEOJSON(data) {
   };
 };
 
+// it's a toGEOJSON function for data not fitting into the first toGEOJSON function
 function toSecondaryGEOJSON(data) {
   let feature_list = [];
   // for loop
@@ -926,8 +931,7 @@ function addExtrusions(feature, e) {
 
 
 // add div for the codes corresponding to selected year on the map
-function code_div(codes, venueSlices, year) {
-
+function code_div(codes, venueSlices, observedData, year) {
   let codeFilterBtn = document.getElementById("code-filter-btn");
   let codeParent = document.getElementById('codeDescriptorList');
 
@@ -976,46 +980,92 @@ function code_div(codes, venueSlices, year) {
 
     codeItem.innerHTML = '<a class="dropdown-item" href="#">' + code.code + '</a>';
 
-
+    // filter applied during updating Year
+    if (current_code_filter.length > 0) {
+      fetch('assets/CodeLookup.json')
+          .then((response) => response.json())
+          .then((codeLookup) => {
+            let codefilter = [];
+            codeLookupList = Object.values(codeLookup);
+            codefilter = codeLookupList.filter(function (feature) {
+              return feature.Descriptor == code.code
+            })
+            console.log(codefilter[0][year])
+            current_code_filter.push(codefilter[0][year])
+            on_Screen_Data_Venue = [];
+            on_Screen_Data_Observe = []
+            console.log(venueSlices)
+            venueSlices.features.filter(function (feature) {
+              if (Array.isArray(feature.properties.codedescriptorlist) && feature.properties.codedescriptorlist.includes(codefilter[0][year])) {
+                on_Screen_Data_Venue.push(feature);
+              }
+            });
+            observedData.features.filter(function (feature) {
+              if (Array.isArray(feature.properties.codedescriptorlist) && feature.properties.codedescriptorlist.includes(codefilter[0][year])) {
+                on_Screen_Data_Observe.push(feature);
+              }
+            });
+          })
+    }
 
     ////////////////
     // for each code_div add event listener on click to add filter features of the map
     codeItem.addEventListener('click', function () {
+      if (current_code_filter.length >0) {
+        makeAlert('You can only select one filter at one time');
+      } else {
+        codeParent.classList.add('d-none');
+        // map.setFilter('data', ['in', code.code, ['get', 'codedescriptorlist']]);
 
-      codeParent.classList.add('d-none');
-      // map.setFilter('data', ['in', code.code, ['get', 'codedescriptorlist']]);
+        //remove 3D layer
+        if (map.getLayer('venue-slice-cones')) {
+          map.removeLayer('venue-slice-cones');
+        };
+        if (map.getLayer('poi-labels')) {
+          map.removeLayer('poi-labels');
+          map.removeSource('venues');
+        };
 
-      //remove 3D layer
-      if (map.getLayer('venue-slice-cones')) {
-        map.removeLayer('venue-slice-cones');
-      };
-      if (map.getLayer('poi-labels')) {
-        map.removeLayer('poi-labels');
-        map.removeSource('venues');
-      };
-
-      fetch('assets/CodeLookup.json')
-        .then((response) => response.json())
-        .then((codeLookup) => {
-          let codefilter = [];
-          codeLookupList = Object.values(codeLookup);
-          codefilter = codeLookupList.filter(function (feature) {
-            return feature.Descriptor == code.code
-          })
-          console.log(codefilter[0][year])
-          let result = [];
-          venueSlices.features.filter(function (feature) {
-            if (Array.isArray(feature.properties.codedescriptorlist) && feature.properties.codedescriptorlist.includes(codefilter[0][year])) {
-              result.push(feature);
+        fetch('assets/CodeLookup.json')
+          .then((response) => response.json())
+          .then((codeLookup) => {
+            let codefilter = [];
+            codeLookupList = Object.values(codeLookup);
+            codefilter = codeLookupList.filter(function (feature) {
+              return feature.Descriptor == code.code
+            })
+            console.log(codefilter[0][year])
+            current_code_filter.push(codefilter[0][year])
+            let result = [];
+            let resultObserve = []
+            console.log(venueSlices)
+            venueSlices.features.filter(function (feature) {
+              if (Array.isArray(feature.properties.codedescriptorlist) && feature.properties.codedescriptorlist.includes(codefilter[0][year])) {
+                result.push(feature);
+              }
+            });
+            observedData.features.filter(function (feature) {
+              if (Array.isArray(feature.properties.codedescriptorlist) && feature.properties.codedescriptorlist.includes(codefilter[0][year])) {
+                resultObserve.push(feature);
+              }
+            });
+            console.log(result)
+            on_Screen_Data_Venue = result;
+            on_Screen_Data_Observe = resultObserve;
+            if (venue_status && observation_status) {
+              addCubes(resultObserve, false)
+              addCones(result, false);
+            } else if (venue_status) {
+              addCones(result, false)
+            } else if (observation_status) {
+              addCubes(resultObserve, false)
             }
           });
-          console.log(result)
-          addCones(result, false);
-        });
-      ///////////////////////////////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////////////////////////
 
-      document.getElementById("clear-button").innerHTML = '<a class="dropdown-item" title="Clear all selected filters" href="#"> The filter <span id="applied-filter">' + code.code + '</span> is applied. \n  </br> Click here to remove this filter. </a>';
-    })
+        document.getElementById("clear-button").innerHTML = '<a class="dropdown-item" title="Clear all selected filters" href="#"> The filter <span id="applied-filter">' + code.code + '</span> is applied. \n  </br> Click here to remove this filter. </a>';
+        }
+      })
 
 
     categoryMenu.appendChild(codeItem);
@@ -1033,6 +1083,7 @@ function code_div(codes, venueSlices, year) {
   clear.innerHTML = '<a class="dropdown-item" title="Clear all selected filters" href="#"> No filter is currently applied. </a>';
 
   clear.addEventListener('click', function () {
+    current_code_filter = [];
     codeParent.classList.add('d-none');
 
     map.setFilter('data', undefined);
@@ -1178,7 +1229,7 @@ function setImgURL(service, placeId) {
 };
 
 
-
+// add names to the cones
 function addLabels(data) {
   let result = {}
   result.type = "FeatureCollection";
@@ -1267,7 +1318,7 @@ function makeLocalityList(localityID, data, selectedYear) {
 }
 
 function addCones(data, active) {
-
+  venue_status = true;
   if (data.length == 0) {
     document.getElementById("year-notes").innerHTML = "No venues from this locale of this year has been found in our database. If you know any venue does not shown on this database, please help us improve. "
   } else {
@@ -1377,6 +1428,7 @@ function addCones(data, active) {
 };
 
 function addCubes(data, active) {
+  observation_status = true
   // if (data.length == 0) {
   //   document.getElementById("year-notes").innerHTML = "No observations from this locale of this year has been found in our database. If you know any venue does not shown on this database, please help us improve. "
   // } else {
@@ -1677,13 +1729,14 @@ async function placeInput(place) {
   }
 }
 
+// switch cube and cone layers, require coordination
 let obserLayer = document.getElementById('observation-layer')
 let venueLayer = document.getElementById('venue-layer');
 
 obserLayer.addEventListener('click', function (e) {
   if (obserLayer.classList.contains('collapsed')) {
-    //removeAllLayers();
     if (map.getLayer('observation-cubes')) {
+      observation_status = false;
       map.removeLayer('observation-cubes');
       if (map.getLayer('poi-labels')) {
         map.removeLayer('poi-labels');
@@ -1694,21 +1747,30 @@ obserLayer.addEventListener('click', function (e) {
       if (map.getLayer('venue-slice-cones')) {
         map.removeLayer('venue-slice-cones');
       }
-      addCones(current_venue_data, false);
+      if (current_code_filter.length > 0) {
+        addCones(on_Screen_Data_Venue, false);
+      } else {
+        addCones(current_venue_data, false);
+      }
     }
     //addCones(current_venue_data, false);
   } else {
     if (map.getLayer('observation-cubes')) {
       map.removeLayer('observation-cubes');
     }
-    // removeAllLayers();
-    // addCones(current_venue_data, false);
-    addCubes(current_observation_data, false);
+    if (current_code_filter.length > 0) {
+      addCubes(on_Screen_Data_Observe, false);
+    } else {
+      addCubes(current_observation_data, false);
+    }
+
   }
 });
+
 venueLayer.addEventListener('click', function (e) {
   if (venueLayer.classList.contains('collapsed')) {
     if (map.getLayer('venue-slice-cones')) {
+      venue_status = false;
       map.removeLayer('venue-slice-cones');
       if (map.getLayer('poi-labels')) {
         map.removeLayer('poi-labels');
@@ -1719,25 +1781,23 @@ venueLayer.addEventListener('click', function (e) {
       if (map.getLayer('observation-cubes')) {
         map.removeLayer('observation-cubes');
       }
-      addCubes(current_observation_data, false);
+      if (current_code_filter.length > 0) {
+        addCubes(on_Screen_Data_Observe, false);
+      } else {
+        addCubes(current_observation_data, false);
+      }
     }
   } else {
     if (map.getLayer('venue-slice-cones')) {
       map.removeLayer('venue-slice-cones');
     }
-    addCones(current_venue_data, false);
+    if (current_code_filter.length > 0) {
+      addCones(on_Screen_Data_Venue, false);
+    } else {
+      addCones(current_venue_data, false);
+    }
   }
 })
-// Add category options in add missing venues
-// function addCategory(category, data) {
-//   category.innerHTML = '';
-//   for(var object of data) {
-//     let option = document.createElement('option');
-//     option.value = object;
-//     option.innerHTML = object;
-//     category.appendChild(option);
-//   }
-// }
 
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -1794,18 +1854,29 @@ async function updateMap(selectedYear, selectedLocality) {
   createCodeCategories(code_data);
 
   let defaultCodes = codeIncludes(code_data, selectedYear)
-  code_div(defaultCodes, venues, selectedYear);
+  code_div(defaultCodes, venues, observationData, selectedYear);
   let active = false;
   // three js 3D object
 
   //switch event
-  if (!document.getElementById('venue-layer').classList.contains('collapsed') && !document.getElementById('observation-layer').classList.contains('collapsed')) {
-    addCones(filteredYearData, active);
-    addCubes(filteredYearObservationData, active);
-  } else if (!document.getElementById('venue-layer').classList.contains('collapsed')) {
-    addCones(filteredYearData, active);
-  } else if (!document.getElementById('observation-layer').classList.contains('collapsed')) {
-    addCubes(filteredYearObservationData, active);
+  if (current_code_filter.length > 0) {
+    if (venue_status && observation_status) {
+      addCones(on_Screen_Data_Venue, active);
+      addCubes(on_Screen_Data_Observe, active);
+    } else if (venue_status) {
+      addCones(on_Screen_Data_Venue, active);
+    } else if (observation_status) {
+      addCubes(on_Screen_Data_Observe, active);
+    }
+  } else {
+    if (venue_status && observation_status) {
+      addCones(filteredYearData, active);
+      addCubes(filteredYearObservationData, active);
+    } else if (venue_status) {
+      addCones(filteredYearData, active);
+    } else if (observation_status) {
+      addCubes(filteredYearObservationData, active);
+    }
   }
   //(map, toGEOJSON(filteredYearData));
   //addCubes(filteredYearObservationData, active);
@@ -2248,3 +2319,11 @@ document.getElementById('return-btn').addEventListener('click', function () {
   document.getElementById('info-default').classList.remove('d-none');
   document.getElementById('ground-truth-btns').classList.remove('d-none');
 });
+
+function makeAlert(alertText) {
+  let alert = document.getElementById("alert-modal");
+  let alertTextBox = document.getElementById("alert-text");
+  alertTextBox.innerHTML = alertText;
+  let alertModal = new bootstrap.Modal(alert);
+  alertModal.show();
+}
