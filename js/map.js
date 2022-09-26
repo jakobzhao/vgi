@@ -1,14 +1,15 @@
 mapboxgl.accessToken = config.accessToken;
 
-let current_category = '';
-let current_confidence = '';
-let current_observation_data;
-let current_venue_data;
-let current_code_filter = [];
-let on_Screen_Data_Venue;
-let on_Screen_Data_Observe;
-let venue_status = true;
-let observation_status = false;
+let current_category = ''; // record the category of current clicked venue
+let current_confidence = ''; // record the confidence level of current clicked venue
+let current_observation_data; // record the overall observation data of selected year
+let current_venue_data; // record the overall venue data of selected year
+let current_code_filter = []; // tracking the filters user selected
+let on_Screen_Data_Venue; // venue data with the filter
+let on_Screen_Data_Observe; // observation data with the filter
+let venue_status = true; // if venue layer is on
+let observation_status = false; // if observation layer is on
+
 const localities = {
   'seattle': {
     center: [-122.3321, 47.6062],
@@ -1371,6 +1372,9 @@ function makeLocalityList(localityID, data, selectedYear) {
 }
 
 function addCones(data, active) {
+  if (map.getLayer('venue-slice-cones')) {
+    map.removeLayer('venue-slice-cones');
+  }
   if (data.length == 0) {
     document.getElementById("year-notes").innerHTML = "No venues from this locale of this year has been found in our database. If you know any venue does not shown on this database, please help us improve. "
   } else {
@@ -1486,9 +1490,10 @@ function addCubes(data, active) {
   //   document.getElementById("year-notes").innerHTML = "";
   // }
   //addLabels(data);
-  // if (map.getLayer('observation-cubes')) {
-  //   map.removeLayer('observation-cubes');
-  // };
+  if (map.getLayer('observation-cubes')) {
+    map.removeLayer('observation-cubes');
+  };
+
   map.addLayer({
     id: 'observation-cubes',
     type: 'custom',
