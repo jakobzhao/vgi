@@ -992,7 +992,7 @@ function code_div(codes, venueSlices, observedData, year) {
             console.log(codefilter[0][year])
             current_code_filter.push(codefilter[0][year])
             on_Screen_Data_Venue = [];
-            on_Screen_Data_Observe = []
+            on_Screen_Data_Observe = [];
             console.log(venueSlices)
             venueSlices.features.filter(function (feature) {
               if (Array.isArray(feature.properties.codedescriptorlist) && feature.properties.codedescriptorlist.includes(codefilter[0][year])) {
@@ -1051,6 +1051,16 @@ function code_div(codes, venueSlices, observedData, year) {
             console.log(result)
             on_Screen_Data_Venue = result;
             on_Screen_Data_Observe = resultObserve;
+            if (map.getLayer('venue-slice-cones')) {
+              map.removeLayer('venue-slice-cones');
+            };
+            if (map.getLayer('observation-cubes')) {
+              map.removeLayer('observation-cubes');
+            }
+            if (map.getLayer('poi-labels')) {
+              map.removeLayer('poi-labels');
+              map.removeSource('venues');
+            };
             if (venue_status && observation_status) {
               addCubes(resultObserve, false)
               addCones(result, false);
@@ -1065,6 +1075,9 @@ function code_div(codes, venueSlices, observedData, year) {
       if (map.getLayer('venue-slice-cones')) {
         map.removeLayer('venue-slice-cones');
       };
+      if (map.getLayer('observation-cubes')) {
+        map.removeLayer('observation-cubes');
+      }
       if (map.getLayer('poi-labels')) {
         map.removeLayer('poi-labels');
         map.removeSource('venues');
@@ -1109,27 +1122,44 @@ function code_div(codes, venueSlices, observedData, year) {
     current_code_filter = [];
     codeParent.classList.add('d-none');
 
-    map.setFilter('data', undefined);
-    // map filter of single year selected by the user
-    map.setFilter('data', ["==", ['number', ['get', 'year']], year]);
-    // let selectionDiv = document.getElementById('dropdown-container');
-    // selectionDiv.classList.toggle('d-none');
-    // remove 3D layer
-    // if (map.getLayer('venue-slice-cones')) {
-    //   map.removeLayer('venue-slice-cones');
-    // };
-    // if (map.getLayer('poi-labels')) {
-    //   map.removeLayer('poi-labels');
-    //   map.removeSource('venues');
-    // };
-    removeAllLayers();
-    let onScreenData = venueSlices.features.filter(function (feature) {
-      return feature.properties.year == year
-    });
-    console.log(onScreenData);
-    addCones(onScreenData, false);
+    // map.setFilter('data', undefined);
+    // // map filter of single year selected by the user
+    // map.setFilter('data', ["==", ['number', ['get', 'year']], year]);
+    // // let selectionDiv = document.getElementById('dropdown-container');
+    // // selectionDiv.classList.toggle('d-none');
+    // // remove 3D layer
+    // // if (map.getLayer('venue-slice-cones')) {
+    // //   map.removeLayer('venue-slice-cones');
+    // // };
+    // // if (map.getLayer('poi-labels')) {
+    // //   map.removeLayer('poi-labels');
+    // //   map.removeSource('venues');
+    // // };
+    // removeAllLayers();
+    // let onScreenData = venueSlices.features.filter(function (feature) {
+    //   return feature.properties.year == year
+    // });
+    // console.log(onScreenData);
+    // addCones(onScreenData, false);
+    if (map.getLayer('venue-slice-cones')) {
+      map.removeLayer('venue-slice-cones');
+    };
+    if (map.getLayer('observation-cubes')) {
+      map.removeLayer('observation-cubes');
+    }
+    if (map.getLayer('poi-labels')) {
+      map.removeLayer('poi-labels');
+      map.removeSource('venues');
+    };
 
-
+    if (venue_status && observation_status) {
+      addCones(current_venue_data, false);
+      addCubes(current_observation_data, false);
+    } else if (venue_status) {
+      addCones(current_venue_data, false);
+    } else if (observation_status) {
+      addCubes(current_observation_data, false);
+    }
   });
 
   codeParent.appendChild(divider);
@@ -1341,7 +1371,6 @@ function makeLocalityList(localityID, data, selectedYear) {
 }
 
 function addCones(data, active) {
-  venue_status = true;
   if (data.length == 0) {
     document.getElementById("year-notes").innerHTML = "No venues from this locale of this year has been found in our database. If you know any venue does not shown on this database, please help us improve. "
   } else {
@@ -1451,13 +1480,12 @@ function addCones(data, active) {
 };
 
 function addCubes(data, active) {
-  observation_status = true
   // if (data.length == 0) {
   //   document.getElementById("year-notes").innerHTML = "No observations from this locale of this year has been found in our database. If you know any venue does not shown on this database, please help us improve. "
   // } else {
   //   document.getElementById("year-notes").innerHTML = "";
   // }
-  addLabels(data);
+  //addLabels(data);
   // if (map.getLayer('observation-cubes')) {
   //   map.removeLayer('observation-cubes');
   // };
@@ -1757,16 +1785,16 @@ let obserLayer = document.getElementById('observation-layer')
 let venueLayer = document.getElementById('venue-layer');
 
 obserLayer.addEventListener('click', function (e) {
+  if (map.getLayer('poi-labels')) {
+    map.removeLayer('poi-labels');
+    map.removeSource('venues');
+  }
   if (obserLayer.classList.contains('collapsed')) {
+    observation_status = false;
     if (map.getLayer('observation-cubes')) {
-      observation_status = false;
       map.removeLayer('observation-cubes');
-      if (map.getLayer('poi-labels')) {
-        map.removeLayer('poi-labels');
-        map.removeSource('venues');
-      }
     }
-    if (!venueLayer.classList.contains('collapsed')) {
+    if (venue_status) {
       if (map.getLayer('venue-slice-cones')) {
         map.removeLayer('venue-slice-cones');
       }
@@ -1778,6 +1806,7 @@ obserLayer.addEventListener('click', function (e) {
     }
     //addCones(current_venue_data, false);
   } else {
+    observation_status = true;
     if (map.getLayer('observation-cubes')) {
       map.removeLayer('observation-cubes');
     }
@@ -1791,16 +1820,16 @@ obserLayer.addEventListener('click', function (e) {
 });
 
 venueLayer.addEventListener('click', function (e) {
+  if (map.getLayer('poi-labels')) {
+    map.removeLayer('poi-labels');
+    map.removeSource('venues');
+  }
   if (venueLayer.classList.contains('collapsed')) {
+    venue_status = false;
     if (map.getLayer('venue-slice-cones')) {
-      venue_status = false;
       map.removeLayer('venue-slice-cones');
-      if (map.getLayer('poi-labels')) {
-        map.removeLayer('poi-labels');
-        map.removeSource('venues');
-      }
     }
-    if (!obserLayer.classList.contains('collapsed')) {
+    if (observation_status) {
       if (map.getLayer('observation-cubes')) {
         map.removeLayer('observation-cubes');
       }
@@ -1811,6 +1840,7 @@ venueLayer.addEventListener('click', function (e) {
       }
     }
   } else {
+    venue_status = true;
     if (map.getLayer('venue-slice-cones')) {
       map.removeLayer('venue-slice-cones');
     }
