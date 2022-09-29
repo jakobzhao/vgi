@@ -2118,36 +2118,36 @@ map.on('click', 'data', async function (e) {
   let feature = e.features[0];
   viewLeftPanel(feature);
   addLeftPanelActions(feature, marker, e);
-  addExtrusions(feature, e);
+  // addExtrusions(feature, e);
   // buffer
-  let turfPoint = turf.point(feature.geometry.coordinates);
-  let buffer = turf.buffer(turfPoint, 500, {
-    units: 'meters'
-  });
-  map.addLayer({
-    id: 'buffer-point',
-    source: {
-      type: 'geojson',
-      data: {
-        "type": "FeatureCollection",
-        "features": []
-      }
-    },
-    type: "fill",
-    paint: {
-      'fill-color': 'red',
-      'fill-opacity': 0.1
-    }
-  });
+  // let turfPoint = turf.point(feature.geometry.coordinates);
+  // let buffer = turf.buffer(turfPoint, 500, {
+  //   units: 'meters'
+  // });
+  // map.addLayer({
+  //   id: 'buffer-point',
+  //   source: {
+  //     type: 'geojson',
+  //     data: {
+  //       "type": "FeatureCollection",
+  //       "features": []
+  //     }
+  //   },
+  //   type: "fill",
+  //   paint: {
+  //     'fill-color': 'red',
+  //     'fill-opacity': 0.1
+  //   }
+  // });
 
-  map.getSource('buffer-point').setData(buffer);
-  // indicate that this point is a venue
-  let venueIndicator = document.getElementById('venue-indicator');
-  if (e.features[0].properties.v_id !== undefined) {
-    venueIndicator.innerHTML = "this is a confirmed venue";
-  } else {
-    venueIndicator.innerHTML = '';
-  };
+  // map.getSource('buffer-point').setData(buffer);
+  // // indicate that this point is a venue
+  // let venueIndicator = document.getElementById('venue-indicator');
+  // if (e.features[0].properties.v_id !== undefined) {
+  //   venueIndicator.innerHTML = "this is a confirmed venue";
+  // } else {
+  //   venueIndicator.innerHTML = '';
+  // };
 
   // add reviews
   // if add review button is clicked, display add review div box
