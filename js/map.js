@@ -2204,13 +2204,6 @@ function submitNewReview(e) {
   }
 };
 
-// map.on('click', 'observations', function(e) {
-//   console.log(e)
-//   new mapboxgl.Popup()
-//     .setLngLat(e.lngLat)
-//     .setHTML(e.features[0].properties.name)
-//     .addTo(map);
-// })
 
 // go back button
 document.getElementById('go-back-btn').addEventListener('click', function () {
