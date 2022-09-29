@@ -92,13 +92,14 @@ nav {
 }
 
 
-#applied-filter {
+#applied-filter, .descriptor {
     background:rgba(193, 193, 193, 0.462);
     border:#0000001f solid 1px;
     border-radius: 0.1rem;
     font-style:normal;
     padding-left: 2px;
     padding-right: 2px;
+    margin: 2px;
 }
 #clear-button > a {
     justify-content: center;

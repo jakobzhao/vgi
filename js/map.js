@@ -572,12 +572,23 @@ function viewLeftPanel(e) {
   console.log(filteredLocalData)
   // parse the codes to increase readability
   let codeString = "";
-  let codes = e.properties.descriptorlist;
+  let codes = infoNullCheck(e.properties.descriptorlist);
   for (let i = 0; i < codes.length; i++) {
     if (codes[i] !== '[' && codes[i] !== '"' && codes[i] !== '.' && codes[i] !== ']' && codes[i] !== "'") {
       codeString += codes[i];
     }
   };
+  codeString = codeString.split(',')
+  for (let i = 0; i < codeString.length; i++){
+    code = document.createElement("button");
+    code.innerText = codeString[i];
+    code.className = 'descriptor';
+    code.addEventListener('click', function() {
+      document.getElementById(codeString[i]).click();
+      console.log(codeString[i])
+    });
+    document.getElementById('code').appendChild(code);
+  }
 
   // left panel location information
   document.getElementById('name').innerHTML = infoNullCheck(e.properties.observedvenuename);
@@ -586,7 +597,6 @@ function viewLeftPanel(e) {
   document.getElementById('year-info').innerHTML = infoNullCheck(e.properties.year);
   document.getElementById('city').innerHTML = infoNullCheck(e.properties.city);
   document.getElementById('state').innerHTML = infoNullCheck(e.properties.state);
-  document.getElementById('code').innerHTML = infoNullCheck(codeString);
 
   //vid for comment
   document.getElementById('vid-review').innerHTML = e.properties.vid;
@@ -979,6 +989,7 @@ function code_div(codes, venueSlices, observedData, year) {
     let codeItem = document.createElement('li');
 
     codeItem.innerHTML = '<a class="dropdown-item" href="#">' + code.code + '</a>';
+    codeItem.id = code.code;
 
     // filter applied during updating Year
     if (current_code_filter.length > 0) {
@@ -1099,7 +1110,7 @@ function code_div(codes, venueSlices, observedData, year) {
       });
       addCones(result, false);
       ///////////////////////////////////////////////////////////////////////////////////////////
-
+        document.getElementById("code-filter-btn").innerText = 'Current Filter: ' + codeItem.id;
         document.getElementById("clear-button").innerHTML = '<a class="dropdown-item" title="Clear all selected filters" href="#"> The filter <span id="applied-filter">' + code.code + '</span> is applied. \n  </br> Click here to remove this filter. </a>';
         }
       })
