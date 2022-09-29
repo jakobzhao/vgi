@@ -618,58 +618,6 @@ function viewLeftPanel(e) {
     attributionControl: false,
     antialias: true,
   });
-<<<<<<< HEAD
-
-
-  // map.addLayer({
-  //   id: 'venue-slice-cones',
-  //   type: 'custom',
-  //   renderingMode: '3d',
-  //   onAdd: function (subMap, mbxContext) {
-  //     mbxContext = subMap.getCanvas().getContext('webgl');
-  //     window.tb = new Threebox(
-  //       map,
-  //       mbxContext, {
-  //         defaultLights: true
-  //       }
-  //     );
-
-  //     // let geometrySup = new THREE.CylinderGeometry(1, 1, 80, 32);
-  //     // let materialSup = new THREE.MeshBasicMaterial({
-  //     //   flatShading: true,
-  //     //   color: '#8bd5ee',
-  //     //   transparent: true,
-  //     //   opacity: 0.7
-  //     // });
-
-  //     data.forEach(function (datum) {
-  //       // longitude, latitude, altitude
-
-  //       // @jakobzhao: Warning: the duplicate function will make the material of all the cones the same.
-  //       // let cone = coneTemplate.duplicate();
-  //       let baseCone = new THREE.Mesh(geometry, origMaterial);
-  //       cone = tb.Object3D({
-  //         obj: baseCone,
-  //         units: 'meters'
-  //       }).set({
-  //         rotation: {
-  //           x: -90,
-  //           y: 0,
-  //           z: 0
-  //         }
-  //       });
-
-  //       cone.setCoords([datum.geometry.coordinates[0], datum.geometry.coordinates[1], 20]);
-  //       // Bo: Attach properties to each cone.
-  //       // console.log(datum.properties.placetype);
-  //       cone.userData.properties = datum.properties
-
-
-  //       tb.add(cone);
-  //       // tb.add(line);
-  //     })
-  //   })
-=======
   subMap.on('load', function () {
     subMap.addSource('dataByYear', {
       'type': 'geojson',
@@ -744,7 +692,6 @@ function viewLeftPanel(e) {
         .addTo(subMap);
     })
   })
->>>>>>> 91393b63a92743193127670b66a98820b499b96f
 };
 
 // Go to
