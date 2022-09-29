@@ -1005,3 +1005,17 @@ h2#name, p#venue-indicator {
     border-radius: 2px;
     box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .15);
 }
+
+#subMap a.mapboxgl-ctrl-logo {
+    visibility: hidden;
+}
+
+#go-btn {
+    margin: auto;
+    margin-top: 0;
+    margin-bottom: 0 !important;
+    padding-top: 0;
+    padding-bottom: 0;
+    height: 40%;
+    width: 100%;
+}
