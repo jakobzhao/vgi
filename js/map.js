@@ -553,12 +553,14 @@ function viewLeftPanel(e) {
     antialias: true,
     hash: true
   });
+
+
   // map.addLayer({
   //   id: 'venue-slice-cones',
   //   type: 'custom',
   //   renderingMode: '3d',
-  //   onAdd: function (map, mbxContext) {
-  //     mbxContext = map.getCanvas().getContext('webgl');
+  //   onAdd: function (subMap, mbxContext) {
+  //     mbxContext = subMap.getCanvas().getContext('webgl');
   //     window.tb = new Threebox(
   //       map,
   //       mbxContext, {
