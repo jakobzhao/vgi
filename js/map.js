@@ -1335,7 +1335,7 @@ function makeLocalityList(localityID, data, selectedYear) {
 
         viewLeftPanel(localityFeatures[i]);
         addLeftPanelActions(localityFeatures[i], marker);
-        getStreetView(localityFeatures[i]);
+        // getStreetView(localityFeatures[i]);
         // addExtrusions(localityFeatures[i]);
         if (document.getElementById('info-default').classList.contains('d-none')) {
           let collapseState = document.getElementById('info').classList.toggle('leftCollapse');
@@ -2165,7 +2165,7 @@ map.on('click', 'data', async function (e) {
   // get all comments of the location
   await getReviews(vid);
   // get all photos of the location by the google API
-  getStreetView(feature);
+  // getStreetView(feature);
 });
 
 // helper function to submit new review
