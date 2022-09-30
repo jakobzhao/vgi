@@ -549,6 +549,7 @@ function viewLeftPanel(e) {
     }
   };
   codeString = codeString.split(',')
+  document.getElementById('code').innerHTML = '';
   for (let i = 0; i < codeString.length; i++){
     code = document.createElement("button");
     code.innerText = codeString[i];
