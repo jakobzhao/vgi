@@ -594,7 +594,7 @@ function viewLeftPanel(e) {
     style: 'mapbox://styles/mapbox/light-v10', // style URL
     center: e.geometry.coordinates,
     zoom: 12, // starting zoom
-    pitch: 50,
+    pitch: 80,
     // bearing: -10.8,
     attributionControl: false,
     antialias: true,
