@@ -1020,3 +1020,9 @@ h2#name, p#venue-indicator {
     height: 40%;
     width: 100%;
 }
+
+#observe-switch, #venue-switch {
+    top: 0.1em;
+    left: -0.2em;
+    font-size: 15px !important;
+}

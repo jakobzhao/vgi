@@ -693,11 +693,16 @@
       <div id="accordion" class="m-2">
         <div class="accordion-item">
           <h2 class="accordion-header">
+
             <button id="venue-layer" class="accordion-button light-text-title" type="button" data-bs-toggle="collapse"
               data-bs-target="#collapseVenue" aria-expanded="false" aria-controls="collapseVenue">
               Venues
               <i class="fa fa-play fa-fw fa-rotate-90" style="color:lightskyblue"></i>
             </button>
+            <div class="form-check form-switch" id="venue-switch">
+              <input class="form-check-input" type="checkbox" id="venue-flexSwitchCheckChecked" checked>
+              <label class="form-check-label" for="venue-flexSwitchCheckChecked">HIDE/SHOW</label>
+            </div>
           </h2>
           <div id="collapseVenue" class="accordion-collapse collapse show">
             <div class="accordion-body">
@@ -746,6 +751,10 @@
               Observations
               <i class="fa fa-cube fa-fw" style="color:lightskyblue"></i>
             </button>
+            <div class="form-check form-switch" id="observe-switch">
+              <input class="form-check-input" type="checkbox" id="observe-flexSwitchCheckChecked">
+              <label class="form-check-label" for="observe-flexSwitchCheckChecked">HIDE/SHOW</label>
+            </div>
           </h2>
           <div id="collapseObservation" class="accordion-collapse collapse">
             <div class="accordion-body">

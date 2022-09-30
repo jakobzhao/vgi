@@ -50,8 +50,6 @@ const transMaterial = new THREE.MeshPhysicalMaterial({
 const materialOnClick = new THREE.MeshPhysicalMaterial({
   flatShading: true,
   color: '#ff6262',
-  // transparent: true,
-  // opacity: 0.5
 });
 
 
@@ -449,34 +447,6 @@ function addVenueLayer(map, obsData) {
 
 // add accordion layer - for venues and observations
 function addObservationLayer(map, data) {
-  // let comparisons = venues.feature.length;
-  // if(data.features.length < venues.features.length) {
-  //   comparisons = data.feature.length;
-  // };
-
-
-  // if (map.getLayer('venue-slice-cones')) {
-  //   map.removeLayer('venue-slice-cones');
-  // };
-  // if (map.getLayer('poi-labels')) {
-  //   map.removeLayer('poi-labels');
-  //   map.removeSource('venues');
-  // };
-
-  // if (map.getLayer('data')) {
-  //   map.removeLayer('data');
-  //   map.removeSource("data");
-  // };
-
-  // if (map.getLayer('observation')) {
-  //   map.removeLayer('observation');
-
-  // };
-  // if (map.getSource('observation')) {
-  //   map.removeSource('observation');
-
-  // };
-  //removeAllLayers();
 
   let features = data.features;
   let test = {
@@ -1797,15 +1767,17 @@ async function placeInput(place) {
 }
 
 // switch cube and cone layers, require coordination
-let obserLayer = document.getElementById('observation-layer')
-let venueLayer = document.getElementById('venue-layer');
-
+let obserLayer = document.getElementById('observe-switch')
+let venueLayer = document.getElementById('venue-switch');
+let venueCheckbox = document.getElementById('venue-flexSwitchCheckChecked');
+let obserCheckbox = document.getElementById('observe-flexSwitchCheckChecked');
+console.log(venueCheckbox.checked);
 obserLayer.addEventListener('click', function (e) {
   if (map.getLayer('poi-labels')) {
     map.removeLayer('poi-labels');
     map.removeSource('venues');
   }
-  if (obserLayer.classList.contains('collapsed')) {
+  if (obserCheckbox.checked != true) {
     observation_status = false;
     if (map.getLayer('observation-cubes')) {
       map.removeLayer('observation-cubes');
@@ -1840,7 +1812,7 @@ venueLayer.addEventListener('click', function (e) {
     map.removeLayer('poi-labels');
     map.removeSource('venues');
   }
-  if (venueLayer.classList.contains('collapsed')) {
+  if (venueCheckbox.checked != true) {
     venue_status = false;
     if (map.getLayer('venue-slice-cones')) {
       map.removeLayer('venue-slice-cones');
