@@ -1173,6 +1173,23 @@ function codeIncludes(codeData, year) {
 // Requests uses location longitude and latitude to find the picture
 // Parameters:
 //  feature: js object that contains complete data of clicked location
+function getEvidenceInfo(feature) {
+
+  let streetviewDiv = document.getElementById('streetview-evidence');
+  streetviewDiv.setAttribute('href', 'http://maps.google.com/maps?q=&layer=c&cbll='+ feature.geometry.coordinates[1] +','+ feature.geometry.coordinates[0] +'&cbp=');
+
+  let photoDiv = document.getElementById('image-evidence');
+  try {
+  photoDiv.setAttribute('href', 'https://www.google.com/search?tbm=isch&q=venue '+ feature.properties.observedvenuename + ' in ' + feature.properties.locality + ', ' + feature.properties.state + ' in the year ' + feature.properties.year);
+  } catch (err) {
+    photoDiv.setAttribute('href', 'https://www.google.com/search?tbm=isch&q=venue '+ feature.properties.observedvenuename + ' in ' + feature.properties.locality +  ' in the year ' + feature.properties.year);
+
+  }
+
+  let tweetsDiv = document.getElementById('tweets-evidence');
+  tweetsDiv.setAttribute('href', 'https://twitter.com/search?q='+ feature.properties.observedvenuename +'%20geocode%3A'+feature.geometry.coordinates[1]+'%2C'+feature.geometry.coordinates[0]+'%2C.1km&src=typed_query&f=top');
+
+}
 function getStreetView(feature) {
   let imgParent = document.getElementById('venue-img-container');
   let location = [feature.geometry.coordinates[1], feature.geometry.coordinates[0]];
@@ -1337,6 +1354,7 @@ function makeLocalityList(localityID, data, selectedYear) {
 
         viewLeftPanel(localityFeatures[i]);
         addLeftPanelActions(localityFeatures[i], marker);
+        getEvidenceInfo(localityFeatures[i]);
         // getStreetView(localityFeatures[i]);
         // addExtrusions(localityFeatures[i]);
         if (document.getElementById('info-default').classList.contains('d-none')) {
@@ -2168,6 +2186,7 @@ map.on('click', 'data', async function (e) {
   await getReviews(vid);
   // get all photos of the location by the google API
   // getStreetView(feature);
+  getEvidenceInfo(feature);
 });
 
 // helper function to submit new review
