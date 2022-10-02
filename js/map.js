@@ -659,13 +659,14 @@ function viewLeftPanel(e) {
       button.classList.add('btn');
       button.classList.add('btn-primary');
       button.classList.add('my-3');
-      button.textContent = 'Go to';
+      button.textContent = 'Open the venue info in ' + e.features[0].properties.year + '.';
       let vsid = e.features[0].properties.vsid
       button.addEventListener('click', function() {
         goToButton(vsid);
       })
       let container = document.createElement('div');
-      container.innerHTML = "<strong>Address: </strong>" + e.features[0].properties.name + '<br>' + '<strong>Clicked Year: </strong>' + e.features[0].properties.year + '<br>' + referenceList[e.features[0].properties.year];
+      // container.innerHTML = "<strong>Address: </strong>" + e.features[0].properties.name + '<br>' + '<strong>Clicked Year: </strong>' + e.features[0].properties.year + '<br>' + referenceList[e.features[0].properties.year];
+      container.innerHTML = "<strong>Address: </strong>" + e.features[0].properties.name + '<br>'  + referenceList[e.features[0].properties.year];
       container.appendChild(button);
       new mapboxgl.Popup()
         .setLngLat(e.lngLat)
