@@ -995,7 +995,7 @@ h2#name, p#venue-indicator {
 #subMap {
     position: relative;
     /* width: 80%; */
-    height: 20em;
+    height: 25em;
     top:5em;
     margin-left: 2em;
     margin-right: 2em;
@@ -1008,7 +1008,7 @@ h2#name, p#venue-indicator {
 #subMap .mapboxgl-canvas {
 
     position: relative;
-    height: 20em !important;
+    height: 25em;
     border:#0000001f solid 1px;
 }
 #subMap a.mapboxgl-ctrl-logo {
