@@ -2440,3 +2440,12 @@ function makeAlert(alertText) {
   let alertModal = new bootstrap.Modal(alert);
   alertModal.show();
 }
+
+// Yufei: handeling context lost
+var canvas = document.getElementById("map");
+canvas.addEventListener("webglcontextlost", function(event) {
+    event.preventDefault();
+}, false);
+
+canvas.addEventListener(
+  "webglcontextrestored", setupWebGLStateAndResources, false);
