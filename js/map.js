@@ -534,37 +534,64 @@ function removeAllLayers() {
 
 // function slide-in left panel
 function viewLeftPanel(e) {
-  console.log("test");
-  console.log(e)
   let filteredLocalData = venues.features.filter(function (feature) {
     return feature.properties.vid == e.properties.vid
   });
-  console.log(filteredLocalData)
+
   // parse the codes to increase readability
   let codeString = "";
   let codes = infoNullCheck(e.properties.descriptorlist);
-  for (let i = 0; i < codes.length; i++) {
-    if (codes[i] !== '[' && codes[i] !== '"' && codes[i] !== '.' && codes[i] !== ']' && codes[i] !== "'") {
-      codeString += codes[i];
+  for (const element of codes) {
+    if (element !== '[' && element !== '"' && element !== '.' && element !== ']' && element !== "'") {
+      codeString += element;
     }
-  };
+  }
   codeString = codeString.split(',')
   document.getElementById('code').innerHTML = '';
-  for (let i = 0; i < codeString.length; i++){
-    code = document.createElement("button");
-    code.innerText = codeString[i];
+  for (const element of codeString){
+    let code = document.createElement("button");
+    code.innerText = element;
     code.className = 'descriptor';
     code.addEventListener('click', function() {
-      document.getElementById(codeString[i]).click();
-      console.log(codeString[i])
+      document.getElementById(element).click();
     });
     document.getElementById('code').appendChild(code);
   }
 
+
+  // get three distinct lists
+  organizeReportIssueData(e.properties.descriptorlist)
+    .then(res => {
+      let organizedData = res;
+
+      // Clear all input boxes first so that checkbox does not repeat from previous clicks
+      let checkedBoxes = document.querySelectorAll('div[id$="Verify"] input[type=checkbox]');
+      checkedBoxes.forEach(input => {
+        input.checked = false;
+      })
+
+      if(organizedData["Entry Descriptors"] != null) {
+        let getEntryDescriptors = document.querySelectorAll('#collapseEntryVerify > div');
+        checkReportIssueCheckbox(organizedData,"Entry Descriptors", getEntryDescriptors);
+      }
+      if(organizedData["Amenities/Services"] != null) {
+        let getAmenityDescriptors = document.querySelectorAll('#collapseAmenityVerify > div');
+        checkReportIssueCheckbox(organizedData,"Amenities/Services", getAmenityDescriptors);
+      }
+      if(organizedData["Clientele/User Descriptors"] != null) {
+        let getUserDescriptors = document.querySelectorAll('#collapseUserVerify > div');
+        checkReportIssueCheckbox(organizedData,"Clientele/User Descriptors", getUserDescriptors);
+      }
+      if(organizedData["Caution/Restriction"] != null) {
+        let getCautionDescriptors = document.querySelectorAll('#collapseCautionVerify > div');
+        checkReportIssueCheckbox(organizedData,"Caution/Restriction", getCautionDescriptors);
+      }
+
+    });
+
   // left panel location information
   document.getElementById('name').innerHTML = infoNullCheck(e.properties.observedvenuename);
   document.getElementById('address').innerHTML = infoNullCheck(e.properties.address);
-  // document.getElementById('formal-address').innerHTML = infoNullCheck(e.properties.formaladdress);
   document.getElementById('year-info').innerHTML = infoNullCheck(e.properties.year);
   document.getElementById('city').innerHTML = infoNullCheck(e.properties.city);
   document.getElementById('state').innerHTML = infoNullCheck(e.properties.state);
@@ -582,10 +609,7 @@ function viewLeftPanel(e) {
   document.getElementById('zip-edit').value = e.properties.zip;
   document.getElementById('long-edit').value = e.geometry.coordinates[0];
   document.getElementById('lat-edit').value = e.geometry.coordinates[1];
-  //document.getElementById('type-edit').value = e.properties.category;
   document.getElementById('notes-edit').value = e.properties.placenotes;
-  //document.getElementById('codelist-edit').value = codeString;
-  //document.getElementById('confidence-edit').value = e.properties.confidence;
 
   // Inset map, extrusion, and functions
   document.getElementById('subMap').innerHTML = '';
@@ -641,7 +665,7 @@ function viewLeftPanel(e) {
         timelineOfAddress[key].push(data.properties.year);
       }
     }
-    yearList = yearList.sort();
+    yearList.sort();
     filteredLocalData.forEach(function (datum) {
       let key = (datum.geometry.coordinates[0] + ', ' + datum.geometry.coordinates[1])
       text = '<strong>Year Range: </strong>';
@@ -673,6 +697,38 @@ function viewLeftPanel(e) {
         .setDOMContent(container)
         .addTo(subMap);
     })
+  })
+}
+
+function organizeReportIssueData(descriptorList) {
+  let filteredData = new Object();
+  return fetch('assets/CodeLookup.json')
+    .then((response) => response.json())
+    .then((data) => {
+      let length = Object.keys(data).length;
+      for(let i = 0; i < length; i ++) {
+        if(descriptorList.includes(data[i]["Descriptor"])) {
+          // if filtereddata contains key already
+          let descr = data[i]["Descriptor"];
+          let metaDescr = data[i]["Meta Descriptor"];
+          if(!filteredData.hasOwnProperty(metaDescr)) {
+            filteredData[metaDescr] = [];
+          }
+          filteredData[metaDescr].push(descr);
+        }
+      }
+      return filteredData;
+    })
+}
+
+// Helper function that automatically checks for matching string values
+function checkReportIssueCheckbox(data, key, elements) {
+  elements.forEach(parent => {
+    let input = parent.querySelector('input');
+    let label = parent.querySelector('label');
+    if(data[key].includes(label.textContent)) {
+      input.checked = true;
+    }
   })
 };
 
@@ -784,7 +840,7 @@ function createLocalityList() {
 
     let localityItem = document.createElement("li");
 
-    localityName = locality[0].charAt(0).toUpperCase() + locality[0].slice(1);
+    let localityName = locality[0].charAt(0).toUpperCase() + locality[0].slice(1);
     if (localityName == "Seattle") {
       localityItem.innerHTML = '<a class="dropdown-item dropdown-item-checked" href="#">' + localityName + '</a>';
     } else {
@@ -830,9 +886,9 @@ function createLocalityList() {
 function constructReviews(reviewData) {
   let reviewParent = document.getElementById('reviews-container');
 
-  for (let i = 0; i < reviewData.length; i++) {
+  for (const element of reviewData) {
     let reviewDiv = document.createElement('div');
-    reviewDiv.innerHTML = reviewData[i].content;
+    reviewDiv.innerHTML = element.content;
     reviewDiv.classList.add('review-box');
     reviewParent.append(reviewDiv);
   }
@@ -1325,14 +1381,14 @@ function makeLocalityList(localityID, data, selectedYear) {
   let localityParent = document.getElementById(localityID);
   localityParent.innerHTML = "";
   let localityFeatures = data.features;
-  for (let i = 0; i < localityFeatures.length; i++) {
+  for (const element of localityFeatures) {
     let type = '';
     if (localityID == 'locality-venues') {
-      type = localityFeatures[i].properties.placetype;
+      type = element.properties.placetype;
     } else {
-      type = localityFeatures[i].properties.place_type;
+      type = element.properties.place_type;
     }
-    if (localityFeatures[i].properties.year == selectedYear && type != "P" && type != "T") {
+    if (element.properties.year == selectedYear && type != "P" && type != "T") {
       // bootstrap row
       let rowDiv = document.createElement('div');
       rowDiv.classList.add('row', "m-1");
@@ -1343,7 +1399,7 @@ function makeLocalityList(localityID, data, selectedYear) {
 
       let placetype = type;
 
-      Name.innerHTML = localityFeatures[i].properties.observedvenuename;
+      Name.innerHTML = element.properties.observedvenuename;
       PlaceType.innerHTML = placetype;
 
       rowDiv.appendChild(Name);
@@ -1436,7 +1492,7 @@ function addCones(data, active) {
 
 
 
-      var highlighted = [];
+      let highlighted = [];
 
       //add mousing interactions
       // @jakobzhao: just confine it to the data layer? map.on('click',  function (e) {???
@@ -1454,15 +1510,15 @@ function addCones(data, active) {
         highlighted.length = 0;
 
         // calculate objects intersecting the picking ray
-        var intersect = tb.queryRenderedFeatures(e.point)[0]
-        var intersectionExists = typeof intersect == "object"
+        let intersect = tb.queryRenderedFeatures(e.point)[0];
+        let intersectionExists = typeof intersect == "object";
 
         // if intersect exists, highlight it
         if (intersect) {
-          var nearestObject = intersect.object;
+          let nearestObject = intersect.object;
           nearestObject.material = materialOnClick;
           highlighted.push(nearestObject);
-          console.log(nearestObject.parent.userData.properties)
+          console.log(nearestObject.parent.userData.properties);
           current_category = nearestObject.parent.userData.properties.category;
           // toggleLeftPanelView('info-default');
           // document.getElementById('info').classList.toggle('leftCollapse');
