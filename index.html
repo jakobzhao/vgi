@@ -449,7 +449,6 @@
       <!-- left dashboard - add observation div -->
       <div id="add-observation" class="d-none mx-4">
         <form id="user-form" class="d-flex flex-column">
-          <!-- <h3 class="mt-3 mb-0 pb-2">Add new observation</h3> -->
           <h3 class="mt-3 mb-0 pb-2">Add a Missing Venue
           </h3>
           <small class="form-text text-muted">Click a point on the map to get location information.</small>
@@ -474,11 +473,13 @@
                 <label for="state-api">State:</label>
               </div>
             </div>
+            <div class="col-md">
+              <div class="form-floating mb-1">
+                <input id="zip-api" type="text" class="form-control" required>
+                <label for="zip-api">ZIP:</label>
+              </div>
+            </div>
           </div>
-          <!-- <div class="form-floating mb-1">
-            <input id="type-api" type="text" class="form-control" required>
-            <label for="type-api">Category:</label>
-          </div> -->
 
           <div id="accordionEntry" class="mb-1">
             <div class="accordion-item">
@@ -545,72 +546,23 @@
               </div>
             </div>
           </div>
-          <!-- <div class="form-floating mb-1" id="autoEntry">
-            <input class="autocomplete-input form-control" id='EntryGrid' />
-            <ul class="autocomplete-result-list"></ul>
-            <label for="EntryGrid">Entry:</label>
-          </div>
-
-          <div class="form-floating mb-1" id="autoUser">
-            <input class="autocomplete-input form-control" id='UserGrid' />
-            <ul class="autocomplete-result-list"></ul>
-            <label for="UserGrid">User:</label>
-          </div> -->
-
-          <!-- <div class="col-md">
-              <div class="form-floating mb-1">
-                <select class="form-select type" id="UserGrid" aria-label="Floating label select example">
-                  <option value=null>Unknown</option>
-                </select>
-                <label for="UserGrid">User:</label>
-              </div>
-            </div> -->
-
-          <!-- <div class="form-floating mb-1" id="autoAmenity">
-            <input class="autocomplete-input form-control" id='AmenityGrid' />
-            <ul class="autocomplete-result-list"></ul>
-            <label for="AmenityGrid">Amenity:</label>
-          </div>
-
-          <div class="form-floating mb-1" id="autoCaution">
-            <input class="autocomplete-input form-control" id='CautionGrid' />
-            <ul class="autocomplete-result-list"></ul>
-            <label for="CautionGrid">Caution:</label>
-          </div>
-
-          <div class="form-floating mb-1" id="autoOrganization">
-            <input class="autocomplete-input form-control" id='OrganizationGrid' />
-            <ul class="autocomplete-result-list"></ul>
-            <label for="OrganizationGrid">Organization:</label>
-          </div> -->
-
           <div class="form-floating mb-1">
             <input id="otherGrid" type="text" class="form-control">
             <label for="otherGrid">Others:</label>
             <small class="form-text text-muted">Input any code/descriptor that does not appear in the descriptor
               categories above. Using comma to seperate categories.</small>
           </div>
-          <!-- <div class="form-floating mb-1">
-            <input id="submit-year" type="number" class="form-control" required>
-            <label for="submit-year">Year:</label>
-          </div> -->
+
           <label for="year-text" class="form-label" id="year-text-label">Year: 2014</label>
           <div class="form-floating mb-1" id="year-text">
             <input type="range" class="form-range" id='current-year-value' min="1968" max="2014" step="1" value="2014">
           </div>
-          <!-- <div class="form-floating mb-1">
-            <input id="type-note" type="text" class="form-control">
-            <label for="type-note">Additional Notes:</label>
-          </div> -->
-          <!-- v1 without damron code input -->
-          <!-- <label for="damron">Damron Code:</label>
-          <input for="damron" type="text" placeholder="Enter code"> -->
 
           <!-- Bo: adding empty spaces in order to align the levels right. -->
           <label for="confidence-observation">Confidence Level:</label>
           <div id="confidence-observation"></div>
-          <input type="range" class="form-range" min="1" max="5" step="1">
-          <div class="sliderticks">
+          <input id= "confidence-observation-api" type="range" class="form-range" min="1" max="5" step="1">
+          <div id="confidence-observation-values-api" class="sliderticks">
             <p>not at all</p>
             <p>slightly</p>
             <p>somewhat</p>

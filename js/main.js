@@ -40,24 +40,47 @@
     event.preventDefault();
     // Obtain data from user input
     let data = new URLSearchParams();
-    let checkboxes = document.querySelectorAll('input[name=myCheckBoxes]:checked');
-    let result = '';
-    for (let box of checkboxes) {
-      result += box.value;
-      result += ', ';
-      box.checked = false;
-    }
-    if (document.getElementById('otherGrid').value.length > 0) {
-      result += document.getElementById('otherGrid').value
-    } else {
-      result = result.slice(0, -2);
-    }
-    data.append("location", document.getElementById('location-api').value);
+
+    let category = document.querySelectorAll('#collapseEntryVerify input');
+    let buildCategory = [];
+    category.forEach(inputElement => {
+      if(inputElement.checked) {
+        buildCategory.push(inputElement.value);
+      }
+    })
+
+    let codedescriptorlist = document.querySelectorAll('#collapseAmenityVerify > input, #collapseUserVerify > input, #collapseCautionVerify > input');
+    let buildCodeDescriptorList=  [];
+    codedescriptorlist.forEach(inputElement => {
+      if(inputElement.checked) {
+        buildCodeDescriptorList.push(inputElement.value);
+      }
+    })
+
+    let confidenceInt = document.getElementById('confidence-observation-api').value;
+    let confidenceValues = document.querySelectorAll('#confidence-observation-values-api p');
+    let confidenceValue = "";
+    confidenceValues.forEach((element, index) => {
+      if(index == confidenceInt) {
+        confidenceValue += element.textContent;
+      }
+    })
+
+    data.append("observedvenuename", document.getElementById('location-api').value);
+    data.append("category", buildCategory);
+    data.append("codedescriptorlist", buildCodeDescriptorList);
     data.append("address", document.getElementById('address-api').value);
+    data.append("placenotes", document.getElementById('otherGrid').value);
+    data.append("locality", document.getElementById('city-api').value);
     data.append("city", document.getElementById('city-api').value);
     data.append("state", document.getElementById('state-api').value);
-    data.append("type", result);
-    data.append("year", document.getElementById('current-year-value').value);
+    data.append("zip", document.getElementById('zip-api').value);
+    data.append("confidence", confidenceValue);
+    data.append("formaladdress", document.getElementById('address-api').value);
+    data.append("year", documents.getElementById('current-year-value').value);
+    data.append("source", "researcher");
+    data.append("createdby", "researcher");
+    data.append("dateadded", new Date());
     if (requiredInputCheck()) {
       // POST fetch request
       let settings = {
@@ -132,35 +155,12 @@
   }
 
   function clearForm() {
-    document.getElementById('location-api').value = '';
-    document.getElementById('address-api').value = '';
-    document.getElementById('city-api').value = '';
-    document.getElementById('state-api').value = '';
-    //document.getElementById('type-api').value = '';
+    let userFormInput = document.querySelectorAll('#user-form input');
+    userFormInput.forEach(element => {
+      element.value = '';
+    })
     document.getElementById('current-year-value').value = 2014;
   }
-
-  // // displayLoginButton()
-  // // Displays the log in Google button
-  // function handleCredentialResponse(response) {
-  //     // console.log("Encoded JWT ID token: " + response.credential);
-  //     document.getElementById('log-in-btn').classList.toggle('d-none');
-  //     document.getElementById('googlelog-out-btn').classList.toggle('d-none');
-  // };
-
-  // function displayLoginButton() {
-  //     google.accounts.id.initialize({
-  //         client_id: "297181745349-pqlf8v2v6biopsm6bg42js8bbvrs4ing.apps.googleusercontent.com",
-  //         callback: handleCredentialResponse
-  //     });
-  //     google.accounts.id.renderButton(
-  //         document.getElementById("log-in-btn"),
-  //         { theme: "filled_black", type: "standard", size: "medium", shape: "pill", text: "signin" }  // customization attributes
-  //     );
-  //     google.accounts.id.prompt(); // also display the One Tap dialog
-  // };
-
-
 
   // isLoggedIn()
   // Checks if user is logged in already, on button clicked to add observation.
