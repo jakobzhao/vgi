@@ -1408,14 +1408,9 @@ function makeLocalityList(localityID, data, selectedYear) {
       localityParent.appendChild(rowDiv);
       rowDiv.addEventListener('click', function () {
 
-<<<<<<< HEAD
-        viewLeftPanel(element);
-        addLeftPanelActions(element, marker);
-=======
         viewLeftPanel(localityFeatures[i]);
         addLeftPanelActions(localityFeatures[i], marker);
         getEvidenceInfo(localityFeatures[i]);
->>>>>>> 39a0c399b41bff47cadbf7fc45953f388ef3fa9f
         // getStreetView(localityFeatures[i]);
         // addExtrusions(localityFeatures[i]);
         if (document.getElementById('info-default').classList.contains('d-none')) {
