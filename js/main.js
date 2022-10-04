@@ -77,7 +77,7 @@
     data.append("zip", document.getElementById('zip-api').value);
     data.append("confidence", confidenceValue);
     data.append("formaladdress", document.getElementById('address-api').value);
-    data.append("year", documents.getElementById('current-year-value').value);
+    data.append("year", document.getElementById('current-year-value').value);
     data.append("source", "researcher");
     data.append("createdby", "researcher");
     data.append("dateadded", new Date());
