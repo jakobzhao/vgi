@@ -10,12 +10,12 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.2/css/fontawesome.min.css"
-    integrity="sha384-X8QTME3FCg1DLb58++lPvsjbQoCT9bp3MsUU3grbIny/3ZwUJkRNO8NPW6zqzuW9" crossorigin="anonymous">
+  <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/fontawesome.min.css"
+    integrity="sha384-X8QTME3FCg1DLb58++lPvsjbQoCT9bp3MsUU3grbIny/3ZwUJkRNO8NPW6zqzuW9" crossorigin="anonymous"> -->
   <link href='https://api.mapbox.com/mapbox-gl-js/v2.3.0/mapbox-gl.css' rel='stylesheet' />
   <link rel="stylesheet"
     href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.css" type="text/css">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="css/font-awesome-4.7.0/css/font-awesome.min.css">
 
 
   <!-- threebox -->
@@ -79,6 +79,8 @@
       <a class="navbar-brand" href="#"><img width="40px" src="assets/imgs/logo.png"></img>
         <div id="project-name">Shifting LGBTQ+ Spaces</div>
         <div style="position:absolute; left:16.2em; bottom:1.3em;color: white;"><small><i>beta</i></small></div>
+
+
       </a>
 
       <div id="navbar-tabs">
@@ -98,7 +100,9 @@
           <li class="nav-item">
             <a class="nav-link active" href="about.html">About</a>
           </li>
-
+          <li class="nav-item">
+            <a class="nav-link active"  target="_blank" href="https://docs.google.com/forms/d/1jWU5GIj7rqiej5j0aX3fm2IkM5v3K0PlGDWk0_GNcj4">Feedback</a>
+          </li>
           <li>
             <button id="log-out-btn" class="btn btn-outline-light d-none">Log out</button>
           </li>
@@ -284,6 +288,12 @@
 
         <div id="subMap">
         </div>
+        <p id="evidence-desc">Look for evidences from the external sources below. </p>
+        <div id="evidence-info">
+          <a id="streetview-evidence" target="_blank" title="watch streetview of this address." class="evidence"><img height="35px" src="assets/imgs/streetview.png"></a>
+          <a id="image-evidence"  target="_blank" title="explore photos of this venue" class="evidence"><img height="35px" src="assets/imgs/photo.png"></a>
+          <a id="tweets-evidence"  target="_blank" title="read how people talk about this venue on Twitter" class="evidence"><img height="35px" src="assets/imgs/tweets.png"></a>
+           </div>
 
       </div>
 
