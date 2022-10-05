@@ -49,7 +49,7 @@
       }
     })
 
-    let codedescriptorlist = document.querySelectorAll('#collapseAmenity > input, #collapseUser > input, #collapseCaution > input');
+    let codedescriptorlist = document.querySelectorAll('#collapseAmenity input, #collapseUser input, #collapseCaution input');
     let buildCodeDescriptorList=  [];
     codedescriptorlist.forEach(inputElement => {
       if(inputElement.checked) {
