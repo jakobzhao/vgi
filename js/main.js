@@ -67,8 +67,8 @@
     })
 
     data.append("observedvenuename", document.getElementById('location-api').value);
-    data.append("category", buildCategory);
-    data.append("codedescriptorlist", buildCodeDescriptorList);
+    data.append("category", buildCategory.toString());
+    data.append("codedescriptorlist", buildCodeDescriptorList.toString());
     data.append("address", document.getElementById('address-api').value);
     data.append("placenotes", document.getElementById('otherGrid').value);
     data.append("locality", document.getElementById('city-api').value);
