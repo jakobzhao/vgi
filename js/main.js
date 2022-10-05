@@ -41,7 +41,7 @@
     // Obtain data from user input
     let data = new URLSearchParams();
 
-    let category = document.querySelectorAll('#collapseEntryVerify input');
+    let category = document.querySelectorAll('#collapseEntry input');
     let buildCategory = [];
     category.forEach(inputElement => {
       if(inputElement.checked) {
@@ -49,7 +49,7 @@
       }
     })
 
-    let codedescriptorlist = document.querySelectorAll('#collapseAmenityVerify > input, #collapseUserVerify > input, #collapseCautionVerify > input');
+    let codedescriptorlist = document.querySelectorAll('#collapseAmenity > input, #collapseUser > input, #collapseCaution > input');
     let buildCodeDescriptorList=  [];
     codedescriptorlist.forEach(inputElement => {
       if(inputElement.checked) {
