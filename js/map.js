@@ -175,8 +175,7 @@ async function getReviews(vid) {
       method: 'GET'
     });
     let reviewData = await getReview.json();
-    console.log(reviewData);
-    constructReviews(reviewData);
+    return reviewData;
   } catch (err) {
     console.log(err);
   }
@@ -887,7 +886,7 @@ function createLocalityList() {
 function constructReviews(reviewData) {
   let reviewParent = document.getElementById('reviews-container');
 
-  for (const element of reviewData) {
+  for (let element of reviewData) {
     let reviewDiv = document.createElement('div');
     reviewDiv.innerHTML = element.content;
     reviewDiv.classList.add('review-box');
@@ -2242,7 +2241,8 @@ map.on('click', 'data', async function (e) {
   document.getElementById('publish-btn').removeEventListener('click', submitNewReview);
   document.getElementById('publish-btn').addEventListener('click', submitNewReview);
   // get all comments of the location
-  await getReviews(vid);
+  let reviewData = await getReviews(vid);
+  constructReviews(reviewData);
   // get all photos of the location by the google API
   // getStreetView(feature);
   getEvidenceInfo(feature);

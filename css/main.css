@@ -283,6 +283,11 @@ h2#name, p#venue-indicator {
 
 }
 
+#reviews-confirmation {
+    position:relative;
+    top: 6rem;
+}
+
 #report-issue{
     position: relative;
     top: 1em;
