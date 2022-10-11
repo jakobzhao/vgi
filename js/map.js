@@ -2376,3 +2376,11 @@ canvas.addEventListener("webglcontextlost", function(event) {
 
 canvas.addEventListener(
   "webglcontextrestored", setupWebGLStateAndResources, false);
+
+// helper function setupWebGLStateAndResources
+function setupWebGLStateAndResources() {
+  var canvas = document.getElementById("map");
+  console.log("Context restored!");
+  // reset all the map elements here 
+  
+}
