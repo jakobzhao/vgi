@@ -553,6 +553,7 @@ function viewLeftPanel(e) {
     code.innerText = element;
     code.className = 'descriptor';
     code.addEventListener('click', function() {
+      document.getElementById('clear-button').click();
       document.getElementById(element).click();
     });
     document.getElementById('code').appendChild(code);
