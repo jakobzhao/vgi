@@ -122,8 +122,7 @@
                   </div>
                   <div class="modal-body" id="signin-body">
                     <div class="mb-3">
-                      <label class="form-label ">Please input each word of the passphrase to the input fields
-                        below.</label>
+                      <label class="form-label ">Please enter your passphrase below.</label>
 
                       <form class="passphrase-control">
                         <input type="password" class="form-control passphrase">
@@ -131,14 +130,14 @@
                         <input type="password" class="form-control passphrase">
                       </form>
                       <!-- intentionally left blank -->
-                      <label class="form-label "> </label>
-                      <label class="form-label "> We welcome everyone's contributions to this dataset! To ensure the
-                        contribution is reliable, we will only invite users who are familiar with the history of the
-                        venues of a local area. In order to protect the contributor's privacy, we would not adopt a
-                        normal log-in process that requires storing your personal information to this geospatial
-                        platform. Instead, we will share a passphrase of three words to reliable local experts. The
-                        passphrase will be updated once a while. So please keep in touch. In the meantime, if you want
-                        to contribute to this platform, feel free to contact us in order to gain a passphrase. </label>
+                      <label class="form-label "><h5 class="modal-title">How Do I get a Passphrase?</h5></label>
+                      <label class="form-label ">
+                        We encourage everyone to contribute to our dataset! To mitigate risks from potential malicious users,
+                        however, we are currently requiring users to contact our team to be manually given access to our
+                        submission portal. You will be provided with We adopted this non-traditional login system so that
+                        we don’t need to store any personally identifiable information in our systems. If you have any
+                        questions, concerns or suggestions about our privacy, please don’t hesitate to reach out to us!
+                      </label>
 
                     </div>
                   </div>
@@ -264,13 +263,12 @@
             </div>
             <div class="d-flex flex-row my-1">
               <!-- <img src="assets/imgs/damron-code.svg">  -->
-              <b>Codes: </b>
+              <b>Descriptor(s): </b>
               <div id="code" class="ms-2"></div>
             </div>
+            <p>(Click on a descriptor to apply it as a filter)</p>
             <div class="d-flex flex-row my-1">
               <!-- <img src="assets/imgs/category.svg"> -->
-              <b>Categories:</b>
-              <div id="type" class="ms-2"></div>
             </div>
 
           </div>
@@ -288,7 +286,7 @@
 
         <div id="subMap">
         </div>
-        <p id="evidence-desc">Look for evidences from the external sources below. </p>
+        <p id="evidence-desc">Help us look for evidence from the external sources below. </p>
         <div id="evidence-info">
           <a id="streetview-evidence" target="_blank" title="watch streetview of this address." class="evidence"><img height="35px" src="assets/imgs/streetview.png"></a>
           <a id="image-evidence"  target="_blank" title="explore photos of this venue" class="evidence"><img height="35px" src="assets/imgs/photo.png"></a>
@@ -299,8 +297,9 @@
 
       <!-- left dashboard - validate observation div -->
       <form id="report-issue" class="issuePanel d-flex flex-column d-none mx-3 mt-5">
-        <h2 class="mt-3 mb-0 pb-2">Report an Issue</h2>
+        <h2 class="mt-3 mb-0 pb-2">Suggest an edit</h2>
         <div class="form-floating mb-1">
+          <small class="form-text text-muted">*Required</small>
           <input id="observed-name-edit" type="text" class="form-control" required>
           <label for="observed-name-edit">Name of Location:</label>
         </div>
@@ -451,26 +450,27 @@
         <form id="user-form" class="d-flex flex-column">
           <h3 class="mt-3 mb-0 pb-2">Add a Missing Venue
           </h3>
-          <small class="form-text text-muted">Click a point on the map to get location information.</small>
+          <small class="form-text text-muted">*Required</small>
           <div class="form-floating mb-1">
             <input id="location-api" type="text" class="form-control" required>
-            <label for="location-api">Name:</label>
+            <label for="location-api">*Venue Name:</label>
           </div>
+                        <small class="form-text text-muted">Click on the map to autofill location information.</small>
           <div class="form-floating mb-1">
             <input id="address-api" type="text" class="form-control" required>
-            <label for="address-api">Address:</label>
+            <label for="address-api">*Address:</label>
           </div>
           <div class="row g-2">
             <div class="col-md">
               <div class="form-floating mb-1">
                 <input id="city-api" type="text" class="form-control" required>
-                <label for="city-api">City:</label>
+                <label for="city-api">*City:</label>
               </div>
             </div>
             <div class="col-md">
               <div class="form-floating mb-1">
                 <input id="state-api" type="text" class="form-control" required>
-                <label for="state-api">State:</label>
+                <label for="state-api">*State:</label>
               </div>
             </div>
             <div class="col-md">
@@ -548,9 +548,14 @@
           </div>
           <div class="form-floating mb-1">
             <input id="otherGrid" type="text" class="form-control">
-            <label for="otherGrid">Others:</label>
-            <small class="form-text text-muted">Input any code/descriptor that does not appear in the descriptor
-              categories above. Using comma to seperate categories.</small>
+            <label for="otherGrid">Suggest new tags(separated by comma):</label>
+          </div>
+
+          <div class="form-floating mb-1">
+            <input id="addiitionalInfo" type="text" class="form-control">
+            <label for="addiitionalInfo">Additional Info:</label>
+            <small class="form-text text-muted">Please use the space above to provide any relevant information
+              you think might aid us in verifying this venue.</small>
           </div>
 
           <label for="year-text" class="form-label" id="year-text-label">Year: 2014</label>
@@ -668,7 +673,7 @@
           </h2>
           <div id="collapseVenue" class="accordion-collapse collapse show">
             <div class="accordion-body">
-              <p> This layer shows all the venues. For any venue that is hard to associate with a location, it will be
+              <p> This layer shows all the currently verified venues we are able to physically locate on the map. For any that are hard to associate with a location, they will be
                 shown in the list below.
                 Click <a href="#"> here</a> for more details.
               </p>
@@ -683,8 +688,7 @@
               </div>
               <div class="form-check form-switch">
                 <input class="form-check-input" type="checkbox" id="reliability-switch">
-                <label class="form-check-label" for="reliability-switch">Color by how reliable the research team
-                  believes in its accuracy. </label>
+                <label class="form-check-label" for="reliability-switch">Color by how confident we are about data accuracy. </label>
               </div>
               <div class="colorscheme">
                 <i class="color-1"></i>
@@ -721,7 +725,7 @@
           <div id="collapseObservation" class="accordion-collapse collapse">
             <div class="accordion-body">
               <p>
-                This data layer shows all the data contributed by users.
+                This layer shows all the data contributed by users that are still pending verification.
                 <!-- While the map shows any venue associated with a specific location, while the table lists 1) the virtual venue and 2) the venue related to the geographical area in the current map view but its physical location is unclear. -->
                 Click <a href="#"> here</a> for more details.
               </p>
@@ -738,7 +742,7 @@
               </div>
               <div class="form-check form-switch">
                 <input class="form-check-input" type="checkbox" id="confidence-switch">
-                <label class="form-check-label" for="confidence-switch">Color by how confident the contributor feels
+                <label class="form-check-label" for="confidence-switch">Color by how confident the contributor claims to be
                   about its accuracy. </label>
               </div>
 
