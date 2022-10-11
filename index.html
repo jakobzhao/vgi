@@ -298,15 +298,15 @@
       <!-- left dashboard - validate observation div -->
       <form id="report-issue" class="issuePanel d-flex flex-column d-none mx-3 mt-5">
         <h2 class="mt-3 mb-0 pb-2">Suggest an edit</h2>
-        <div class="form-floating mb-1">
           <small class="form-text text-muted">*Required</small>
+        <div class="form-floating mb-1">
           <input id="observed-name-edit" type="text" class="form-control" required>
-          <label for="observed-name-edit">Name of Location:</label>
+          <label for="observed-name-edit">*Name of Location:</label>
           <small id="observed-name-edit-small" class="d-none"></small>
         </div>
         <div class="form-floating mb-1">
           <input id="address-edit" type="text" class="form-control" required>
-          <label for="address-edit">Address:</label>
+          <label for="address-edit">*Address:</label>
           <small id="address-edit-small" class="d-none"></small>
         </div>
 
@@ -314,13 +314,13 @@
           <div class="col">
             <div class="form-floating mb-1">
               <input id="city-edit" type="text" class="form-control" required>
-              <label for="city-edit">City:</label>
+              <label for="city-edit">*City:</label>
             </div>
           </div>
           <div class="col">
             <div class="form-floating mb-1">
               <input id="state-edit" type="text" class="form-control" required>
-              <label for="state-edit">State:</label>
+              <label for="state-edit">*State:</label>
             </div>
           </div>
           <div class="col">
@@ -332,7 +332,7 @@
         </div>
         <div class="form-floating mb-1">
           <input id="year-edit" type="text" class="form-control" required>
-          <label for="year-edit">Year:</label>
+          <label for="year-edit">*Year:</label>
         </div>
         <small class="form-text text-muted">Adjust the blue marker to change longitude and latitude.</small>
         <div class="form-floating mb-1">
@@ -424,8 +424,15 @@
           </div>
         </div>
         <div class="form-floating mb-1">
+          <input id="addDescriptor" type="text" class="form-control">
+          <label for="addDescriptor">Suggest new descriptors(separated by comma):</label>
+        </div>
+
+        <div class="form-floating mb-1">
           <input id="notes-edit" type="text" class="form-control">
-          <label for="notes-edit">Additional Notes:</label>
+          <label for="notes-edit">Additional Info:</label>
+          <small class="form-text text-muted">Please use the space above to provide any relevant information
+            you think might aid us in verifying this venue.</small>
         </div>
         <!-- <div class="form-floating mb-1">
           <input id="confidence-edit" type="text" class="form-control" required>
@@ -550,7 +557,7 @@
           </div>
           <div class="form-floating mb-1">
             <input id="otherGrid" type="text" class="form-control">
-            <label for="otherGrid">Suggest new tags(separated by comma):</label>
+            <label for="otherGrid">Suggest new descriptors(separated by comma):</label>
           </div>
 
           <div class="form-floating mb-1">
@@ -586,7 +593,7 @@
       <!-- left dashboard - buttons -->
       <div id="ground-truth-btns" class="mx-3 d-flex flex-row flex-wrap">
 
-        <button id="report-issue-btn" type="button" class="btn btn-primary mx-2">Report an issue</button>
+        <button id="report-issue-btn" type="button" class="btn btn-primary mx-2">Suggest an edit</button>
         <button id="add-review-btn" type="button" class="btn btn-primary mx-2">Review this venue</button>
         <button id="go-back-btn" type="button" class="btn btn-primary mx-2"> Close</button>
       </div>

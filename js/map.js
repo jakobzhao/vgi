@@ -1019,33 +1019,6 @@ function code_div(codes, venueSlices, observedData, year) {
     codeItem.innerHTML = '<a class="dropdown-item" href="#">' + code.code + '</a>';
     codeItem.id = code.code;
 
-    // filter applied during updating Year
-    if (current_code_filter.length > 0) {
-      fetch('assets/CodeLookup.json')
-          .then((response) => response.json())
-          .then((codeLookup) => {
-            let codefilter = [];
-            codeLookupList = Object.values(codeLookup);
-            codefilter = codeLookupList.filter(function (feature) {
-              return feature.Descriptor == code.code
-            })
-            console.log(codefilter[0][year])
-            current_code_filter.push(codefilter[0][year])
-            on_Screen_Data_Venue = [];
-            on_Screen_Data_Observe = [];
-            console.log(venueSlices)
-            venueSlices.features.filter(function (feature) {
-              if (Array.isArray(feature.properties.codedescriptorlist) && feature.properties.codedescriptorlist.includes(codefilter[0][year])) {
-                on_Screen_Data_Venue.push(feature);
-              }
-            });
-            observedData.features.filter(function (feature) {
-              if (Array.isArray(feature.properties.codedescriptorlist) && feature.properties.codedescriptorlist.includes(codefilter[0][year])) {
-                on_Screen_Data_Observe.push(feature);
-              }
-            });
-          })
-    }
 
     ////////////////
     // for each code_div add event listener on click to add filter features of the map
@@ -1056,74 +1029,11 @@ function code_div(codes, venueSlices, observedData, year) {
         codeParent.classList.add('d-none');
         // map.setFilter('data', ['in', code.code, ['get', 'codedescriptorlist']]);
 
-        //remove 3D layer
-        if (map.getLayer('venue-slice-cones')) {
-          map.removeLayer('venue-slice-cones');
-        };
-        if (map.getLayer('poi-labels')) {
-          map.removeLayer('poi-labels');
-          map.removeSource('venues');
-        };
-
-        fetch('assets/CodeLookup.json')
-          .then((response) => response.json())
-          .then((codeLookup) => {
-            let codefilter = [];
-            codeLookupList = Object.values(codeLookup);
-            codefilter = codeLookupList.filter(function (feature) {
-              return feature.Descriptor == code.code
-            })
-            console.log(codefilter[0][year])
-            current_code_filter.push(codefilter[0][year])
-            let result = [];
-            let resultObserve = []
-            console.log(venueSlices)
-            venueSlices.features.filter(function (feature) {
-              if (Array.isArray(feature.properties.codedescriptorlist) && feature.properties.codedescriptorlist.includes(codefilter[0][year])) {
-                result.push(feature);
-              }
-            });
-            observedData.features.filter(function (feature) {
-              if (Array.isArray(feature.properties.codedescriptorlist) && feature.properties.codedescriptorlist.includes(codefilter[0][year])) {
-                resultObserve.push(feature);
-              }
-            });
-            console.log(result)
-            on_Screen_Data_Venue = result;
-            on_Screen_Data_Observe = resultObserve;
-            if (map.getLayer('venue-slice-cones')) {
-              map.removeLayer('venue-slice-cones');
-            };
-            if (map.getLayer('observation-cubes')) {
-              map.removeLayer('observation-cubes');
-            }
-            if (map.getLayer('poi-labels')) {
-              map.removeLayer('poi-labels');
-              map.removeSource('venues');
-            };
-            if (venue_status && observation_status) {
-              addCubes(resultObserve, false)
-              addCones(result, false);
-            } else if (venue_status) {
-              addCones(result, false)
-            } else if (observation_status) {
-              addCubes(resultObserve, false)
-            }
-          });
         ///////////////////////////////////////////////////////////////////////////////////////////
       //remove 3D layer
-      if (map.getLayer('venue-slice-cones')) {
-        map.removeLayer('venue-slice-cones');
-      };
-      if (map.getLayer('observation-cubes')) {
-        map.removeLayer('observation-cubes');
-      }
-      if (map.getLayer('poi-labels')) {
-        map.removeLayer('poi-labels');
-        map.removeSource('venues');
-      };
 
       let result = [];
+      let resultObserve = []
       venueSlices.features.filter(function (feature) {
         if (feature.properties.year == year){
           dlist = feature.properties.descriptorlist;
@@ -1137,6 +1047,40 @@ function code_div(codes, venueSlices, observedData, year) {
         }
       });
       addCones(result, false);
+      observedData.features.filter(function (feature) {
+        if (feature.properties.year == year){
+          dlist = feature.properties.descriptorlist;
+          if (Array.isArray(dlist)){
+            for (i = 0; i <  dlist.length; i++) {
+              if (dlist[i].includes(code.code)) {
+                resultObserve.push(feature);
+              }
+            }
+          }
+        }
+      });
+
+      on_Screen_Data_Venue = result;
+      on_Screen_Data_Observe = resultObserve;
+      if (map.getLayer('venue-slice-cones')) {
+        map.removeLayer('venue-slice-cones');
+      };
+      if (map.getLayer('observation-cubes')) {
+        map.removeLayer('observation-cubes');
+      }
+      if (map.getLayer('poi-labels')) {
+        map.removeLayer('poi-labels');
+        map.removeSource('venues');
+      };
+      if (venue_status && observation_status) {
+        addCubes(resultObserve, false)
+        addCones(result, false);
+      } else if (venue_status) {
+        addCones(result, false)
+      } else if (observation_status) {
+        console.log(resultObserve);
+        addCubes(resultObserve, false)
+      }
       ///////////////////////////////////////////////////////////////////////////////////////////
         document.getElementById("code-filter-btn").innerText = 'Current Filter: ' + codeItem.id;
         document.getElementById("clear-button").innerHTML = '<a class="dropdown-item" title="Clear all selected filters" href="#"> The filter <span id="applied-filter">' + code.code + '</span> is applied. \n  </br> Click here to remove this filter. </a>';
@@ -1161,6 +1105,8 @@ function code_div(codes, venueSlices, observedData, year) {
   clear.addEventListener('click', function () {
     current_code_filter = [];
     codeParent.classList.add('d-none');
+    document.getElementById('code-filter-btn').innerText = 'Filter';
+    clear.innerHTML = '<a class="dropdown-item" title="Clear all selected filters" href="#"> No filter is currently applied. </a>';
 
     // map.setFilter('data', undefined);
     // // map filter of single year selected by the user
