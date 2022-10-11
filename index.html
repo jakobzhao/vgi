@@ -101,9 +101,9 @@
             <a class="nav-link active" href="about.html">About</a>
           </li>
           <li class="nav-item" >
-            <a class="nav-link active" target="_blank" href="https://docs.google.com/forms/d/1jWU5GIj7rqiej5j0aX3fm2IkM5v3K0PlGDWk0_GNcj4">Feedback</a>
+            <a class="nav-link active" data-intro="submit your feedback of your comments to this platform." data-step="1" target="_blank" href="https://docs.google.com/forms/d/1jWU5GIj7rqiej5j0aX3fm2IkM5v3K0PlGDWk0_GNcj4">Feedback</a>
           </li>
-          <li>
+          <li data-intro="Log in to contribute to this platform." data-step="2">
             <button id="log-out-btn" class="btn btn-outline-light d-none">Log out</button>
           </li>
           <li class="nav-item d-flex">
@@ -161,11 +161,11 @@
     <div id="map"></div>
     <!-- search box -->
     <!-- <div > -->
-    <div id="geocoder"  data-intro="share with your comments on this platform to the PI team." class="map-overlay-top d-flex"></div>
+    <div id="geocoder"  data-intro="search a place and navigate to it on the map." data-step="5" class="map-overlay-top d-flex"></div>
     <!-- </div> -->
 
     <!-- Category Filter -->
-    <div id="locality-filter" class="position-absolute dropdown">
+    <div id="locality-filter" data-intro="load venues of the selected locality." data-step="4" class="position-absolute dropdown">
       <button id="localityFilterBtn" class="btn mx-2 btn-custom dropdown-toggle" data-mdb-toggle="dropdown"
         aria-expanded="false" type="button" title="switch to a new locality we have tracked so far.">Localities</button>
       <ul class="d-grid dropdown-menu d-none" id="localityList" aria-labelledby="dropdownMenuButton">
@@ -173,7 +173,7 @@
     </div>
 
     <!-- Damron Code Filter -->
-    <div id="code-filter" class="position-absolute dropdown">
+    <div id="code-filter"  data-intro="filter the venue using amenity filters." data-step="3" class="position-absolute dropdown">
       <button id="code-filter-btn" class="btn mx-2 btn-custom dropdown-toggle" data-mdb-toggle="dropdown"
         aria-expanded="false" type="button"
         title="filter the venues using a list of code/descriptor.">Filter</button>
@@ -183,7 +183,7 @@
     </div>
 
     <!-- instructions icon on default landing page -->
-    <div id="instructions-info" class="position-absolute">
+    <div id="instructions-info" data-intro="open the instructions to familiarize yourself with the platform." data-step="6" class="position-absolute">
       <button class="transparent" data-bs-toggle="modal" data-bs-target="#instructions"><i
           class="fas fa-question-circle fa-2x mx-2"></i></button>
       <!-- Modal -->
@@ -629,7 +629,7 @@
 
 
     <!-- timeline -->
-    <div id="year-slider" class="d-flex">
+    <div id="year-slider"  data-intro="The number indicates the year of the data being reviewed. Please slide this timeline to visualize the map of venues of a specific year you plan to read." data-step="7" class="d-flex">
       <div class="container">
         <div class="item">
           <p id="year-label">2014</p>
@@ -639,7 +639,7 @@
                       <label class="form-check-label" for="base-year-selection">Base Year</label>
                     </div> -->
           <!-- </div> -->
-          <div>
+          <div >
             <input type="range" id="slider-bar" min="1965" max="2014" value="2014">
           </div>
         </div>
@@ -770,7 +770,7 @@
       </div>
     </div>
     <!-- add user observation button -->
-    <div id="add-observation-container">
+    <div data-intro="add a LGBTQ+ venue that does not appear on the map" data-step="8" id="add-observation-container">
       <!-- <div class=""> -->
       <button id="add-observation-button" type="button">
         <i class="fa fa-plus fa-1x"></i>
@@ -780,7 +780,7 @@
     </div>
 
     <!-- layers change -->
-    <div id="layers" class="d-flex flex-row position-absolute">
+    <div id="layers" data-intro="switch to other map layers" data-step="9" class="d-flex flex-row position-absolute">
       <!-- opened up layer selection menu -->
       <div id="basemap-selection" class="d-flex flex-row box-shadow-default d-none">
         <div class="layers-container m-1">

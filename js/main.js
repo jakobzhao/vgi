@@ -37,14 +37,16 @@
 
     document.getElementById('instructions-info').addEventListener('click', function(event) {
    
-      introJs().start();
+      introJs().setOptions({
+        showProgress: true,
+      }).start()
 
     });
     
 
     // hide the loader.
     $('#loader').fadeOut("slow");
-    // introJs().start();
+
 
   };
 
