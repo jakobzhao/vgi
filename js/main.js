@@ -10,7 +10,12 @@
   // added init to async (test for bugs!)
   async function init() {
     document.getElementById('add-observation-container').addEventListener('click', isLoggedIn);
-    document.getElementById('submit-edit').addEventListener('click', reportIssue);
+    document.getElementById('submit-edit').addEventListener('click', function(event) {
+      let validateStatus = formValidateReportIssue(event);
+      if(validateStatus) {
+        reportIssue(event);
+      }
+    });
     document.getElementById("submit-button").addEventListener('click', newUser);
     document.getElementById('login-btn').addEventListener('click', submitPassword);
     document.getElementById('log-out-btn').addEventListener('click', () => {
@@ -197,7 +202,6 @@
         btnImg.src = './assets/imgs/back-btn.svg';
       }
     };
-    // google.accounts.id.disableAutoSelect();
     document.getElementById('log-in-btn').classList.toggle('d-none');
     document.getElementById('log-out-btn').classList.toggle('d-none');
   }
@@ -255,18 +259,6 @@
     }
   };
 
-  // // confirmedVenues
-  // // Obtain data from database that contains all the venues in the city
-  // async function confirmedVenues() {
-  //     try {
-  //         let getVenues = await fetch('https://lgbtqspaces-api.herokuapp.com/api/all-venues', {method: 'GET'});
-  //         let venueData = await getVenues.json();
-  //         console.log(venueData);
-  //     } catch (err) {
-  //     console.log(err);
-  //     }
-  // };
-
   // status checks
   function checkStatus(response) {
     if (response.ok) {
@@ -310,10 +302,6 @@ function toggleLeftPanelView(elementId) {
     $('#' + elementId).removeClass('d-none');
   }
 
-  // exceptions
-  // let footer = document.getElementById('attribution');
-  // footer.classList.remove('d-none');
-
   // process the attribution
   let attributionLeft = document.getElementById("attribution").style["left"];
 
@@ -336,26 +324,12 @@ function toggleLeftPanelView(elementId) {
   }
   if (elementId == "report-issue") {
     document.getElementById('ground-truth-btns').classList.remove('d-none');
-    // document.getElementById('report-issue-btn').classList.toggle('d-none');
-    // document.getElementById('add-review-btn').classList.toggle('d-none');
-    // document.getElementById('go-back-btn').classList.toggle('d-none');
   }
 };
 
 
 function logInCheck() {
-
-
-  // let logInView = document.getElementById('log-in-btn');
-
   if (document.getElementById('log-in-btn').classList.contains("d-none")) {
-    // if contains display none, means that user is logged in
-    // toggleLeftPanelView('report-issue');
-
-    // // if left panel is close
-    // if (document.getElementById('info').classList.contains('leftCollapse')) {
-    //     document.getElementById('info').classList.toggle('leftCollapse');
-    // }
     return true;
   } else {
     let alertText = "Please log in before making any contribution to this geospatial platform.";
@@ -363,28 +337,6 @@ function logInCheck() {
     return false;
 
   }
-
-  // let signInView = document.getElementById('log-in-btn');
-  // // if left panel is closed
-  // if (document.getElementById('info').classList.contains('leftCollapse')) {
-  //   let collapseState = document.getElementById('info').classList.toggle('leftCollapse');
-  //   document.getElementById('info-close-btn').classList.toggle('info-btn-collapse');
-  //   let btnImg = document.getElementById('leftPanelArrow');
-  //   if (collapseState) {
-  //     btnImg.src = './assets/imgs/open-arrow.svg';
-  //   } else {
-  //     btnImg.src = './assets/imgs/back-btn.svg';
-  //   }
-  // }
-
-  // if (signInView.classList.contains('d-none')) {
-  //   // if contains display none, means that user is logged in
-  //   toggleLeftPanelView('report-issue');
-  //   return true;
-  // } else {
-  //   alert('Please sign in through Google first!');
-  // }
-  // return false;
 }
 
 
@@ -418,3 +370,11 @@ function makeAlert(alertText) {
   alertModal.show();
 }
 
+async function formValidateReportIssue(event) {
+  event.preventDefault();
+  let validate = await import('./formValidation.js');
+  let locationValidate =  validate.isNotEmpty('observed-name-edit'),
+      addressValidate = validate.isNotEmpty('address-edit');
+
+  return locationValidate && addressValidate;
+}

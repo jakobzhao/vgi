@@ -2258,8 +2258,6 @@ function submitNewReview(e) {
     alertText.innerHTML = "Invalid comment. No text detected!";
     let alertModal = new bootstrap.Modal(alert);
     alertModal.show();
-
-
   } else {
     // add new review
     addNewReview(e, vid);
@@ -2308,11 +2306,7 @@ document.getElementById('go-back-btn').addEventListener('click', function () {
 
 });
 
-
-
 document.getElementById('go-back-btn2').addEventListener('click', function () {
-
-
   if (!(document.getElementById('add-observation').classList.contains('d-none'))) {
 
     toggleLeftPanelView('all');
@@ -2335,12 +2329,6 @@ document.getElementById('go-back-btn2').addEventListener('click', function () {
   }
 })
 
-// validation button
-// toggleview
-// document.getElementById('report-issue-btn').addEventListener('click', function() {
-//   toggleLeftPanelView('report-issue');
-// })
-
 // close button
 document.getElementById('info-close-btn').addEventListener('click', function (e) {
   // trigger slideout/slide-in btn
@@ -2353,14 +2341,6 @@ document.getElementById('info-close-btn').addEventListener('click', function (e)
     btnImg.src = './assets/imgs/back-btn.svg';
   }
   toggleLeftPanelView('legend');
-  // let padding = {};
-
-  // padding['left'] = collapsed ? 0 : 100;
-  // map.easeTo({
-  //   zoom: padding['left'] = collapsed ? 13  : 12,
-  //   duration: 1000
-  // })
-  // clear marker
 
   if (typeof map.getLayer('selectedMarker') !== "undefined") {
     marker.remove();

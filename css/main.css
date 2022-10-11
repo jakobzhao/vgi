@@ -1058,3 +1058,10 @@ h2#name, p#venue-indicator {
     margin-right: 7em;
     cursor: pointer;
 }
+.validatedError {
+    color:red;
+}
+
+.validatedSuccess {
+    color:green; 
+}
