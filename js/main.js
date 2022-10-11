@@ -44,6 +44,7 @@
 
     // hide the loader.
     $('#loader').fadeOut("slow");
+    // introJs().start();
 
   };
 

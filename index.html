@@ -17,7 +17,7 @@
     href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.css" type="text/css">
   <link rel="stylesheet" href="css/font-awesome-4.7.0/css/font-awesome.min.css">
 
-
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intro.js/6.0.0/introjs.min.css" />
   <!-- threebox -->
   <script src="./js/threebox.js"></script>
   <script src="./js/config.js"></script>
@@ -69,7 +69,7 @@
 
   <!-- turf js  -->
   <script src='https://unpkg.com/@turf/turf@6.5.0/turf.min.js'></script>
-
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/intro.js/6.0.0/intro.min.js" ></script>
   <script src="js/main.js"></script>
 </head>
 
@@ -100,8 +100,8 @@
           <li class="nav-item">
             <a class="nav-link active" href="about.html">About</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link active"  target="_blank" href="https://docs.google.com/forms/d/1jWU5GIj7rqiej5j0aX3fm2IkM5v3K0PlGDWk0_GNcj4">Feedback</a>
+          <li class="nav-item" >
+            <a class="nav-link active" target="_blank" href="https://docs.google.com/forms/d/1jWU5GIj7rqiej5j0aX3fm2IkM5v3K0PlGDWk0_GNcj4">Feedback</a>
           </li>
           <li>
             <button id="log-out-btn" class="btn btn-outline-light d-none">Log out</button>
@@ -161,7 +161,7 @@
     <div id="map"></div>
     <!-- search box -->
     <!-- <div > -->
-    <div id="geocoder" class="map-overlay-top d-flex"></div>
+    <div id="geocoder"  data-intro="share with your comments on this platform to the PI team." class="map-overlay-top d-flex"></div>
     <!-- </div> -->
 
     <!-- Category Filter -->
