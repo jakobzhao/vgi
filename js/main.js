@@ -35,6 +35,13 @@
       document.getElementById('basemap-selection').classList.add('d-none');
     })
 
+    document.getElementById('instructions-info').addEventListener('click', function(event) {
+   
+      introJs().start();
+
+    });
+    
+
     // hide the loader.
     $('#loader').fadeOut("slow");
 
