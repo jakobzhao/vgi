@@ -711,6 +711,60 @@
             </div>
           </div>
         </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingThree">
+            <button id="observation-layer" class="accordion-button collapsed light-text-title" type="button"
+              data-bs-toggle="collapse" data-bs-target="#collapseObservation" aria-expanded="false"
+              aria-controls="collapseObservation">
+              Observations
+  
+            </button>
+            <div class="form-check form-switch" id="observe-switch">
+              <input class="form-check-input" type="checkbox" id="observe-flexSwitchCheckChecked">
+              <label class="form-check-label" for="observe-flexSwitchCheckChecked">CUBE</label>
+            </div>
+          </h2>
+          <div id="collapseObservation" class="accordion-collapse collapse">
+            <div class="accordion-body">
+              <p>
+                This layer shows all the data contributed by users that are still pending verification.
+                <!-- While the map shows any venue associated with a specific location, while the table lists 1) the virtual venue and 2) the venue related to the geographical area in the current map view but its physical location is unclear. -->
+                Click <a href="#"> here</a> for more details.
+              </p>
+              <div class="list-container">
+                <div class="row m-1 pt-2" style="font-size: small;">
+                  <div class="col">Name</div>
+                  <div class="col col-sm-3">Place Type</div>
+                </div>
+              </div>
+
+              <!-- list of observations -->
+              <div id="locality-observations" class="observation-list container">
+
+              </div>
+              <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="confidence-switch">
+                <label class="form-check-label" for="confidence-switch">Color by how confident the contributor claims to be
+                  about its accuracy. </label>
+              </div>
+
+              <div class="colorscheme">
+                <i class="color-1"></i>
+                <i class="color-2"></i>
+                <i class="color-3"></i>
+                <i class="color-4"></i>
+                <i class="color-5"></i>
+              </div>
+              <div class="color-labels">
+                <span>not at all</span>
+                <span>slightly</span>
+                <span>somewhat</span>
+                <span>fairly</span>
+                <span>completely</span>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     <!-- add user observation button -->

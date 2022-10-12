@@ -1598,29 +1598,29 @@ document.getElementById('reliability-switch').addEventListener('click', function
 
 
 
-// document.getElementById('confidence-switch').addEventListener('click', function () {
+document.getElementById('confidence-switch').addEventListener('click', function () {
 
-//   if (this.checked) {
+  if (this.checked) {
 
-//     tb.world.children.forEach(feature => {
-//       if (feature.type == 'Group') {
-//         feature.children[0].material.color.set("green");
-//         console.log(feature.userData.properties.placetype);
-//       }
+    tb.world.children.forEach(feature => {
+      if (feature.type == 'Group') {
+        feature.children[0].material.color.set("green");
+        console.log(feature.userData.properties.placetype);
+      }
 
-//     })
-//   } else {
+    })
+  } else {
 
-//     tb.world.children.forEach(feature => {
-//       if (feature.type == 'Group') {
-//         feature.children[0].material.color.set("red");
-//       }
-//     })
-//   }
+    tb.world.children.forEach(feature => {
+      if (feature.type == 'Group') {
+        feature.children[0].material.color.set("red");
+      }
+    })
+  }
 
-//   tb.repaint();
+  tb.repaint();
 
-// });
+});
 
 
 // function displayNearbyObservations(obsData, e) {
@@ -1789,45 +1789,45 @@ async function placeInput(place) {
 }
 
 // switch cube and cone layers, require coordination
-// let obserLayer = document.getElementById('observe-switch')
+let obserLayer = document.getElementById('observe-switch')
 let venueLayer = document.getElementById('venue-switch');
 let venueCheckbox = document.getElementById('venue-flexSwitchCheckChecked');
-// let obserCheckbox = document.getElementById('observe-flexSwitchCheckChecked');
+let obserCheckbox = document.getElementById('observe-flexSwitchCheckChecked');
 console.log(venueCheckbox.checked);
-// obserLayer.addEventListener('click', function (e) {
-//   if (map.getLayer('poi-labels')) {
-//     map.removeLayer('poi-labels');
-//     map.removeSource('venues');
-//   }
-//   if (obserCheckbox.checked != true) {
-//     observation_status = false;
-//     if (map.getLayer('observation-cubes')) {
-//       map.removeLayer('observation-cubes');
-//     }
-//     if (venue_status) {
-//       if (map.getLayer('venue-slice-cones')) {
-//         map.removeLayer('venue-slice-cones');
-//       }
-//       if (current_code_filter.length > 0) {
-//         addCones(on_Screen_Data_Venue, false);
-//       } else {
-//         addCones(current_venue_data, false);
-//       }
-//     }
-//     //addCones(current_venue_data, false);
-//   } else {
-//     // observation_status = true;
-//     // if (map.getLayer('observation-cubes')) {
-//     //   map.removeLayer('observation-cubes');
-//     // }
-//     // if (current_code_filter.length > 0) {
-//     //   addCubes(on_Screen_Data_Observe, false);
-//     // } else {
-//     //   addCubes(current_observation_data, false);
-//     // }
+obserLayer.addEventListener('click', function (e) {
+  if (map.getLayer('poi-labels')) {
+    map.removeLayer('poi-labels');
+    map.removeSource('venues');
+  }
+  if (obserCheckbox.checked != true) {
+    observation_status = false;
+    if (map.getLayer('observation-cubes')) {
+      map.removeLayer('observation-cubes');
+    }
+    if (venue_status) {
+      if (map.getLayer('venue-slice-cones')) {
+        map.removeLayer('venue-slice-cones');
+      }
+      if (current_code_filter.length > 0) {
+        addCones(on_Screen_Data_Venue, false);
+      } else {
+        addCones(current_venue_data, false);
+      }
+    }
+    //addCones(current_venue_data, false);
+  } else {
+    observation_status = true;
+    if (map.getLayer('observation-cubes')) {
+      map.removeLayer('observation-cubes');
+    }
+    if (current_code_filter.length > 0) {
+      addCubes(on_Screen_Data_Observe, false);
+    } else {
+      addCubes(current_observation_data, false);
+    }
 
-//   }
-// });
+  }
+});
 
 venueLayer.addEventListener('click', function (e) {
   if (map.getLayer('poi-labels')) {
@@ -1945,7 +1945,7 @@ async function updateMap(selectedYear, selectedLocality) {
   //addCubes(filteredYearObservationData, active);
   // create venue list and observation list
   makeLocalityList('locality-venues', venues, selectedYear);
-  // makeLocalityList('locality-observations', observationData, selectedYear);
+  makeLocalityList('locality-observations', observationData, selectedYear);
   // // sort locality features
   // Bo: Sort by name
   // localityFeatures.sort((a, b) => {
