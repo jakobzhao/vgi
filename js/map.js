@@ -77,6 +77,16 @@ let map = new mapboxgl.Map({
   hash: true
 });
 
+let subMap = new mapboxgl.Map({
+  container: 'subMap', // container ID
+  style: 'mapbox://styles/mapbox/light-v10', // style URL
+  center: [-122.33502, 47.61497],
+  zoom: 12, // starting zoom
+  pitch: 80,
+  // bearing: -10.8,
+  attributionControl: false,
+  antialias: true,
+});
 
 // create temporary marker if user wants to validate a location
 let marker = new mapboxgl.Marker({
@@ -531,6 +541,9 @@ function removeAllLayers() {
   }
 }
 
+subMap.on('load', function(){
+  viewLeftPanel;
+})
 // function slide-in left panel
 function viewLeftPanel(e) {
   let filteredLocalData = venues.features.filter(function (feature) {
@@ -610,93 +623,87 @@ function viewLeftPanel(e) {
   document.getElementById('long-edit').value = e.geometry.coordinates[0];
   document.getElementById('lat-edit').value = e.geometry.coordinates[1];
   document.getElementById('notes-edit').value = e.properties.placenotes;
-
+  
   // Inset map, extrusion, and functions
-  document.getElementById('subMap').innerHTML = '';
-  let subMap = new mapboxgl.Map({
-    container: 'subMap', // container ID
-    style: 'mapbox://styles/mapbox/light-v10', // style URL
-    center: e.geometry.coordinates,
-    zoom: 12, // starting zoom
-    pitch: 80,
-    // bearing: -10.8,
-    attributionControl: false,
-    antialias: true,
-  });
-  subMap.on('load', function () {
-    subMap.addSource('dataByYear', {
-      'type': 'geojson',
-      'data': toPolygonGEOJSON(filteredLocalData)
-    })
-    subMap.addLayer({
-      'id': 'year-extrusion',
-      'type': 'fill-extrusion',
-      'source': 'dataByYear',
-      'paint': {
-        'fill-extrusion-color': {
-          'type': 'identity',
-          'property': 'color'
-        },
-        'fill-extrusion-height': {
-          'type': 'identity',
-          'property': 'height'
-        },
-        'fill-extrusion-base': {
-          'type': 'identity',
-          'property': 'base'
-        },
-        'fill-extrusion-opacity': 0.7
-      }
-    })
-    let yearList = [];
-    let address = [];
-    let timelineOfAddress = {};
-    let referenceList = {};
-    let text;
-    for (let data of filteredLocalData) {
-      let key = (data.geometry.coordinates[0] + ', ' + data.geometry.coordinates[1])
-      if (!yearList.includes(Number(data.properties.year))) {
-        yearList.push(Number(data.properties.year))
-      }
-      if (!address.includes(key)) {
-        address.push(key)
-        timelineOfAddress[key] = [data.properties.year];
-      } else {
-        timelineOfAddress[key].push(data.properties.year);
-      }
+  // subMap.on('load', function () {
+  subMap.setCenter(e.geometry.coordinates);
+  if (subMap.getLayer('year-extrusion')) {
+    subMap.removeLayer('year-extrusion');
+    subMap.removeSource('dataByYear');
+  };
+  subMap.addSource('dataByYear', {
+    'type': 'geojson',
+    'data': toPolygonGEOJSON(filteredLocalData)
+  })
+  console.log(toPolygonGEOJSON(filteredLocalData))
+  subMap.addLayer({
+    'id': 'year-extrusion',
+    'type': 'fill-extrusion',
+    'source': 'dataByYear',
+    'paint': {
+      'fill-extrusion-color': {
+        'type': 'identity',
+        'property': 'color'
+      },
+      'fill-extrusion-height': {
+        'type': 'identity',
+        'property': 'height'
+      },
+      'fill-extrusion-base': {
+        'type': 'identity',
+        'property': 'base'
+      },
+      'fill-extrusion-opacity': 0.7
     }
-    yearList.sort();
-    filteredLocalData.forEach(function (datum) {
-      let key = (datum.geometry.coordinates[0] + ', ' + datum.geometry.coordinates[1])
-      text = '<strong>Year Range: </strong>';
-      if (timelineOfAddress[key].length > 1) {
-        text = text + Math.min(...timelineOfAddress[key]).toString() + ' to ' + Math.max(...timelineOfAddress[key]).toString();
-      } else {
-        text = text + Math.min(...timelineOfAddress[key]).toString();
-      }
-      referenceList[datum.properties.year] = text;
-    });
-    subMap.on('click', 'year-extrusion', function (e) {
-      let button = document.createElement('button');
-      button.setAttribute('id', 'go-btn');
-      button.setAttribute('type', 'button');
-      button.classList.add('btn');
-      button.classList.add('btn-primary');
-      button.classList.add('my-3');
-      button.textContent = 'Open the venue info in ' + e.features[0].properties.year + '.';
-      let vsid = e.features[0].properties.vsid
-      button.addEventListener('click', function() {
-        goToButton(vsid);
-      })
-      let container = document.createElement('div');
-      // container.innerHTML = "<strong>Address: </strong>" + e.features[0].properties.name + '<br>' + '<strong>Clicked Year: </strong>' + e.features[0].properties.year + '<br>' + referenceList[e.features[0].properties.year];
-      container.innerHTML = "<strong>Address: </strong>" + e.features[0].properties.name + '<br>'  + referenceList[e.features[0].properties.year];
-      container.appendChild(button);
-      new mapboxgl.Popup()
-        .setLngLat(e.lngLat)
-        .setDOMContent(container)
-        .addTo(subMap);
+  })
+  let yearList = [];
+  let address = [];
+  let timelineOfAddress = {};
+  let referenceList = {};
+  let text;
+  for (let data of filteredLocalData) {
+    let key = (data.geometry.coordinates[0] + ', ' + data.geometry.coordinates[1])
+    if (!yearList.includes(Number(data.properties.year))) {
+      yearList.push(Number(data.properties.year))
+    }
+    if (!address.includes(key)) {
+      address.push(key)
+      timelineOfAddress[key] = [data.properties.year];
+    } else {
+      timelineOfAddress[key].push(data.properties.year);
+    }
+  }
+  yearList.sort();
+  filteredLocalData.forEach(function (datum) {
+    let key = (datum.geometry.coordinates[0] + ', ' + datum.geometry.coordinates[1])
+    text = '<strong>Year Range: </strong>';
+    if (timelineOfAddress[key].length > 1) {
+      text = text + Math.min(...timelineOfAddress[key]).toString() + ' to ' + Math.max(...timelineOfAddress[key]).toString();
+    } else {
+      text = text + Math.min(...timelineOfAddress[key]).toString();
+    }
+    referenceList[datum.properties.year] = text;
+  });
+  subMap.on('click', 'year-extrusion', function (e) {
+    let button = document.createElement('button');
+    button.setAttribute('id', 'go-btn');
+    button.setAttribute('type', 'button');
+    button.classList.add('btn');
+    button.classList.add('btn-primary');
+    button.classList.add('my-3');
+    button.textContent = 'Open the venue info in ' + e.features[0].properties.year + '.';
+    let vsid = e.features[0].properties.vsid
+    button.addEventListener('click', function() {
+      goToButton(vsid);
     })
+    let container = document.createElement('div');
+    // container.innerHTML = "<strong>Address: </strong>" + e.features[0].properties.name + '<br>' + '<strong>Clicked Year: </strong>' + e.features[0].properties.year + '<br>' + referenceList[e.features[0].properties.year];
+    container.innerHTML = "<strong>Address: </strong>" + e.features[0].properties.name + '<br>'  + referenceList[e.features[0].properties.year];
+    container.appendChild(button);
+    new mapboxgl.Popup()
+      .setLngLat(e.lngLat)
+      .setDOMContent(container)
+      .addTo(subMap);
   })
 }
 
