@@ -917,7 +917,7 @@ function addExtrusions(feature, e) {
     units: 'kilometers'
   };
 
-  var scaleTest = chroma.scale('OrRd').colors(12);
+  let scaleTest = chroma.scale('OrRd').colors(12);
   let yearBlockData = {
     // layerData.map((location, index) => (
     'type': 'Feature',
@@ -2317,7 +2317,7 @@ document.getElementById('go-back-btn2').addEventListener('click', function () {
     for (let input of inputs) {
       input.value = '';
     }
-    let yearSlider = document.getElementById('current-year-value');
+    let yearSlider = document.getElementById('current-year-value-api');
     let yearText = document.getElementById('year-text-label');
     let checkboxes = document.querySelectorAll('input[name=myCheckBoxes]:checked');
     for (let box of checkboxes) {

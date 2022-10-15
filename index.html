@@ -434,7 +434,7 @@
         <label for="confidence-observation-verify">Confidence Level:</label>
         <div id="confidence-observation-verify"></div>
         <input type="range" class="form-range" min="1" max="5" step="1">
-        <div class="sliderticks">
+        <div id="confidence-observation-verify-values" class="sliderticks">
           <p>not at all</p>
           <p>slightly</p>
           <p>somewhat</p>
@@ -549,20 +549,20 @@
             </div>
           </div>
           <div class="form-floating mb-1">
-            <input id="otherGrid" type="text" class="form-control">
-            <label for="otherGrid">Suggest new tags(separated by comma):</label>
+            <input id="newtags-api" type="text" class="form-control">
+            <label for="newtags-api">Suggest new tags(separated by comma):</label>
           </div>
 
           <div class="form-floating mb-1">
-            <input id="addiitionalInfo" type="text" class="form-control">
-            <label for="addiitionalInfo">Additional Info:</label>
+            <input id="additionalInfo-api" type="text" class="form-control">
+            <label for="additionalInfo-api">Additional Info:</label>
             <small class="form-text text-muted">Please use the space above to provide any relevant information
               you think might aid us in verifying this venue.</small>
           </div>
 
           <label for="year-text" class="form-label" id="year-text-label">Year: 2014</label>
           <div class="form-floating mb-1" id="year-text">
-            <input type="range" class="form-range" id='current-year-value' min="1968" max="2014" step="1" value="2014">
+            <input type="range" class="form-range" id='current-year-value-api' min="1968" max="2014" step="1" value="2014">
           </div>
 
           <!-- Bo: adding empty spaces in order to align the levels right. -->

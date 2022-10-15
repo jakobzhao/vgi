@@ -1,0 +1,82 @@
+export function createPackage(suffixId) {
+    let packet = new URLSearchParams();
+    return (suffixId == "newObservation") ? buildNewObservationPacket(packet) : buildExistingObservation;
+}
+
+function buildNewObservationPacket (packet) {
+    let category = document.querySelectorAll('#collapseEntry input');
+    let buildCategory = buildList(category);
+
+    let codedescriptorlist = document.querySelectorAll('#collapseAmenity input, #collapseUser input, #collapseCaution input');
+    let buildCodeDescriptorList=  buildList(codedescriptorlist);
+
+    let confidenceInt = document.getElementById('confidence-observation-api').value;
+    let confidenceValues = document.querySelectorAll('#confidence-observation-values-api p');
+    let confidenceValue = "";
+    confidenceValues.forEach((element, index) => {
+        if(index == confidenceInt) {
+            confidenceValue += element.textContent;
+        }
+    })
+    packet.append("observedvenuename", document.getElementById('location-api').value);
+    packet.append("category", buildCategory.toString());
+    packet.append("codedescriptorlist", buildCodeDescriptorList.toString());
+    packet.append("address", document.getElementById('address-api').value);
+    packet.append("placenotes", document.getElementById('additionalInfo-api').value);
+    packet.append("locality", document.getElementById('city-api').value);
+    packet.append("city", document.getElementById('city-api').value);
+    packet.append("state", document.getElementById('state-api').value);
+    packet.append("zip", document.getElementById('zip-api').value);
+    packet.append("confidence", confidenceValue);
+    packet.append("formaladdress", document.getElementById('address-api').value);
+    packet.append("year", document.getElementById('current-year-value-api').value);
+    packet.append("source", "researcher");
+    packet.append("createdby", "researcher");
+    packet.append("dateadded", new Date());
+
+    return packet;
+}
+
+function buildExistingObservation(packet) {
+    let category = document.querySelectorAll('#collapseEntryVerify input');
+    let buildCategory = buildList(category);
+
+    let codedescriptorlist = document.querySelectorAll('#collapseAmenityVerify input, #collapseUserVerify input, #collapseCautionVerify input');
+    let buildCodeDescriptorList=  buildList(codedescriptorlist);
+
+    let confidenceInt = document.getElementById('confidence-observation-verify').value;
+    let confidenceValues = document.querySelectorAll('#confidence-observation-verify-values p');
+    let confidenceValue = "";
+    confidenceValues.forEach((element, index) => {
+        if(index == confidenceInt) {
+            confidenceValue += element.textContent;
+        }
+    })
+    packet.append("observedvenuename", document.getElementById('observed-name-edit').value);
+    packet.append("category", buildCategory.toString());
+    packet.append("codedescriptorlist", buildCodeDescriptorList.toString());
+    packet.append("address", document.getElementById('address-edit').value);
+    packet.append("placenotes", document.getElementById('additionalInfo-edit').value);
+    packet.append("locality", document.getElementById('city-edit').value);
+    packet.append("city", document.getElementById('city-edit').value);
+    packet.append("state", document.getElementById('state-edit').value);
+    packet.append("zip", document.getElementById('zip-edit').value);
+    packet.append("confidence", confidenceValue);
+    packet.append("longitude", document.getElementById('long-edit').value);
+    packet.append("latitude", document.getElementById('lat-edit').value)
+    packet.append("formaladdress", document.getElementById('address-edit').value);
+    packet.append("year", document.getElementById('year-edit').value);
+    packet.append("source", "researcher");
+    packet.append("createdby", "researcher");
+    packet.append("dateadded", new Date());
+}
+
+function buildList(inputs) {
+    let result = [];
+    inputs.forEach(inputElement => {
+        if(inputElement.checked) {
+            result.push(inputElement.value);
+        }
+    })
+    return result;
+}

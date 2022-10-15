@@ -2,6 +2,7 @@
 // Utilizes the lgbtqspaces API to be deployed by Heroku to be able to
 // connect with the database
 "use strict";
+
 (function () {
 
   window.addEventListener("load", init);
@@ -21,7 +22,7 @@
     document.getElementById('log-out-btn').addEventListener('click', () => {
       logOut();
     });
-    document.getElementById('current-year-value').addEventListener('change', () => {
+    document.getElementById('current-year-value-api').addEventListener('change', () => {
       yearChange();
     });
 
@@ -44,48 +45,8 @@
   async function newUser(event) {
     event.preventDefault();
     // Obtain data from user input
-    let data = new URLSearchParams();
-
-    let category = document.querySelectorAll('#collapseEntry input');
-    let buildCategory = [];
-    category.forEach(inputElement => {
-      if(inputElement.checked) {
-        buildCategory.push(inputElement.value);
-      }
-    })
-
-    let codedescriptorlist = document.querySelectorAll('#collapseAmenity input, #collapseUser input, #collapseCaution input');
-    let buildCodeDescriptorList=  [];
-    codedescriptorlist.forEach(inputElement => {
-      if(inputElement.checked) {
-        buildCodeDescriptorList.push(inputElement.value);
-      }
-    })
-
-    let confidenceInt = document.getElementById('confidence-observation-api').value;
-    let confidenceValues = document.querySelectorAll('#confidence-observation-values-api p');
-    let confidenceValue = "";
-    confidenceValues.forEach((element, index) => {
-      if(index == confidenceInt) {
-        confidenceValue += element.textContent;
-      }
-    })
-
-    data.append("observedvenuename", document.getElementById('location-api').value);
-    data.append("category", buildCategory.toString());
-    data.append("codedescriptorlist", buildCodeDescriptorList.toString());
-    data.append("address", document.getElementById('address-api').value);
-    data.append("placenotes", document.getElementById('otherGrid').value);
-    data.append("locality", document.getElementById('city-api').value);
-    data.append("city", document.getElementById('city-api').value);
-    data.append("state", document.getElementById('state-api').value);
-    data.append("zip", document.getElementById('zip-api').value);
-    data.append("confidence", confidenceValue);
-    data.append("formaladdress", document.getElementById('address-api').value);
-    data.append("year", document.getElementById('current-year-value').value);
-    data.append("source", "researcher");
-    data.append("createdby", "researcher");
-    data.append("dateadded", new Date());
+    let packet = await import('./createObservations.js');
+    let data = packet.createPackage('newObservation');
     if (requiredInputCheck()) {
       // POST fetch request
       let settings = {
@@ -162,9 +123,12 @@
   function clearForm() {
     let userFormInput = document.querySelectorAll('#user-form input');
     userFormInput.forEach(element => {
+      if(element.type == "checkbox") {
+        element.checked = false;
+      }
       element.value = '';
     })
-    document.getElementById('current-year-value').value = 2014;
+    document.getElementById('current-year-value-api').value = 2014;
   }
 
   // isLoggedIn()
@@ -270,7 +234,7 @@
 
   // Change views of year when user move the slider
   function yearChange() {
-    let yearSlider = document.getElementById('current-year-value');
+    let yearSlider = document.getElementById('current-year-value-api');
     let yearText = document.getElementById('year-text-label');
     yearText.innerHTML = '';
     yearText.textContent = 'Year: ' + yearSlider.value;
