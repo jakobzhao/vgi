@@ -338,7 +338,7 @@ h2#name, p#venue-indicator {
 #attribution {
     position: absolute;
     /* display: flex; */
-    width:35em;
+    width:27em;
     bottom: 0em;
     left: 0em;
     text-shadow: 2px 2px 4px gray;
@@ -356,9 +356,9 @@ h2#name, p#venue-indicator {
     /* display:flex; */
     position: relative;
     text-align: left;
-    font-size: small;
+    font-size:9pt;
     left: 10em;
-    bottom: -0.3em;
+    bottom: 0.6em;
 
 }
 

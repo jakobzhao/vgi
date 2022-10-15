@@ -10,14 +10,11 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
-  <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/fontawesome.min.css"
-    integrity="sha384-X8QTME3FCg1DLb58++lPvsjbQoCT9bp3MsUU3grbIny/3ZwUJkRNO8NPW6zqzuW9" crossorigin="anonymous"> -->
   <link href='https://api.mapbox.com/mapbox-gl-js/v2.3.0/mapbox-gl.css' rel='stylesheet' />
   <link rel="stylesheet"
     href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.css" type="text/css">
-  <link rel="stylesheet" href="css/font-awesome-4.7.0/css/font-awesome.min.css">
-
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intro.js/6.0.0/introjs.min.css" />
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/intro.js/6.0.0/introjs.min.css' rel='stylesheet' />
+    <link rel="stylesheet" href="css/autocomplete.css" />
   <!-- threebox -->
   <script src="./js/threebox.js"></script>
   <script src="./js/config.js"></script>
@@ -25,8 +22,10 @@
   <!-- Custom CSS Styling -->
   <link href="css/main.css" rel='stylesheet' />
 
-  <script src="https://code.jquery.com/jquery-3.6.1.min.js"
-    integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+  <script
+  src="https://code.jquery.com/jquery-3.6.1.min.js"
+  integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ="
+  crossorigin="anonymous"></script>
   <!-- bootstrap 4.6 is required for bootstrap-select, a feature used in the platform -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous">
@@ -69,7 +68,9 @@
 
   <!-- turf js  -->
   <script src='https://unpkg.com/@turf/turf@6.5.0/turf.min.js'></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/intro.js/6.0.0/intro.min.js" ></script>
+
+  <script src="https://unpkg.com/@trevoreyre/autocomplete-js@2.2.0/dist/autocomplete.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/intro.js/6.0.0/intro.min.js"></script>
   <script src="js/main.js"></script>
 </head>
 
@@ -79,10 +80,8 @@
       <a class="navbar-brand" href="#"><img width="40px" src="assets/imgs/logo.png"></img>
         <div id="project-name">Shifting LGBTQ+ Spaces</div>
         <div style="position:absolute; left:16.2em; bottom:1.3em;color: white;"><small><i>beta</i></small></div>
-
-
       </a>
-
+     
       <div id="navbar-tabs">
         <ul class="navbar-nav me-auto mb-2 mb-md-0">
           <li class="nav-item">
@@ -100,10 +99,8 @@
           <li class="nav-item">
             <a class="nav-link active" href="about.html">About</a>
           </li>
-          <li class="nav-item" >
-            <a class="nav-link active" data-intro="submit your feedback of your comments to this platform." data-step="1" target="_blank" href="https://docs.google.com/forms/d/1jWU5GIj7rqiej5j0aX3fm2IkM5v3K0PlGDWk0_GNcj4">Feedback</a>
-          </li>
-          <li data-intro="Log in to contribute to this platform." data-step="2">
+
+          <li>
             <button id="log-out-btn" class="btn btn-outline-light d-none">Log out</button>
           </li>
           <li class="nav-item d-flex">
@@ -122,20 +119,17 @@
                   </div>
                   <div class="modal-body" id="signin-body">
                     <div class="mb-3">
-                      <label class="form-label ">Please enter your passphrase below.</label>
+                      <label class="form-label ">Please input each word of the passphrase to the input fields
+                        below.</label>
 
                       <form class="passphrase-control">
                         <input type="password" class="form-control passphrase">
                         <input type="password" class="form-control passphrase">
                         <input type="password" class="form-control passphrase">
                       </form>
-
-                      <p></p>
                       <!-- intentionally left blank -->
-                      <!-- <label class="form-label "><h5 class="modal-title">How could I get a passphrase?</h5></label> -->
-                      <label class="form-label">
-                        We welcome and encourage contributions to our dataset!  To protect your privacy, we are not asking you to login to the portal in a way that results in any personal information about you being collected.  No UserID, no password, no user profile!  Instead we ask that you click here and tell us the locality or localities about which you have knowledge, the source of your knowledge (personal experience, second-hand knowledge, documents, something else), and the kind of information you have to offer (correction, new information, something else).  Once we receive your offer we will send you a temporary pass phrase that you can use to login to the portal and make your contribution.  Pass phrases will change frequently, so you will likely have to request a new one if you wish to make multiple visits to the portal.  This is to protect against potentially malicious attacks on our platform and dataset.  If you have any questions, concerns, or suggestions, you can also provide those through the link above. Or if you prefer, feel free to email us directly at XXX@uw.edu.
-                      </label>
+                      <label class="form-label "> </label>
+                      <label class="form-label "> We welcome everyone's contributions to this dataset! To ensure the contribution is reliable, we will only invite users who are familiar with the history of the venues of a local area. In order to protect the contributor's privacy, we would not adopt a normal log-in process that requires storing your personal information to this geospatial platform. Instead, we will share a passphrase of three words to reliable local experts. The passphrase will be updated once a while. So please keep in touch. In the meantime, if you want to contribute to this platform, feel free to contact us in order to gain a passphrase. </label>
 
                     </div>
                   </div>
@@ -159,11 +153,11 @@
     <div id="map"></div>
     <!-- search box -->
     <!-- <div > -->
-    <div id="geocoder"  data-intro="search a place and navigate to it on the map." data-step="5" class="map-overlay-top d-flex"></div>
+    <div id="geocoder" class="map-overlay-top d-flex"></div>
     <!-- </div> -->
 
     <!-- Category Filter -->
-    <div id="locality-filter" data-intro="load venues of the selected locality." data-step="4" class="position-absolute dropdown">
+    <div id="locality-filter" class="position-absolute dropdown">
       <button id="localityFilterBtn" class="btn mx-2 btn-custom dropdown-toggle" data-mdb-toggle="dropdown"
         aria-expanded="false" type="button" title="switch to a new locality we have tracked so far.">Localities</button>
       <ul class="d-grid dropdown-menu d-none" id="localityList" aria-labelledby="dropdownMenuButton">
@@ -171,22 +165,22 @@
     </div>
 
     <!-- Damron Code Filter -->
-    <div id="code-filter"  data-intro="filter the venue using amenity filters." data-step="3" class="position-absolute dropdown">
+    <div id="code-filter" class="position-absolute dropdown">
       <button id="code-filter-btn" class="btn mx-2 btn-custom dropdown-toggle" data-mdb-toggle="dropdown"
         aria-expanded="false" type="button"
-        title="filter the venues using a list of code/descriptor.">Filter</button>
+        title="filter the venues using a list of code/descriptor.">Codes/Descriptors</button>
       <!-- <p class="m-3 help-text"> </p> -->
       <ul class="d-grid dropdown-menu d-none" id="codeDescriptorList" aria-labelledby="dropdownMenuButton">
       </ul>
     </div>
 
     <!-- instructions icon on default landing page -->
-    <div id="instructions-info" data-intro="open the instructions to familiarize yourself with the platform." data-step="6" class="position-absolute">
+    <div id="instructions-info" class="position-absolute">
       <button class="transparent" data-bs-toggle="modal" data-bs-target="#instructions"><i
           class="fas fa-question-circle fa-2x mx-2"></i></button>
       <!-- Modal -->
-      <!-- TODO <content> : add image and guidance to the website -->
-      <!-- <div class="modal fade" id="instructions" tabindex="-1">
+
+      <div class="modal fade" id="instructions" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
             <div class="modal-header">
@@ -200,7 +194,7 @@
             </div>
           </div>
         </div>
-      </div> -->
+      </div>
     </div>
 
 
@@ -240,76 +234,71 @@
               <div id="address" class="ms-2"></div>
             </div>
             <!-- <div class="d-flex flex-row my-1"> -->
-            <!-- <img src="assets/imgs/formal-address.svg">  -->
-            <!-- <b>Coded Add.:</b> -->
-            <!-- <div id="formal-address" class="ms-2"></div> -->
+              <!-- <img src="assets/imgs/formal-address.svg">  -->
+               <!-- <b>Coded Add.:</b> -->
+              <!-- <div id="formal-address" class="ms-2"></div> -->
             <!-- </div> -->
             <div class="d-flex flex-row my-1">
               <!-- <img src="assets/imgs/year.svg">  -->
-              <b>Year: </b>
+            <b>Year: </b>
               <div id="year-info" class="ms-2"></div>
             </div>
             <div class="d-flex flex-row my-1">
               <!-- <img src="assets/imgs/city.svg"> -->
-              <b>Locality: </b>
+               <b>Locality: </b>
               <div id="city" class="ms-2"></div>
             </div>
             <div class="d-flex flex-row my-1">
               <!-- <img src="assets/imgs/state.svg"> -->
-              <b>State:</b>
+               <b>State:</b>
               <div id="state" class="ms-2"></div>
             </div>
             <div class="d-flex flex-row my-1">
               <!-- <img src="assets/imgs/damron-code.svg">  -->
-              <b>Descriptor(s): </b>
+              <b>Codes: </b>
               <div id="code" class="ms-2"></div>
             </div>
-            <p>(Click on a descriptor to apply it as a filter)</p>
             <div class="d-flex flex-row my-1">
               <!-- <img src="assets/imgs/category.svg"> -->
+               <b>Categories:</b>
+              <div id="type" class="ms-2"></div>
             </div>
 
           </div>
 
+               <!-- image holder for location -->
+               <div id="venue-imgs">
+                <div id="gmap"></div>
+                <div id="venue-img-container"></div>
+                <!-- <div id="pano"></div> -->
+                  <p id="img-notes">This image is scraped in real-time by searching the venue name or location on a few primary online image sources (e.g., Google Streetview, Google Images, etc.).</div>
+        <br/>
         </div>
-
-        <div id="subMap">
-        </div>
-        <p id="evidence-desc">Help us look for evidence from the external sources below. </p>
-        <div id="evidence-info">
-          <a id="streetview-evidence" target="_blank" title="watch streetview of this address." class="evidence"><img height="35px" src="assets/imgs/streetview.png"></a>
-          <a id="image-evidence"  target="_blank" title="explore photos of this venue" class="evidence"><img height="35px" src="assets/imgs/photo.png"></a>
-          <a id="tweets-evidence"  target="_blank" title="read how people talk about this venue on Twitter" class="evidence"><img height="35px" src="assets/imgs/tweets.png"></a>
-           </div>
-
       </div>
 
       <!-- left dashboard - validate observation div -->
       <form id="report-issue" class="issuePanel d-flex flex-column d-none mx-3 mt-5">
-        <h2 class="mt-3 mb-0 pb-2">Suggest an edit</h2>
-          <small class="form-text text-muted">*Required</small>
+        <h2 class="mt-3 mb-0 pb-2">Report an Issue</h2>
         <div class="form-floating mb-1">
           <input id="observed-name-edit" type="text" class="form-control" required>
-          <label for="observed-name-edit">*Name of Location:</label>
-          <small id="observed-name-edit-small" class="d-none"></small>
+          <label for="observed-name-edit">Name of Location:</label>
         </div>
         <div class="form-floating mb-1">
           <input id="address-edit" type="text" class="form-control" required>
-          <label for="address-edit">*Address:</label>
-          <small id="address-edit-small" class="d-none"></small>
+          <label for="address-edit">Address:</label>
         </div>
 
         <div class="row g-2">
           <div class="col">
             <div class="form-floating mb-1">
               <input id="city-edit" type="text" class="form-control" required>
-              <label for="city-edit">*City:</label>
+              <label for="city-edit">City:</label>
             </div>
           </div>
           <div class="col">
             <div class="form-floating mb-1">
               <input id="state-edit" type="text" class="form-control" required>
-              <label for="state-edit">*State:</label>
+              <label for="state-edit">State:</label>
             </div>
           </div>
           <div class="col">
@@ -321,7 +310,7 @@
         </div>
         <div class="form-floating mb-1">
           <input id="year-edit" type="text" class="form-control" required>
-          <label for="year-edit">*Year:</label>
+          <label for="year-edit">Year:</label>
         </div>
         <small class="form-text text-muted">Adjust the blue marker to change longitude and latitude.</small>
         <div class="form-floating mb-1">
@@ -347,65 +336,60 @@
             <option value="3">Three</option>
           </select>
         </div> -->
-        <div id="accordionEntryVerify" class="mb-1">
+        <div id="accordionEntryVerify" class="mb-1" >
           <div class="accordion-item">
             <h2 class="accordion-header">
               <div class="btn-group type-btn mb-1">
                 <button type="button" class="btn btn-default collapsed accordion-button type-btn"
-                  data-bs-toggle="collapse" data-bs-target="#collapseEntryVerify" aria-expanded="false"
-                  aria-controls="collapseEntryVerify">Entry Descriptors</button>
+                data-bs-toggle="collapse" data-bs-target="#collapseEntryVerify" aria-expanded="false" aria-controls="collapseEntryVerify">Entry Descriptors</button>
               </div>
             </h2>
             <div class="collapse form-floating mb-1 collapsedTypes" id="collapseEntryVerify">
             </div>
           </div>
         </div>
-        <div id="accordionUserVerify" class="mb-1">
+        <div id="accordionUserVerify" class="mb-1" >
           <div class="accordion-item">
             <h2 class="accordion-header">
               <div class="btn-group type-btn mb-1">
                 <button type="button" class="btn btn-default collapsed accordion-button type-btn"
-                  data-bs-toggle="collapse" data-bs-target="#collapseUserVerify" aria-expanded="false"
-                  aria-controls="collapseUserVerify">Clientele/User Descriptors</button>
+                data-bs-toggle="collapse" data-bs-target="#collapseUserVerify" aria-expanded="false" aria-controls="collapseUserVerify">Clientele/User Descriptors</button>
               </div>
             </h2>
             <div class="collapse form-floating mb-1 collapsedTypes" id="collapseUserVerify">
             </div>
           </div>
         </div>
-        <div id="accordionAmenityVerify" class="mb-1">
+        <div id="accordionAmenityVerify" class="mb-1" >
           <div class="accordion-item">
             <h2 class="accordion-header">
               <div class="btn-group type-btn mb-1">
                 <button type="button" class="btn btn-default collapsed accordion-button type-btn"
-                  data-bs-toggle="collapse" data-bs-target="#collapseAmenityVerify" aria-expanded="false"
-                  aria-controls="collapseAmenityVerify">Amenity/Service Descriptors</button>
+                data-bs-toggle="collapse" data-bs-target="#collapseAmenityVerify" aria-expanded="false" aria-controls="collapseAmenityVerify">Amenity/Service Descriptors</button>
               </div>
             </h2>
             <div class="collapse form-floating mb-1 collapsedTypes" id="collapseAmenityVerify">
             </div>
           </div>
         </div>
-        <div id="accordionCautionVerify" class="mb-1">
+        <div id="accordionCautionVerify" class="mb-1" >
           <div class="accordion-item">
             <h2 class="accordion-header">
               <div class="btn-group type-btn mb-1">
                 <button type="button" class="btn btn-default collapsed accordion-button type-btn"
-                  data-bs-toggle="collapse" data-bs-target="#collapseCautionVerify" aria-expanded="false"
-                  aria-controls="collapseCautionVerify">Caution/Restriction Descriptors</button>
+                data-bs-toggle="collapse" data-bs-target="#collapseCautionVerify" aria-expanded="false" aria-controls="collapseCautionVerify">Caution/Restriction Descriptors</button>
               </div>
             </h2>
             <div class="collapse form-floating mb-1 collapsedTypes" id="collapseCautionVerify">
             </div>
           </div>
         </div>
-        <div id="accordionOrganizationVerify" class="mb-1">
+        <div id="accordionOrganizationVerify" class="mb-1" >
           <div class="accordion-item">
             <h2 class="accordion-header">
               <div class="btn-group type-btn mb-1">
                 <button type="button" class="btn btn-default collapsed accordion-button type-btn"
-                  data-bs-toggle="collapse" data-bs-target="#collapseOrganizationVerify" aria-expanded="false"
-                  aria-controls="collapseOrganizationVerify">Organization/Association Descriptors</button>
+                data-bs-toggle="collapse" data-bs-target="#collapseOrganizationVerify" aria-expanded="false" aria-controls="collapseOrganizationVerify">Organization/Association Descriptors</button>
               </div>
             </h2>
             <div class="collapse form-floating mb-1 collapsedTypes" id="collapseOrganizationVerify">
@@ -413,15 +397,8 @@
           </div>
         </div>
         <div class="form-floating mb-1">
-          <input id="addDescriptor" type="text" class="form-control">
-          <label for="addDescriptor">Suggest new descriptors(separated by comma):</label>
-        </div>
-
-        <div class="form-floating mb-1">
           <input id="notes-edit" type="text" class="form-control">
-          <label for="notes-edit">Additional Info:</label>
-          <small class="form-text text-muted">Please use the space above to provide any relevant information
-            you think might aid us in verifying this venue.</small>
+          <label for="notes-edit">Additional Notes:</label>
         </div>
         <!-- <div class="form-floating mb-1">
           <input id="confidence-edit" type="text" class="form-control" required>
@@ -430,7 +407,7 @@
         <label for="confidence-observation-verify">Confidence Level:</label>
         <div id="confidence-observation-verify"></div>
         <input type="range" class="form-range" min="1" max="5" step="1">
-        <div id="confidence-observation-verify-values" class="sliderticks">
+        <div class="sliderticks">
           <p>not at all</p>
           <p>slightly</p>
           <p>somewhat</p>
@@ -446,126 +423,162 @@
       <!-- left dashboard - add observation div -->
       <div id="add-observation" class="d-none mx-4">
         <form id="user-form" class="d-flex flex-column">
+          <!-- <h3 class="mt-3 mb-0 pb-2">Add new observation</h3> -->
           <h3 class="mt-3 mb-0 pb-2">Add a Missing Venue
           </h3>
-          <small class="form-text text-muted">*Required</small>
+          <small class="form-text text-muted">Click a point on the map to get location information.</small>
           <div class="form-floating mb-1">
             <input id="location-api" type="text" class="form-control" required>
-            <label for="location-api">*Venue Name:</label>
+            <label for="location-api">Name:</label>
           </div>
-                        <small class="form-text text-muted">Click on the map to autofill location information.</small>
           <div class="form-floating mb-1">
             <input id="address-api" type="text" class="form-control" required>
-            <label for="address-api">*Address:</label>
+            <label for="address-api">Address:</label>
           </div>
           <div class="row g-2">
             <div class="col-md">
               <div class="form-floating mb-1">
                 <input id="city-api" type="text" class="form-control" required>
-                <label for="city-api">*City:</label>
+                <label for="city-api">City:</label>
               </div>
             </div>
             <div class="col-md">
               <div class="form-floating mb-1">
                 <input id="state-api" type="text" class="form-control" required>
-                <label for="state-api">*State:</label>
-              </div>
-            </div>
-            <div class="col-md">
-              <div class="form-floating mb-1">
-                <input id="zip-api" type="text" class="form-control" required>
-                <label for="zip-api">ZIP:</label>
+                <label for="state-api">State:</label>
               </div>
             </div>
           </div>
+          <!-- <div class="form-floating mb-1">
+            <input id="type-api" type="text" class="form-control" required>
+            <label for="type-api">Category:</label>
+          </div> -->
 
-          <div id="accordionEntry" class="mb-1">
+          <div id="accordionEntry" class="mb-1" >
             <div class="accordion-item">
               <h2 class="accordion-header">
                 <div class="btn-group type-btn mb-1">
                   <button type="button" class="btn btn-default collapsed accordion-button type-btn"
-                    data-bs-toggle="collapse" data-bs-target="#collapseEntry" aria-expanded="false"
-                    aria-controls="collapseEntry">Entry Descriptors</button>
+                  data-bs-toggle="collapse" data-bs-target="#collapseEntry" aria-expanded="false" aria-controls="collapseEntry">Entry Descriptors</button>
                 </div>
               </h2>
               <div class="collapse form-floating mb-1 collapsedTypes" id="collapseEntry">
               </div>
             </div>
           </div>
-          <div id="accordionUser" class="mb-1">
+          <div id="accordionUser" class="mb-1" >
             <div class="accordion-item">
               <h2 class="accordion-header">
                 <div class="btn-group type-btn mb-1">
                   <button type="button" class="btn btn-default collapsed accordion-button type-btn"
-                    data-bs-toggle="collapse" data-bs-target="#collapseUser" aria-expanded="false"
-                    aria-controls="collapseUser">Clientele/User Descriptors</button>
+                  data-bs-toggle="collapse" data-bs-target="#collapseUser" aria-expanded="false" aria-controls="collapseUser">Clientele/User Descriptors</button>
                 </div>
               </h2>
               <div class="collapse form-floating mb-1 collapsedTypes" id="collapseUser">
               </div>
             </div>
           </div>
-          <div id="accordionAmenity" class="mb-1">
+          <div id="accordionAmenity" class="mb-1" >
             <div class="accordion-item">
               <h2 class="accordion-header">
                 <div class="btn-group type-btn mb-1">
                   <button type="button" class="btn btn-default collapsed accordion-button type-btn"
-                    data-bs-toggle="collapse" data-bs-target="#collapseAmenity" aria-expanded="false"
-                    aria-controls="collapseAmenity">Amenity/Service Descriptors</button>
+                  data-bs-toggle="collapse" data-bs-target="#collapseAmenity" aria-expanded="false" aria-controls="collapseAmenity">Amenity/Service Descriptors</button>
                 </div>
               </h2>
               <div class="collapse form-floating mb-1 collapsedTypes" id="collapseAmenity">
               </div>
             </div>
           </div>
-          <div id="accordionCaution" class="mb-1">
+          <div id="accordionCaution" class="mb-1" >
             <div class="accordion-item">
               <h2 class="accordion-header">
                 <div class="btn-group type-btn mb-1">
                   <button type="button" class="btn btn-default collapsed accordion-button type-btn"
-                    data-bs-toggle="collapse" data-bs-target="#collapseCaution" aria-expanded="false"
-                    aria-controls="collapseCaution">Caution/Restriction Descriptors</button>
+                  data-bs-toggle="collapse" data-bs-target="#collapseCaution" aria-expanded="false" aria-controls="collapseCaution">Caution/Restriction Descriptors</button>
                 </div>
               </h2>
               <div class="collapse form-floating mb-1 collapsedTypes" id="collapseCaution">
               </div>
             </div>
           </div>
-          <div id="accordionOrganization" class="mb-1">
+          <div id="accordionOrganization" class="mb-1" >
             <div class="accordion-item">
               <h2 class="accordion-header">
                 <div class="btn-group type-btn mb-1">
                   <button type="button" class="btn btn-default collapsed accordion-button type-btn"
-                    data-bs-toggle="collapse" data-bs-target="#collapseOrganization" aria-expanded="false"
-                    aria-controls="collapseOrganization">Organization/Association Descriptors</button>
+                  data-bs-toggle="collapse" data-bs-target="#collapseOrganization" aria-expanded="false" aria-controls="collapseOrganization">Organization/Association Descriptors</button>
                 </div>
               </h2>
               <div class="collapse form-floating mb-1 collapsedTypes" id="collapseOrganization">
               </div>
             </div>
           </div>
-          <div class="form-floating mb-1">
-            <input id="newtags-api" type="text" class="form-control">
-            <label for="newtags-api">Suggest new tags(separated by comma):</label>
+          <!-- <div class="form-floating mb-1" id="autoEntry">
+            <input class="autocomplete-input form-control" id='EntryGrid' />
+            <ul class="autocomplete-result-list"></ul>
+            <label for="EntryGrid">Entry:</label>
           </div>
 
-          <div class="form-floating mb-1">
-            <input id="additionalInfo-api" type="text" class="form-control">
-            <label for="additionalInfo-api">Additional Info:</label>
-            <small class="form-text text-muted">Please use the space above to provide any relevant information
-              you think might aid us in verifying this venue.</small>
+          <div class="form-floating mb-1" id="autoUser">
+            <input class="autocomplete-input form-control" id='UserGrid' />
+            <ul class="autocomplete-result-list"></ul>
+            <label for="UserGrid">User:</label>
+          </div> -->
+
+          <!-- <div class="col-md">
+              <div class="form-floating mb-1">
+                <select class="form-select type" id="UserGrid" aria-label="Floating label select example">
+                  <option value=null>Unknown</option>
+                </select>
+                <label for="UserGrid">User:</label>
+              </div>
+            </div> -->
+
+          <!-- <div class="form-floating mb-1" id="autoAmenity">
+            <input class="autocomplete-input form-control" id='AmenityGrid' />
+            <ul class="autocomplete-result-list"></ul>
+            <label for="AmenityGrid">Amenity:</label>
           </div>
 
+          <div class="form-floating mb-1" id="autoCaution">
+            <input class="autocomplete-input form-control" id='CautionGrid' />
+            <ul class="autocomplete-result-list"></ul>
+            <label for="CautionGrid">Caution:</label>
+          </div>
+
+          <div class="form-floating mb-1" id="autoOrganization">
+            <input class="autocomplete-input form-control" id='OrganizationGrid' />
+            <ul class="autocomplete-result-list"></ul>
+            <label for="OrganizationGrid">Organization:</label>
+          </div> -->
+
+          <div class="form-floating mb-1">
+            <input id="otherGrid" type="text" class="form-control">
+            <label for="otherGrid">Others:</label>
+            <small class="form-text text-muted">Input any code/descriptor that does not appear in the descriptor categories above. Using comma to seperate categories.</small>
+          </div>
+          <!-- <div class="form-floating mb-1">
+            <input id="submit-year" type="number" class="form-control" required>
+            <label for="submit-year">Year:</label>
+          </div> -->
           <label for="year-text" class="form-label" id="year-text-label">Year: 2014</label>
           <div class="form-floating mb-1" id="year-text">
-            <input type="range" class="form-range" id='current-year-value-api' min="1968" max="2014" step="1" value="2014">
+            <input type="range" class="form-range" id='current-year-value' min="1968" max="2014" step="1" value="2014">
           </div>
+          <!-- <div class="form-floating mb-1">
+            <input id="type-note" type="text" class="form-control">
+            <label for="type-note">Additional Notes:</label>
+          </div> -->
+          <!-- v1 without damron code input -->
+          <!-- <label for="damron">Damron Code:</label>
+          <input for="damron" type="text" placeholder="Enter code"> -->
 
           <!-- Bo: adding empty spaces in order to align the levels right. -->
           <label for="confidence-observation">Confidence Level:</label>
           <div id="confidence-observation"></div>
-          <input id= "confidence-observation-api" type="range" class="form-range" min="1" max="5" step="1">
-          <div id="confidence-observation-values-api" class="sliderticks">
+          <input type="range" class="form-range" min="1" max="5" step="1">
+          <div class="sliderticks">
             <p>not at all</p>
             <p>slightly</p>
             <p>somewhat</p>
@@ -582,7 +595,7 @@
       <!-- left dashboard - buttons -->
       <div id="ground-truth-btns" class="mx-3 d-flex flex-row flex-wrap">
 
-        <button id="report-issue-btn" type="button" class="btn btn-primary mx-2">Suggest an edit</button>
+        <button id="report-issue-btn" type="button" class="btn btn-primary mx-2">Report an issue</button>
         <button id="add-review-btn" type="button" class="btn btn-primary mx-2">Review this venue</button>
         <button id="go-back-btn" type="button" class="btn btn-primary mx-2"> Close</button>
       </div>
@@ -608,9 +621,7 @@
       </div>
 
       <!-- all reviews container -->
-      <div id="reviews-container" class="mx-3">
-          TEST
-      </div>
+      <div id="reviews-container" class="mx-3 d-none"></div>
 
     </div>
 
@@ -625,7 +636,7 @@
 
 
     <!-- timeline -->
-    <div id="year-slider"  data-intro="The number indicates the year of the data being reviewed. Please slide this timeline to visualize the map of venues of a specific year you plan to read." data-step="7" class="d-flex">
+    <div id="year-slider" class="d-flex">
       <div class="container">
         <div class="item">
           <p id="year-label">2014</p>
@@ -635,8 +646,8 @@
                       <label class="form-check-label" for="base-year-selection">Base Year</label>
                     </div> -->
           <!-- </div> -->
-          <div >
-            <input type="range" id="slider-bar" min="1965" max="2014" value="2014">
+          <div>
+            <input type="range" id="slider-bar" min="1965" max="2014" value="2014" >
           </div>
         </div>
         <div id="year-notes" class="item"></div>
@@ -647,8 +658,8 @@
 
       <p id="logos"><img width="55px" src="assets/imgs/uw-logo.png"></img><img width="55px"
           src="assets/imgs/nsf-logo.png"></img></p>
-      <p id="acknowledge">This platform is funded by <a href="https://www.nsf.gov/awardsearch/showAward?AWD_ID=1951072">National Science Foundation (#1951072)</a>,
-        and created by geographers from <a href="https://www.washington.edu/">the University of Washington at Seattle</a> and <a href="https://www.tacoma.uw.edu/">Tacoma</a>. The basemap is made up using <a href="https://www.openstreetmap.org/">&copy;OpenStreetMap</a>'s data by <a href="https://www.mapbox.com/">&copy;MapBox</a>. 
+      <p id="acknowledge">This geospatial platform is funded by National Science Foundation (NSF),
+        and created and maintained by a team of geographers from the University of Washington at Seattle and Tacoma.
       </p>
       <!-- The frontend map libraries are from Mapbox, and the data for the basemaps are from OpenStreetMaps -->
     </div>
@@ -657,24 +668,18 @@
     <!-- references - basemap,sources, venues to be confirmed, user-contributed observations -->
     <div id="legend" class="d-flex">
 
-      <div id="accordion" class="m-2">
+      <div id="accordion" class="m-2" >
         <div class="accordion-item">
           <h2 class="accordion-header">
-
-            <button id="venue-layer" class="accordion-button light-text-title" type="button" data-bs-toggle="collapse"
-              data-bs-target="#collapseVenue" aria-expanded="false" aria-controls="collapseVenue">
-              Venues
-              <!-- <i class="fa fa-play fa-fw fa-rotate-90" style="color:lightskyblue"></i> -->
+            <button id="venue-layer" class="accordion-button collapsed light-text-title" type="button"
+              data-bs-toggle="collapse" data-bs-target="#collapseVenue" aria-expanded="false" aria-controls="collapseVenue">
+              Venues (in the shape of cone)
             </button>
-            <div class="form-check form-switch" id="venue-switch">
-              <input class="form-check-input" type="checkbox" id="venue-flexSwitchCheckChecked" checked>
-              <label class="form-check-label" for="venue-flexSwitchCheckChecked">CONE</label>
-            </div>
           </h2>
-          <div id="collapseVenue" class="accordion-collapse collapse show">
+          <div id="collapseVenue" class="accordion-collapse collapse" >
             <div class="accordion-body">
-              <p> This table lists a group of venues, the location of which cannot be easily located on the map. WA few examples of such venues are P.O. Boxes, Radio Stations, magazines.
-                <!-- Click <a href="#"> here</a> for more details. -->
+              <p > This layer shows all the venues. For any venue that is hard to associate with a location, it will be shown in the list below.
+                Click <a href="#"> here</a> for more details.
               </p>
               <!-- list of venues -->
               <div class="list-container">
@@ -687,22 +692,72 @@
               </div>
               <div class="form-check form-switch">
                 <input class="form-check-input" type="checkbox" id="reliability-switch">
-                <label class="form-check-label" for="reliability-switch">Color by how confident we are about data accuracy. </label>
+                <label class="form-check-label" for="reliability-switch">Color by how reliable the research team
+                  believes in its accuracy. </label>
               </div>
               <div class="colorscheme">
                 <i class="color-1"></i>
                 <i class="color-2"></i>
-
                 <i class="color-3"></i>
                 <i class="color-4"></i>
                 <i class="color-5"></i>
               </div>
               <div class="color-labels">
-                <span>not at all</span>
-                <span>slightly</span>
-                <span>somewhat</span>
-                <span>fairly</span>
-                <span>completely</span>
+               <span>not at all</span>
+               <span>slightly</span>
+               <span>somewhat</span>
+               <span>fairly</span>
+               <span>completely</span>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingThree">
+            <button id="observation-layer" class="accordion-button collapsed light-text-title" type="button"
+              data-bs-toggle="collapse" data-bs-target="#collapseObservation" aria-expanded="false"
+              aria-controls="collapseObservation">
+              Observations (in the shape of cube)
+            </button>
+          </h2>
+          <div id="collapseObservation" class="accordion-collapse collapse">
+            <div class="accordion-body">
+              <p>
+                This data layer shows all the data contributed by users.
+                <!-- While the map shows any venue associated with a specific location, while the table lists 1) the virtual venue and 2) the venue related to the geographical area in the current map view but its physical location is unclear. -->
+                Click <a href="#"> here</a> for more details.
+              </p>
+              <div class="list-container">
+                <div class="row m-1 pt-2" style="font-size: small;">
+                  <div class="col">Name</div>
+                  <div class="col col-sm-3">Place Type</div>
+                </div>
+              </div>
+
+              <!-- list of observations -->
+              <div id="locality-observations" class="observation-list container">
+
+              </div>
+              <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="confidence-switch">
+                <label class="form-check-label" for="confidence-switch">Color by how confident the contributor feels
+                  about its accuracy. </label>
+              </div>
+
+              <div class="colorscheme">
+                <i class="color-1"></i>
+                <i class="color-2"></i>
+                <i class="color-3"></i>
+                <i class="color-4"></i>
+                <i class="color-5"></i>
+              </div>
+              <div class="color-labels">
+               <span>not at all</span>
+               <span>slightly</span>
+               <span>somewhat</span>
+               <span>fairly</span>
+               <span>completely</span>
               </div>
             </div>
           </div>
@@ -710,7 +765,7 @@
       </div>
     </div>
     <!-- add user observation button -->
-    <div data-intro="add a LGBTQ+ venue that does not appear on the map" data-step="8" id="add-observation-container">
+    <div id="add-observation-container">
       <!-- <div class=""> -->
       <button id="add-observation-button" type="button">
         <i class="fa fa-plus fa-1x"></i>
@@ -720,7 +775,7 @@
     </div>
 
     <!-- layers change -->
-    <div id="layers" data-intro="switch to other map layers" data-step="9" class="d-flex flex-row position-absolute">
+    <div id="layers" class="d-flex flex-row position-absolute">
       <!-- opened up layer selection menu -->
       <div id="basemap-selection" class="d-flex flex-row box-shadow-default d-none">
         <div class="layers-container m-1">
@@ -776,7 +831,10 @@
 
   </main>
   <script src="js/map.js"></script>
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC7zg5Rb4UJNKsiXIol35wzC0uZmHddj0Q" defer></script>
+  <script
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC7zg5Rb4UJNKsiXIol35wzC0uZmHddj0Q"
+  defer
+></script>
 
   <!-- GOOGLE IMAGES DEFAULT -->
   <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC7zg5Rb4UJNKsiXIol35wzC0uZmHddj0Q&callback=getPhotos&libraries=places" async></script> -->

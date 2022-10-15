@@ -77,16 +77,6 @@ let map = new mapboxgl.Map({
   hash: true
 });
 
-let subMap = new mapboxgl.Map({
-  container: 'subMap', // container ID
-  style: 'mapbox://styles/mapbox/light-v10', // style URL
-  center: [-122.33502, 47.61497],
-  zoom: 12, // starting zoom
-  pitch: 80,
-  // bearing: -10.8,
-  attributionControl: false,
-  antialias: true,
-});
 
 // create temporary marker if user wants to validate a location
 let marker = new mapboxgl.Marker({
@@ -541,9 +531,6 @@ function removeAllLayers() {
   }
 }
 
-subMap.on('load', function(){
-  viewLeftPanel;
-})
 // function slide-in left panel
 function viewLeftPanel(e) {
   let filteredLocalData = venues.features.filter(function (feature) {
@@ -623,87 +610,93 @@ function viewLeftPanel(e) {
   document.getElementById('long-edit').value = e.geometry.coordinates[0];
   document.getElementById('lat-edit').value = e.geometry.coordinates[1];
   document.getElementById('notes-edit').value = e.properties.placenotes;
-  
+
   // Inset map, extrusion, and functions
-  // subMap.on('load', function () {
-  subMap.setCenter(e.geometry.coordinates);
-  if (subMap.getLayer('year-extrusion')) {
-    subMap.removeLayer('year-extrusion');
-    subMap.removeSource('dataByYear');
-  };
-  subMap.addSource('dataByYear', {
-    'type': 'geojson',
-    'data': toPolygonGEOJSON(filteredLocalData)
-  })
-  console.log(toPolygonGEOJSON(filteredLocalData))
-  subMap.addLayer({
-    'id': 'year-extrusion',
-    'type': 'fill-extrusion',
-    'source': 'dataByYear',
-    'paint': {
-      'fill-extrusion-color': {
-        'type': 'identity',
-        'property': 'color'
-      },
-      'fill-extrusion-height': {
-        'type': 'identity',
-        'property': 'height'
-      },
-      'fill-extrusion-base': {
-        'type': 'identity',
-        'property': 'base'
-      },
-      'fill-extrusion-opacity': 0.7
-    }
-  })
-  let yearList = [];
-  let address = [];
-  let timelineOfAddress = {};
-  let referenceList = {};
-  let text;
-  for (let data of filteredLocalData) {
-    let key = (data.geometry.coordinates[0] + ', ' + data.geometry.coordinates[1])
-    if (!yearList.includes(Number(data.properties.year))) {
-      yearList.push(Number(data.properties.year))
-    }
-    if (!address.includes(key)) {
-      address.push(key)
-      timelineOfAddress[key] = [data.properties.year];
-    } else {
-      timelineOfAddress[key].push(data.properties.year);
-    }
-  }
-  yearList.sort();
-  filteredLocalData.forEach(function (datum) {
-    let key = (datum.geometry.coordinates[0] + ', ' + datum.geometry.coordinates[1])
-    text = '<strong>Year Range: </strong>';
-    if (timelineOfAddress[key].length > 1) {
-      text = text + Math.min(...timelineOfAddress[key]).toString() + ' to ' + Math.max(...timelineOfAddress[key]).toString();
-    } else {
-      text = text + Math.min(...timelineOfAddress[key]).toString();
-    }
-    referenceList[datum.properties.year] = text;
+  document.getElementById('subMap').innerHTML = '';
+  let subMap = new mapboxgl.Map({
+    container: 'subMap', // container ID
+    style: 'mapbox://styles/mapbox/light-v10', // style URL
+    center: e.geometry.coordinates,
+    zoom: 12, // starting zoom
+    pitch: 80,
+    // bearing: -10.8,
+    attributionControl: false,
+    antialias: true,
   });
-  subMap.on('click', 'year-extrusion', function (e) {
-    let button = document.createElement('button');
-    button.setAttribute('id', 'go-btn');
-    button.setAttribute('type', 'button');
-    button.classList.add('btn');
-    button.classList.add('btn-primary');
-    button.classList.add('my-3');
-    button.textContent = 'Open the venue info in ' + e.features[0].properties.year + '.';
-    let vsid = e.features[0].properties.vsid
-    button.addEventListener('click', function() {
-      goToButton(vsid);
+  subMap.on('load', function () {
+    subMap.addSource('dataByYear', {
+      'type': 'geojson',
+      'data': toPolygonGEOJSON(filteredLocalData)
     })
-    let container = document.createElement('div');
-    // container.innerHTML = "<strong>Address: </strong>" + e.features[0].properties.name + '<br>' + '<strong>Clicked Year: </strong>' + e.features[0].properties.year + '<br>' + referenceList[e.features[0].properties.year];
-    container.innerHTML = "<strong>Address: </strong>" + e.features[0].properties.name + '<br>'  + referenceList[e.features[0].properties.year];
-    container.appendChild(button);
-    new mapboxgl.Popup()
-      .setLngLat(e.lngLat)
-      .setDOMContent(container)
-      .addTo(subMap);
+    subMap.addLayer({
+      'id': 'year-extrusion',
+      'type': 'fill-extrusion',
+      'source': 'dataByYear',
+      'paint': {
+        'fill-extrusion-color': {
+          'type': 'identity',
+          'property': 'color'
+        },
+        'fill-extrusion-height': {
+          'type': 'identity',
+          'property': 'height'
+        },
+        'fill-extrusion-base': {
+          'type': 'identity',
+          'property': 'base'
+        },
+        'fill-extrusion-opacity': 0.7
+      }
+    })
+    let yearList = [];
+    let address = [];
+    let timelineOfAddress = {};
+    let referenceList = {};
+    let text;
+    for (let data of filteredLocalData) {
+      let key = (data.geometry.coordinates[0] + ', ' + data.geometry.coordinates[1])
+      if (!yearList.includes(Number(data.properties.year))) {
+        yearList.push(Number(data.properties.year))
+      }
+      if (!address.includes(key)) {
+        address.push(key)
+        timelineOfAddress[key] = [data.properties.year];
+      } else {
+        timelineOfAddress[key].push(data.properties.year);
+      }
+    }
+    yearList.sort();
+    filteredLocalData.forEach(function (datum) {
+      let key = (datum.geometry.coordinates[0] + ', ' + datum.geometry.coordinates[1])
+      text = '<strong>Year Range: </strong>';
+      if (timelineOfAddress[key].length > 1) {
+        text = text + Math.min(...timelineOfAddress[key]).toString() + ' to ' + Math.max(...timelineOfAddress[key]).toString();
+      } else {
+        text = text + Math.min(...timelineOfAddress[key]).toString();
+      }
+      referenceList[datum.properties.year] = text;
+    });
+    subMap.on('click', 'year-extrusion', function (e) {
+      let button = document.createElement('button');
+      button.setAttribute('id', 'go-btn');
+      button.setAttribute('type', 'button');
+      button.classList.add('btn');
+      button.classList.add('btn-primary');
+      button.classList.add('my-3');
+      button.textContent = 'Open the venue info in ' + e.features[0].properties.year + '.';
+      let vsid = e.features[0].properties.vsid
+      button.addEventListener('click', function() {
+        goToButton(vsid);
+      })
+      let container = document.createElement('div');
+      // container.innerHTML = "<strong>Address: </strong>" + e.features[0].properties.name + '<br>' + '<strong>Clicked Year: </strong>' + e.features[0].properties.year + '<br>' + referenceList[e.features[0].properties.year];
+      container.innerHTML = "<strong>Address: </strong>" + e.features[0].properties.name + '<br>'  + referenceList[e.features[0].properties.year];
+      container.appendChild(button);
+      new mapboxgl.Popup()
+        .setLngLat(e.lngLat)
+        .setDOMContent(container)
+        .addTo(subMap);
+    })
   })
 }
 
@@ -924,7 +917,7 @@ function addExtrusions(feature, e) {
     units: 'kilometers'
   };
 
-  let scaleTest = chroma.scale('OrRd').colors(12);
+  var scaleTest = chroma.scale('OrRd').colors(12);
   let yearBlockData = {
     // layerData.map((location, index) => (
     'type': 'Feature',
@@ -1605,29 +1598,29 @@ document.getElementById('reliability-switch').addEventListener('click', function
 
 
 
-// document.getElementById('confidence-switch').addEventListener('click', function () {
+document.getElementById('confidence-switch').addEventListener('click', function () {
 
-//   if (this.checked) {
+  if (this.checked) {
 
-//     tb.world.children.forEach(feature => {
-//       if (feature.type == 'Group') {
-//         feature.children[0].material.color.set("green");
-//         console.log(feature.userData.properties.placetype);
-//       }
+    tb.world.children.forEach(feature => {
+      if (feature.type == 'Group') {
+        feature.children[0].material.color.set("green");
+        console.log(feature.userData.properties.placetype);
+      }
 
-//     })
-//   } else {
+    })
+  } else {
 
-//     tb.world.children.forEach(feature => {
-//       if (feature.type == 'Group') {
-//         feature.children[0].material.color.set("red");
-//       }
-//     })
-//   }
+    tb.world.children.forEach(feature => {
+      if (feature.type == 'Group') {
+        feature.children[0].material.color.set("red");
+      }
+    })
+  }
 
-//   tb.repaint();
+  tb.repaint();
 
-// });
+});
 
 
 // function displayNearbyObservations(obsData, e) {
@@ -1796,45 +1789,45 @@ async function placeInput(place) {
 }
 
 // switch cube and cone layers, require coordination
-// let obserLayer = document.getElementById('observe-switch')
+let obserLayer = document.getElementById('observe-switch')
 let venueLayer = document.getElementById('venue-switch');
 let venueCheckbox = document.getElementById('venue-flexSwitchCheckChecked');
-// let obserCheckbox = document.getElementById('observe-flexSwitchCheckChecked');
+let obserCheckbox = document.getElementById('observe-flexSwitchCheckChecked');
 console.log(venueCheckbox.checked);
-// obserLayer.addEventListener('click', function (e) {
-//   if (map.getLayer('poi-labels')) {
-//     map.removeLayer('poi-labels');
-//     map.removeSource('venues');
-//   }
-//   if (obserCheckbox.checked != true) {
-//     observation_status = false;
-//     if (map.getLayer('observation-cubes')) {
-//       map.removeLayer('observation-cubes');
-//     }
-//     if (venue_status) {
-//       if (map.getLayer('venue-slice-cones')) {
-//         map.removeLayer('venue-slice-cones');
-//       }
-//       if (current_code_filter.length > 0) {
-//         addCones(on_Screen_Data_Venue, false);
-//       } else {
-//         addCones(current_venue_data, false);
-//       }
-//     }
-//     //addCones(current_venue_data, false);
-//   } else {
-//     // observation_status = true;
-//     // if (map.getLayer('observation-cubes')) {
-//     //   map.removeLayer('observation-cubes');
-//     // }
-//     // if (current_code_filter.length > 0) {
-//     //   addCubes(on_Screen_Data_Observe, false);
-//     // } else {
-//     //   addCubes(current_observation_data, false);
-//     // }
+obserLayer.addEventListener('click', function (e) {
+  if (map.getLayer('poi-labels')) {
+    map.removeLayer('poi-labels');
+    map.removeSource('venues');
+  }
+  if (obserCheckbox.checked != true) {
+    observation_status = false;
+    if (map.getLayer('observation-cubes')) {
+      map.removeLayer('observation-cubes');
+    }
+    if (venue_status) {
+      if (map.getLayer('venue-slice-cones')) {
+        map.removeLayer('venue-slice-cones');
+      }
+      if (current_code_filter.length > 0) {
+        addCones(on_Screen_Data_Venue, false);
+      } else {
+        addCones(current_venue_data, false);
+      }
+    }
+    //addCones(current_venue_data, false);
+  } else {
+    observation_status = true;
+    if (map.getLayer('observation-cubes')) {
+      map.removeLayer('observation-cubes');
+    }
+    if (current_code_filter.length > 0) {
+      addCubes(on_Screen_Data_Observe, false);
+    } else {
+      addCubes(current_observation_data, false);
+    }
 
-//   }
-// });
+  }
+});
 
 venueLayer.addEventListener('click', function (e) {
   if (map.getLayer('poi-labels')) {
@@ -1952,7 +1945,7 @@ async function updateMap(selectedYear, selectedLocality) {
   //addCubes(filteredYearObservationData, active);
   // create venue list and observation list
   makeLocalityList('locality-venues', venues, selectedYear);
-  // makeLocalityList('locality-observations', observationData, selectedYear);
+  makeLocalityList('locality-observations', observationData, selectedYear);
   // // sort locality features
   // Bo: Sort by name
   // localityFeatures.sort((a, b) => {
@@ -2270,7 +2263,7 @@ document.getElementById('go-back-btn2').addEventListener('click', function () {
     for (let input of inputs) {
       input.value = '';
     }
-    let yearSlider = document.getElementById('current-year-value-api');
+    let yearSlider = document.getElementById('current-year-value');
     let yearText = document.getElementById('year-text-label');
     let checkboxes = document.querySelectorAll('input[name=myCheckBoxes]:checked');
     for (let box of checkboxes) {
