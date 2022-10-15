@@ -451,7 +451,6 @@ function addVenueLayer(map, obsData) {
       'icon-color': '#ff6262'
     }
   });
-  console.log(map.getLayer('data'));
 };
 
 // add accordion layer - for venues and observations
@@ -635,7 +634,6 @@ function viewLeftPanel(e) {
     'type': 'geojson',
     'data': toPolygonGEOJSON(filteredLocalData)
   })
-  console.log(toPolygonGEOJSON(filteredLocalData))
   subMap.addLayer({
     'id': 'year-extrusion',
     'type': 'fill-extrusion',
@@ -1085,7 +1083,6 @@ function code_div(codes, venueSlices, observedData, year) {
       } else if (venue_status) {
         addCones(result, false)
       } else if (observation_status) {
-        console.log(resultObserve);
         addCubes(resultObserve, false)
       }
       ///////////////////////////////////////////////////////////////////////////////////////////
@@ -1215,7 +1212,6 @@ function getStreetView(feature) {
   });
 
   let fetchURL = imageURL + imgParams.toString();
-  console.log(fetchURL);
 
   fetch(fetchURL)
     .then(response => response.blob())
@@ -1264,7 +1260,6 @@ function getPhotos(feature) {
       let imgChildError = document.createElement('img');
       imgChildError.src = './assets/imgs/img-placeholder.svg';
       imgParent.appendChild(imgChildError);
-      console.log(status);
     }
   });
 };
@@ -1471,13 +1466,9 @@ function addCones(data, active) {
           let nearestObject = intersect.object;
           nearestObject.material = materialOnClick;
           highlighted.push(nearestObject);
-          console.log(nearestObject.parent.userData.properties);
           current_category = nearestObject.parent.userData.properties.category;
           // toggleLeftPanelView('info-default');
           // document.getElementById('info').classList.toggle('leftCollapse');
-        } else {
-          console.log("change back");
-
         }
 
         // on state change, fire a repaint
@@ -1800,7 +1791,6 @@ async function placeInput(place) {
 let venueLayer = document.getElementById('venue-switch');
 let venueCheckbox = document.getElementById('venue-flexSwitchCheckChecked');
 // let obserCheckbox = document.getElementById('observe-flexSwitchCheckChecked');
-console.log(venueCheckbox.checked);
 // obserLayer.addEventListener('click', function (e) {
 //   if (map.getLayer('poi-labels')) {
 //     map.removeLayer('poi-labels');
@@ -1903,8 +1893,7 @@ async function updateMap(selectedYear, selectedLocality) {
     return feature.properties.year == selectedYear
   });
   //addVenueLayer(map, venues);
-  console.log(venues);
-  console.log(toSecondaryGEOJSON(filteredYearData));
+
   addVenueLayer(map, toSecondaryGEOJSON(filteredYearData));
   let filteredYearObservationData = observationData.features.filter(function (feature) {
     return feature.properties.year == selectedYear
@@ -2348,7 +2337,6 @@ map.on('click', function (e) {
       function (data) {
         let place = data.features[0].place_name.split(',');
         placeInput(place);
-        console.log(place);
       }
     ).fail(function (jqXHR, textStatus, errorThrown) {
       alert("There was an error while geocoding: " + errorThrown);
