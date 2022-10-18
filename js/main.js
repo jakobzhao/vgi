@@ -45,11 +45,9 @@
 
   }
 
-  
   async function suggestNewEdit() {
     let suggestEdit = await import('./suggestEdit.js');
     suggestEdit.submitEdit();
-    
   }
 
   async function newUser(event) {

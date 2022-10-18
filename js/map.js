@@ -733,7 +733,6 @@ async function addLeftPanelActions(feature, marker, e) {
       checkbox.autoFill(feature);
       // left panel view toggle
       // Submit Edit and send POST request
-
       marker.setLngLat(coordinates).addTo(map);
 
       function onDragEnd() {
@@ -1665,7 +1664,7 @@ function createCodeCategories(data) {
 function addCheckBox(id, data, type) {
   let mainCategory = document.querySelector(id);
   mainCategory.innerHTML = '';
-  for (var descriptor of data) {
+  for (let descriptor of data) {
     let container = document.createElement('div');
     container.classList.add('form-check');
     let box = document.createElement('input');
@@ -1676,7 +1675,7 @@ function addCheckBox(id, data, type) {
     box.setAttribute('name', 'myCheckBoxes');
     let label = document.createElement('label');
     label.classList.add('form-check-label');
-    label.setAttribute('for', descriptor);
+    label.setAttribute('for', descriptor + type);
     label.textContent = descriptor;
     container.appendChild(box);
     container.appendChild(label);

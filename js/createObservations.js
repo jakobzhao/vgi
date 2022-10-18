@@ -20,20 +20,16 @@ function buildNewObservationPacket (packet) {
     })
     packet.append("observedvenuename", document.getElementById('location-api').value);
     packet.append("category", buildCategory.toString());
-    packet.append("codedescriptorlist", buildCodeDescriptorList.toString());
+    packet.append("descriptorlist", buildCodeDescriptorList.toString());
     packet.append("address", document.getElementById('address-api').value);
-    packet.append("placenotes", document.getElementById('additionalInfo-api').value);
     packet.append("locality", document.getElementById('city-api').value);
     packet.append("city", document.getElementById('city-api').value);
     packet.append("state", document.getElementById('state-api').value);
     packet.append("zip", document.getElementById('zip-api').value);
-    packet.append("confidence", confidenceValue);
-    packet.append("formaladdress", document.getElementById('address-api').value);
+    packet.append("confidence", confidenceValue.replace(/\s/g,''));
     packet.append("year", document.getElementById('current-year-value-api').value);
-    packet.append("source", "researcher");
-    packet.append("createdby", "researcher");
-    packet.append("dateadded", new Date());
-
+    packet.append("comments", document.getElementById('additionalInfo-api').value);
+    packet.append("newcodelist", document.getElementById('newtags-api').value);
     return packet;
 }
 
@@ -75,8 +71,9 @@ function buildExistingObservation(packet) {
 function buildList(inputs) {
     let result = [];
     inputs.forEach(inputElement => {
+        let label = document.querySelector(`label[for="${inputElement.id}"]`);
         if(inputElement.checked) {
-            result.push(inputElement.value);
+            result.push(label.innerHTML);
         }
     })
     return result;
