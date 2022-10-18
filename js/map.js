@@ -925,7 +925,7 @@ function code_div(codes, venueSlices, observedData, year) {
   let codeNames = [];
 
   Object.values(codes).forEach(code => {
-
+    let filterCount = (codeFilter(venueSlices.features, year, code).length + codeFilter(observedData.features, year, code).length);
     if (!codeNames.includes(code.name)) {
       codeNames.push(code.name);
 
@@ -941,22 +941,26 @@ function code_div(codes, venueSlices, observedData, year) {
       codeSubCategoryMenu.classList.add("dropdown-submenu");
       // codeSubCategoryMenu.classList.add("dropdown-div");
 
+
       codeSubCategory.appendChild(codeSubCategoryMenu);
 
       codeParent.appendChild(codeSubCategory);
 
+
     }
+
 
 
     let categoryMenu = document.getElementById(code.name.replace(/\s+/g, '').toLowerCase());
     let codeItem = document.createElement('li');
 
-    codeItem.innerHTML = '<a class="dropdown-item" href="#">' + code.code + '</a>';
+    codeItem.innerHTML = '<a class="dropdown-item" href="#">' + code.code + ' (' + filterCount + ')'+ '</a>';
     codeItem.id = code.code;
 
 
     ////////////////
     // for each code_div add event listener on click to add filter features of the map
+
     codeItem.addEventListener('click', function () {
       if (current_code_filter.length >0) {
         makeAlert('You can only select one filter at one time');
@@ -967,33 +971,9 @@ function code_div(codes, venueSlices, observedData, year) {
         ///////////////////////////////////////////////////////////////////////////////////////////
       //remove 3D layer
 
-      let result = [];
-      let resultObserve = []
-      venueSlices.features.filter(function (feature) {
-        if (feature.properties.year == year){
-          dlist = feature.properties.descriptorlist;
-          if (Array.isArray(dlist)){
-            for (i = 0; i <  dlist.length; i++) {
-              if (dlist[i].includes(code.code)) {
-                result.push(feature);
-              }
-            }
-          }
-        }
-      });
-      addCones(result, false);
-      observedData.features.filter(function (feature) {
-        if (feature.properties.year == year){
-          dlist = feature.properties.descriptorlist;
-          if (Array.isArray(dlist)){
-            for (i = 0; i <  dlist.length; i++) {
-              if (dlist[i].includes(code.code)) {
-                resultObserve.push(feature);
-              }
-            }
-          }
-        }
-      });
+      let result = codeFilter(venueSlices.features, year, code);
+      let resultObserve = codeFilter(observedData.features, year, code);
+
 
       on_Screen_Data_Venue = result;
       on_Screen_Data_Observe = resultObserve;
@@ -1019,11 +999,11 @@ function code_div(codes, venueSlices, observedData, year) {
         document.getElementById("code-filter-btn").innerText = 'Current Filter: ' + codeItem.id;
         document.getElementById("clear-button").innerHTML = '<a class="dropdown-item" title="Clear all selected filters" href="#"> The filter <span id="applied-filter">' + code.code + '</span> is applied. \n  </br> Click here to remove this filter. </a>';
         }
-      })
+      });
 
-
-    categoryMenu.appendChild(codeItem);
-
+      if (filterCount != 0) {
+        categoryMenu.appendChild(codeItem);
+      }
   });
 
 
@@ -1090,15 +1070,33 @@ function code_div(codes, venueSlices, observedData, year) {
 
 }
 
-// obtain damron codes of a corresponding year
+function codeFilter(features, year, code) {
+  let result = [];
+  features.filter(function (feature) {
+    if (feature.properties.year == year){
+      dlist = feature.properties.descriptorlist;
+      if (Array.isArray(dlist)){
+        for (i = 0; i <  dlist.length; i++) {
+          if (dlist[i].includes(code.code)) {
+            result.push(feature);
+          }
+        }
+      }
+    }
+  });
+  return result;
+}
+
+// obtain descriptor codes of a corresponding year
 function codeIncludes(codeData, year) {
   let result = {};
-  // Obtain damron codes of corresponding year
+  // Obtain descriptor codes of a corresponding year
   for (let codeInfo in codeData) {
     let codeObj = codeData[codeInfo];
-    if (codeObj.years.includes(year.toString())) {
+    //Temporarily disabling this until we find a better way to implement ity
+    //if (codeObj.years.includes(year.toString())) {
       result[codeInfo] = codeObj;
-    }
+    //}
   }
   return result;
 }
@@ -2306,6 +2304,6 @@ function makeAlert(alertText) {
 // function setupWebGLStateAndResources() {
 //   var canvas = document.getElementById("map");
 //   console.log("Context restored!");
-//   // reset all the map elements here 
-  
+//   // reset all the map elements here
+
 // }
