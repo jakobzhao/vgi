@@ -1370,11 +1370,16 @@ function addCones(data, active) {
       // @jakobzhao: just confine it to the data layer? map.on('click',  function (e) {???
       // @jakobzhao:  'venue-slice-cones' is added by Bo.
       map.on('click', 'data', function (e) {
-        //
+        // Yufei: Make sure when click another venue, the report-issue panel cleared
         marker.remove();
         if (!(document.getElementById('report-issue').classList.contains('d-none'))) {
           document.getElementById('report-issue').classList.add('d-none');
         }
+        // info-default panel on
+        if (document.getElementById('info-default').classList.contains('d-none')) {
+          document.getElementById('info-default').classList.remove('d-none');
+        }
+
         // Clear old objects
         highlighted.forEach(function (h) {
           h.material = origMaterial;
@@ -2274,19 +2279,19 @@ function makeAlert(alertText) {
   alertModal.show();
 }
 
-// Yufei: handeling context lost
-var canvas = document.getElementById("map");
-canvas.addEventListener("webglcontextlost", function(event) {
-    event.preventDefault();
-}, false);
+// // Yufei: handeling context lost
+// var canvas = document.getElementById("map");
+// canvas.addEventListener("webglcontextlost", function(event) {
+//     event.preventDefault();
+// }, false);
 
-canvas.addEventListener(
-  "webglcontextrestored", setupWebGLStateAndResources, false);
+// canvas.addEventListener(
+//   "webglcontextrestored", setupWebGLStateAndResources, false);
 
-// helper function setupWebGLStateAndResources
-function setupWebGLStateAndResources() {
-  var canvas = document.getElementById("map");
-  console.log("Context restored!");
-  // reset all the map elements here 
+// // helper function setupWebGLStateAndResources
+// function setupWebGLStateAndResources() {
+//   var canvas = document.getElementById("map");
+//   console.log("Context restored!");
+//   // reset all the map elements here 
   
-}
+// }
