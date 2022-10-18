@@ -288,9 +288,15 @@ h2#name, p#venue-indicator {
     top: 6rem;
 }
 
-#report-issue{
+#ground-truth-btns{
     position: relative;
-    top: 1em;
+    top:2em;
+    margin-left: 1em;
+    margin-right: 1em;
+
+/*     
+    position: relative;
+    top: 1em; */
 
 }
 
@@ -997,11 +1003,19 @@ h2#name, p#venue-indicator {
     margin-right: 1em;
 }
 
+#divider-1 {
+    position: relative;
+    top:1.5em;
+    margin-left: 1em;
+    margin-right: 1em;
+}
+
+
 #subMap {
     position: relative;
     /* width: 80%; */
     height: 25em;
-    top:5em;
+    top:2em;
     margin-left: 2em;
     margin-right: 2em;
     font-size: 12px;
@@ -1037,19 +1051,28 @@ h2#name, p#venue-indicator {
     font-size: 15px !important;
 }
 
-#evidence-desc {
-    position:relative;
-    display: inline-flex;
-    top: 5em;
-    width: 25em;
+#divider-2 {
+    position: relative;
+    /* display: inline-flex; */
+    top:2em;
     margin-left: 1em;
     margin-right: 1em;
+}
+
+#evidence-desc {
+    position:relative;
+    font-size: small;
+    /* display: inline-flex; */
+    top: 2.5em;
+    /* width: 23em; */
+    margin-left: 2em;
+    margin-right: 2em;
 }
 #evidence-info {
     position:relative;
     display: inline-flex;
     text-align: center;
-    top: 5em;
+    top: 1.5em;
     width: 20em;
     margin-left: 2.5em;
     margin-right: 2em;  

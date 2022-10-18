@@ -542,16 +542,21 @@ function viewLeftPanel(e) {
   });
 
   // parse the codes to increase readability
-  let codeString = "";
   let codes = infoNullCheck(e.properties.descriptorlist);
-  for (const element of codes) {
-    if (element !== '[' && element !== '"' && element !== '.' && element !== ']' && element !== "'") {
-      codeString += element;
+  if (typeof(codes) == 'string') {
+    let codeString = "";
+    for (const element of codes) {
+      if (element !== '[' && element !== '"' && element !== '.' && element !== ']' && element !== "'") {
+        codeString += element;
+      }
     }
+    codes = codeString.split(',');
   }
-  codeString = codeString.split(',')
+  for (let i = 0; i < codes.length; i++) {
+    codes[i] = codes[i].replaceAll('\'', '');
+  }
   document.getElementById('code').innerHTML = '';
-  for (const element of codeString){
+  for (const element of codes){
     let code = document.createElement("button");
     code.innerText = element;
     code.className = 'descriptor';
