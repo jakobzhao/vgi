@@ -39,6 +39,9 @@
 
     });
 
+
+
+    document.getElementById('venue-layer').click();
     // hide the loader.
     $('#loader').fadeOut("slow");
 

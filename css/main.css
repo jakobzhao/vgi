@@ -1046,8 +1046,8 @@ h2#name, p#venue-indicator {
 }
 
 #observe-switch, #venue-switch {
-    top: 0.1em;
-    left: -0.2em;
+    /* top:-2em; */
+    left: -0.5em;
     font-size: 15px !important;
 }
 

@@ -8,6 +8,7 @@ let current_code_filter = []; // tracking the filters user selected
 let on_Screen_Data_Venue; // venue data with the filter
 let on_Screen_Data_Observe; // observation data with the filter
 let venue_status = true; // if venue layer is on
+let legend_panel = true; // if legend panel is on.
 let observation_status = false; // if observation layer is on
 
 const localities = {
@@ -1722,7 +1723,7 @@ async function placeInput(place) {
 
 // switch cube and cone layers, require coordination
 // let obserLayer = document.getElementById('observe-switch')
-let venueLayer = document.getElementById('venue-switch');
+// let venueLayer = document.getElementById('venue-switch');
 let venueCheckbox = document.getElementById('venue-flexSwitchCheckChecked');
 // let obserCheckbox = document.getElementById('observe-flexSwitchCheckChecked');
 // obserLayer.addEventListener('click', function (e) {
@@ -1760,7 +1761,9 @@ let venueCheckbox = document.getElementById('venue-flexSwitchCheckChecked');
 //   }
 // });
 
-venueLayer.addEventListener('click', function (e) {
+venueCheckbox.addEventListener('click', function (e) {
+
+  
   if (map.getLayer('poi-labels')) {
     map.removeLayer('poi-labels');
     map.removeSource('venues');
@@ -1791,6 +1794,12 @@ venueLayer.addEventListener('click', function (e) {
       addCones(current_venue_data, false);
     }
   }
+
+  // e.preventDefault();
+  e.stopPropagation();
+  console.log(e.target.id);
+
+
 })
 
 ////////////////////////////////////////////////////////////////////////////////////
