@@ -134,14 +134,14 @@ function initiateGeocoder() {
 
 // compose the venue list in order to show it in the legend table.
 function venueList(data) {
-  for (let i = 0; i < data.length; i++) {
+  for (const element of data) {
     let venueParent = document.getElementById('venue-list');
     let venueDiv = document.createElement('div');
     venueDiv.classList.add('m-3');
-    venueDiv.innerHTML = data[i].name;
+    venueDiv.innerHTML = element.name;
     venueParent.appendChild(venueDiv);
-  };
-};
+  }
+}
 
 // allCodes
 // Obtain data from database containing information for all the damron codes that appear in
@@ -174,7 +174,7 @@ function sortCodes(data) {
     };
   }
   return sortedResult;
-};
+}
 
 // getReviews
 // Obtain data from database containing information for all the reviews of a specific location
@@ -206,7 +206,7 @@ async function addNewReview(event, id) {
   }
 
   try {
-    let sendData = await fetch('https://lgbtqspaces-api.herokuapp.com/api/add-comment', settings);
+    await fetch('https://lgbtqspaces-api.herokuapp.com/api/add-comment', settings);
     confirmationReview();
     getReviews(id);
   } catch (err) {
@@ -239,8 +239,6 @@ async function getVenues(locality) {
   try {
 
     let venueData = [];
-    // for (let i = 0; i < cityList.length; i++) {
-    //   let city = cityList[i];
     let getVenueData = await fetch(`https://lgbtqspaces-api.herokuapp.com/api/venues/${locality}`, {
       method: 'GET'
     });
@@ -271,19 +269,16 @@ async function getObservations(locality) {
 function toGEOJSON(data) {
   let feature_list = [];
   // for loop
-  for (let i = 0; i < data.length; i++) {
+  for (const element of data) {
     let temp = {
       "type": "Feature",
       "geometry": {
         "type": "Point",
-        "coordinates": [data[i].longitude, data[i].latitude]
+        "coordinates": [element.longitude, element.latitude]
       },
-      "properties": getProperties(data[i])
+      "properties": getProperties(element)
     }
     feature_list.push(temp);
-    //console.log(getProperties(data[i]).placetype);
-    // console.log(getProperties(data[i]).confidence);
-
   }
   // add into feature_list
   // combine with geojson final format with feature collection and feature as feature list
@@ -304,18 +299,18 @@ function toPolygonGEOJSON(data) {
   let polygonRadius;
   let radiusList = [0.2, 0.195, 0.19, 0.185, 0.18]
   let colorCode = ['#ffffb2', '#fecc5c', '#fd8d3c', '#f03b20', '#bd0026']
-  for (let i = 0; i < data.length; i++) {
-    let coordinates = data[i].geometry.coordinates.slice();
-    if (data[i].properties.year < 1975) {
+  for (const element of data) {
+    let coordinates = element.geometry.coordinates.slice();
+    if (element.properties.year < 1975) {
       color = colorCode[0]
       polygonRadius = radiusList[0]
-    } else if (data[i].properties.year < 1985) {
+    } else if (element.properties.year < 1985) {
       color = colorCode[1]
       polygonRadius = radiusList[1]
-    } else if (data[i].properties.year < 1995) {
+    } else if (element.properties.year < 1995) {
       color = colorCode[2]
       polygonRadius = radiusList[2]
-    } else if (data[i].properties.year < 2005) {
+    } else if (element.properties.year < 2005) {
       color = colorCode[3]
       polygonRadius = radiusList[3]
     } else {
@@ -324,25 +319,22 @@ function toPolygonGEOJSON(data) {
     }
     let temp = {
       "type": "Feature",
-      'id': data[i].properties.vsid,
+      'id': element.properties.vsid,
       "geometry": {
         "type": "Polygon",
         "coordinates": turf.circle(coordinates, polygonRadius, options).geometry.coordinates
       },
       "properties": {
-        'name': data[i].properties.address,
-        'year': data[i].properties.year,
-        'vid': data[i].properties.vid,
-        'vsid': data[i].properties.vsid,
-        'height': (data[i].properties.year - 1950) * 10,
+        'name': element.properties.address,
+        'year': element.properties.year,
+        'vid': element.properties.vid,
+        'vsid': element.properties.vsid,
+        'height': (element.properties.year - 1950) * 10,
         'base': 0,
         'color': color,
       }
     }
     feature_list.push(temp);
-    //console.log(getProperties(data[i]).placetype);
-    // console.log(getProperties(data[i]).confidence);
-
   }
   // add into feature_list
   // combine with geojson final format with feature collection and feature as feature list
@@ -570,37 +562,6 @@ function viewLeftPanel(e) {
     document.getElementById('code').appendChild(code);
   }
 
-
-  // get three distinct lists
-  organizeReportIssueData(e.properties.descriptorlist)
-    .then(res => {
-      let organizedData = res;
-
-      // Clear all input boxes first so that checkbox does not repeat from previous clicks
-      let checkedBoxes = document.querySelectorAll('div[id$="Verify"] input[type=checkbox]');
-      checkedBoxes.forEach(input => {
-        input.checked = false;
-      })
-
-      if(organizedData["Entry Descriptors"] != null) {
-        let getEntryDescriptors = document.querySelectorAll('#collapseEntryVerify > div');
-        checkReportIssueCheckbox(organizedData,"Entry Descriptors", getEntryDescriptors);
-      }
-      if(organizedData["Amenities/Services"] != null) {
-        let getAmenityDescriptors = document.querySelectorAll('#collapseAmenityVerify > div');
-        checkReportIssueCheckbox(organizedData,"Amenities/Services", getAmenityDescriptors);
-      }
-      if(organizedData["Clientele/User Descriptors"] != null) {
-        let getUserDescriptors = document.querySelectorAll('#collapseUserVerify > div');
-        checkReportIssueCheckbox(organizedData,"Clientele/User Descriptors", getUserDescriptors);
-      }
-      if(organizedData["Caution/Restriction"] != null) {
-        let getCautionDescriptors = document.querySelectorAll('#collapseCautionVerify > div');
-        checkReportIssueCheckbox(organizedData,"Caution/Restriction", getCautionDescriptors);
-      }
-
-    });
-
   // left panel location information
   document.getElementById('name').innerHTML = infoNullCheck(e.properties.observedvenuename);
   document.getElementById('address').innerHTML = infoNullCheck(e.properties.address);
@@ -611,18 +572,6 @@ function viewLeftPanel(e) {
   //vid for comment
   document.getElementById('vid-review').innerHTML = e.properties.vid;
 
-  //wait to be updated
-  // Edit observation pre-filled values
-  document.getElementById('observed-name-edit').value = e.properties.observedvenuename;
-  document.getElementById('address-edit').value = e.properties.address;
-  document.getElementById('city-edit').value = e.properties.city;
-  document.getElementById('state-edit').value = e.properties.state;
-  document.getElementById('year-edit').value = e.properties.year;
-  document.getElementById('zip-edit').value = e.properties.zip;
-  document.getElementById('long-edit').value = e.geometry.coordinates[0];
-  document.getElementById('lat-edit').value = e.geometry.coordinates[1];
-  document.getElementById('notes-edit').value = e.properties.placenotes;
-  
   // Inset map, extrusion, and functions
   // subMap.on('load', function () {
   subMap.setCenter(e.geometry.coordinates);
@@ -705,37 +654,6 @@ function viewLeftPanel(e) {
   })
 }
 
-function organizeReportIssueData(descriptorList) {
-  let filteredData = new Object();
-  return fetch('assets/CodeLookup.json')
-    .then((response) => response.json())
-    .then((data) => {
-      let length = Object.keys(data).length;
-      for(let i = 0; i < length; i ++) {
-        if(descriptorList.includes(data[i]["Descriptor"])) {
-          // if filtereddata contains key already
-          let descr = data[i]["Descriptor"];
-          let metaDescr = data[i]["Meta Descriptor"];
-          if(!filteredData.hasOwnProperty(metaDescr)) {
-            filteredData[metaDescr] = [];
-          }
-          filteredData[metaDescr].push(descr);
-        }
-      }
-      return filteredData;
-    })
-}
-
-// Helper function that automatically checks for matching string values
-function checkReportIssueCheckbox(data, key, elements) {
-  elements.forEach(parent => {
-    let input = parent.querySelector('input');
-    let label = parent.querySelector('label');
-    if(data[key].includes(label.textContent)) {
-      input.checked = true;
-    }
-  })
-};
 
 // Go to
 function goToButton(vsid) {
@@ -750,13 +668,13 @@ function infoNullCheck(string) {
 };
 // left panel functionalities (validate observation marker view, selected marker view, map zoom to selected point)
 async function addLeftPanelActions(feature, marker, e) {
+  sessionStorage.clear();
   let coordinates = feature.geometry.coordinates.slice();
-
   //for those in the list (no specific latlng was found, the program should skip the following lines.)
   try {
     while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
       coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-    };
+    }
     let point = feature.geometry.coordinates;
     point[0] -= 0.001
     map.flyTo({
@@ -772,62 +690,69 @@ async function addLeftPanelActions(feature, marker, e) {
     console.log(error);
   }
 
-  if (typeof map.getLayer('selectedMarker') !== "undefined") {
-    map.removeLayer('selectedMarker');
-    map.removeSource('selectedMarker');
-  };
-
-  map.addSource('selectedMarker', {
-    "type": 'geojson',
-    'data': feature,
-    'tolerance': 0
-  });
-
-  map.addLayer({
-    'id': 'selectedMarker',
-    'type': 'symbol',
-    'source': 'selectedMarker',
-    'tolerance': 0,
-    'layout': {
-      'icon-image': 'red-marker',
-      // 'icon-allow-overlap': true,
-      // 'text-allow-overlap': true
-    },
-    'paint': {
-      'icon-opacity': 0,
-      'icon-color': '#7b2941'
-    }
-  });
-
   // if "report an issue" button is clicked, display movable marker
   let reportIssue = document.getElementById('report-issue-btn');
-
-  reportIssue.addEventListener('click', function () {
+  reportIssue.addEventListener('click', async function () {
     // ensure that user is logged-in
     let check = logInCheck();
-
     if (check) {
+      if (typeof map.getLayer('selectedMarker') !== "undefined") {
+        map.removeLayer('selectedMarker');
+        map.removeSource('selectedMarker');
+      }
+
+      map.addSource('selectedMarker', {
+        "type": 'geojson',
+        'data': feature,
+        'tolerance': 0
+      });
+
+      map.addLayer({
+        'id': 'selectedMarker',
+        'type': 'symbol',
+        'source': 'selectedMarker',
+        'tolerance': 0,
+        'layout': {
+          'icon-image': 'red-marker',
+          // 'icon-allow-overlap': true,
+          // 'text-allow-overlap': true
+        },
+        'paint': {
+          'icon-opacity': 0,
+          'icon-color': '#7b2941'
+        }
+      });
+
+      // Populate/Organize checkbox for clientele, amenity, caution, organization
+      let checkbox = await import('./checkboxEdit.js');
+      let populateInput = await import('./populateInputFields.js');
+
+      // Populate Input Fields
+      populateInput.populateInputFields(feature);
+      // Autofill checkboxes to corresponding values
+      checkbox.autoFill(feature);
+      // left panel view toggle
+      // Submit Edit and send POST request
+
       marker.setLngLat(coordinates).addTo(map);
 
       function onDragEnd() {
-        var lngLat = marker.getLngLat();
+        let lngLat = marker.getLngLat();
         document.getElementById('long-edit').value = lngLat.lng;
         document.getElementById('lat-edit').value = lngLat.lat;
       }
       marker.on('dragend', onDragEnd);
       toggleLeftPanelView('report-issue');
-      //document.getElementById(current_category+'verify').checked = true;
       document.getElementById('ground-truth-btns').classList.toggle('d-none');
-      // if (document.getElementById('info').classList.contains("leftCollapse")) {
-
-      //   document.getElementById('info').classList.toggle('leftCollapse');
-      // }
       if (document.getElementById('info').classList.contains('leftCollapse')) {
         document.getElementById('info').classList.remove('leftCollapse')
       }
+      document.getElementById('alert-cls-btn').addEventListener('click', function() {
+        marker.remove();
+      })
     }
   });
-};
+}
 
 // if a specific locality is selected, recenter the map to that locality
 function createLocalityList() {
@@ -2072,8 +1997,6 @@ map.on('click', 'data', async function (e) {
     map.removeLayer('nearby-observations');
     map.removeSource('nearby-observations');
   }
-
-
   // displayNearbyObservations(observations, e);
   // marker.remove();
 
@@ -2090,14 +2013,6 @@ map.on('click', 'data', async function (e) {
     toggleLeftPanelView('info-default');
   }
 
-
-
-
-  // toggleLeftPanelView('info-default');
-
-  // load clicked marker info on left panel
-
-
   // // clear 3-D year object
   if (typeof map.getLayer('year-block') !== "undefined") {
     map.removeLayer('year-block');
@@ -2112,15 +2027,12 @@ map.on('click', 'data', async function (e) {
   // clear review box is open
   let reviewBox = document.getElementById('type-review-box');
   reviewBox.classList.add('d-none');
-  // map.removeLayer('year-block');
-  // map.removeSource('year-block');
 
   // add all left panel actions (including zoom and adding data points)
   let feature = e.features[0];
   viewLeftPanel(feature);
   addLeftPanelActions(feature, marker, e);
   // addExtrusions(feature, e);
-
 
   //add buffer
   let turfPoint = turf.point(feature.geometry.coordinates);

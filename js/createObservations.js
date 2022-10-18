@@ -1,6 +1,6 @@
 export function createPackage(suffixId) {
     let packet = new URLSearchParams();
-    return (suffixId == "newObservation") ? buildNewObservationPacket(packet) : buildExistingObservation;
+    return (suffixId == "newObservation") ? buildNewObservationPacket(packet) : buildExistingObservation(packet);
 }
 
 function buildNewObservationPacket (packet) {
@@ -44,7 +44,7 @@ function buildExistingObservation(packet) {
     let codedescriptorlist = document.querySelectorAll('#collapseAmenityVerify input, #collapseUserVerify input, #collapseCautionVerify input');
     let buildCodeDescriptorList=  buildList(codedescriptorlist);
 
-    let confidenceInt = document.getElementById('confidence-observation-verify').value;
+    let confidenceInt = document.getElementById('confidence-observation-verify-num').value;
     let confidenceValues = document.querySelectorAll('#confidence-observation-verify-values p');
     let confidenceValue = "";
     confidenceValues.forEach((element, index) => {
@@ -52,23 +52,24 @@ function buildExistingObservation(packet) {
             confidenceValue += element.textContent;
         }
     })
+
+    packet.append("vid", document.getElementById('vid-edit').textContent);
     packet.append("observedvenuename", document.getElementById('observed-name-edit').value);
     packet.append("category", buildCategory.toString());
     packet.append("codedescriptorlist", buildCodeDescriptorList.toString());
     packet.append("address", document.getElementById('address-edit').value);
-    packet.append("placenotes", document.getElementById('additionalInfo-edit').value);
     packet.append("locality", document.getElementById('city-edit').value);
     packet.append("city", document.getElementById('city-edit').value);
     packet.append("state", document.getElementById('state-edit').value);
     packet.append("zip", document.getElementById('zip-edit').value);
-    packet.append("confidence", confidenceValue);
+    packet.append("confidence", confidenceValue.replace(/\s/g,''));
     packet.append("longitude", document.getElementById('long-edit').value);
     packet.append("latitude", document.getElementById('lat-edit').value)
-    packet.append("formaladdress", document.getElementById('address-edit').value);
     packet.append("year", document.getElementById('year-edit').value);
-    packet.append("source", "researcher");
-    packet.append("createdby", "researcher");
-    packet.append("dateadded", new Date());
+    packet.append("comments", document.getElementById('notes-edit').value);
+    packet.append("newcodelist", document.getElementById('addDescriptor-edit').value);
+
+    return packet;
 }
 
 function buildList(inputs) {

@@ -11,12 +11,8 @@
   // added init to async (test for bugs!)
   async function init() {
     document.getElementById('add-observation-container').addEventListener('click', isLoggedIn);
-    document.getElementById('submit-edit').addEventListener('click', function(event) {
-      let validateStatus = formValidateReportIssue(event);
-      if(validateStatus) {
-        reportIssue(event);
-      }
-    });
+    suggestNewEdit();
+
     document.getElementById("submit-button").addEventListener('click', newUser);
     document.getElementById('login-btn').addEventListener('click', submitPassword);
     document.getElementById('log-out-btn').addEventListener('click', () => {
@@ -37,20 +33,24 @@
     })
 
     document.getElementById('instructions-info').addEventListener('click', function(event) {
-   
       introJs().setOptions({
         showProgress: true,
       }).start()
 
     });
-    
 
     // hide the loader.
     $('#loader').fadeOut("slow");
 
 
-  };
+  }
 
+  
+  async function suggestNewEdit() {
+    let suggestEdit = await import('./suggestEdit.js');
+    suggestEdit.submitEdit();
+    
+  }
 
   async function newUser(event) {
     event.preventDefault();
@@ -65,7 +65,7 @@
       }
       try {
         let sendData = await fetch('https://lgbtqspaces-api.herokuapp.com/api/user_observation', settings);
-        clearForm();
+        clearForm('user-form');
         makeAlert('Your observation has been successfully submitted!')
       } catch (error) {
         handleError(error);
@@ -130,15 +130,19 @@
     }
   }
 
-  function clearForm() {
-    let userFormInput = document.querySelectorAll('#user-form input');
+  function clearForm(formID) {
+    let userFormInput = document.querySelectorAll(`#${formID} input`);
     userFormInput.forEach(element => {
       if(element.type == "checkbox") {
         element.checked = false;
       }
       element.value = '';
     })
-    document.getElementById('current-year-value-api').value = 2014;
+    // If the ID is the form that is adding a whole new observation to non-existent
+    // venue, then also clear the form element containing year slidebar
+    if (formID == "user-form")  {
+      document.getElementById('current-year-value-api').value = 2014;
+    }
   }
 
   // isLoggedIn()
@@ -179,59 +183,6 @@
     document.getElementById('log-in-btn').classList.toggle('d-none');
     document.getElementById('log-out-btn').classList.toggle('d-none');
   }
-
-  async function reportIssue(event) {
-    try {
-      event.preventDefault();
-      // Obtain data from user input
-      let newVenue = new URLSearchParams();
-      let checkboxes = document.querySelectorAll('input[name=myCheckBoxes]:checked');
-      let result = '';
-      for (let box of checkboxes) {
-        result += box.value;
-        result += ', ';
-        box.checked = false;
-      }
-      result = result.slice(0, -2);
-      newVenue.append("state", document.getElementById('state-edit').value);
-      newVenue.append("city", document.getElementById('city-edit').value);
-      newVenue.append("year", document.getElementById('year-edit').value);
-      newVenue.append("type", result);
-      newVenue.append("name", document.getElementById('observed-name-edit').value);
-      newVenue.append("address", document.getElementById('address-edit').value);
-      newVenue.append("unit", "null");
-      newVenue.append("loc_notes", "null");
-      newVenue.append("temp_notes", "null");
-      newVenue.append("notes", document.getElementById('notes-edit').value);
-      newVenue.append("latitude", document.getElementById('lat-edit').value);
-      newVenue.append("longitude", document.getElementById('long-edit').value);
-      newVenue.append("codelist", document.getElementById('codelist-edit').value);
-      newVenue.append("geocoder", "mapbox");
-      newVenue.append("createdby", "user");
-
-      // delete the ORIGINAL SELECTED POINT in the observation table
-      let nameYearData = new URLSearchParams();
-      nameYearData.append("name", document.getElementById('name').textContent);
-      nameYearData.append("year", document.getElementById('year-info').textContent);
-
-      // POST fetch request
-      let venueData = {
-        method: 'POST',
-        body: newVenue
-      };
-
-      // DELETE fetch request
-      let nameYear = {
-        method: 'DELETE',
-        body: nameYearData
-      };
-
-      let sendData = await fetch('https://lgbtqspaces-api.herokuapp.com/api/add-venue', venueData);
-      console.log("Observation has been confirmed. Added to the list of venues. Please refresh the page.");
-    } catch (error) {
-      checkStatus(error);
-    }
-  };
 
   // status checks
   function checkStatus(response) {
@@ -299,7 +250,7 @@ function toggleLeftPanelView(elementId) {
   if (elementId == "report-issue") {
     document.getElementById('ground-truth-btns').classList.remove('d-none');
   }
-};
+}
 
 
 function logInCheck() {
@@ -342,13 +293,4 @@ function makeAlert(alertText) {
   alertTextBox.innerHTML = alertText;
   let alertModal = new bootstrap.Modal(alert);
   alertModal.show();
-}
-
-async function formValidateReportIssue(event) {
-  event.preventDefault();
-  let validate = await import('./formValidation.js');
-  let locationValidate =  validate.isNotEmpty('observed-name-edit'),
-      addressValidate = validate.isNotEmpty('address-edit');
-
-  return locationValidate && addressValidate;
 }

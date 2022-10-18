@@ -281,13 +281,14 @@
           <a id="image-evidence"  target="_blank" title="explore photos of this venue" class="evidence"><img height="35px" src="assets/imgs/photo.png"></a>
           <a id="tweets-evidence"  target="_blank" title="read how people talk about this venue on Twitter" class="evidence"><img height="35px" src="assets/imgs/tweets.png"></a>
            </div>
-
       </div>
 
       <!-- left dashboard - validate observation div -->
       <form id="report-issue" class="issuePanel d-flex flex-column d-none mx-3 mt-5">
         <h2 class="mt-3 mb-0 pb-2">Suggest an edit</h2>
+          <p>Adjust the blue marker on the map if you are suggesting that this current location on the map is not correct.</p>
           <small class="form-text text-muted">*Required</small>
+          <small class="form-text text-muted d-none" id="vid-edit"></small>
         <div class="form-floating mb-1">
           <input id="observed-name-edit" type="text" class="form-control" required>
           <label for="observed-name-edit">*Name of Location:</label>
@@ -323,12 +324,11 @@
           <input id="year-edit" type="text" class="form-control" required>
           <label for="year-edit">*Year:</label>
         </div>
-        <small class="form-text text-muted">Adjust the blue marker to change longitude and latitude.</small>
-        <div class="form-floating mb-1">
+        <div class="form-floating mb-1 d-none">
           <input id="long-edit" type="text" class="form-control" readonly>
           <label for="long-edit">Longitude:</label>
         </div>
-        <div class="form-floating mb-1">
+        <div class="form-floating mb-1 d-none">
           <input id="lat-edit" type="text" class="form-control" readonly>
           <label for="lat-edit">Latitude:</label>
         </div>
@@ -413,7 +413,7 @@
           </div>
         </div>
         <div class="form-floating mb-1">
-          <input id="addDescriptor" type="text" class="form-control">
+          <input id="addDescriptor-edit" type="text" class="form-control">
           <label for="addDescriptor">Suggest new descriptors(separated by comma):</label>
         </div>
 
@@ -429,7 +429,7 @@
         </div> -->
         <label for="confidence-observation-verify">Confidence Level:</label>
         <div id="confidence-observation-verify"></div>
-        <input type="range" class="form-range" min="1" max="5" step="1">
+        <input id="confidence-observation-verify-num" type="range" class="form-range" min="1" max="5" step="1">
         <div id="confidence-observation-verify-values" class="sliderticks">
           <p>not at all</p>
           <p>slightly</p>
@@ -581,7 +581,6 @@
 
       <!-- left dashboard - buttons -->
       <div id="ground-truth-btns" class="mx-3 d-flex flex-row flex-wrap">
-
         <button id="report-issue-btn" type="button" class="btn btn-primary mx-2">Suggest an edit</button>
         <button id="add-review-btn" type="button" class="btn btn-primary mx-2">Review this venue</button>
         <button id="go-back-btn" type="button" class="btn btn-primary mx-2"> Close</button>
