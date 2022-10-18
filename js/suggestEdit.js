@@ -3,6 +3,8 @@ export function submitEdit() {
         let validateStatus = formValidateReportIssue(event);
         if(validateStatus) {
           reportIssue(event);
+        } else {
+          makeAlert('Invalid inputs, please check the form again.');
         }
     });
 }
@@ -54,7 +56,10 @@ async function formValidateReportIssue(event) {
     event.preventDefault();
     let validate = await import('./formValidation.js');
     let locationValidate =  validate.isNotEmpty('observed-name-edit'),
-        addressValidate = validate.isNotEmpty('address-edit');
-
-    return locationValidate && addressValidate;
+        addressValidate = validate.isNotEmpty('address-edit'),
+        cityValidate = validate.isNotEmpty('city-edit'),
+        stateValidate = validate.isNotEmpty('state-edit'),
+        zipValidate = validate.isValidZip('zip-edit'),
+        yearValidate = validate.isValidYear('year-edit');
+    return locationValidate && addressValidate && cityValidate && stateValidate && zipValidate && yearValidate;
 }

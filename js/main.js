@@ -13,7 +13,20 @@
     document.getElementById('add-observation-container').addEventListener('click', isLoggedIn);
     suggestNewEdit();
 
-    document.getElementById("submit-button").addEventListener('click', newUser);
+    document.getElementById("submit-button").addEventListener('click', async function(event) {
+      let validateStatus = await formValidateNewEdit(event);
+      if(validateStatus) {
+        newUser(event);
+        let smallMessages = document.querySelectorAll('#user-form small')
+        smallMessages.forEach(small => {
+          if(!small.classList.contains('d-none')){
+            small.classList.add('d-none');
+          }
+        })
+      } else {
+        makeAlert('Invalid input fields. Check the form again.')
+      }
+    });
     document.getElementById('login-btn').addEventListener('click', submitPassword);
     document.getElementById('log-out-btn').addEventListener('click', () => {
       logOut();
@@ -55,20 +68,29 @@
     // Obtain data from user input
     let packet = await import('./createObservations.js');
     let data = packet.createPackage('newObservation');
-    if (requiredInputCheck()) {
-      // POST fetch request
-      let settings = {
-        method: 'POST',
-        body: data
-      }
-      try {
-        let sendData = await fetch('https://lgbtqspaces-api.herokuapp.com/api/user_observation', settings);
-        clearForm('user-form');
-        makeAlert('Your observation has been successfully submitted!')
-      } catch (error) {
-        handleError(error);
-      }
+    // POST fetch request
+    let settings = {
+      method: 'POST',
+      body: data
     }
+    try {
+      let sendData = await fetch('https://lgbtqspaces-api.herokuapp.com/api/user_observation', settings);
+      clearForm('user-form');
+      makeAlert('Your observation has been successfully submitted!')
+    } catch (error) {
+      handleError(error);
+    }
+  }
+
+  async function formValidateNewEdit(event) {
+    event.preventDefault();
+    let validate = await import('./formValidation.js');
+    let locationValidate =  validate.isNotEmpty('location-api'),
+        addressValidate = validate.isNotEmpty('address-api'),
+        cityValidate = validate.isNotEmpty('city-api'),
+        stateValidate = validate.isNotEmpty('state-api'),
+        zipValidate = validate.isValidZip('zip-api');
+    return locationValidate && addressValidate && cityValidate && stateValidate && zipValidate;
   }
 
   async function submitPassword(e) {
@@ -268,21 +290,6 @@ function handleError(err) {
   let message = "Error reason: " + err;
   console.log(error);
   console.log(message);
-}
-
-function requiredInputCheck() {
-  let location = document.getElementById('location-api').value;
-  let address = document.getElementById('address-api').value;
-  let city = document.getElementById('city-api').value;
-  let state = document.getElementById('state-api').value;
-  if (location.length == 0 || address.length == 0 || city.length == 0 || state.length == 0) {
-    //
-    let alertText = "Please fill the required area before submiting:<br><br> Name, Address, City and State.";
-    makeAlert(alertText);
-    return false;
-  } else {
-    return true;
-  }
 }
 
 function makeAlert(alertText) {
