@@ -417,7 +417,8 @@ h2#name, p#venue-indicator {
 }
 .accordion-header {
     position: relative;
-    /* height:2em; */
+    height:1em;
+    bottom: 0.5em;
 }
 .accordion-collapse{
     position: relative;
@@ -1046,8 +1047,12 @@ h2#name, p#venue-indicator {
 }
 
 #observe-switch, #venue-switch {
-    /* top:-2em; */
-    left: -0.5em;
+    /* position: relative; */
+    /* display: block; */
+    /* visibility: visible; */
+    z-index: 999;
+    top:-2.1em;
+    left: 4.2em;
     font-size: 15px !important;
 }
 
