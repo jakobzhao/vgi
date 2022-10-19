@@ -1382,6 +1382,7 @@ function addCones(data, active) {
         // info-default panel on
         if (document.getElementById('info-default').classList.contains('d-none')) {
           document.getElementById('info-default').classList.remove('d-none');
+          document.getElementById('ground-truth-btns').classList.remove('d-none');
         }
 
         // Clear old objects
@@ -2282,6 +2283,7 @@ document.getElementById('return-btn').addEventListener('click', function () {
   document.getElementById('info-default').classList.remove('d-none');
   document.getElementById('ground-truth-btns').classList.remove('d-none');
 });
+
 
 function makeAlert(alertText) {
   let alert = document.getElementById("alert-modal");
