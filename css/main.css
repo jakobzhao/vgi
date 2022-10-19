@@ -11,6 +11,12 @@ main,
     flex-flow: column;
 }
 
+@media only screen and (max-width: 1500px) {
+    body {
+        zoom: 0.75
+    }
+}
+
 #loader {
     position: fixed;
     width: 100%;
@@ -20,7 +26,7 @@ main,
     z-index: 9999;
     background: url('../assets/imgs/loading.gif') 50% 50% no-repeat white;
     opacity: 1;
-  }
+}
 
 
 /* fixed navbar to fix dashboard overlaying on navbar */
@@ -29,7 +35,7 @@ nav {
     z-index: 999;
 }
 
-#project-name{
+#project-name {
     font-size: larger;
     margin-top: -1.5em;
     margin-left: 2.5em;
@@ -92,20 +98,22 @@ nav {
 }
 
 
-#applied-filter, .descriptor {
-    background:rgba(193, 193, 193, 0.462);
-    border:#0000001f solid 1px;
+#applied-filter,
+.descriptor {
+    background: rgba(193, 193, 193, 0.462);
+    border: #0000001f solid 1px;
     border-radius: 0.2rem;
     font-size: smaller;
-    font-style:normal;
+    font-style: normal;
     padding-left: 4px;
     padding-right: 4px;
     margin: 2px;
 }
-#clear-button > a {
+
+#clear-button>a {
     justify-content: center;
-    font-size:small;
-    font-style:italic;
+    font-size: small;
+    font-style: italic;
     word-wrap: break-word;
 }
 
@@ -117,7 +125,8 @@ nav {
 }
 
 /* fix height of confirmed venues box */
-.venue-list, .observation-list {
+.venue-list,
+.observation-list {
     /* position:relative; */
     height: 10em;
     background-color: rgba(255, 255, 255, 0.2);
@@ -131,7 +140,8 @@ nav {
 
 
 /* confirmed venues on-hover */
-.venue-list>div:hover, .observation-list>div:hover {
+.venue-list>div:hover,
+.observation-list>div:hover {
     padding: 0.5em;
     background: #DBDBDB;
     box-shadow: 15px 0 0 #DBDBDB, -15px 0 0 #DBDBDB;
@@ -214,7 +224,8 @@ nav {
 }
 
 
-h2#name, p#venue-indicator {
+h2#name,
+p#venue-indicator {
     position: relative;
     font-size: x-large;
     top: 2.7em;
@@ -226,6 +237,7 @@ h2#name, p#venue-indicator {
     position: relative;
     top: 3em;
 }
+
 /* image element in imgs container */
 #venue-imgs {
 
@@ -238,18 +250,20 @@ h2#name, p#venue-indicator {
     background: url('../assets/gifs/loading.gif') no-repeat;
     background-position: center;
 }
-#venue-img-container{
+
+#venue-img-container {
     position: relative;
     /* top: 4em; */
     width: 25em;
     height: 20em
-
 }
-#gmap{
+
+#gmap {
     position: relative;
     width: 0em;
     height: 0em;
 }
+
 #venue-img-container>img {
     border: 2px solid gray;
     width: 100%;
@@ -260,8 +274,8 @@ h2#name, p#venue-indicator {
 
 
 #img-notes {
-    font-size:smaller;
-    font-style:italic;
+    font-size: smaller;
+    font-style: italic;
     line-height: 1.15em;
     margin-top: .5em;
     /* margin-bottom: .5em; */
@@ -276,7 +290,7 @@ h2#name, p#venue-indicator {
 
 }
 
-#type-review-box{
+#type-review-box {
     position: relative;
     top: 6em;
     /* width: 100%; */
@@ -284,17 +298,17 @@ h2#name, p#venue-indicator {
 }
 
 #reviews-confirmation {
-    position:relative;
+    position: relative;
     top: 6rem;
 }
 
-#ground-truth-btns{
+#ground-truth-btns {
     position: relative;
-    top:2em;
+    top: 2em;
     margin-left: 1em;
     margin-right: 1em;
 
-/*     
+    /*     
     position: relative;
     top: 1em; */
 
@@ -344,7 +358,7 @@ h2#name, p#venue-indicator {
 #attribution {
     position: absolute;
     /* display: flex; */
-    width:27em;
+    width: 27em;
     bottom: 0em;
     left: 0em;
     text-shadow: 2px 2px 4px gray;
@@ -354,15 +368,16 @@ h2#name, p#venue-indicator {
 
 #logos {
     position: relative;
-    width:16em;
+    width: 16em;
     bottom: -4em;
 
 }
+
 #acknowledge {
     /* display:flex; */
     position: relative;
     text-align: left;
-    font-size:9pt;
+    font-size: 9pt;
     left: 10em;
     bottom: 0.6em;
 
@@ -372,7 +387,7 @@ h2#name, p#venue-indicator {
 #year-slider {
     position: absolute;
     display: flex;
-    width:32em;
+    width: 32em;
     top: 4em;
     left: 0em;
     margin-left: 0.5em;
@@ -387,9 +402,9 @@ h2#name, p#venue-indicator {
 }
 
 #year-notes {
-    display:flexbox;
+    display: flexbox;
 
-    position:relative;
+    position: relative;
     left: 0.2em;
     top: -2.8em;
     line-height: 1.25em;
@@ -403,24 +418,27 @@ h2#name, p#venue-indicator {
 /* legend */
 #legend {
     position: absolute;
-    width:31em;
+    width: 31em;
     bottom: 5em;
     left: 0em;
     margin-left: 0.5em;
     transition: left 1s;
 }
-.accordion-button{
+
+.accordion-button {
     margin-top: 0em !important;
     margin-bottom: 0em !important;
     padding-top: 0.7em;
     padding-bottom: 0.7em;
 }
+
 .accordion-header {
     position: relative;
-    height:1em;
+    height: 1em;
     bottom: 0.5em;
 }
-.accordion-collapse{
+
+.accordion-collapse {
     position: relative;
     /* height:2em; */
 }
@@ -428,11 +446,13 @@ h2#name, p#venue-indicator {
 .accordion-body {
     padding: 0.75rem 1rem;
 }
-.accordion-body > p{
+
+.accordion-body>p {
     margin-bottom: 0em;
     font-size: small;
 }
-.form-switch{
+
+.form-switch {
     position: relative;
     top: 0.3em;
     left: -1.5em;
@@ -458,33 +478,33 @@ h2#name, p#venue-indicator {
 
 }
 
-.colorscheme > i {
+.colorscheme>i {
 
     position: relative;
     display: inline-block;
-    border:rgba(193, 193, 193, 0.462) solid 1px;
+    border: rgba(193, 193, 193, 0.462) solid 1px;
     opacity: 0.7;
     width: 18%;
     height: 1.2em;
 }
 
-.color-1{
+.color-1 {
     background: #ffffcc;
 }
 
-.color-2{
+.color-2 {
     background: #fed976;
 }
 
-.color-3{
+.color-3 {
     background: #fd8d3c;
 }
 
-.color-4{
+.color-4 {
     background: #e31a1c;
 }
 
-.color-5{
+.color-5 {
     background: #800026;
 }
 
@@ -492,12 +512,12 @@ h2#name, p#venue-indicator {
     position: relative;
     display: flex;
     top: 0.5em;
-    left:3em;
+    left: 3em;
     width: 45em;
     font-size: x-small;
 }
 
-.color-labels > span {
+.color-labels>span {
     width: 7em;
     padding-left: 1.6em;
     margin-right: 1.6em;
@@ -809,11 +829,11 @@ h2#name, p#venue-indicator {
     /* padding-right: 0.8em; */
 }
 
-.sliderticks > p {
+.sliderticks>p {
     display: flex;
     justify-content: space-between;
-    font-size:x-small;
-    width:4em;
+    font-size: x-small;
+    width: 4em;
     height: 1em;
     line-height: normal;
     /* background: #D3D3D3; */
@@ -899,7 +919,7 @@ h2#name, p#venue-indicator {
 
 
 
-.modal-backdrop{
+.modal-backdrop {
     z-index: 1;
 }
 
@@ -913,7 +933,7 @@ h2#name, p#venue-indicator {
     display: block;
     margin-left: 0.2em;
     margin-right: 0.2em;
-  }
+}
 
 
 .category {
@@ -954,7 +974,7 @@ h2#name, p#venue-indicator {
     left: -0.3rem;
     content: '✓';
     font-weight: 600;
-  }
+}
 
 
 .type-btn {
@@ -965,7 +985,7 @@ h2#name, p#venue-indicator {
 }
 
 
-.collapsedTypes{
+.collapsedTypes {
     border-color: #ced4da !important;
     display: flex;
     justify-content: space-between;
@@ -998,15 +1018,15 @@ h2#name, p#venue-indicator {
 }
 
 .my-3 {
-    margin-top: 1rem!important;
-    margin-bottom: 1rem!important;
+    margin-top: 1rem !important;
+    margin-bottom: 1rem !important;
     margin-left: 1em;
     margin-right: 1em;
 }
 
 #divider-1 {
     position: relative;
-    top:1.5em;
+    top: 1.5em;
     margin-left: 1em;
     margin-right: 1em;
 }
@@ -1016,7 +1036,7 @@ h2#name, p#venue-indicator {
     position: relative;
     /* width: 80%; */
     height: 25em;
-    top:3.3em;
+    top: 3.3em;
     margin-left: 2em;
     margin-right: 2em;
     font-size: 12px;
@@ -1025,12 +1045,14 @@ h2#name, p#venue-indicator {
     border-radius: 2px;
     box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .15);
 }
+
 #subMap .mapboxgl-canvas {
 
     position: relative;
     height: 25em;
-    border:#0000001f solid 1px;
+    border: #0000001f solid 1px;
 }
+
 #subMap a.mapboxgl-ctrl-logo {
     visibility: hidden;
 }
@@ -1046,30 +1068,31 @@ h2#name, p#venue-indicator {
     width: 100%;
 }
 
-#observe-switch, #venue-switch {
+#observe-switch,
+#venue-switch {
     /* position: relative; */
     /* display: block; */
     /* visibility: visible; */
     padding: 0em;
     z-index: 999;
-    top:-2.1em;
+    top: -2.1em;
     left: 6.2em;
     margin: 0em;
     padding: 0em;
-    width:1em;
+    width: 1em;
     font-size: 15px !important;
 }
 
 #divider-2 {
     position: relative;
     /* display: inline-flex; */
-    top:2em;
+    top: 2em;
     margin-left: 1em;
     margin-right: 1em;
 }
 
 #evidence-desc {
-    position:relative;
+    position: relative;
     font-size: small;
     /* display: inline-flex; */
     top: 3.3em;
@@ -1077,17 +1100,19 @@ h2#name, p#venue-indicator {
     margin-left: 2em;
     margin-right: 2em;
 }
+
 #evidence-info {
-    position:relative;
+    position: relative;
     display: inline-flex;
     text-align: center;
     top: 2em;
     width: 20em;
     margin-left: 2.5em;
-    margin-right: 2em;  
+    margin-right: 2em;
 }
+
 .evidence {
-    position:relative;
+    position: relative;
     line-height: 2em;
     height: 2em;
     /* width: 7em； */
@@ -1095,10 +1120,11 @@ h2#name, p#venue-indicator {
     margin-right: 7em;
     cursor: pointer;
 }
+
 .validatedError {
-    color:red;
+    color: red;
 }
 
 .validatedSuccess {
-    color:green; 
+    color: green;
 }
