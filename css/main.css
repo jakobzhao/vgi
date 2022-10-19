@@ -1016,7 +1016,7 @@ h2#name, p#venue-indicator {
     position: relative;
     /* width: 80%; */
     height: 25em;
-    top:2em;
+    top:3.3em;
     margin-left: 2em;
     margin-right: 2em;
     font-size: 12px;
@@ -1072,7 +1072,7 @@ h2#name, p#venue-indicator {
     position:relative;
     font-size: small;
     /* display: inline-flex; */
-    top: 2.5em;
+    top: 3.3em;
     /* width: 23em; */
     margin-left: 2em;
     margin-right: 2em;
@@ -1081,7 +1081,7 @@ h2#name, p#venue-indicator {
     position:relative;
     display: inline-flex;
     text-align: center;
-    top: 1.5em;
+    top: 2em;
     width: 20em;
     margin-left: 2.5em;
     margin-right: 2em;  
