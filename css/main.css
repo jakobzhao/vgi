@@ -3,6 +3,8 @@ body,
 main,
 #map {
     width: 100%;
+    min-width: 1200px;
+    overflow: auto;
     height: 100%;
     margin: 0;
     padding: 0;
@@ -12,8 +14,24 @@ main,
 }
 
 @media only screen and (max-width: 1500px) {
-    body {
-        zoom: 0.75
+    #slider-bar {
+        width: 15em !important ;
+    }
+
+}
+@media only screen and (max-width: 1400px) {
+    #slider-bar {
+        width: 10em !important;
+    }
+}
+@media only screen and (max-width: 1300px) {
+    /* #slider-bar {
+        width: 7em !important;
+    } */
+
+    #slider-bar {
+        transform: scale(0.50);
+        transform-origin: left;
     }
 }
 
