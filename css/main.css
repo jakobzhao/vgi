@@ -1050,9 +1050,13 @@ h2#name, p#venue-indicator {
     /* position: relative; */
     /* display: block; */
     /* visibility: visible; */
+    padding: 0em;
     z-index: 999;
     top:-2.1em;
-    left: 4.2em;
+    left: 6.2em;
+    margin: 0em;
+    padding: 0em;
+    width:1em;
     font-size: 15px !important;
 }
 
