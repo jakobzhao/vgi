@@ -54,9 +54,53 @@
 
 
 
+
+
+
+      $("#nextTimeSwitcher input").on("click", function() {
+        if ($("#nextTimeSwitcher input:checked").val() === "on") {
+          localStorage.setItem('popState', 'shown');
+        } else {
+
+          localStorage.setItem('popState', 'notShown');
+        }
+      })
+
+      if (localStorage.getItem('popState') != 'shown') {
+        console.log("show disclaimer");
+        $('#disclaimer').modal('show');
+
+      } else {
+        console.log("hide disclaimer");
+        $('#disclaimer').modal('hide');
+      }
+      $('#disclaimer-close').click(function(e) // You are clicking the close button
+        {
+          $('#disclaimer').fadeOut(); // Now the pop up is hiden.
+          $('#disclaimer').modal('hide');
+        });
+   
+
+    $(".showFrontPage").on("click", function() {
+      $('#disclaimer').modal('show');
+      localStorage.setItem('popState', 'notShown');
+    })
+
+
+
+
+    //loader
     document.getElementById('venue-layer').click();
     // hide the loader.
     $('#loader').fadeOut("slow");
+
+
+
+    //welcome panel
+
+
+    
+    
 
 
   }

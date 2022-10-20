@@ -79,8 +79,6 @@
       <a class="navbar-brand" href="#"><img width="40px" src="assets/imgs/logo.png"></img>
         <div id="project-name">Shifting LGBTQ+ Spaces</div>
         <div style="position:absolute; left:16.2em; bottom:1.3em;color: white;"><small><i>beta</i></small></div>
-
-
       </a>
 
       <div id="navbar-tabs">
@@ -154,7 +152,29 @@
   </nav>
 
   <main role="main">
+    <!-- LOADER -->
     <div id="loader"></div>
+    <!-- Welcome Panel -->
+  <div id="disclaimer" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Welcome！</h5>
+        </div>
+        <div class="modal-body">
+          Welcome Text
+        </div>
+        <div class="modal-footer">
+          <div class="form-switch" id="nextTimeSwitcher">
+            <input class="form-check-input"  type="checkbox">
+          </div>
+            <label id="nextTimeLabel">Don't show this info again.</label>
+        
+            <button id="disclaimer-close" type="button" class="btn btn-primary"  data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
     <!-- MAP -->
     <div id="map"></div>
     <!-- search box -->

@@ -50,7 +50,21 @@ main,
     opacity: 1;
 }
 
+#nextTimeSwitcher {
+    position: relative;
+    left: -12em;
+}
 
+#nextTimeLabel{
+    position: relative;
+    left: -15em;
+    font-size:small;
+}
+
+#disclaimer-close {
+    position: relative;
+    left: 0em;
+}
 /* fixed navbar to fix dashboard overlaying on navbar */
 nav {
     position: absolute;
@@ -474,7 +488,7 @@ p#venue-indicator {
     font-size: small;
 }
 
-.form-switch {
+#venue-switch {
     position: relative;
     top: 0.3em;
     left: -1.5em;
