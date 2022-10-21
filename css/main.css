@@ -1103,7 +1103,9 @@ p#venue-indicator {
     height: 40%;
     width: 100%;
 }
-
+/* .btn{
+    font-size: small;
+} */
 #observe-switch,
 #venue-switch {
     padding: 0em;
