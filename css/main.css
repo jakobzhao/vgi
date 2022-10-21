@@ -1106,13 +1106,10 @@ p#venue-indicator {
 
 #observe-switch,
 #venue-switch {
-    /* position: relative; */
-    /* display: block; */
-    /* visibility: visible; */
     padding: 0em;
     z-index: 999;
     top: -2.1em;
-    left: 6.2em;
+    left: 6.5em;
     margin: 0em;
     padding: 0em;
     width: 1em;
