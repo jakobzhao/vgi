@@ -8,7 +8,6 @@ let current_code_filter = []; // tracking the filters user selected
 let on_Screen_Data_Venue; // venue data with the filter
 let on_Screen_Data_Observe; // observation data with the filter
 let venue_status = true; // if venue layer is on
-let legend_panel = true; // if legend panel is on.
 let observation_status = false; // if observation layer is on
 
 const localities = {
@@ -1284,9 +1283,9 @@ function makeLocalityList(localityID, data, selectedYear) {
       localityParent.appendChild(rowDiv);
       rowDiv.addEventListener('click', function () {
 
-        viewLeftPanel(localityFeatures[i]);
-        addLeftPanelActions(localityFeatures[i], marker);
-        getEvidenceInfo(localityFeatures[i]);
+        viewLeftPanel(element);
+        addLeftPanelActions(element, marker);
+        getEvidenceInfo(element);
         // getStreetView(localityFeatures[i]);
         // addExtrusions(localityFeatures[i]);
         if (document.getElementById('info-default').classList.contains('d-none')) {
