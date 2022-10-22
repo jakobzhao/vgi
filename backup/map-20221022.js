@@ -509,43 +509,32 @@ var layerList = document.getElementsByClassName('layers-input-container');
 
 function switchLayer(layer) {
 
-  // var layerId = layer.target.id;
-  // map.setStyle('mapbox://styles/mapbox/' + layerId, {
-  //   diff: true
+
+
+    
+  var layerId = layer.target.id;
+  map.setStyle('mapbox://styles/mapbox/' + layerId, {
+    diff: true
+  });
+
+  window.tb.update();
+  window.tb.repaint();
+    // let selectedYear = parseInt(document.getElementById('slider-bar').value);
+    // let selectedLocality = document.querySelector(".dropdown-item-checked").text;
+    // updateMap(selectedYear, selectedLocality);
+
+  // map.on('style.load', async function () {
+
+  //   let selectedYear = parseInt(document.getElementById('slider-bar').value);
+  //   let selectedLocality = document.querySelector(".dropdown-item-checked").text;
+  //   updateMap(selectedYear, selectedLocality);
   // });
 
-// light-v10
-// satellite-v9
-if(map.getLayer('satellite-layer')){
-
-
-}
-else{
-map.addSource("mapbox-satellite", {
-  "type": "raster",
-  "url": "mapbox://mapbox.satellite",
-  "tileSize": 256
-});
-  map.addLayer(
-  {
-  'id': 'satellite-layer',
-  'type': 'raster',
-  'source': 'mapbox-satellite',
-  'paint': {}
-  },
-  'road-label'
-  );
-}
-
-
-var layerId = layer.target.id;
-if(layerId=='satellite-v9') {
-
-    map.setLayoutProperty("satellite-layer", 'visibility',"visible");
-}
-else {
-  map.setLayoutProperty("satellite-layer", 'visibility',"none");
-}
+  // window.tb.update();
+  // window.tb.repaint();
+  // adjust slider text color when changing basemaps
+  // document.getElementById('slider-time').setAttribute("style", "color: black;");
+  // var layers = map.getStyle().layers;
 };
 
 // assign switch layer function for all radio button inputs
@@ -1999,7 +1988,21 @@ map.on('style.load', async function () {
   updateMap(selectedYear, selectedLocality);
 
 
+  map.addSource("mapbox-satellite", {
+    "type": "raster",
+    "url": "mapbox://mapbox.satellite",
+    "tileSize": 256
+});
+    map.addLayer(
+    {
+    'id': 'satellite-layer',
+    'type': 'raster',
+    'source': 'mapbox-satellite',
+    'paint': {}
+    }
+    );
 
+    map.setLayoutProperty("satellite-layer", 'visibility',"none");
 
 });
 
