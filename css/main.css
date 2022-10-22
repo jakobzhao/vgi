@@ -11,19 +11,22 @@ main,
     background: #fff;
     display: flex;
     flex-flow: column;
+    font-family: 'Source Sans Pro', sans-serif;
 }
 
 @media only screen and (max-width: 1500px) {
     #slider-bar {
-        width: 15em !important ;
+        width: 15em !important;
     }
 
 }
+
 @media only screen and (max-width: 1400px) {
     #slider-bar {
         width: 10em !important;
     }
 }
+
 @media only screen and (max-width: 1300px) {
     #slider-bar {
         transform: scale(0.80);
@@ -36,7 +39,7 @@ main,
     #year-notes {
         top: -0.8em !important;
     }
-    
+
 }
 
 #loader {
@@ -55,16 +58,17 @@ main,
     left: -12em;
 }
 
-#nextTimeLabel{
+#nextTimeLabel {
     position: relative;
     left: -15em;
-    font-size:small;
+    font-size: small;
 }
 
 #disclaimer-close {
     position: relative;
     left: 0em;
 }
+
 /* fixed navbar to fix dashboard overlaying on navbar */
 nav {
     position: absolute;
@@ -75,6 +79,11 @@ nav {
     font-size: larger;
     margin-top: -1.5em;
     margin-left: 2.5em;
+}
+
+.btn {
+
+    font-size: small;
 }
 
 #log-in-btn {
@@ -119,13 +128,19 @@ nav {
     margin-right: 20em;
 }
 
+.mapboxgl-ctrl-geocoder--input {
+    font-size: small;
+}
+
 #instructions-info {
     margin-top: 2em;
     right: 0;
     /* margin-right: 0 em; */
 }
 
-
+.dropdown-menu>li {
+    font-size: small;
+}
 
 /* help text font-size and style */
 .help-text {
@@ -319,35 +334,20 @@ p#venue-indicator {
 
 #ground-truth-btns {
     position: relative;
-    top: 7em;
     width: 100%;
-    left: -0.5em;
-    /* height: 20em; */
+    top: 2em;
+    left: 5%;
 
 }
 
 #type-review-box {
     position: relative;
     top: 6em;
-    /* width: 100%; */
-
 }
 
 #reviews-confirmation {
     position: relative;
     top: 6rem;
-}
-
-#ground-truth-btns {
-    position: relative;
-    top: 2em;
-    margin-left: 1em;
-    margin-right: 1em;
-
-    /*     
-    position: relative;
-    top: 1em; */
-
 }
 
 /* open button for left panel */
@@ -1103,6 +1103,7 @@ p#venue-indicator {
     height: 40%;
     width: 100%;
 }
+
 /* .btn{
     font-size: small;
 } */
