@@ -135,6 +135,8 @@ nav {
     font-size: small;
 }
 
+
+
 #instructions-info {
     margin-top: 2em;
     right: 0;
@@ -420,6 +422,10 @@ p#venue-indicator {
     left: 10em;
     bottom: 0.6em;
 
+}
+
+#acknowledge>a{
+    color:rgba(107, 107, 107, 0.8)
 }
 
 /* year-slider */
