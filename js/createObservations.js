@@ -22,7 +22,7 @@ function buildNewObservationPacket (packet) {
     packet.append("category", buildCategory.toString());
     packet.append("descriptorlist", buildCodeDescriptorList.toString());
     packet.append("address", document.getElementById('address-api').value);
-    packet.append("locality", document.getElementById('city-api').value);
+    packet.append("locality", document.querySelector('#localityList li > a.dropdown-item-checked').textContent);
     packet.append("city", document.getElementById('city-api').value);
     packet.append("state", document.getElementById('state-api').value);
     packet.append("zip", document.getElementById('zip-api').value);
@@ -54,7 +54,7 @@ function buildExistingObservation(packet) {
     packet.append("category", buildCategory.toString());
     packet.append("codedescriptorlist", buildCodeDescriptorList.toString());
     packet.append("address", document.getElementById('address-edit').value);
-    packet.append("locality", document.getElementById('city-edit').value);
+    packet.append("locality", document.querySelector('#localityList li > a.dropdown-item-checked').textContent);
     packet.append("city", document.getElementById('city-edit').value);
     packet.append("state", document.getElementById('state-edit').value);
     packet.append("zip", document.getElementById('zip-edit').value);
