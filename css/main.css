@@ -1045,12 +1045,14 @@ p#venue-indicator {
 }
 
 .type-btn {
-    margin-bottom: 1%;
+    /* margin-bottom: 1%; */
+    top: 0.25em!important;
+    /* bottom: 0.5em!important; */
     width: 100%;
     border-color: #ced4da !important;
-    margin-left: -0.2em !important;
-    font-size: 14px;
-    /* background-color: transparent; */
+    /* margin-left: -0.2em !important; */
+    /* font-size: 13px; */
+    background-color: transparent;
 }
 
 .type-btn:not(.collapsed) {
