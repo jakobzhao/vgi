@@ -10,7 +10,7 @@
   // init function
   // added init to async (test for bugs!)
   async function init() {
-    document.getElementById('add-observation-container').addEventListener('click', isLoggedIn);
+    // document.getElementById('add-observation-container').addEventListener('click', isLoggedIn);
     suggestNewEdit();
 
     document.getElementById("submit-button").addEventListener('click', async function(event) {
@@ -52,57 +52,39 @@
 
     });
 
-
-
-
-
-
-      $("#nextTimeSwitcher input").on("click", function() {
-        if ($("#nextTimeSwitcher input:checked").val() === "on") {
-          localStorage.setItem('popState', 'shown');
-        } else {
-
-          localStorage.setItem('popState', 'notShown');
-        }
-      })
-
-      if (localStorage.getItem('popState') != 'shown') {
-        console.log("show disclaimer");
-        $('#disclaimer').modal('show');
-
+    $("#nextTimeSwitcher input").on("click", function() {
+      if ($("#nextTimeSwitcher input:checked").val() === "on") {
+        localStorage.setItem('popState', 'shown');
       } else {
-        console.log("hide disclaimer");
-        $('#disclaimer').modal('hide');
+
+        localStorage.setItem('popState', 'notShown');
       }
-      $('#disclaimer-close').click(function(e) // You are clicking the close button
-        {
-          $('#disclaimer').fadeOut(); // Now the pop up is hiden.
-          $('#disclaimer').modal('hide');
-        });
-   
+    })
+
+    if (localStorage.getItem('popState') != 'shown') {
+      console.log("show disclaimer");
+      $('#disclaimer').modal('show');
+
+    } else {
+      console.log("hide disclaimer");
+      $('#disclaimer').modal('hide');
+    }
+    $('#disclaimer-close').click(function(e) // You are clicking the close button
+      {
+        $('#disclaimer').fadeOut(); // Now the pop up is hiden.
+        $('#disclaimer').modal('hide');
+      });
 
     $(".showFrontPage").on("click", function() {
       $('#disclaimer').modal('show');
       localStorage.setItem('popState', 'notShown');
     })
 
-
-
-
     //loader
     document.getElementById('venue-layer').click();
     // hide the loader.
     $('#loader').fadeOut("slow");
-
-
-
     //welcome panel
-
-
-    
-    
-
-
   }
 
   async function suggestNewEdit() {
@@ -212,29 +194,6 @@
     }
   }
 
-  // isLoggedIn()
-  // Checks if user is logged in already, on button clicked to add observation.
-  function isLoggedIn() {
-
-    let logInView = document.getElementById('log-in-btn');
-
-    if (logInView.classList.contains('d-none')) {
-      // if contains display none, means that user is logged in
-      if (!document.getElementById('report-issue').classList.contains('d-none')) {
-        document.getElementById('report-issue').classList.add('d-none');
-      }
-      toggleLeftPanelView('add-observation');
-      marker.remove()
-      // if left panel is close
-      if (document.getElementById('info').classList.contains('leftCollapse')) {
-        document.getElementById('info').classList.toggle('leftCollapse');
-      }
-    } else {
-      let alertText = "Please log in before making any contribution to this geospatial platform.";
-      makeAlert(alertText);
-    }
-  }
-
   // sign out the user when clicked on sign out
   function logOut() {
     if (!(document.getElementById('add-observation').classList.contains('d-none'))) {
@@ -246,7 +205,7 @@
       } else {
         btnImg.src = './assets/imgs/back-btn.svg';
       }
-    };
+    }
     document.getElementById('log-in-btn').classList.toggle('d-none');
     document.getElementById('log-out-btn').classList.toggle('d-none');
   }
@@ -328,6 +287,33 @@ function logInCheck() {
     makeAlert(alertText);
     return false;
 
+  }
+}
+
+
+// isLoggedIn()
+// Checks if user is logged in already, on button clicked to add observation.
+// Contains more sophisticated function and views
+function isLoggedIn() {
+
+  let logInView = document.getElementById('log-in-btn');
+
+  if (logInView.classList.contains('d-none')) {
+    // if contains display none, means that user is logged in
+    if (!document.getElementById('report-issue').classList.contains('d-none')) {
+      document.getElementById('report-issue').classList.add('d-none');
+    }
+    toggleLeftPanelView('add-observation');
+    marker.remove()
+    // if left panel is close
+    if (document.getElementById('info').classList.contains('leftCollapse')) {
+      document.getElementById('info').classList.toggle('leftCollapse');
+    }
+    return true;
+  } else {
+    let alertText = "Please log in before making any contribution to this geospatial platform.";
+    makeAlert(alertText);
+    return false;
   }
 }
 

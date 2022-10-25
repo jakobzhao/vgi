@@ -2329,6 +2329,15 @@ document.getElementById('return-btn').addEventListener('click', function () {
   document.getElementById('ground-truth-btns').classList.remove('d-none');
 });
 
+// Add a new observation button - remove corresponding layers
+document.getElementById('add-observation-container').addEventListener('click', function() {
+  if(isLoggedIn()){
+    if(map.getLayer('buffer-point')) {
+      map.removeLayer('buffer-point');
+      map.removeSource('buffer-point');
+    }
+  };
+});
 
 function makeAlert(alertText) {
   let alert = document.getElementById("alert-modal");
