@@ -9,6 +9,7 @@ let on_Screen_Data_Venue; // venue data with the filter
 let on_Screen_Data_Observe; // observation data with the filter
 let venue_status = true; // if venue layer is on
 let observation_status = false; // if observation layer is on
+let referenceList = {};
 
 const localities = {
   'seattle': {
@@ -301,8 +302,9 @@ function toPolygonGEOJSON(data) {
   };
   let color;
   let polygonRadius;
-  let radiusList = [0.2, 0.195, 0.19, 0.185, 0.18]
-  let colorCode = ['#ffffb2', '#fecc5c', '#fd8d3c', '#f03b20', '#bd0026']
+  let radiusList = [0.205, 0.2, 0.195, 0.19, 0.185, 0.18]
+  // lgbtq flag color 
+  let colorCode = ['#FF0018','#FFA52C', '#FFFF41', '#008018', '#0000F9', '#86007D']
   for (const element of data) {
     let coordinates = element.geometry.coordinates.slice();
     if (element.properties.year < 1975) {
@@ -317,9 +319,14 @@ function toPolygonGEOJSON(data) {
     } else if (element.properties.year < 2005) {
       color = colorCode[3]
       polygonRadius = radiusList[3]
-    } else {
+
+    } else if (element.properties.year < 2010) {
       color = colorCode[4]
       polygonRadius = radiusList[4]
+
+    } else {
+      color = colorCode[5]
+      polygonRadius = radiusList[5]
     }
     let temp = {
       "type": "Feature",
@@ -570,11 +577,40 @@ function removeAllLayers() {
 
 subMap.on('load', function(){
   viewLeftPanel;
+  subMap.on('click', 'year-extrusion', function (e) {
+    let button = document.createElement('button');
+    button.setAttribute('id', 'go-btn');
+    button.setAttribute('type', 'button');
+    button.classList.add('btn');
+    button.classList.add('btn-primary');
+    button.classList.add('my-3');
+    console.log(e.features[e.features.length -1])
+    button.textContent = 'Open the venue info in ' + e.features[0].properties.year + '.';
+    console.log(e.features[0].properties);
+    let vsid = e.features[0].properties.vsid
+    button.addEventListener('click', function() {
+      goToButton(vsid);
+    })
+
+// previous pop up method, discard by Yufei 
+    // let container = document.createElement('div');
+    // container.innerHTML = "<strong>Address: </strong>" + e.features[0].properties.name + '<br>'  + referenceList[e.features[0].properties.year];
+    // container.appendChild(button);
+
+    document.getElementById('subMap-info').innerHTML = "<strong>Address: </strong>" + e.features[0].properties.name + '<br>'  + referenceList[e.features[0].properties.year];
+    document.getElementById('subMap-info').appendChild(button);
+
+// previous pop up method, discard by Yufei 
+    // new mapboxgl.Popup()
+    //   .setLngLat(e.lngLat)
+    //   .setDOMContent(container)
+    //   .addTo(subMap);
+  })
 })
 // function slide-in left panel
 function viewLeftPanel(e) {
   let filteredLocalData = venues.features.filter(function (feature) {
-    return feature.properties.vid == e.properties.vid
+    return feature.properties.vid == e.properties.vid;
   });
 
   // parse the codes to increase readability
@@ -647,7 +683,7 @@ function viewLeftPanel(e) {
   let yearList = [];
   let address = [];
   let timelineOfAddress = {};
-  let referenceList = {};
+  referenceList = {};
   let text;
   for (let data of filteredLocalData) {
     let key = (data.geometry.coordinates[0] + ', ' + data.geometry.coordinates[1])
@@ -672,27 +708,6 @@ function viewLeftPanel(e) {
     }
     referenceList[datum.properties.year] = text;
   });
-  subMap.on('click', 'year-extrusion', function (e) {
-    let button = document.createElement('button');
-    button.setAttribute('id', 'go-btn');
-    button.setAttribute('type', 'button');
-    button.classList.add('btn');
-    button.classList.add('btn-primary');
-    button.classList.add('my-3');
-    button.textContent = 'Open the venue info in ' + e.features[0].properties.year + '.';
-    let vsid = e.features[0].properties.vsid
-    button.addEventListener('click', function() {
-      goToButton(vsid);
-    })
-    let container = document.createElement('div');
-    // container.innerHTML = "<strong>Address: </strong>" + e.features[0].properties.name + '<br>' + '<strong>Clicked Year: </strong>' + e.features[0].properties.year + '<br>' + referenceList[e.features[0].properties.year];
-    container.innerHTML = "<strong>Address: </strong>" + e.features[0].properties.name + '<br>'  + referenceList[e.features[0].properties.year];
-    container.appendChild(button);
-    new mapboxgl.Popup()
-      .setLngLat(e.lngLat)
-      .setDOMContent(container)
-      .addTo(subMap);
-  })
 }
 
 
@@ -1427,6 +1442,10 @@ function addCones(data, active) {
           h.material = origMaterial;
         });
         highlighted.length = 0;
+
+        // clear past inset map info
+        document.getElementById('subMap-info').innerHTML = "";
+        document.getElementById('go-btn').innerHTML = "";
 
         // calculate objects intersecting the picking ray
         let intersect = tb.queryRenderedFeatures(e.point)[0];

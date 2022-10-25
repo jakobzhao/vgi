@@ -1079,7 +1079,7 @@ p#venue-indicator {
 #subMap {
     position: relative;
     /* width: 80%; */
-    height: 25em;
+    height: 30em;
     top: 3.3em;
     margin-left: 2em;
     margin-right: 2em;
@@ -1093,12 +1093,18 @@ p#venue-indicator {
 #subMap .mapboxgl-canvas {
 
     position: relative;
-    height: 25em;
+    height: 30em;
     border: #0000001f solid 1px;
 }
 
 #subMap a.mapboxgl-ctrl-logo {
     visibility: hidden;
+}
+
+#subMap-info {
+    width: 100%;
+    margin-top: 2em;
+    margin-bottom: 2em;
 }
 
 #go-btn {
