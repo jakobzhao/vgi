@@ -19,11 +19,17 @@ main,
         width: 15em !important;
     }
 
+    
+
 }
 
 @media only screen and (max-width: 1500px) {
     #slider-bar {
         width: 10em !important;
+    }
+
+    #year-notes {
+        width: 25em !important;
     }
 
 }
@@ -32,7 +38,6 @@ main,
     #slider-bar {
         transform: scale(0.80);
         transform-origin: left;
-        
         top: -1em !important;
         left: -1em !important;
     }
@@ -41,10 +46,6 @@ main,
     #year-notes {
         top: -0.8em !important;
     }
-
-
-
-
 }
 
 #loader {
@@ -446,15 +447,15 @@ p#venue-indicator {
 }
 
 #year-notes {
-    display: flexbox;
-
+    /* display: flexbox; */
     position: relative;
     left: 0.2em;
     top: -2.8em;
     line-height: 1.25em;
-    font-size: 1em;
+    font-size: small;
     font-weight: 500;
     color: crimson;
+    width: 35em;
 
 }
 
