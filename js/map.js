@@ -2325,6 +2325,10 @@ map.on('click', function (e) {
 
   // geocoding process.
   if (!document.getElementById('add-observation').classList.contains('d-none')) {
+    // add long lat for user
+    document.getElementById('long-api').value = e.lngLat.lng;
+    document.getElementById('lat-api').value = e.lngLat.lat;
+
     $.get(
       "https://api.mapbox.com/geocoding/v5/mapbox.places/" +
       e.lngLat.lng + "," + e.lngLat.lat + ".json?access_token=" + mapboxgl.accessToken,
