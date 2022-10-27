@@ -61,8 +61,8 @@ const materialOnHover = new THREE.MeshPhysicalMaterial({
   opacity: 1
 });
 
-const cubeGeometry = new THREE.BoxGeometry(30, 30, 30);
-const lineGeometry = new THREE.CylinderGeometry(1, 1, 35, 32);
+const cubeGeometry = new THREE.BoxGeometry(10,10,10);
+const lineGeometry = new THREE.CylinderGeometry(1, 1, 25, 10);
 
 
 let map = new mapboxgl.Map({
@@ -269,6 +269,19 @@ async function getObservations(locality) {
     console.log(err);
   }
 };
+
+// get vid observations
+async function getObservationsVID(vid) {
+  try {
+    let getObservationsVidData = await fetch(`https://lgbtqspaces-api.herokuapp.com/api/relatedobservations/${vid}`, {
+      method: 'GET'
+    });
+    let returnData = await getObservationsVidData.json();
+    return toGEOJSON(returnData);
+  } catch (err) {
+    console.log(err);
+  }
+}
 
 // converts json input  to geojson output
 function toGEOJSON(data) {
@@ -1483,7 +1496,7 @@ function addCubes(data, active) {
   //addLabels(data);
   if (map.getLayer('observation-cubes')) {
     map.removeLayer('observation-cubes');
-  };
+  }
 
   map.addLayer({
     id: 'observation-cubes',
@@ -1526,9 +1539,9 @@ function addCubes(data, active) {
           });
 
 
-        line.setCoords([datum.geometry.coordinates[0], datum.geometry.coordinates[1], 18]);
+        line.setCoords([datum.geometry.coordinates[0], datum.geometry.coordinates[1], 70]);
         //the third parameter indicates the height of the cube.
-        cube.setCoords([datum.geometry.coordinates[0], datum.geometry.coordinates[1], 55.2]);
+        cube.setCoords([datum.geometry.coordinates[0], datum.geometry.coordinates[1], 80]);
         cube.userData.properties = datum.properties;
         tb.add(cube);
         tb.add(line);
@@ -1582,8 +1595,6 @@ document.getElementById('reliability-switch').addEventListener('click', function
   tb.repaint();
 
 });
-
-
 
 
 // document.getElementById('confidence-switch').addEventListener('click', function () {
@@ -1858,9 +1869,6 @@ venueCheckbox.addEventListener('click', function (e) {
 })
 
 ////////////////////////////////////////////////////////////////////////////////////
-
-
-
 
 // YEAR SLIDING
 let yearSlider = document.getElementById('slider-bar');
@@ -2167,6 +2175,11 @@ map.on('click', 'data', async function (e) {
   // publish comment on click
   // ** database only supports location with existing vids
   let vid = parseInt(document.getElementById('vid-review').innerHTML);
+
+  // Create underlying observation
+  let observations = await getObservationsVID(vid);
+  addCubes(observations.features);
+
   let reviewParent = document.getElementById('reviews-container');
 
   while (reviewParent.firstChild) {
