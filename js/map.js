@@ -734,16 +734,12 @@ function goToButton(vsid) {
 
 function infoNullCheck(string) {
   return ((string != "null") ? string : 'data unavailable');
-};
+}
 // left panel functionalities (validate observation marker view, selected marker view, map zoom to selected point)
 async function addLeftPanelActions(feature, marker, e) {
   sessionStorage.clear();
-  let coordinates = feature.geometry.coordinates.slice();
   //for those in the list (no specific latlng was found, the program should skip the following lines.)
   try {
-    while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-      coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-    }
     let point = feature.geometry.coordinates;
     point[0] -= 0.001
     map.flyTo({
@@ -754,7 +750,6 @@ async function addLeftPanelActions(feature, marker, e) {
       bearing: -25,
       essential: true
     });
-
   } catch (error) {
     console.log(error);
   }
@@ -832,7 +827,6 @@ function createLocalityList() {
     let codeDescriptorList = document.getElementById('codeDescriptorList');
     codeDescriptorList.classList.add('d-none');
   });
-
 
   Object.entries(localities).forEach(locality => {
 
@@ -2010,12 +2004,6 @@ async function updateMap(selectedYear, selectedLocality) {
       }
     })
   })
-
-
-
-    
-
-
 }
 
 // MAP ON LOAD
@@ -2177,8 +2165,8 @@ map.on('click', 'data', async function (e) {
   let vid = parseInt(document.getElementById('vid-review').innerHTML);
 
   // Create underlying observation
-  let observations = await getObservationsVID(vid);
-  addCubes(observations.features);
+  // let observations = await getObservationsVID(vid);
+  // addCubes(observations.features);
 
   let reviewParent = document.getElementById('reviews-container');
 
