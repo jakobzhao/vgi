@@ -18,9 +18,6 @@ main,
     #slider-bar {
         width: 15em !important;
     }
-
-    
-
 }
 
 @media only screen and (max-width: 1500px) {
