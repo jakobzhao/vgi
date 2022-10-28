@@ -27,6 +27,8 @@ function buildNewObservationPacket (packet) {
     packet.append("state", document.getElementById('state-api').value);
     packet.append("zip", document.getElementById('zip-api').value);
     packet.append("confidence", confidenceValue.replace(/\s/g,''));
+    packet.append("latitude", document.getElementById('lat-api').value);
+    packet.append("longitude", document.getElementById('long-api').value);
     packet.append("year", document.getElementById('current-year-value-api').value);
     packet.append("comments", document.getElementById('additionalInfo-api').value);
     packet.append("newcodelist", document.getElementById('newtags-api').value);
