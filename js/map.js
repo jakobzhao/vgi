@@ -317,30 +317,34 @@ function toPolygonGEOJSON(data) {
   let polygonRadius;
   let radiusList = [0.205, 0.2, 0.195, 0.19, 0.185, 0.18]
   // lgbtq flag color 
-  let colorCode = ['#FF0018','#FFA52C', '#FFFF41', '#008018', '#0000F9', '#86007D']
+  let colorCode = ['#a50026','#d73027', '#f46d43', '#fdae61', '#fee090', '#e0f3f8', '#abd9e9', '#74add1', '#4575b4', '#313695']
+  countColor = 0;
   for (const element of data) {
     let coordinates = element.geometry.coordinates.slice();
-    if (element.properties.year < 1975) {
-      color = colorCode[0]
-      polygonRadius = radiusList[0]
-    } else if (element.properties.year < 1985) {
-      color = colorCode[1]
-      polygonRadius = radiusList[1]
-    } else if (element.properties.year < 1995) {
-      color = colorCode[2]
-      polygonRadius = radiusList[2]
-    } else if (element.properties.year < 2005) {
-      color = colorCode[3]
-      polygonRadius = radiusList[3]
+    color = colorCode[element.properties.year % 10];
+    polygonRadius = 0.2-0.001*countColor;
+    countColor += 1;
+    // if (element.properties.year < 1975) {
+    //   color = colorCode[0]
+    //   polygonRadius = radiusList[0]
+    // } else if (element.properties.year < 1985) {
+    //   color = colorCode[1]
+    //   polygonRadius = radiusList[1]
+    // } else if (element.properties.year < 1995) {
+    //   color = colorCode[2]
+    //   polygonRadius = radiusList[2]
+    // } else if (element.properties.year < 2005) {
+    //   color = colorCode[3]
+    //   polygonRadius = radiusList[3]
 
-    } else if (element.properties.year < 2010) {
-      color = colorCode[4]
-      polygonRadius = radiusList[4]
+    // } else if (element.properties.year < 2010) {
+    //   color = colorCode[4]
+    //   polygonRadius = radiusList[4]
 
-    } else {
-      color = colorCode[5]
-      polygonRadius = radiusList[5]
-    }
+    // } else {
+    //   color = colorCode[5]
+    //   polygonRadius = radiusList[5]
+    // }
     let temp = {
       "type": "Feature",
       'id': element.properties.vsid,

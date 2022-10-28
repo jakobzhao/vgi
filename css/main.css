@@ -1102,9 +1102,11 @@ p#venue-indicator {
 }
 
 #subMap-info {
-    width: 100%;
-    margin-top: 2em;
-    margin-bottom: 2em;
+    width: fit-content;
+    margin-top: 1em;
+    margin-left: 1em;
+    position: absolute;
+    z-index: 1;
 }
 
 #go-btn {
@@ -1112,10 +1114,10 @@ p#venue-indicator {
     margin-top: 0;
     margin-bottom: 0 !important;
     padding-top: 0;
-    font-size: small;
+    font-size: 5px;
     padding-bottom: 0;
     height: 40%;
-    width: 100%;
+    width: 60%;
 }
 
 /* .btn{
