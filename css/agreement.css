@@ -6,8 +6,29 @@
     margin-top: 1.5rem;
 }
 
+#show-content {
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
 #agreement-checkbox {
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+#user-response {
+    margin-top: 1.5rem;
+}
+
+.d-none {
+    display: none;
+}
+
+#content {
+    display: flex;
+    gap: 1rem;
 }
