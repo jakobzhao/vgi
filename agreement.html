@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Shifting LGBTQ+ Spaces</title>
     <link rel="icon" type="image/x-icon" href="assets/imgs/logo.png">
-    <!-- <link href="css/bootstrap.min.css" rel="stylesheet"> -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
@@ -14,8 +13,6 @@
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,800" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- font awesome kit -->
-    <!-- <script src="https://use.fontawesome.com/releases/v5.15.3/js/all.js" crossorigin="anonymous"></script> -->
-
 
     <link rel="stylesheet" href="css/simplebar.css" />
     <link rel='stylesheet' href="css/pages.css" />
@@ -52,11 +49,15 @@
                 <label id="agreement-input">I agree with the policy and regulations above.</label>
             </div>
             <button id="user-response">Send my response</button>
-            <small id="error-text"></small>
+            <small id="error-text" class="d-none"></small>
         </div>
     </section>
     <!-- Password show -->
-    <section id="show-content">
+    <section id="show-content" class="d-none">
+        <div id="content">
+            <p>Current passphrase:</p>
+            <p id="data-pass"></p>
+        </div>
     </section>
 </body>
 
