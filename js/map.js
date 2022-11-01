@@ -750,6 +750,7 @@ function infoNullCheck(string) {
 // left panel functionalities (validate observation marker view, selected marker view, map zoom to selected point)
 async function addLeftPanelActions(feature, marker, e) {
   sessionStorage.clear();
+  let coordinates = feature.geometry.coordinates.slice();
   //for those in the list (no specific latlng was found, the program should skip the following lines.)
   try {
     let point = feature.geometry.coordinates;
@@ -769,6 +770,7 @@ async function addLeftPanelActions(feature, marker, e) {
   // if "report an issue" button is clicked, display movable marker
   let reportIssue = document.getElementById('report-issue-btn');
   reportIssue.addEventListener('click', async function () {
+    console.log('click button');
     // ensure that user is logged-in
     let check = logInCheck();
     if (check) {
@@ -817,6 +819,7 @@ async function addLeftPanelActions(feature, marker, e) {
         document.getElementById('lat-edit').value = lngLat.lat;
       }
       marker.on('dragend', onDragEnd);
+      onDragEnd();
       toggleLeftPanelView('report-issue');
       document.getElementById('ground-truth-btns').classList.toggle('d-none');
       if (document.getElementById('info').classList.contains('leftCollapse')) {
@@ -1464,7 +1467,7 @@ function addCones(data, active) {
 
         // clear past inset map info
         document.getElementById('subMap-info').innerHTML = "";
-        document.getElementById('go-btn').innerHTML = "";
+        // document.getElementById('go-btn').innerHTML = " ";
 
         // calculate objects intersecting the picking ray
         let intersect = tb.queryRenderedFeatures(e.point)[0];
