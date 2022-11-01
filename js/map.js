@@ -30,7 +30,15 @@ const localities = {
   }
 
 };
-
+// get the browser type (some style not working in firefox)
+function myBrowser() {
+  var userAgent = navigator.userAgent; 
+  var isChrome = userAgent.indexOf("Chrome") > -1;
+  if (isChrome) {
+    document.getElementById('year-slider').className += " Chrome";
+  }
+}
+myBrowser();
 
 // initialize geometry and material of our cube object
 const geometry = new THREE.ConeGeometry(15, 40, 64);

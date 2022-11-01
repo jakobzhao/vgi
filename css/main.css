@@ -729,13 +729,22 @@ p#venue-indicator {
     margin: 3em 1em 1em 1em;
 }
 
+.Chrome #slider-bar {
+    top: -4.2em;
+    left: 8em;
+    position: relative;
+    width: 20em;
+    background: transparent;
+    margin-left: 1em;
+    z-index: 1;
+    -webkit-appearance: none;
+}
 
 #slider-bar {
     top: -4.2em;
     left: 8em;
     position: relative;
     width: 20em;
-    -webkit-appearance: none;
     background: transparent;
     margin-left: 1em;
     z-index: 1;
@@ -765,6 +774,7 @@ p#venue-indicator {
     background: #0c448d;
     cursor: pointer;
     -webkit-appearance: none;
+    -moz-appearance: none;
     margin-top: -3.6px;
 }
 
