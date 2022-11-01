@@ -324,7 +324,7 @@
           <div id="subMap-info"></div>
         </div>
 
-        <p id="evidence-desc">Look for evidence from external sources below. </p>
+        <p id="evidence-desc">Help us look for evidence from external sources below. </p>
         <div id="evidence-info">
           <a id="streetview-evidence" target="_blank" title="watch streetview of this address." class="evidence"><img
               height="35px" src="assets/imgs/streetview.png"></a>
@@ -338,18 +338,17 @@
       <!-- left dashboard - validate observation div -->
       <form id="report-issue" class="issuePanel d-flex flex-column d-none mx-3 mt-5">
         <h2 class="mt-3 mb-0 pb-2">Suggest an edit</h2>
-        <p>Adjust the blue marker on the map if you are suggesting that this current location on the map is not correct.
+        <p>Adjust the blue marker on the map if you believe current location on the map is incorrect.
         </p>
-        <small class="form-text text-muted">*Required</small>
         <small class="form-text text-muted d-none" id="vid-edit"></small>
         <div class="form-floating mb-1">
           <input id="observed-name-edit" type="text" class="form-control" required>
-          <label for="observed-name-edit">*Name of Location:</label>
+          <label for="observed-name-edit">Name of Location:</label>
           <small id="observed-name-edit-small" class="d-none"></small>
         </div>
         <div class="form-floating mb-1">
           <input id="address-edit" type="text" class="form-control" required>
-          <label for="address-edit">*Address:</label>
+          <label for="address-edit">Address:</label>
           <small id="address-edit-small" class="d-none"></small>
         </div>
 
@@ -357,20 +356,20 @@
           <div class="col">
             <div class="form-floating mb-1">
               <input id="city-edit" type="text" class="form-control" required>
-              <label for="city-edit">*City:</label>
+              <label for="city-edit">City:</label>
               <small id="city-edit-small" class="d-none"></small>
             </div>
           </div>
           <div class="col">
             <div class="form-floating mb-1">
               <input id="state-edit" type="text" class="form-control" required>
-              <label for="state-edit">*State:</label>
+              <label for="state-edit">State:</label>
               <small id="state-edit-small" class="d-none"></small>
             </div>
           </div>
           <div class="col">
             <div class="form-floating mb-1">
-              <input id="zip-edit" type="text" class="form-control" required>
+              <input id="zip-edit" type="text" class="form-control">
               <label for="zip-edit">ZIP Code:</label>
               <small id="zip-edit-small" class="d-none"></small>
             </div>
@@ -378,7 +377,7 @@
         </div>
         <div class="form-floating mb-1">
           <input id="year-edit" type="text" class="form-control" required>
-          <label for="year-edit">*Year:</label>
+          <label for="year-edit">Year:</label>
           <small id="year-edit-small" class="d-none"></small>
         </div>
         <div class="form-floating mb-1 d-none">
@@ -471,7 +470,7 @@
         </div>
         <div class="form-floating mb-1">
           <input id="addDescriptor-edit" type="text" class="form-control">
-          <label for="addDescriptor">Suggest new descriptors (separated by comma):</label>
+          <label for="addDescriptor">Suggest new descriptors(separated by comma):</label>
         </div>
 
         <div class="form-floating mb-1">
@@ -505,37 +504,36 @@
         <form id="user-form" class="d-flex flex-column">
           <h3 class="mt-3 mb-0 pb-2">Add a Missing Venue
           </h3>
-          <small class="form-text text-muted">*Required</small>
           <div class="form-floating mb-1">
             <input id="location-api" type="text" class="form-control" required>
-            <label for="location-api">*Venue Name:</label>
+            <label for="location-api">Venue Name:</label>
             <small id="location-api-small" class="d-none"></small>
           </div>
-          <small class="form-text text-muted">Click on the map to autofill location information.</small>
+          <small class="form-text text-muted">Click on the map to autofill location information. Note that address doesn't have to be exact, e.g. "at the intersection of 25th and 12th".</small>
           <div class="form-floating mb-1">
             <input id="address-api" type="text" class="form-control" required>
-            <label for="address-api">*Address:</label>
+            <label for="address-api">Address:</label>
             <small id="address-api-small" class="d-none"></small>
           </div>
           <div class="row g-2">
             <div class="col-md">
               <div class="form-floating mb-1">
                 <input id="city-api" type="text" class="form-control" required>
-                <label for="city-api">*City:</label>
+                <label for="city-api">City:</label>
                 <small id="city-api-small" class="d-none"></small>
               </div>
             </div>
             <div class="col-md">
               <div class="form-floating mb-1">
                 <input id="state-api" type="text" class="form-control" required>
-                <label for="state-api">*State:</label>
+                <label for="state-api">State:</label>
                 <small id="state-api-small" class="d-none"></small>
               </div>
             </div>
             <div class="col-md">
               <div class="form-floating mb-1">
-                <input id="zip-api" type="text" class="form-control" required>
-                <label for="zip-api">ZIP:</label>
+                <input id="zip-api" type="text" class="form-control">
+                <label for="zip-api">ZIP Code:</label>
                 <small id="zip-api-small" class="d-none"></small>
               </div>
             </div>
@@ -616,7 +614,7 @@
           </div>
           <div class="form-floating mb-1">
             <input id="newtags-api" type="text" class="form-control">
-            <label for="newtags-api">Suggest new tags(separated by comma):</label>
+            <label for="newtags-api">Suggest new descriptors(separated by comma):</label>
           </div>
 
           <div class="form-floating mb-1">
