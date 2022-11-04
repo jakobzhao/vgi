@@ -81,6 +81,7 @@
                 <div class="about-main-content">
                     <!-- <img class="border border-secondary" style="float:right; margin-left: 20px"
                         src="assets\screenshot.png" alt="dashboard overview" width="700px"> -->
+                    <h2>Project Overview</h2>
                     <p>Shifting LGBTQ+ Spaces is an effort by a team of faculty and students at the University of
                         Washington to build and eventually analyze a nationwide data base of LGBTQ+ spaces and places in
                         the U.S.from the mid-1960s through the mid-2010s. The data base is meant to be expandable to the
@@ -99,7 +100,7 @@
                         information, from these sorts of sources, will always be both uncertain and contested. For this
                         reason we try to "ground truth" as much of the data as possible (using a variety of methods) and
                         have included an indication for each piece of data as to how accurate we believe it to be. Your
-                        contributions to this process will help immensely with that process!"
+                        contributions to this process will help immensely with that process!
                     </p>
                     <p>
                         <a href="https://lgbtqspaces-api.herokuapp.com/api/download_venue_slice">Download our venue data</a>
@@ -132,82 +133,50 @@
                     <p>More information about how these data are collected, processed and visualized are explained and
                         can be accessed in the <a href="methodology.html" target="_parent">methodology page</a>.</p>
          -->
-                    <h2>How to use this platform?</h2>
+                    <h2>How to use this platform</h2>
 
-                    <p>This geospatial platform is featured with three functions that enables its users i）to view the
-                        LGBTQ+ venues in urban spaces of major U.S. cities, ii）to contribute local knowledge about these
-                        venues to the database if the database can be improved, and iii）to download the the database
-                        when requested.
+                    <p>This geospatial platform allows visitors to:
+                      i) view the locations of LGBTQ+ venues certain U.S. cities, between 1965-2014;
+                      ii)offer additions or corrections to the data, and
+                      iii) download data.
                         Below, we will introduce each of three major functions one by one.
                     </p>
 
                     <h4>
                         1. Viewing the map of LGBTQ+ venues in urban spaces of major U.S. cities
-
                     </h4>
-                    This platform visualizes the venues on an interactive map. The graphic user interface is comprised
-                    by a topbar and a main panel.
 
-                    <p>The topbar shows the platform logo and name to its left, and a list of web pages on its right,
-                        including map, team, about, feedback and log in. A platform users can choose between these pages
-                        to view the map, check the team who develops and maintain this project, read the project
-                        description, provide feedback, and log in to the platform in order to make contributions.</p>
+                    <p>This platform features a map* showing venues in our database.
+                      At the top-left is a “time slider” (for choosing the year you want to look at).</p>
+                    <p>At the top-right are a “Filter” button (for viewing types or characteristics of venues),
+                      a “Localities” button (for choosing the city you want to view”), and a locality “Search” button.**</p>
+                    <p>You can switch the “base map” to a current satellite image by hovering over the map below the “+”
+                      sign on the bottom-right and clicking on the satellite image button.</p>
+                    <p>Venues are shown as cones on the map.  Click on a cone to view a profile of the venue it represents.
+                      A panel will appear on the left of the map with the profile.</p>
+                    <p>At the bottom of the profile you can also suggest an edit, review the venue, or close the panel.
+                      Finally, at the bottom-right of the map is a “+” sign that you can click on to suggest a venue that does not appear in our database.</p>
+                    <p>*Please note that while the map shows venues between 1965-2014, the “base map” is comprised of today’s street grid and landscapes,
+                      so some venues – particularly from older years – may not be in their precise locations.</p>
+                    <p>**Please note that currently we only have data uploaded for four U.S. cities (Atlanta, Cleveland, Nashville, and Seattle).
+                      We will add more cities over time.</p>
+                    <h4>2. Making Contributions to the Database</h4>
+                    <p>You can make two types of contributions to this database: adding a missing venue or suggesting an edit to an existing venue.
+                      To protect your privacy, we are NOT asking you to login to the portal in a way that results in any personal information
+                      about you being collected. Instead, you will need to log in to the platform using a temporary passphrase.
+                      If you do not already have a passphrase, <a target="_self" href="agreement.html">click here to obtain one</a>.  Once you have a passphrase,
+                      click the log in button at the top-right of the map. A login panel will pop up.  Then simply input the three terms of the passphrase
+                      and click “log in”. A notice will appear indicating that you have successfully logged in.  If the login fails, please try again
+                      or contact us for help at XXX@uw.edu.</p>
 
-                    <p>Right below the topbar is the main map. The map is comprised of a base layer and a layer of
-                        venues. The base map is made up using OpenStreetmap by Mapbox. It is worth noting that, in
-                        current version of the platform, the base map only displays a map of today; it could not be
-                        changed to plot historical land features of the the year indicated on the top left corner of the
-                        main panel. A user can overlay two different types of basemap, one is the default grayscale map,
-                        and the other is a satellite imagery. A user can chage the base map by operating the layer
-                        switcher at the bottom right corner of the main map. On the map, each venue is illustrated as a
-                        three-dimensional cone. After clicking upon the cone, a panel of the venue profile will be shown
-                        to the left of the main map. </p>
-
-                    <p>The time slider kit is at the top left corner of the main map. A user can slide the timeline to
-                        view the venue map of a specific year between 1965 to 2014.
-
-                    <p>The top right corner of the main map lies a list of toolkits. the Filter dropdown menu allows a
-                        user to filter the venue by selected descriptors. For example, if the “Bar/Nightclub” is chosen,
-                        only the venues that have been considered as a bar/nightclub will be plotted on the interactive
-                        map. The Localities menu allows users to fly to a different locale. We will keep improve the
-                        platform by providing data from more locales, at this moment, it has dataset from Seattle,
-                        Atlanta, Nashville, and Cleveland. Right next to the Locality dropdown menu is a geocoder bar
-                        that allows users to search a local place and then get to there for a closer view of the map of
-                        nearby venues. The question mark icon can initiate a walkthrough of the geospatial platform.</p>
-
-                    <p>At the bottom left shows the logos and a short acknowledgement. Right above them is the legend
-                        button. A user can turn on or off the visualization of venues by toggling on or off the
-                        switcher. If clicking the legend bar, a detailed legend panel will be displayed. The table lists
-                        a group of venues, the location of which cannot be easily located on the map. A few examples of
-                        such venues are P.O. Boxes, Radio Stations, magazines. A user can also turn on or off the
-                        confident level switcher to color the venues by how confident we are about data accuracy. </p>
-
-                    <p>The bottom right corner of the main map lies the adding a missing venue button (or the adding
-                        venue button thereafter) and the layer swticher. The adding venue button will enable a user to
-                        add a venue that does not exist in the database. </p>
-                    <h4>2. Making contribution to the database</h4>
-                    <p>You can make two primary types of contributions to this database: adding a missing venue or
-                        suggesting an edit to an existing venue. To protect your privacy, we are NOT asking you to login
-                        to the portal in a way that results in any personal information about you being collected.
-                        Instead, you will need to log in to the platform using the temporary passphrase. To do so,
-                        clicking the log in button to the right of the topbar. On the displaying log in panel, you can
-                        input the three terms of the passphrase, and click “log in”. A notice will appear to indicate
-                        that you have successfully logged in or not.</p>
-
-                    <p>If a user realizes that a venue is missing in the database, this user can contribute this venue
-                        through the platform. After clicking the “adding venue” button to the buttom left corner of the
-                        main map, a user can open the adding venue mode. In this mode, a left panel will display on the
-                        left of the main map, it assists a user to input the features of the missing venue. If a user
-                        realizes that some edits of an existing venue is needed, this user can click on the “suggest an
-                        edit” button on the bottom of the profile panel of a venue. Then, a user can suggest edits to a
-                        venue. For both operations, the newly made contribution will not immediately appear on the map.
-                        In other words, a user cannot see its edits on the map immediately, please do not get panic
-                        since the research will review your contribution first and then improve the database by a
-                        holistic consideration of all the contributions.</p>
-                    <h4>3. Download the database when requested</h4>
-                    <p>A user can download venue data of each locality in the format of geojson or csv. To do so, a user
-                        needs to sign a user contract. After our approval, a temporary link for data downloading will be
-                        shared with the applicant.</p>
+                      <p>To add a missing venue, click the “+” button at the bottom-right of the main map. A panel will then open
+                        where you can make your contribution.  To suggest an edit to an existing venue, click on the cone representing
+                        the venue on the map.  A panel will again open where you can suggest an edit.  Just click on the “Suggest an edit”
+                        button at the bottom of the panel. Click the “Submit” button when you are done.  Please note that your contribution
+                        will not immediately appear on the map, as it takes time to process contributions. </p>
+                    <h4>3. Downloading Data</h4>
+                    <p>Our data can be downloaded free of charge but we ask that you agree to certain terms regarding how you use the data.
+                      Click here for instructions.</p>
                     <!-- acknowledgement -->
                     <hr>
                     <h2>Acknowledgement</h2>
