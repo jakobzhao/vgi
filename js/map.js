@@ -32,7 +32,7 @@ const localities = {
 };
 // get the browser type (some style not working in firefox)
 function myBrowser() {
-  var userAgent = navigator.userAgent; 
+  var userAgent = navigator.userAgent;
   var isChrome = userAgent.indexOf("Chrome") > -1;
   if (isChrome) {
     document.getElementById('year-slider').className += " Chrome";
@@ -312,7 +312,7 @@ function toGEOJSON(data) {
     "type": "FeatureCollection",
     "features": feature_list
   };
-};
+}
 
 // Creating polygon geojson file for inset map view
 function toPolygonGEOJSON(data) {
@@ -482,59 +482,59 @@ function addVenueLayer(map, obsData) {
 };
 
 // add accordion layer - for venues and observations
-function addObservationLayer(map, data) {
+// function addObservationLayer(map, data) {
 
-  let features = data.features;
-  let test = {
-    'type': 'FeatureCollection',
-    'features': features.map((location, index) => ({
-      'type': 'Feature',
-      'properties': {
-        'height': 50,
-        'base': 0
-      },
-      'geometry': {
-        'type': 'Polygon',
-        'coordinates': turf.bboxPolygon(turf.square(turf.bbox(turf.circle(location.geometry.coordinates, 0.01, {
-          steps: 64
-        })))).geometry.coordinates
-      }
-    }))
-  };
+//   let features = data.features;
+//   let test = {
+//     'type': 'FeatureCollection',
+//     'features': features.map((location, index) => ({
+//       'type': 'Feature',
+//       'properties': {
+//         'height': 50,
+//         'base': 0
+//       },
+//       'geometry': {
+//         'type': 'Polygon',
+//         'coordinates': turf.bboxPolygon(turf.square(turf.bbox(turf.circle(location.geometry.coordinates, 0.01, {
+//           steps: 64
+//         })))).geometry.coordinates
+//       }
+//     }))
+//   };
 
-  map.addLayer({
-    'id': 'observations',
-    'type': 'fill-extrusion',
-    'source': {
-      'type': 'geojson',
-      'data': test,
-      generateId: true,
-      'tolerance': 0
-    },
-    'layout': {
-      'visibility': 'none'
-    },
-    'paint': {
-      'fill-extrusion-color': [
-        'case',
-        ['boolean', ['feature-state', 'hover'], false],
-        'red',
-        'pink'
-      ],
-      'fill-extrusion-base': {
-        'type': 'identity',
-        'property': 'base'
-      },
-      'fill-extrusion-height': {
-        'type': 'identity',
-        'property': 'height'
-      },
-      'fill-extrusion-opacity': 1,
-      'fill-extrusion-vertical-gradient': false,
-    }
-  });
+//   map.addLayer({
+//     'id': 'observations',
+//     'type': 'fill-extrusion',
+//     'source': {
+//       'type': 'geojson',
+//       'data': test,
+//       generateId: true,
+//       'tolerance': 0
+//     },
+//     'layout': {
+//       'visibility': 'none'
+//     },
+//     'paint': {
+//       'fill-extrusion-color': [
+//         'case',
+//         ['boolean', ['feature-state', 'hover'], false],
+//         'red',
+//         'pink'
+//       ],
+//       'fill-extrusion-base': {
+//         'type': 'identity',
+//         'property': 'base'
+//       },
+//       'fill-extrusion-height': {
+//         'type': 'identity',
+//         'property': 'height'
+//       },
+//       'fill-extrusion-opacity': 1,
+//       'fill-extrusion-vertical-gradient': false,
+//     }
+//   });
 
-};
+// }
 
 // basemap switching/styling
 var layerList = document.getElementsByClassName('layers-input-container');
@@ -749,7 +749,7 @@ function infoNullCheck(string) {
 }
 // left panel functionalities (validate observation marker view, selected marker view, map zoom to selected point)
 async function addLeftPanelActions(feature, marker, e) {
-  sessionStorage.clear();
+  sessionStorage.removeItem("defaultCheckbox");
   let coordinates = feature.geometry.coordinates.slice();
   //for those in the list (no specific latlng was found, the program should skip the following lines.)
   try {
@@ -900,80 +900,6 @@ function constructReviews(reviewData) {
     reviewParent.append(reviewDiv);
   }
 }
-// add 3-D extrusions
-function addExtrusions(feature, e) {
-  // get the data points that stack on top of each other within the selected year range
-  // let layerData = map.queryRenderedFeatures([e.point.x, e.point.y], {
-  //   layers: ['data']
-  // });
-  let coordinates = feature.geometry.coordinates.slice();
-  while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-    coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-  };
-
-  // sort data by year (from lowest to highest) if layerData detects more than one
-  // if (layerData.length > 1) {
-  //   layerData.sort((a, b) => {
-  //     return parseFloat(a.properties.year) - parseFloat(b.properties.year);
-  //   });
-  // };
-
-  const polygonRadius = 0.02;
-  let options = {
-    steps: 100,
-    units: 'kilometers'
-  };
-
-  let scaleTest = chroma.scale('OrRd').colors(12);
-  let yearBlockData = {
-    // layerData.map((location, index) => (
-    'type': 'Feature',
-    'properties': {
-      'name': feature.properties.observedvenuename,
-      'year': feature.properties.year,
-      'height': 75,
-      // 'height': (((index == 0) ? 50 : (index + 1) * 150 - 45) + 145),
-      // 'base': ((index == 0) ? 50 : (index + 1) * 150 - 10),
-      'base': 50,
-      'paint': scaleTest[0]
-    },
-    'geometry': {
-      'type': 'Polygon',
-      'coordinates': turf.circle(coordinates, polygonRadius, options).geometry.coordinates
-    },
-    'id': feature.id
-    // ))
-  };
-  map.addLayer({
-    'id': 'year-block',
-    'type': 'fill-extrusion',
-    'source': {
-      'type': 'geojson',
-      'data': yearBlockData,
-      generateId: true,
-      'tolerance': 0
-    },
-    'paint': {
-      'fill-extrusion-color': [
-        'case',
-        ['boolean', ['feature-state', 'hover'], false],
-        'red',
-        'pink'
-      ],
-      'fill-extrusion-base': {
-        'type': 'identity',
-        'property': 'base'
-      },
-      'fill-extrusion-height': {
-        'type': 'identity',
-        'property': 'height'
-      },
-      'fill-extrusion-opacity': 1,
-      'fill-extrusion-vertical-gradient': false,
-    }
-  });
-};
-
 
 // add div for the codes corresponding to selected year on the map
 function code_div(codes, venueSlices, observedData, year) {
@@ -1360,7 +1286,6 @@ function makeLocalityList(localityID, data, selectedYear) {
         addLeftPanelActions(element, marker);
         getEvidenceInfo(element);
         // getStreetView(localityFeatures[i]);
-        // addExtrusions(localityFeatures[i]);
         if (document.getElementById('info-default').classList.contains('d-none')) {
           let collapseState = document.getElementById('info').classList.toggle('leftCollapse');
 
@@ -1497,12 +1422,6 @@ function addCones(data, active) {
 };
 
 function addCubes(data, active) {
-  // if (data.length == 0) {
-  //   document.getElementById("year-notes").innerHTML = "No observations from this locale of this year has been found in our database. If you know any venue does not shown on this database, please help us improve. "
-  // } else {
-  //   document.getElementById("year-notes").innerHTML = "";
-  // }
-  //addLabels(data);
   if (map.getLayer('observation-cubes')) {
     map.removeLayer('observation-cubes');
   }
@@ -1561,7 +1480,7 @@ function addCubes(data, active) {
       tb.update();
     }
   });
-};
+}
 
 // this can be used to colorize the venue based on confidence level.
 document.getElementById('reliability-switch').addEventListener('click', function () {
@@ -1838,7 +1757,6 @@ let venueCheckbox = document.getElementById('venue-flexSwitchCheckChecked');
 
 venueCheckbox.addEventListener('click', function (e) {
 
-  
   if (map.getLayer('poi-labels')) {
     map.removeLayer('poi-labels');
     map.removeSource('venues');
@@ -2039,7 +1957,10 @@ map.on('style.load', async function () {
 map.on('click', 'year-block', function (e) {
   new mapboxgl.Popup()
     .setLngLat(e.lngLat)
-    .setHTML(e.features[0].properties.name)
+    .setHTML(
+      `<p>${e.features[0].properties.name}</p>
+      `
+    )
     .addTo(map);
   // highlight extrusion on hover
   // display popup for location information of extrusion
@@ -2124,7 +2045,6 @@ map.on('click', 'data', async function (e) {
   let feature = e.features[0];
   viewLeftPanel(feature);
   addLeftPanelActions(feature, marker, e);
-  // addExtrusions(feature, e);
 
   //add buffer
   let turfPoint = turf.point(feature.geometry.coordinates);
@@ -2180,8 +2100,14 @@ map.on('click', 'data', async function (e) {
   let vid = parseInt(document.getElementById('vid-review').innerHTML);
 
   // Create underlying observation
-  // let observations = await getObservationsVID(vid);
-  // addCubes(observations.features);
+  let observations = await getObservationsVID(vid);
+  // Check if cube layer exists in map
+  if (map.getLayer('cube-observation')) {
+    map.removeLayer('cube-observation');
+    console.log("cube get layer is called and removeLayer also called");
+  }
+  let cubeCreate = await import('./addObservationCubes.js');
+  cubeCreate.createCubes(observations.features);
 
   let reviewParent = document.getElementById('reviews-container');
 
