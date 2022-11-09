@@ -1955,12 +1955,17 @@ map.on('style.load', async function () {
 ////////////////////////////////////////////////////
 // when click on extrusion
 map.on('click', 'year-block', function (e) {
+  // processing years
+  let yearList = JSON.parse(e.features[0].properties.years);
+  let uniqueYears = [...new Set(yearList)];
+  let stringYear = uniqueYears.join(",");
+
   new mapboxgl.Popup()
     .setLngLat(e.lngLat)
-    .setHTML(
-      `<p>${e.features[0].properties.name}</p>
-      `
-    )
+    .setHTML(`<p>
+            ${e.features[0].properties.name}</br>
+            Years containing data: </br>
+            ${stringYear}</p>`)
     .addTo(map);
   // highlight extrusion on hover
   // display popup for location information of extrusion

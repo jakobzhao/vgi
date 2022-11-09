@@ -1,5 +1,4 @@
 export function createCubes(data) {
-    console.log(data);
     if(map.getLayer('year-block')) {
         map.removeLayer('year-block');
         map.removeSource('year-block');
@@ -42,8 +41,7 @@ function cubeLayer(data) {
 }
 
 function processDataForCubes(data) {
-    console.log(data);
-    // Condense data if same longitude and latitude
+  // Condense data if same longitude and latitude
     let condensedData = new Object();
     data.forEach( (observation, index) => {
         // if they are the same coordinates, then we add together
