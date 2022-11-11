@@ -325,34 +325,22 @@ function toPolygonGEOJSON(data) {
   let polygonRadius;
   let radiusList = [0.205, 0.2, 0.195, 0.19, 0.185, 0.18]
   // lgbtq flag color 
-  let colorCode = ['#a50026','#d73027', '#f46d43', '#fdae61', '#fee090', '#e0f3f8', '#abd9e9', '#74add1', '#4575b4', '#313695']
+  let colorCode = {
+    6: ['', '', '', '', '','#9e0142', '#a90d45', '#b41a47', '#c0264a', '#cb334d'],
+    7: ['#d63f4f', '#dc494c', '#e2524a', '#e95c47', '#ef6545', '#f47044', '#f67d4a', '#f88a50', '#fa9757', '#fdbb6c'],
+    8: ['#fdc575', '#fed07d', '#feda86', '#fee38f', '#fee99a', '#feefa4', '#fdb164', '#feefa4', '#fff6af', '#fffcba'],
+    9: ['#fcfebb', '#f7fcb3', '#f2faab', '#edf8a3', '#e8f69b', '#dff299', '#d3ed9c', '#c7e89e', '#bbe3a1', '#afdea3'],
+    0: ['#a1d9a4', '#93d4a4', '#85cea5', '#77c9a5', '#69c3a5', '#5eb9a9', '#53adae', '#48a1b3', '#3e95b8', '#3389bd'],
+    1: ['#3a7eb8', '#4372b3', '#4c66ad', '#555ba8', '#5e4fa2']
+  };
+
   countColor = 0;
+  // const insetlegend = document.getElementById('inset-legend');
   for (const element of data) {
     let coordinates = element.geometry.coordinates.slice();
-    color = colorCode[element.properties.year % 10];
+    color = colorCode[parseInt(element.properties.year%100/10)][element.properties.year%10];
     polygonRadius = 0.2-0.001*countColor;
     countColor += 1;
-    // if (element.properties.year < 1975) {
-    //   color = colorCode[0]
-    //   polygonRadius = radiusList[0]
-    // } else if (element.properties.year < 1985) {
-    //   color = colorCode[1]
-    //   polygonRadius = radiusList[1]
-    // } else if (element.properties.year < 1995) {
-    //   color = colorCode[2]
-    //   polygonRadius = radiusList[2]
-    // } else if (element.properties.year < 2005) {
-    //   color = colorCode[3]
-    //   polygonRadius = radiusList[3]
-
-    // } else if (element.properties.year < 2010) {
-    //   color = colorCode[4]
-    //   polygonRadius = radiusList[4]
-
-    // } else {
-    //   color = colorCode[5]
-    //   polygonRadius = radiusList[5]
-    // }
     let temp = {
       "type": "Feature",
       'id': element.properties.vsid,

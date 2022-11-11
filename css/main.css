@@ -468,6 +468,24 @@ p#venue-indicator {
     transition: left 1s;
 }
 
+
+
+#sub-legend {
+    position: absolute;
+    line-height: 22px;
+    padding: 20px;
+    left: 60%;
+    bottom: 0px;
+}
+
+#sub-legend i {
+    width: 1.5px;
+    height: 22px;
+    float: left;
+    bottom: 10px;
+}
+
+
 .accordion-button {
     margin-top: 0em !important;
     margin-bottom: 0em !important;
