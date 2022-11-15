@@ -116,6 +116,10 @@ nav {
   .simplebar-content-wrapper {
     /* overflow: auto; */
   }
+
+  .simplebar-track.simplebar-vertical .simplebar-scrollbar:before {
+    background-image: linear-gradient(#2EAAFA , #8C04DB);
+  }
   
   /* navbar */
   .navbar {

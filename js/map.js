@@ -537,7 +537,7 @@ function switchLayer(layer) {
 // light-v10
 // satellite-v9
 if(map.getLayer('satellite-layer')){
-
+  document.getElementById('default-basemap').src = "assets/imgs/light.PNG";
 
 }
 else{
@@ -562,6 +562,7 @@ var layerId = layer.target.id;
 if(layerId=='satellite-v9') {
 
     map.setLayoutProperty("satellite-layer", 'visibility',"visible");
+    document.getElementById('default-basemap').src = "assets/imgs/satellite.PNG";
 }
 else {
   map.setLayoutProperty("satellite-layer", 'visibility',"none");

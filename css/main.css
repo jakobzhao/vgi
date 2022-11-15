@@ -1206,8 +1206,3 @@ p#venue-indicator {
 .validatedSuccess {
     color: green;
 }
-
-.mapboxgl-popup {
-    width: auto;
-    font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
-}
