@@ -278,10 +278,10 @@ async function getObservations(locality) {
   }
 };
 
-// get vid observations
-async function getObservationsVID(vid) {
+// get vid observations and per year
+async function getObservationsVID(vid, year) {
   try {
-    let getObservationsVidData = await fetch(`https://lgbtqspaces-api.herokuapp.com/api/relatedobservations/${vid}`, {
+    let getObservationsVidData = await fetch(`https://lgbtqspaces-api.herokuapp.com/api/relatedobservations/${vid}/${year}`, {
       method: 'GET'
     });
     let returnData = await getObservationsVidData.json();
@@ -574,7 +574,7 @@ for (var i = 0; i < layerList.length; i++) {
 };
 
 function removeAllLayers() {
-  let layers = ['observation-cubes', 'nearby-observations', 'buffer-point', 'year-block', 'poi-labels', 'venue-slice-cones'];
+  let layers = ['observation-cubes', 'nearby-observations', 'buffer-point', 'year-block', 'year-block-line', 'poi-labels', 'venue-slice-cones'];
   let sources = ['venues'];
   for (let layer of layers) {
     if (map.getLayer(layer)) {
@@ -2025,6 +2025,11 @@ map.on('click', 'data', async function (e) {
     map.removeSource('year-block');
   };
 
+  if (typeof map.getLayer('year-block-line') !== "undefined") {
+    map.removeLayer('year-block-line');
+    map.removeSource('year-block-line');
+  };
+
   if (typeof map.getLayer('buffer-point') !== "undefined") {
     map.removeLayer('buffer-point');
     map.removeSource('buffer-point');
@@ -2093,11 +2098,10 @@ map.on('click', 'data', async function (e) {
   let vid = parseInt(document.getElementById('vid-review').innerHTML);
 
   // Create underlying observation
-  let observations = await getObservationsVID(vid);
+  let observations = await getObservationsVID(vid, e.features[0].properties.year);
   // Check if cube layer exists in map
   if (map.getLayer('cube-observation')) {
     map.removeLayer('cube-observation');
-    console.log("cube get layer is called and removeLayer also called");
   }
   let cubeCreate = await import('./addObservationCubes.js');
   cubeCreate.createCubes(observations.features);
@@ -2175,6 +2179,12 @@ document.getElementById('go-back-btn').addEventListener('click', function () {
     map.removeSource('year-block');
   };
 
+  if (typeof map.getLayer('year-block-line') !== 'undefined') {
+    // clear 3-D year object
+    map.removeLayer('year-block-line');
+    map.removeSource('year-block-line');
+  };
+
 });
 
 document.getElementById('go-back-btn2').addEventListener('click', function () {
@@ -2234,6 +2244,12 @@ document.getElementById('info-close-btn').addEventListener('click', function (e)
     // clear 3-D year object
     map.removeLayer('year-block');
     map.removeSource('year-block');
+  };
+
+  if (typeof map.getLayer('year-block-line') !== 'undefined') {
+    // clear 3-D year object
+    map.removeLayer('year-block-line');
+    map.removeSource('year-block-line');
   };
 
 });
