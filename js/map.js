@@ -2310,8 +2310,20 @@ document.getElementById('add-observation-container').addEventListener('click', f
       map.removeLayer('buffer-point');
       map.removeSource('buffer-point');
     }
-  };
+    // remove 3D shapes
+    if(map.getLayer('year-block')) {
+      map.removeLayer('year-block');
+      map.removeSource('year-block');
+    }
+
+    if(map.getLayer('year-block-line')) {
+      map.removeLayer('year-block-line');
+      map.removeSource('year-block-line');
+    }
+  }
 });
+
+// add an observation button - if map 
 
 function makeAlert(alertText) {
   let alert = document.getElementById("alert-modal");
