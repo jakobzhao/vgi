@@ -30,6 +30,17 @@ const localities = {
   }
 
 };
+
+// check window size and close the left panel
+window.addEventListener("resize", function() {
+  if (this.window.matchMedia("(max-width: 1027px)").matches) {
+    document.getElementById('info').classList.toggle('leftCollapse');
+    this.document.getElementById('year-slider').style = "left: 0em";
+    this.document.getElementById('attribution').style = "left: 0em";
+    this.document.getElementById('legend').style = "left: 0em";
+  }
+})
+
 // get the browser type (some style not working in firefox)
 function myBrowser() {
   var userAgent = navigator.userAgent;
