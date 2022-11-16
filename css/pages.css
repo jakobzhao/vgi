@@ -12,7 +12,7 @@ main,
     flex-flow: column;
     font-family: 'Source Sans Pro', sans-serif;
     color: rgb(247 247 247 /70%);
-    overflow-y: scroll;
+    overflow-y: hidden;
     overflow-x: hidden;
 }
 
