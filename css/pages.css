@@ -58,27 +58,27 @@ nav {
     border-radius: 5px;
 }
 
-  
+
   a {
     color: rgb(247 247 247 /80%);
   }
-  
+
   a:hover {
     color: rgb(247 247 247 /95%);
     pointer-events: auto;
   }
-  
+
   hr {
     margin-top: 10px;
     margin-bottom: 10px;
   }
-  
+
   h4 {
     font-size: x-large;
     text-indent: 0.5em;
-  
+
   }
-  
+
   .fa {
     /* padding: 20px; */
     font-size: large;
@@ -87,21 +87,21 @@ nav {
     text-align: center;
     text-decoration: none;
   }
-  
+
   /* Add a hover effect if you want */
   .fa:hover {
     color: white;
     text-decoration: none;
   }
-  
-  
+
+
   .logo {
     position: relative;
     text-align: center;
     margin-top: 20px;
     padding-bottom: 50px;
   }
-  
+
   .attribution p {
     /* font-size: small; */
     /* margin-top: 70px; */
@@ -111,8 +111,8 @@ nav {
     /* text-align: center !important; */
     color: rgb(247 247 247 /70%);
   }
-  
-  
+
+
   .simplebar-content-wrapper {
     /* overflow: auto; */
   }
@@ -120,41 +120,41 @@ nav {
   .simplebar-track.simplebar-vertical .simplebar-scrollbar:before {
     background-image: linear-gradient(#2EAAFA , #8C04DB);
   }
-  
+
   /* navbar */
   .navbar {
     dispay: block;
   }
-  
+
   .navbar-brand img {
     margin-right: 5px;
   }
-  
+
   .navbar-nav {
     /* flex-direction: row; */
   }
-  
+
   .nav-link {
     padding-right: .5rem !important;
     padding-left: .5rem !important;
     color: white
   }
-  
+
   .navbar>.container {
     justify-content: left;
     margin-left: 0;
   }
-  
+
   .ml-auto, .mx-auto {
     margin-left: 0 !important;
   }
-  
+
   /* Fixes dropdown menus placed on the right side */
   .ml-auto .dropdown-menu {
     left: auto !important;
     right: 0px;
   }
-  
+
   /* main window */
   .grid-container {
     height: 100vh;
@@ -164,14 +164,14 @@ nav {
     background-color: #121212;
     display: grid;
   }
-  
+
   .grid-box {
     background-color: #343a40;
     border-radius: 2px;
     text-align: center;
     /* margin-bottom: 5rem; */
   }
-  
+
   /* About Page CSS */
   .about-main-content {
     padding-top: 2em;
@@ -180,11 +180,11 @@ nav {
     padding-right: 3em;
     text-align: left;
   }
-  
+
   .about-main-content p {
     text-indent: 1em;
   }
-  
+
   .about-img-thumbnail {
     padding: .25rem;
     background-color: #fff;
@@ -193,7 +193,7 @@ nav {
     max-width: 100%;
     height: auto;
   }
-  
+
   .about-social-link {
     width: 30px;
     height: 30px;
@@ -206,7 +206,7 @@ nav {
     transition: all 0.3s;
     /* font-size: 0.9rem; */
   }
-  
+
   #about-contact {
     display: grid;
     grid-template-columns: repeat(3, auto);
@@ -218,47 +218,47 @@ nav {
     margin-bottom: 1em;
     margin-top: 1em;
   }
-  
+
   .mb-0 {
     color: rgb(247 247 247 /70%);
   }
-  
+
   /* css for the resource page */
   .re-container {
     padding: 20px;
   }
-  
+
   .external-re {
     display: flex;
     flex-wrap: wrap;
     width: 100%;
     justify-content: space-between;
   }
-  
+
   .re-flex-item {
     text-align: left;
     padding: 10px;
     width: 438px;
     margin-bottom: 20px;
   }
-  
+
   .re-table {
     border-collapse: collapse;
     width: 100vw;
     font-size: 15px;
     margin-bottom: 20px;
   }
-  
+
   td, th {
     /*border: 1px solid #dddddd;*/
     text-align: left;
     padding: 2px;
   }
-  
+
   .re-table th {
     font-size: x-large;
   }
-  
+
   /*methodology page
   Please use 'mtd' as prefix
   */
@@ -269,11 +269,11 @@ nav {
     padding-right: 3em;
     text-align: left;
   }
-  
+
   .mtd-main-content p {
     text-indent: 1em;
   }
-  
+
   /* resource page css*/
   .resource-container {
     padding-top: 15px;
@@ -283,7 +283,7 @@ nav {
     margin: 20px;
     margin-top: 9vh;
   }
-  
+
   .resource-main-content {
     padding-top: 2em;
     padding-bottom: 1em;
@@ -291,11 +291,11 @@ nav {
     padding-right: 3em;
     text-align: left;
   }
-  
+
   .resource-main-content p {
     text-indent: 1em;
   }
-  
+
   /* ocp risk table */
   .tg  {border-collapse:collapse;border-spacing:0;width:50%}
   .tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
@@ -311,7 +311,7 @@ nav {
   .tg tbody {
     color:black;
   }
-  
+
   /* unemp risk table */
   .tg-unemp  {border-collapse:collapse;border-spacing:0;width:50%}
   .tg-unemp td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
@@ -327,3 +327,15 @@ nav {
   .tg-unemp tbody {
     color:black;
   }
+
+  table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
