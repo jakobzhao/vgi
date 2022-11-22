@@ -334,7 +334,6 @@ function toPolygonGEOJSON(data) {
   };
   let color;
   let polygonRadius;
-  let radiusList = [0.205, 0.2, 0.195, 0.19, 0.185, 0.18]
   // lgbtq flag color 
   let colorCode = {
     6: ['', '', '', '', '','#9e0142', '#a90d45', '#b41a47', '#c0264a', '#cb334d'],
@@ -855,7 +854,7 @@ function createLocalityList() {
     }
 
     localityList.appendChild(localityItem);
-    localityItem.addEventListener('click', async function handleClick(event) {
+    localityItem.addEventListener('click', async function handleClick() {
 
       let localityList = document.getElementById("localityList");
       localityList.querySelectorAll("a").forEach(localityItem => {
@@ -1287,7 +1286,6 @@ function makeLocalityList(localityID, data, selectedYear) {
         getEvidenceInfo(element);
         // getStreetView(localityFeatures[i]);
         if (document.getElementById('info-default').classList.contains('d-none')) {
-          let collapseState = document.getElementById('info').classList.toggle('leftCollapse');
 
           toggleLeftPanelView('info-default');
         } else {
@@ -1415,7 +1413,7 @@ function addCones(data, active) {
         }
       });
     },
-    render: function (gl, matrix) {
+    render: function () {
       tb.update();
     }
   });
@@ -1476,7 +1474,7 @@ function addCubes(data, active) {
       })
 
     },
-    render: function (gl, matrix) {
+    render: function () {
       tb.update();
     }
   });
@@ -1636,7 +1634,7 @@ function createCodeCategories(data) {
     [],
     []
   ];
-  Object.entries(data).forEach(([key, value]) => {
+  Object.entries(data).forEach(([, value]) => {
     if (value.name == 'Entry Descriptors') {
       dataSlice[0].push(value.code);
     } else if (value.name == 'Clientele/User Descriptors') {
@@ -1799,12 +1797,12 @@ venueCheckbox.addEventListener('click', function (e) {
 
 // YEAR SLIDING
 let yearSlider = document.getElementById('slider-bar');
-yearSlider.addEventListener('input', function (e) {
+yearSlider.addEventListener('input', function () {
   let selectedYear = parseInt(document.getElementById('slider-bar').value);
   document.getElementById('year-label').innerHTML = selectedYear;
 });
 
-yearSlider.addEventListener('change', async function (e) {
+yearSlider.addEventListener('change', async function () {
   let selectedYear = parseInt(document.getElementById('slider-bar').value);
   let selectedLocality = document.querySelector(".dropdown-item-checked").text;
   updateMap(selectedYear, selectedLocality);
@@ -2160,8 +2158,6 @@ document.getElementById('go-back-btn').addEventListener('click', function () {
     }
   }
 
-  // document.getElementById('info').classList.toggle('leftCollapse');
-  // toggleLeftPanelView('legend');
   if (typeof map.getLayer('selectedMarker') !== "undefined") {
     marker.remove();
     map.removeLayer('selectedMarker');
@@ -2226,7 +2222,6 @@ map.on('mouseleave', 'data', function () {
 
 
 map.on('click', function (e) {
-
   //click on the map to hide the locality and/or the code filter menus.
   let localityList = document.getElementById('localityList');
   localityList.classList.add('d-none');
