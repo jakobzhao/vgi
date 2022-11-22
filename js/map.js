@@ -2151,19 +2151,13 @@ function submitNewReview(e) {
   }
 };
 
-
 // go back button
 document.getElementById('go-back-btn').addEventListener('click', function () {
-
-  // console.log("go back");
-
   if (!(document.getElementById('info-default').classList.contains('d-none'))) {
-
     toggleLeftPanelView('all')
     if (!document.getElementById('info').classList.contains('leftCollapse')) {
       document.getElementById('info').classList.toggle('leftCollapse');
     }
-
   }
 
   // document.getElementById('info').classList.toggle('leftCollapse');
@@ -2196,7 +2190,6 @@ document.getElementById('go-back-btn').addEventListener('click', function () {
     map.removeLayer('year-block-line');
     map.removeSource('year-block-line');
   };
-
 });
 
 document.getElementById('go-back-btn2').addEventListener('click', function () {
@@ -2221,50 +2214,6 @@ document.getElementById('go-back-btn2').addEventListener('click', function () {
 
   }
 })
-
-// close button
-document.getElementById('info-close-btn').addEventListener('click', function (e) {
-  // trigger slideout/slide-in btn
-  let collapsed = document.getElementById('info').classList.toggle('leftCollapse');
-  document.getElementById('info-close-btn').classList.toggle('info-btn-collapse');
-  let btnImg = document.getElementById('leftPanelArrow');
-  if (collapsed) {
-    btnImg.src = './assets/imgs/open-arrow.svg';
-  } else {
-    btnImg.src = './assets/imgs/back-btn.svg';
-  }
-  toggleLeftPanelView('legend');
-
-  if (typeof map.getLayer('selectedMarker') !== "undefined") {
-    marker.remove();
-    map.removeLayer('selectedMarker');
-    map.removeSource('selectedMarker');
-  };
-
-  if (typeof map.getLayer('nearby-observations') !== "undefined") {
-    marker.remove();
-    map.removeLayer('nearby-observations');
-    map.removeSource('nearby-observations');
-  };
-
-  if (typeof map.getLayer('buffer-point') !== "undefined") {
-    map.removeLayer('buffer-point');
-    map.removeSource('buffer-point');
-  };
-
-  if (typeof map.getLayer('year-block') !== 'undefined') {
-    // clear 3-D year object
-    map.removeLayer('year-block');
-    map.removeSource('year-block');
-  };
-
-  if (typeof map.getLayer('year-block-line') !== 'undefined') {
-    // clear 3-D year object
-    map.removeLayer('year-block-line');
-    map.removeSource('year-block-line');
-  };
-
-});
 
 // Change the cursor to a pointer when the it enters a feature in the 'circle' layer.
 map.on('mouseenter', 'data', function () {

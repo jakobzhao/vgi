@@ -254,7 +254,6 @@ function toggleLeftPanelView(elementId) {
 
   // process the attribution
   let attributionLeft = document.getElementById("attribution").style["left"];
-
   if (attributionLeft == "28em" && elementId == 'all') {
     document.getElementById("attribution").style["left"] = "0em";
     document.getElementById("year-slider").style["left"] = "0em";
