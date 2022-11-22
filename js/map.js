@@ -43,8 +43,8 @@ const localities = {
 
 // get the browser type (some style not working in firefox)
 function myBrowser() {
-  var userAgent = navigator.userAgent;
-  var isChrome = userAgent.indexOf("Chrome") > -1;
+  let userAgent = navigator.userAgent;
+  let isChrome = userAgent.indexOf("Chrome") > -1;
   if (isChrome) {
     document.getElementById('year-slider').className += " Chrome";
   }
@@ -250,10 +250,9 @@ function confirmationReview() {
   // display user reaction confirmation screen
   let reviewCheck = document.getElementById('reviews-confirmation');
   reviewCheck.classList.remove('d-none');
-  let timeOutID = setTimeout(function () {
+  setTimeout(function () {
     reviewCheck.classList.add('d-none')
   }, 3000);
-  timeOutID;
 }
 
 // getVenues
@@ -334,7 +333,7 @@ function toPolygonGEOJSON(data) {
   };
   let color;
   let polygonRadius;
-  // lgbtq flag color 
+  // lgbtq flag color
   let colorCode = {
     6: ['', '', '', '', '','#9e0142', '#a90d45', '#b41a47', '#c0264a', '#cb334d'],
     7: ['#d63f4f', '#dc494c', '#e2524a', '#e95c47', '#ef6545', '#f47044', '#f67d4a', '#f88a50', '#fa9757', '#fdbb6c'],
@@ -344,7 +343,7 @@ function toPolygonGEOJSON(data) {
     1: ['#3a7eb8', '#4372b3', '#4c66ad', '#555ba8', '#5e4fa2']
   };
 
-  countColor = 0;
+  let countColor = 0;
   // const insetlegend = document.getElementById('inset-legend');
   for (const element of data) {
     let coordinates = element.geometry.coordinates.slice();
@@ -382,19 +381,16 @@ function toPolygonGEOJSON(data) {
 function toSecondaryGEOJSON(data) {
   let feature_list = [];
   // for loop
-  for (let i = 0; i < data.length; i++) {
+  for (const element of data) {
     let temp = {
       "type": "Feature",
       "geometry": {
         "type": "Point",
-        "coordinates": [data[i].geometry.coordinates[0], data[i].geometry.coordinates[1]]
+        "coordinates": [element.geometry.coordinates[0], element.geometry.coordinates[1]]
       },
-      "properties": getSecondaryProperties(data[i])
+      "properties": getSecondaryProperties(element)
     }
     feature_list.push(temp);
-    //console.log(getProperties(data[i]).placetype);
-    // console.log(getProperties(data[i]).confidence);
-
   }
   // add into feature_list
   // combine with geojson final format with feature collection and feature as feature list
@@ -438,15 +434,6 @@ function getProperties(data) {
 };
 // Add observation and venueSliceData data layer onto map
 function addVenueLayer(map, obsData) {
-
-  // if (map.getLayer('venue-slice-cones')) {
-  //   map.removeLayer('venue-slice-cones');
-  // };
-  // if (map.getLayer('poi-labels')) {
-  //   map.removeLayer('poi-labels');
-  //   map.removeSource('venues');
-  // };
-
   if (map.getLayer('data')) {
     map.removeLayer('data');
     map.removeSource("data");
@@ -455,8 +442,6 @@ function addVenueLayer(map, obsData) {
     map.removeLayer('observation');
   };
   //removeAllLayers();
-
-
   map.addLayer({
     'id': 'data',
     'type': 'symbol',
@@ -479,70 +464,10 @@ function addVenueLayer(map, obsData) {
   });
 };
 
-// add accordion layer - for venues and observations
-// function addObservationLayer(map, data) {
-
-//   let features = data.features;
-//   let test = {
-//     'type': 'FeatureCollection',
-//     'features': features.map((location, index) => ({
-//       'type': 'Feature',
-//       'properties': {
-//         'height': 50,
-//         'base': 0
-//       },
-//       'geometry': {
-//         'type': 'Polygon',
-//         'coordinates': turf.bboxPolygon(turf.square(turf.bbox(turf.circle(location.geometry.coordinates, 0.01, {
-//           steps: 64
-//         })))).geometry.coordinates
-//       }
-//     }))
-//   };
-
-//   map.addLayer({
-//     'id': 'observations',
-//     'type': 'fill-extrusion',
-//     'source': {
-//       'type': 'geojson',
-//       'data': test,
-//       generateId: true,
-//       'tolerance': 0
-//     },
-//     'layout': {
-//       'visibility': 'none'
-//     },
-//     'paint': {
-//       'fill-extrusion-color': [
-//         'case',
-//         ['boolean', ['feature-state', 'hover'], false],
-//         'red',
-//         'pink'
-//       ],
-//       'fill-extrusion-base': {
-//         'type': 'identity',
-//         'property': 'base'
-//       },
-//       'fill-extrusion-height': {
-//         'type': 'identity',
-//         'property': 'height'
-//       },
-//       'fill-extrusion-opacity': 1,
-//       'fill-extrusion-vertical-gradient': false,
-//     }
-//   });
-
-// }
-
 // basemap switching/styling
 var layerList = document.getElementsByClassName('layers-input-container');
 
 function switchLayer(layer) {
-
-  // var layerId = layer.target.id;
-  // map.setStyle('mapbox://styles/mapbox/' + layerId, {
-  //   diff: true
-  // });
 
 // light-v10
 // satellite-v9
@@ -567,8 +492,7 @@ map.addSource("mapbox-satellite", {
   );
 }
 
-
-var layerId = layer.target.id;
+let layerId = layer.target.id;
 if(layerId=='satellite-v9') {
 
     map.setLayoutProperty("satellite-layer", 'visibility',"visible");
@@ -580,8 +504,8 @@ else {
 };
 
 // assign switch layer function for all radio button inputs
-for (var i = 0; i < layerList.length; i++) {
-  layerList[i].onclick = switchLayer;
+for (const element of layerList) {
+  element.onclick = switchLayer;
 };
 
 function removeAllLayers() {
@@ -600,7 +524,7 @@ function removeAllLayers() {
 }
 
 subMap.on('load', function(){
-  viewLeftPanel;
+  viewLeftPanel();
   subMap.on('click', 'year-extrusion', function (e) {
     let button = document.createElement('button');
     button.setAttribute('id', 'go-btn');
@@ -616,7 +540,7 @@ subMap.on('load', function(){
       goToButton(vsid);
     })
 
-// previous pop up method, discard by Yufei 
+// previous pop up method, discard by Yufei
     // let container = document.createElement('div');
     // container.innerHTML = "<strong>Address: </strong>" + e.features[0].properties.name + '<br>'  + referenceList[e.features[0].properties.year];
     // container.appendChild(button);
@@ -624,7 +548,7 @@ subMap.on('load', function(){
     document.getElementById('subMap-info').innerHTML = "<strong>Address: </strong>" + e.features[0].properties.name + '<br>'  + referenceList[e.features[0].properties.year];
     document.getElementById('subMap-info').appendChild(button);
 
-// previous pop up method, discard by Yufei 
+// previous pop up method, discard by Yufei
     // new mapboxgl.Popup()
     //   .setLngLat(e.lngLat)
     //   .setDOMContent(container)
@@ -925,36 +849,20 @@ function code_div(codes, venueSlices, observedData, year) {
     let filterCount = (codeFilter(venueSlices.features, year, code).length + codeFilter(observedData.features, year, code).length);
     if (!codeNames.includes(code.name)) {
       codeNames.push(code.name);
-
       let codeSubCategory = document.createElement('li');
       codeSubCategory.classList.add("metaDescriptor");
-
       codeSubCategory.innerHTML = '<a class="dropdown-item" href="#">' + code.name + '</a>';
-
-
       let codeSubCategoryMenu = document.createElement('ul');
       codeSubCategoryMenu.setAttribute("id", code.name.replace(/\s+/g, '').toLowerCase());
       codeSubCategoryMenu.classList.add("dropdown-menu");
       codeSubCategoryMenu.classList.add("dropdown-submenu");
-      // codeSubCategoryMenu.classList.add("dropdown-div");
-
-
       codeSubCategory.appendChild(codeSubCategoryMenu);
-
       codeParent.appendChild(codeSubCategory);
-
-
     }
-
-
-
     let categoryMenu = document.getElementById(code.name.replace(/\s+/g, '').toLowerCase());
     let codeItem = document.createElement('li');
-
     codeItem.innerHTML = '<a class="dropdown-item" href="#">' + code.code + ' (' + filterCount + ')'+ '</a>';
     codeItem.id = code.code;
-
-
     ////////////////
     // for each code_div add event listener on click to add filter features of the map
 
@@ -964,14 +872,11 @@ function code_div(codes, venueSlices, observedData, year) {
       } else {
         codeParent.classList.add('d-none');
         // map.setFilter('data', ['in', code.code, ['get', 'codedescriptorlist']]);
-
         ///////////////////////////////////////////////////////////////////////////////////////////
       //remove 3D layer
 
       let result = codeFilter(venueSlices.features, year, code);
       let resultObserve = codeFilter(observedData.features, year, code);
-
-
       on_Screen_Data_Venue = result;
       on_Screen_Data_Observe = resultObserve;
       if (map.getLayer('venue-slice-cones')) {
@@ -1019,25 +924,6 @@ function code_div(codes, venueSlices, observedData, year) {
     document.getElementById('code-filter-btn').innerText = 'Filter';
     clear.innerHTML = '<a class="dropdown-item" title="Clear all selected filters" href="#"> No filter is currently applied. </a>';
 
-    // map.setFilter('data', undefined);
-    // // map filter of single year selected by the user
-    // map.setFilter('data', ["==", ['number', ['get', 'year']], year]);
-    // // let selectionDiv = document.getElementById('dropdown-container');
-    // // selectionDiv.classList.toggle('d-none');
-    // // remove 3D layer
-    // // if (map.getLayer('venue-slice-cones')) {
-    // //   map.removeLayer('venue-slice-cones');
-    // // };
-    // // if (map.getLayer('poi-labels')) {
-    // //   map.removeLayer('poi-labels');
-    // //   map.removeSource('venues');
-    // // };
-    // removeAllLayers();
-    // let onScreenData = venueSlices.features.filter(function (feature) {
-    //   return feature.properties.year == year
-    // });
-    // console.log(onScreenData);
-    // addCones(onScreenData, false);
     if (map.getLayer('venue-slice-cones')) {
       map.removeLayer('venue-slice-cones');
     };
@@ -1071,7 +957,7 @@ function codeFilter(features, year, code) {
   let result = [];
   features.filter(function (feature) {
     if (feature.properties.year == year){
-      dlist = feature.properties.descriptorlist;
+      let dlist = feature.properties.descriptorlist;
       if (Array.isArray(dlist)){
         for (i = 0; i <  dlist.length; i++) {
           if (dlist[i].includes(code.code)) {
@@ -1098,12 +984,6 @@ function codeIncludes(codeData, year) {
   return result;
 }
 
-
-// getStreetView
-// Function that uses the Google Street View API to obtain a default streetview of location
-// Requests uses location longitude and latitude to find the picture
-// Parameters:
-//  feature: js object that contains complete data of clicked location
 function getEvidenceInfo(feature) {
 
   let streetviewDiv = document.getElementById('streetview-evidence');
@@ -1119,37 +999,6 @@ function getEvidenceInfo(feature) {
 
   let tweetsDiv = document.getElementById('tweets-evidence');
   tweetsDiv.setAttribute('href', 'https://twitter.com/search?q='+ feature.properties.observedvenuename +'%20geocode%3A'+feature.geometry.coordinates[1]+'%2C'+feature.geometry.coordinates[0]+'%2C.1km&src=typed_query&f=top');
-
-}
-function getStreetView(feature) {
-  let imgParent = document.getElementById('venue-img-container');
-  let location = [feature.geometry.coordinates[1], feature.geometry.coordinates[0]];
-
-  let imageURL = "https://maps.googleapis.com/maps/api/streetview?";
-  let imgParams = new URLSearchParams({
-    location: location[0] + ", " + location[1],
-    size: "1280x720",
-    fov: 90,
-    heading: 70,
-    pitch: 0,
-    // API key linked to personal account currently (GOOGLE CLOUD CONSOLE)
-    key: "AIzaSyC7zg5Rb4UJNKsiXIol35wzC0uZmHddj0Q"
-  });
-
-  let fetchURL = imageURL + imgParams.toString();
-
-  fetch(fetchURL)
-    .then(response => response.blob())
-    .then(imageBlob => {
-      // remove all current/previous loaded images
-      while (imgParent.firstChild) {
-        imgParent.removeChild(imgParent.firstChild);
-      }
-      let imgChild = document.createElement('img');
-      let imageObjectURL = URL.createObjectURL(imageBlob);
-      imgChild.src = imageObjectURL;
-      imgParent.appendChild(imgChild);
-    })
 
 }
 
@@ -1284,7 +1133,6 @@ function makeLocalityList(localityID, data, selectedYear) {
         viewLeftPanel(element);
         addLeftPanelActions(element, marker);
         getEvidenceInfo(element);
-        // getStreetView(localityFeatures[i]);
         if (document.getElementById('info-default').classList.contains('d-none')) {
 
           toggleLeftPanelView('info-default');
@@ -1328,14 +1176,6 @@ function addCones(data, active) {
 
       }
 
-      // let geometrySup = new THREE.CylinderGeometry(1, 1, 80, 32);
-      // let materialSup = new THREE.MeshBasicMaterial({
-      //   flatShading: true,
-      //   color: '#8bd5ee',
-      //   transparent: true,
-      //   opacity: 0.7
-      // });
-
       data.forEach(function (datum) {
         // longitude, latitude, altitude
 
@@ -1362,8 +1202,6 @@ function addCones(data, active) {
         tb.add(cone);
         // tb.add(line);
       })
-
-
 
       let highlighted = [];
 
@@ -1463,8 +1301,6 @@ function addCubes(data, active) {
               z: 0
             }
           });
-
-
         line.setCoords([datum.geometry.coordinates[0], datum.geometry.coordinates[1], 70]);
         //the third parameter indicates the height of the cube.
         cube.setCoords([datum.geometry.coordinates[0], datum.geometry.coordinates[1], 80]);
@@ -1511,119 +1347,12 @@ document.getElementById('reliability-switch').addEventListener('click', function
       }
     })
   } else {
-
     tb.world.children.slice(1).forEach(feature => {
       feature.children[0].material = origMaterial;
-
     })
   }
-
   tb.repaint();
-
 });
-
-
-// document.getElementById('confidence-switch').addEventListener('click', function () {
-
-//   if (this.checked) {
-
-//     tb.world.children.forEach(feature => {
-//       if (feature.type == 'Group') {
-//         feature.children[0].material.color.set("green");
-//         console.log(feature.userData.properties.placetype);
-//       }
-
-//     })
-//   } else {
-
-//     tb.world.children.forEach(feature => {
-//       if (feature.type == 'Group') {
-//         feature.children[0].material.color.set("red");
-//       }
-//     })
-//   }
-
-//   tb.repaint();
-
-// });
-
-
-// function displayNearbyObservations(obsData, e) {
-//   let observationData = obsData.features;
-//   let selectedData = e.features[0];
-
-//   let coordinates = selectedData.geometry.coordinates.slice();
-//   while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-//     coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-//   };
-
-//   // the radius of the searching buffer
-//   const polygonRadius = 0.05;
-//   let options = {
-//     steps: 100,
-//     units: 'miles'
-//   };
-
-//   const circleRadius = 0.01;
-//   let circleOptions = {
-//     steps: 100,
-//     units: 'miles'
-//   };
-
-//   let points = [];
-//   observationData.forEach((element, index) => {
-//     points.push(element.geometry.coordinates);
-//   });
-
-//   let turfPoints = turf.points(points);
-//   let searchWithin = turf.circle(coordinates, polygonRadius, options);
-//   let result = turf.pointsWithinPolygon(turfPoints, searchWithin);
-//   // for each point that is within the circle boundary
-//   result.features.forEach((element, index) => {
-//     element.geometry = turf.circle(element.geometry.coordinates, circleRadius, circleOptions).geometry;
-//     element.properties = {
-//       'height': 75,
-//       'base': 50,
-//       // 'height': (((index == 0) ? 50 : (index + 1) * 150 - 45) + 145),
-//       // 'base': ((index == 0) ? 50 : (index + 1) * 150 - 10),
-//       'paint': 'green'
-//     }
-//   });
-
-//   map.addLayer({
-//     id: 'nearby-observations',
-//     type: 'fill-extrusion',
-//     source: {
-//       type: 'geojson',
-//       data: {
-//         "type": "FeatureCollection",
-//         "features": []
-//       },
-//       tolerance: 0
-//     },
-//     paint: {
-//       'fill-extrusion-color': [
-//         'case',
-//         ['boolean', ['feature-state', 'hover'], false],
-//         'red',
-//         'pink'
-//       ],
-//       'fill-extrusion-base': {
-//         'type': 'identity',
-//         'property': 'base'
-//       },
-//       'fill-extrusion-height': {
-//         'type': 'identity',
-//         'property': 'height'
-//       },
-//       'fill-extrusion-opacity': 1,
-//       'fill-extrusion-vertical-gradient': false,
-//     }
-//   });
-//   map.getSource('nearby-observations').setData(result);
-// };
-
-
 
 //Code filters in the missing venues and report
 function createCodeCategories(data) {
@@ -1647,7 +1376,6 @@ function createCodeCategories(data) {
       dataSlice[4].push(value.code);
     }
   });
-  // console.log(dataSlice);
   for (let data of dataSlice) {
     data.pop();
   }
@@ -1714,44 +1442,7 @@ async function placeInput(place) {
 }
 
 // switch cube and cone layers, require coordination
-// let obserLayer = document.getElementById('observe-switch')
-// let venueLayer = document.getElementById('venue-switch');
 let venueCheckbox = document.getElementById('venue-flexSwitchCheckChecked');
-// let obserCheckbox = document.getElementById('observe-flexSwitchCheckChecked');
-// obserLayer.addEventListener('click', function (e) {
-//   if (map.getLayer('poi-labels')) {
-//     map.removeLayer('poi-labels');
-//     map.removeSource('venues');
-//   }
-//   if (obserCheckbox.checked != true) {
-//     observation_status = false;
-//     if (map.getLayer('observation-cubes')) {
-//       map.removeLayer('observation-cubes');
-//     }
-//     if (venue_status) {
-//       if (map.getLayer('venue-slice-cones')) {
-//         map.removeLayer('venue-slice-cones');
-//       }
-//       if (current_code_filter.length > 0) {
-//         addCones(on_Screen_Data_Venue, false);
-//       } else {
-//         addCones(current_venue_data, false);
-//       }
-//     }
-//     //addCones(current_venue_data, false);
-//   } else {
-//     // observation_status = true;
-//     // if (map.getLayer('observation-cubes')) {
-//     //   map.removeLayer('observation-cubes');
-//     // }
-//     // if (current_code_filter.length > 0) {
-//     //   addCubes(on_Screen_Data_Observe, false);
-//     // } else {
-//     //   addCubes(current_observation_data, false);
-//     // }
-
-//   }
-// });
 
 venueCheckbox.addEventListener('click', function (e) {
 
@@ -1868,41 +1559,8 @@ async function updateMap(selectedYear, selectedLocality) {
       addCubes(filteredYearObservationData, active);
     }
   }
-  //(map, toGEOJSON(filteredYearData));
-  //addCubes(filteredYearObservationData, active);
   // create venue list and observation list
   makeLocalityList('locality-venues', venues, selectedYear);
-  // makeLocalityList('locality-observations', observationData, selectedYear);
-  // // sort locality features
-  // Bo: Sort by name
-  // localityFeatures.sort((a, b) => {
-  //   let firstYear = parseFloat(a.properties.year);
-  //   let secondYear = parseFloat(b.properties.year);
-  //   let difference = firstYear - secondYear;
-  //   // if ( difference  == 0 ) {
-  //   //   difference = a.properties.observedvenuename.localeCompare(b.properties.observedvenuename);
-  //   // }
-  //   return difference;
-  // })
-
-
-
-  // function checkIssue() {
-  //   let issues = document.querySelectorAll('.issuePanel');
-  //   for (let issue of issues) {
-  //     if(!issue.classList.contains('d-none')){
-  //       issue.classList.add('d-none');
-  //     }
-  //   }
-  // }
-
-  // if (localityParent.firstChild == null) {
-  //   let localityPar = document.createElement('div');
-  //   localityPar.classList.add('m-3');
-  //   localityPar.innerHTML = "No low confidence location nearby."
-  //   localityParent.appendChild(localityPar);
-  // };
-
 
   // If these two layers were not added to the map, abort
   if (!map.getLayer('observation') || !map.getLayer('data')) {
@@ -2013,8 +1671,6 @@ map.on('click', 'data', async function (e) {
     map.removeLayer('nearby-observations');
     map.removeSource('nearby-observations');
   }
-  // displayNearbyObservations(observations, e);
-  // marker.remove();
 
   //left collapse control
 
@@ -2128,7 +1784,6 @@ map.on('click', 'data', async function (e) {
   let reviewData = await getReviews(vid);
   constructReviews(reviewData);
   // get all photos of the location by the google API
-  // getStreetView(feature);
   getEvidenceInfo(feature);
 });
 
@@ -2279,7 +1934,7 @@ document.getElementById('add-observation-container').addEventListener('click', f
   }
 });
 
-// add an observation button - if map 
+// add an observation button - if map
 
 function makeAlert(alertText) {
   let alert = document.getElementById("alert-modal");
