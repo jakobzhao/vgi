@@ -587,7 +587,7 @@ for (var i = 0; i < layerList.length; i++) {
 
 function removeAllLayers() {
   let layers = ['observation-cubes', 'nearby-observations', 'buffer-point', 'year-block', 'year-block-line', 'poi-labels', 'venue-slice-cones'];
-  let sources = ['venues'];
+  let sources = ['venues','buffer-point','year-block', 'year-block-line'];
   for (let layer of layers) {
     if (map.getLayer(layer)) {
       map.removeLayer(layer);
