@@ -524,7 +524,6 @@ function removeAllLayers() {
 }
 
 subMap.on('load', function(){
-  viewLeftPanel();
   subMap.on('click', 'year-extrusion', function (e) {
     let button = document.createElement('button');
     button.setAttribute('id', 'go-btn');
@@ -532,9 +531,7 @@ subMap.on('load', function(){
     button.classList.add('btn');
     button.classList.add('btn-primary');
     button.classList.add('my-3');
-    console.log(e.features[e.features.length -1])
     button.textContent = 'Open the venue info in ' + e.features[0].properties.year + '.';
-    console.log(e.features[0].properties);
     let vsid = e.features[0].properties.vsid
     button.addEventListener('click', function() {
       goToButton(vsid);
@@ -693,7 +690,6 @@ async function addLeftPanelActions(feature, marker, e) {
   // if "report an issue" button is clicked, display movable marker
   let reportIssue = document.getElementById('report-issue-btn');
   reportIssue.addEventListener('click', async function () {
-    console.log('click button');
     // ensure that user is logged-in
     let check = logInCheck();
     if (check) {
@@ -1195,7 +1191,6 @@ function addCones(data, active) {
 
         cone.setCoords([datum.geometry.coordinates[0], datum.geometry.coordinates[1], 20]);
         // Bo: Attach properties to each cone.
-        // console.log(datum.properties.placetype);
         cone.userData.properties = datum.properties
 
 
@@ -1479,7 +1474,6 @@ venueCheckbox.addEventListener('click', function (e) {
 
   // e.preventDefault();
   e.stopPropagation();
-  console.log(e.target.id);
 
 
 })
