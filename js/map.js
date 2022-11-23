@@ -89,8 +89,8 @@ let map = new mapboxgl.Map({
   style: 'mapbox://styles/mapbox/light-v10', // style URL
   center: [-122.33502, 47.61497], // starting position [lng, lat]
   zoom: 14, // starting zoom
-  pitch: 76,
-  bearing: -10.8,
+  pitch: 60,
+  //bearing: -10.8,
   logoPosition: 'bottom-right',
   attributionControl: false,
   antialias: true,
@@ -105,7 +105,7 @@ let subMap = new mapboxgl.Map({
   style: 'mapbox://styles/mapbox/light-v10', // style URL
   center: [-122.33502, 47.61497],
   zoom: 12, // starting zoom
-  pitch: 80,
+  pitch: 60,
   // bearing: -10.8,
   attributionControl: false,
   antialias: true,
@@ -679,8 +679,8 @@ async function addLeftPanelActions(feature, marker, e) {
       center: point,
       zoom: 16.5,
       speed: 0.3,
-      pitch: 75,
-      bearing: -25,
+      pitch: 60,
+      //bearing: -25,
       essential: true
     });
   } catch (error) {
@@ -787,8 +787,8 @@ function createLocalityList() {
         center: localities[locality[0]].center,
         zoom: localities[locality[0]].zoom,
         speed: 0.9,
-        pitch: 75,
-        bearing: -25,
+        pitch: 60,
+        //bearing: -25,
         essential: true
       });
 
