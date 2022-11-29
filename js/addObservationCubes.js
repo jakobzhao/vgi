@@ -3,6 +3,16 @@ export function createCubes(data) {
     map.addLayer(layer);
     let lineLayer = cubeLine(data);
     map.addLayer(lineLayer);
+
+    // change pointer when mouse enters cube
+    map.on('mouseenter', 'year-block', function() {
+      map.getCanvas().style.cursor = 'pointer';
+    })
+
+    map.on('mouseleave', 'year-block', function() {
+      map.getCanvas().style.cursor = '';
+    })
+
 }
 
 function cubeLayer(data) {
