@@ -1641,10 +1641,22 @@ map.on('mousemove', 'year-block', function (e) {
       }, {
         hover: false
       });
+      map.setFeatureState({
+        source: 'year-block-line',
+        id: hoveredStateId
+      }, {
+        hover: false
+      });
     }
     hoveredStateId = e.features[0].id;
     map.setFeatureState({
       source: 'year-block',
+      id: hoveredStateId
+    }, {
+      hover: true
+    });
+    map.setFeatureState({
+      source: 'year-block-line',
       id: hoveredStateId
     }, {
       hover: true
@@ -1657,6 +1669,12 @@ map.on('mouseleave', 'year-block', () => {
   if (hoveredStateId !== null) {
     map.setFeatureState({
       source: 'year-block',
+      id: hoveredStateId
+    }, {
+      hover: false
+    });
+    map.setFeatureState({
+      source: 'year-block-line',
       id: hoveredStateId
     }, {
       hover: false
