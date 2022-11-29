@@ -79,9 +79,15 @@ function processDataForCubes(data, isLine) {
         // coordinate as key
         let coordinates = observation.geometry.coordinates.toString();
         if(!condensedData.hasOwnProperty(coordinates) || condensedData[coordinates].name != observation.properties.observedvenuename) {
-            condensedData[coordinates] = {"years": [], "name": observation.properties.observedvenuename}
+            condensedData[coordinates] = {"years": [],
+                                          "name": observation.properties.observedvenuename,
+                                          "datasource": [],
+                                          "dateadded": []
+                                        }
         }
-        condensedData[coordinates].years.push(observation.properties.year)
+        condensedData[coordinates].years.push(observation.properties.year);
+        condensedData[coordinates].datasource.push(observation.properties.source);
+        condensedData[coordinates].dateadded.push(observation.properties.dateadded);
     })
 
     // Sort observation years in numerical ascending order
@@ -115,6 +121,8 @@ function createFeatures(condensedData,  isLine) {
       'type':'Feature',
       'properties': {'name': condensedData[key].name,
                     'years': condensedData[key].years,
+                    'datasource': condensedData[key].datasource,
+                    'dateadded': condensedData[key].dateadded,
                     'height': 60,
                     'base': isLine ? 40 : 50,
                     'paint': scaleTest[0]},

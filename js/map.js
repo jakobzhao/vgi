@@ -1610,12 +1610,19 @@ map.on('click', 'year-block', function (e) {
   let uniqueYears = [...new Set(yearList)];
   let stringYear = uniqueYears.join(",");
 
+  // process data source
+  let dataSourceList = JSON.parse(e.features[0].properties.datasource);
+  let stringDataSource = dataSourceList.toString();
+
+  // popup
   new mapboxgl.Popup()
     .setLngLat(e.lngLat)
     .setHTML(`<p>
             ${e.features[0].properties.name}</br>
-            Years containing data: </br>
-            ${stringYear}</p>`)
+            Years containing data:
+            ${stringYear} </br>
+            Data Source: ${stringDataSource}
+            </p>`)
     .addTo(map);
   // highlight extrusion on hover
   // display popup for location information of extrusion
