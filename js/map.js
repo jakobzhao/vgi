@@ -1876,7 +1876,6 @@ map.on('mouseleave', 'data', function () {
   map.getCanvas().style.cursor = '';
 });
 
-
 map.on('click', function (e) {
   //click on the map to hide the locality and/or the code filter menus.
   let localityList = document.getElementById('localityList');
