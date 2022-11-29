@@ -532,9 +532,14 @@ subMap.on('load', function(){
     button.classList.add('btn-primary');
     button.classList.add('my-3');
     button.textContent = 'Open the venue info in ' + e.features[0].properties.year + '.';
-    let vsid = e.features[0].properties.vsid
+    let vsid = e.features[0].properties.vsid;
+    let selectedYear = e.features[0].properties.year;
+    let selectedLocality = document.querySelector(".dropdown-item-checked").text;
     button.addEventListener('click', function() {
       goToButton(vsid);
+      updateMap(selectedYear, selectedLocality);
+      document.getElementById('year-label').innerHTML = selectedYear;
+      document.getElementById('slider-bar').value = selectedYear;
     })
 
 // previous pop up method, discard by Yufei
