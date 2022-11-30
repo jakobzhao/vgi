@@ -97,7 +97,7 @@ function processDataForCubes(data, isLine) {
         }
         condensedData[coordinates].years.push(observation.properties.year);
         condensedData[coordinates].datasource.push(observation.properties.source);
-        condensedData[coordinates].dateadded.push(observation.properties.dateadded);
+        condensedData[coordinates].dateadded.push(new Date(observation.properties.dateadded).toLocaleDateString());
     })
 
     // Sort observation years in numerical ascending order

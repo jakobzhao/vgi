@@ -542,19 +542,8 @@ subMap.on('load', function(){
       document.getElementById('slider-bar').value = selectedYear;
     })
 
-// previous pop up method, discard by Yufei
-    // let container = document.createElement('div');
-    // container.innerHTML = "<strong>Address: </strong>" + e.features[0].properties.name + '<br>'  + referenceList[e.features[0].properties.year];
-    // container.appendChild(button);
-
     document.getElementById('subMap-info').innerHTML = "<strong>Address: </strong>" + e.features[0].properties.name + '<br>'  + referenceList[e.features[0].properties.year];
     document.getElementById('subMap-info').appendChild(button);
-
-// previous pop up method, discard by Yufei
-    // new mapboxgl.Popup()
-    //   .setLngLat(e.lngLat)
-    //   .setDOMContent(container)
-    //   .addTo(subMap);
   })
 })
 // function slide-in left panel
@@ -1611,6 +1600,7 @@ map.on('style.load', async function () {
 // when click on extrusion
 map.on('click', 'year-block', function (e) {
   // processing years
+  console.log(e.features[0]);
   let yearList = JSON.parse(e.features[0].properties.years);
   let uniqueYears = [...new Set(yearList)];
   let stringYear = uniqueYears.join(",");
@@ -1619,6 +1609,10 @@ map.on('click', 'year-block', function (e) {
   let dataSourceList = JSON.parse(e.features[0].properties.datasource);
   let stringDataSource = dataSourceList.toString();
 
+  // process date
+  let dateList = JSON.parse(e.features[0].properties.dateadded);
+  let dateData = dateList.toString();
+
   // popup
   new mapboxgl.Popup()
     .setLngLat(e.lngLat)
@@ -1626,7 +1620,8 @@ map.on('click', 'year-block', function (e) {
             ${e.features[0].properties.name}</br>
             Years containing data:
             ${stringYear} </br>
-            Data Source: ${stringDataSource}
+            Data Source: ${stringDataSource} </br>
+            Date added: ${dateData}
             </p>`)
     .addTo(map);
   // highlight extrusion on hover
