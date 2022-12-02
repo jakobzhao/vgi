@@ -425,20 +425,6 @@ p#venue-indicator {
   transition: left 1s;
 }
 
-#sub-legend {
-  position: absolute;
-  line-height: 22px;
-  padding-bottom: 20px;
-  left: 0px;
-  bottom: 0px;
-}
-
-#sub-legend i {
-  width: 7.85px;
-  height: 22px;
-  float: left;
-  bottom: 10px;
-}
 
 .accordion-button {
   margin-top: 0em !important;
@@ -940,6 +926,16 @@ p#venue-indicator {
   margin-right: 0.2em;
 }
 
+.passphrase-content,.welcome-content {
+  font-size:small
+}
+.passphrase-content > img, .welcome-content > img {
+
+ float:right;
+  width: 200px;
+  margin:5px
+}
+
 .category {
   padding-bottom: 4px;
 }
@@ -1059,6 +1055,31 @@ p#venue-indicator {
   position: absolute;
   z-index: 1;
 }
+
+.sub-legend-row {
+  margin-left: 2em;
+  /* margin-right: 2em; */
+  height: 12px;
+  width: 24em;
+}
+.sub-legend-colors {
+  background: linear-gradient(
+    to right,
+    #9e0142,
+    #ef6545,
+    #feda86,
+    #e8f69b,
+    #69c3a5,
+    #5e4fa2
+  );
+  margin-bottom: 5px;
+}
+.sub-legend-label{
+  width: 15.9%;
+  display: inline-block;
+  text-align: center;
+}
+
 
 #go-btn {
   margin: auto;

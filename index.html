@@ -10,8 +10,6 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
-  <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/fontawesome.min.css"
-    integrity="sha384-X8QTME3FCg1DLb58++lPvsjbQoCT9bp3MsUU3grbIny/3ZwUJkRNO8NPW6zqzuW9" crossorigin="anonymous"> -->
   <link href='https://api.mapbox.com/mapbox-gl-js/v2.3.0/mapbox-gl.css' rel='stylesheet' />
   <link rel="stylesheet"
     href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.css" type="text/css">
@@ -32,11 +30,11 @@
   <!-- bootstrap 4.6 is required for bootstrap-select, a feature used in the platform -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous">
-    </script>
+  </script>
   <!-- bootstrap 5.1 is required for the overall structure of the platform -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous">
-    </script>
+  </script>
 
   <script src='https://api.mapbox.com/mapbox-gl-js/v2.3.0/mapbox-gl.js'></script>
 
@@ -58,12 +56,6 @@
   <!-- google font -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,800" rel="stylesheet" />
 
-  <!-- GOOGLE SIGN-IN -->
-  <!-- <script src="https://accounts.google.com/gsi/client" async defer></script> -->
-
-  <!-- Latest compiled and minified CSS -->
-  <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css"> -->
-
   <!-- Latest compiled and minified JavaScript -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
 
@@ -77,9 +69,9 @@
   <nav class="navbar navbar-expand  navbar-dark bg-dark">
     <div class="container-fluid">
       <a class="navbar-brand" href="index.html">
-        <img  src="assets/imgs/logo.png"></img>
+        <img src="assets/imgs/logo.png"></img>
         <div id="project-name">Shifting LGBTQ+ Spaces</div>
-        <div class="beta" >beta</div>
+        <div class="beta">beta</div>
       </a>
 
       <div id="navbar-tabs">
@@ -87,13 +79,9 @@
           <li class="nav-item">
             <a class="nav-link" aria-current="page" href="#">Map</a>
           </li>
-
-          <!-- <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="methodology.html">Methodology</a>
-          </li> -->
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="data.html">Data</a>
-        </li>
+          </li>
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="team.html">Team</a>
           </li>
@@ -136,8 +124,8 @@
                       <p></p>
                       <!-- intentionally left blank -->
                       <!-- <label class="form-label "><h5 class="modal-title">How could I get a passphrase?</h5></label> -->
-                      <label class="form-label" style="font-size:small">
-                        <img width="200px" style="float:right;margin:5px" src="assets/imgs/lock.png"></img>
+                      <label class="form-label passphrase-content">
+                        <img src="assets/imgs/lock.png"></img>
                         We welcome and encourage contributions to our dataset! To protect your privacy, we are
                         <b>NOT</b> asking you to login to the portal in a way that results in any personal information
                         about you being collected. No UserID, no password, no user profile! Instead we ask that you
@@ -180,11 +168,12 @@
           <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLongTitle">Welcome！</h5>
           </div>
-          <div class="modal-body" style="font-size:small;">
-            <img width="200px" style=" float:right; margin:5px;" src="assets/imgs/logo.png"></img>
+          <div class="modal-body welcome-content">
+            <img src="assets/imgs/logo.png"></img>
             Welcome to our Shifting LGBTQ+ Spaces site! On this platform, you can:
             <ul>
-              <li> View an interactive map of historical LGBTQ+ venues in a small but growing number of US localities over time;;
+              <li> View an interactive map of historical LGBTQ+ venues in a small but growing number of US localities
+                over time;;
               </li>
               <li> Contribute to this database of LGBTQ+ venues with your local knowledge or experiences; and</li>
               <li> Download the data for your future projects.</li>
@@ -238,23 +227,6 @@
       data-step="6" class="position-absolute">
       <button class="transparent" data-bs-toggle="modal" data-bs-target="#instructions"><i
           class="fas fa-question-circle fa-2x mx-2"></i></button>
-      <!-- Modal -->
-      <!-- TODO <content> : add image and guidance to the website -->
-      <!-- <div class="modal fade" id="instructions" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="instructions">Instructions</h5>
-            </div>
-            <div class="modal-body">
-              enter instructions here
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            </div>
-          </div>
-        </div>
-      </div> -->
     </div>
 
 
@@ -263,7 +235,7 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">Notify</h5>
+            <h5 class="modal-title">Notice</h5>
           </div>
           <div class="modal-body" id="alert-text">
             Please log in before making any contribution to this geospatial platform.
@@ -289,15 +261,9 @@
           <!-- left dashboard - location information on clicked point div -->
           <div class="my-2 d-flex flex-column" id="feature-list">
             <div class="d-flex flex-row my-1">
-              <!-- <img src="assets/imgs/address.svg">  -->
               <b>Address:</b>
               <div id="address" class="ms-2"></div>
             </div>
-            <!-- <div class="d-flex flex-row my-1"> -->
-            <!-- <img src="assets/imgs/formal-address.svg">  -->
-            <!-- <b>Coded Add.:</b> -->
-            <!-- <div id="formal-address" class="ms-2"></div> -->
-            <!-- </div> -->
             <div class="d-flex flex-row my-1">
               <!-- <img src="assets/imgs/year.svg">  -->
               <b>Year: </b>
@@ -326,56 +292,28 @@
 
         </div>
         <!-- <hr id="divider-1"> -->
-        <div id="subMap">
-          <div id="subMap-info"></div>
-            <div id="sub-legend">
-              <i style="background: #9e0142 ; opacity:0.9; width: 1px"></i>
-              <i style="background: #a90d45 ; opacity:0.9"></i><i style="background: #b41a47 ; opacity:0.9"></i><i
-                style="background: #c0264a ; opacity:0.9"></i><i style="background: #cb334d ; opacity:0.9"></i><i
-                style="background: #d63f4f ; opacity:0.9"></i><i style="background: #dc494c ; opacity:0.9"></i><i
-                style="background: #e2524a ; opacity:0.9"></i><i style="background: #e95c47 ; opacity:0.9"></i><i
-                style="background: #ef6545 ; opacity:0.9"></i><i style="background: #f47044 ; opacity:0.9"></i><i
-                style="background: #f67d4a ; opacity:0.9"></i><i style="background: #f88a50 ; opacity:0.9"></i><i
-                style="background: #fa9757 ; opacity:0.9"></i><i style="background: #fca55d ; opacity:0.9"></i><i
-                style="background: #fdb164 ; opacity:0.9"></i><i style="background: #fdbb6c ; opacity:0.9"></i><i
-                style="background: #fdc575 ; opacity:0.9"></i><i style="background: #fed07d ; opacity:0.9"></i><i
-                style="background: #feda86 ; opacity:0.9"></i><i style="background: #fee38f ; opacity:0.9"></i><i
-                style="background: #fee99a ; opacity:0.9"></i><i style="background: #feefa4 ; opacity:0.9"></i><i
-                style="background: #fff6af ; opacity:0.9"></i><i style="background: #fffcba ; opacity:0.9"></i><i
-                style="background: #fcfebb ; opacity:0.9"></i><i style="background: #f7fcb3 ; opacity:0.9"></i><i
-                style="background: #f2faab ; opacity:0.9"></i><i style="background: #edf8a3 ; opacity:0.9"></i><i
-                style="background: #e8f69b ; opacity:0.9"></i><i style="background: #dff299 ; opacity:0.9"></i><i
-                style="background: #d3ed9c ; opacity:0.9"></i><i style="background: #c7e89e ; opacity:0.9"></i><i
-                style="background: #bbe3a1 ; opacity:0.9"></i><i style="background: #afdea3 ; opacity:0.9"></i><i
-                style="background: #a1d9a4 ; opacity:0.9"></i><i style="background: #93d4a4 ; opacity:0.9"></i><i
-                style="background: #85cea5 ; opacity:0.9"></i><i style="background: #77c9a5 ; opacity:0.9"></i><i
-                style="background: #69c3a5 ; opacity:0.9"></i><i style="background: #5eb9a9 ; opacity:0.9"></i><i
-                style="background: #53adae ; opacity:0.9"></i><i style="background: #48a1b3 ; opacity:0.9"></i><i
-                style="background: #3e95b8 ; opacity:0.9"></i><i style="background: #3389bd ; opacity:0.9"></i><i
-                style="background: #3a7eb8 ; opacity:0.9"></i><i style="background: #4372b3 ; opacity:0.9"></i><i
-                style="background: #4c66ad ; opacity:0.9"></i><i style="background: #555ba8 ; opacity:0.9"></i><i
-                style="background: #5e4fa2 ; opacity:0.9"></i></div>
-          </div>
-          <div style="font-size:small; display: flex; margin-top: 5%;">
-            <div style="display: inline; margin-left: 5%;">1965</div>
-            <div style="display: inline; margin-left: 10%;">1975</div>
-            <div style="display: inline; margin-left: 10%;">1985</div>
-            <div style="display: inline; margin-left: 10%;">1995</div>
-            <div style="display: inline; margin-left: 10%;">2005</div>
-            <div style="width: 80%;"></div>
-            <div style="font-size:small; display: inline; margin-right: 5%;">2014</div>
-          </div>
-
-        <p id="evidence-desc">Help us look for evidence from external sources below. </p>
-        <div id="evidence-info">
-          <a id="streetview-evidence" target="_blank" title="watch streetview of this address." class="evidence"><img
-              height="35px" src="assets/imgs/streetview.png"></a>
-          <a id="image-evidence" target="_blank" title="explore photos of this venue" class="evidence"><img
-              height="35px" src="assets/imgs/photo.png"></a>
-          <a id="tweets-evidence" target="_blank" title="read how people talk about this venue on Twitter"
-            class="evidence"><img height="35px" src="assets/imgs/tweets.png"></a>
-        </div>
+        <div id="subMap"> 
+        <div id="subMap-info"></div>
       </div>
+        <div class="sub-legend-row sub-legend-colors"></div>
+      <div class="sub-legend-row">
+        <div class="sub-legend-label">1965</div>
+        <div class="sub-legend-label">1975</div>
+        <div class="sub-legend-label">1985</div>
+        <div class="sub-legend-label">1995</div>
+        <div class="sub-legend-label">2005</div>
+        <div class="sub-legend-label">2014</div>
+      </div>
+      <p id="evidence-desc">Help us look for evidence from external sources below. </p>
+      <div id="evidence-info">
+        <a id="streetview-evidence" target="_blank" title="watch streetview of this address." class="evidence"><img
+            height="35px" src="assets/imgs/streetview.png"></a>
+        <a id="image-evidence" target="_blank" title="explore photos of this venue" class="evidence"><img height="35px"
+            src="assets/imgs/photo.png"></a>
+        <a id="tweets-evidence" target="_blank" title="read how people talk about this venue on Twitter"
+          class="evidence"><img height="35px" src="assets/imgs/tweets.png"></a>
+      </div>
+
       <hr id="divider-2">
       <!-- left dashboard - validate observation div -->
       <form id="report-issue" class="issuePanel d-flex flex-column d-none mx-3 mt-5">
@@ -731,13 +669,6 @@
       <div class="container">
         <div class="item">
           <p id="year-label">2014</p>
-          <!-- Bo: I feel it is unnecessary to show the base year -->
-          <!-- <div class="form-check form-switch base-year">
-                      <input class="form-check-input" type="checkbox" checked id="base-year-selection">
-                      <label class="form-check-label" for="base-year-selection">Base Year</label>
-                    </div> -->
-          <!-- </div> -->
-          <!-- <div > -->
           <input type="range" id="slider-bar" min="1965" max="2014" value="2014">
           <!-- </div> -->
         </div>
@@ -762,7 +693,6 @@
 
     <!-- references - basemap,sources, venues to be confirmed, user-contributed observations -->
     <div id="legend" class="d-flex">
-
       <div id="accordion" class="m-2">
         <div class="accordion-item">
           <h2 class="accordion-header">
@@ -856,7 +786,7 @@
       <!-- layers first container -->
       <div id="layers-container" class="layers-container box-shadow-default m-1">
         <!-- layer image -->
-        <img id = "default-basemap" class="input-container" src="assets/imgs/light.PNG">
+        <img id="default-basemap" class="input-container" src="assets/imgs/light.PNG">
         <!-- layer svg and text -->
         <div>
           <div id="layers-default" class="d-flex flex-row mx-2">
