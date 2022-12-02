@@ -1619,7 +1619,7 @@ map.on('click', 'year-block', function (e) {
     .setLngLat(e.lngLat)
     .setHTML(`<p>
             ${e.features[0].properties.name}</br>
-            Years containing data:
+            Year:
             ${stringYear} </br>
             Data Source: ${stringDataSource} </br>
             Date added: ${dateData}
@@ -1632,7 +1632,7 @@ map.on('click', 'year-block', function (e) {
 })
 
 // update block color on hover
-let hoveredStateId = null;
+let hoveredStateId = null;jin
 map.on('mousemove', 'year-block', function (e) {
   if (e.features.length > 0) {
     if (hoveredStateId !== null) {
