@@ -19,40 +19,9 @@ nav {
   z-index: 999;
 }
 
-#project-name {
-  font-size: larger;
-  margin-top: -1.5em;
-  margin-left: 2.5em;
-}
-
-
-.beta {
-  position:absolute; 
-  left:26em; 
-  bottom:3em;
-  color: white;
-  font-style: italic;
-  font-size: small;
-}html,
-body,
-main,
-#map {
-  width: 100%;
-  /* overflow: auto; */
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  background: #fff;
-  display: flex;
-  flex-flow: column;
-  font-family: "Source Sans Pro", sans-serif;
-}
-
-/* fixed navbar to fix dashboard overlaying on navbar */
-nav {
-  position: absolute;
-  z-index: 999;
-}
+.navbar-brand > img {
+  width: 40px;
+} 
 
 #project-name {
   font-size: larger;
@@ -73,5 +42,5 @@ nav {
 
 #log-in-btn {
     margin-top: 3px;
-  }
+}
   
