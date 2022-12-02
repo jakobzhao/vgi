@@ -1049,16 +1049,16 @@ p#venue-indicator {
 }
 
 #subMap-info {
-  width: fit-content;
+  width: 30em;
   margin-left: 1em;
   position: absolute;
   z-index: 1;
 }
 
 .sub-legend-row {
-  margin-left: 2em;
+  margin-left:1.5em;
   height: 12px;
-  width: 24em;
+  width: 24.3em;
 }
 .sub-legend-colors {
   background: linear-gradient(
@@ -1076,23 +1076,14 @@ p#venue-indicator {
   width: 15.9%;
   display: inline-block;
   text-align: center;
+  font-size: smaller;
 }
-
 
 #go-btn {
-  margin: auto;
-  margin-top: 0;
-  margin-bottom: 0 !important;
-  padding-top: 0;
   font-size: small;
-  padding-bottom: 0;
-  height: 40%;
-  width: 60%;
 }
 
-/* .btn{
-    font-size: small;
-} */
+
 #observe-switch,
 #venue-switch {
   padding: 0em;
@@ -1143,6 +1134,9 @@ p#venue-indicator {
   cursor: pointer;
 }
 
+.evidence > img {
+  height: 35px;
+}
 .validatedError {
   color: red;
 }
