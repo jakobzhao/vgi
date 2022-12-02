@@ -1,0 +1,24 @@
+.sub-legend-row {
+    margin-left: 2em;
+    /* margin-right: 2em; */
+    height: 12px;
+    width: 24em;
+  }
+  .sub-legend-colors {
+    background: linear-gradient(
+      to right,
+      #9e0142,
+      #ef6545,
+      #feda86,
+      #e8f69b,
+      #69c3a5,
+      #5e4fa2
+    );
+    margin-bottom: 5px;
+  }
+  .sub-legend-label{
+    width: 15.9%;
+    display: inline-block;
+    text-align: center;
+  }
+  

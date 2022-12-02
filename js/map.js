@@ -542,7 +542,8 @@ subMap.on('load', function(){
       document.getElementById('slider-bar').value = selectedYear;
     })
 
-    document.getElementById('subMap-info').innerHTML = "<strong>Address: </strong>" + e.features[0].properties.name + '<br>'  + referenceList[e.features[0].properties.year];
+    document.getElementById('subMap-info').innerHTML = "";
+    // document.getElementById('subMap-info').innerHTML = "<strong>Address: </strong>" + e.features[0].properties.name + '<br>'  + referenceList[e.features[0].properties.year];
     document.getElementById('subMap-info').appendChild(button);
   })
 })
