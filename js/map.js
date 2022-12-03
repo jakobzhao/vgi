@@ -1632,7 +1632,7 @@ map.on('click', 'year-block', function (e) {
 })
 
 // update block color on hover
-let hoveredStateId = null;jin
+let hoveredStateId = null;
 map.on('mousemove', 'year-block', function (e) {
   if (e.features.length > 0) {
     if (hoveredStateId !== null) {
