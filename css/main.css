@@ -1024,6 +1024,12 @@ p#venue-indicator {
   margin-right: 1em;
 }
 
+#submap-title{
+  position: relative;
+  font-weight: 800;
+  margin-left: 2em;
+  top: 2.3em;
+}
 #subMap {
   position: relative;
   /* width: 80%; */
