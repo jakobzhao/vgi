@@ -303,7 +303,6 @@ p#venue-indicator {
 
 #ground-truth-btns {
   position: relative;
-  width: 100%;
   top: 2em;
   left: 5%;
 }
@@ -741,8 +740,8 @@ p#venue-indicator {
 }
 
 
-#info-default {
-  padding-bottom: 100px; 
+#info {
+  padding-bottom: 150px; 
 }
 
 #name{
