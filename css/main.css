@@ -744,6 +744,9 @@ p#venue-indicator {
   padding-bottom: 100px; 
 }
 
+#name{
+  font-weight: 600;
+}
 /* for observation button */
 #add-observation-container {
   position: absolute;
