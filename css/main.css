@@ -739,6 +739,11 @@ p#venue-indicator {
   color: gray;
 }
 
+
+#info-default {
+  padding-bottom: 100px; 
+}
+
 /* for observation button */
 #add-observation-container {
   position: absolute;
