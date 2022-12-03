@@ -1027,7 +1027,7 @@ p#venue-indicator {
 #submap-title{
   position: relative;
   font-weight: 800;
-  margin-left: 2em;
+  text-align: center;
   top: 2.3em;
 }
 #subMap {
