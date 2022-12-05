@@ -84,7 +84,6 @@ function cubeLine(data) {
 function processDataForCubes(data, isLine) {
   // Condense data if same longitude and latitude
     let condensedData = new Object();
-    console.log(data);
     data.forEach( (observation, index) => {
         // if they are the same coordinates, then we add together
         // coordinate as key
@@ -102,7 +101,6 @@ function processDataForCubes(data, isLine) {
         condensedData[coordinates].address.push(observation.properties.address);
         condensedData[coordinates].datasource.push(observation.properties.source);
         condensedData[coordinates].dateadded.push(new Date(observation.properties.dateadded).toLocaleDateString());
-        console.log(observation.properties.codedescriptorlist);
         if(observation.properties.codedescriptorlist != null) {
           condensedData[coordinates].descriptorlist.push(observation.properties.codedescriptorlist.join(","));
         }
