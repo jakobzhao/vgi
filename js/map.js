@@ -1675,9 +1675,6 @@ map.on('style.load', async function () {
   let selectedLocality = document.querySelector(".dropdown-item-checked").text;
   updateMap(selectedYear, selectedLocality);
 
-
-
-
 });
 
 ////////////////////////////////////////////////////
@@ -2018,7 +2015,7 @@ map.on('click', function (e) {
 });
 
 
-// Yufei: return function on report an issue panel
+// Return function on report an issue panel
 document.getElementById('return-btn').addEventListener('click', function () {
   marker.remove();
   if (!(document.getElementById('report-issue').classList.contains('d-none'))) {
@@ -2049,7 +2046,6 @@ document.getElementById('add-observation-container').addEventListener('click', f
 });
 
 // add an observation button - if map
-
 function makeAlert(alertText) {
   let alert = document.getElementById("alert-modal");
   let alertTextBox = document.getElementById("alert-text");
