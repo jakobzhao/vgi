@@ -1679,7 +1679,6 @@ map.on('style.load', async function () {
 // when click on extrusion
 map.on('click', 'year-block', function (e) {
   // processing years
-  console.log(e.features[0]);
   let yearList = JSON.parse(e.features[0].properties.years);
   let uniqueYears = [...new Set(yearList)];
   let stringYear = uniqueYears.join(",");
