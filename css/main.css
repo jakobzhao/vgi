@@ -98,7 +98,7 @@
 }
 
 #instructions-info {
-  margin-top: 2em;
+  margin-top: 1.5em;
   right: 0;
   /* margin-right: 0 em; */
 }
@@ -112,6 +112,7 @@
   font-size: 12px;
   font-style: italic;
 }
+
 
 #applied-filter,
 .descriptor {
@@ -304,8 +305,9 @@ p#venue-indicator {
 #ground-truth-btns {
   position: relative;
   top: 2em;
-  left: 5%;
+  left: 2%;
 }
+
 
 #type-review-box {
   position: relative;
@@ -750,7 +752,7 @@ p#venue-indicator {
 /* for observation button */
 #add-observation-container {
   position: absolute;
-  right: 0;
+  right: 5px;
   bottom: 0;
   margin-bottom: 100px;
   margin-right: 1%;
@@ -768,7 +770,8 @@ p#venue-indicator {
 }
 
 #add-observation-button {
-  padding: 1em;
+  padding: 1.1em;
+  /* width: 3em; */
   border: transparent;
   height: auto;
   border-radius: 2%;
@@ -1138,6 +1141,10 @@ p#venue-indicator {
   margin-right: 2em;
 }
 
+#evidence-info > a:hover {
+  padding-bottom: 2.3em;
+  border: #888 solid 1px;
+} 
 .evidence {
   position: relative;
   line-height: 2em;
