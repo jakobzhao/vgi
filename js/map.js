@@ -696,7 +696,7 @@ function viewLeftPanel(e) {
   subMap.addSource('dataByYear', {
     'type': 'geojson',
     'data': toPolygonGEOJSON(filteredLocalData)
-  })
+  });
   subMap.addLayer({
     'id': 'year-extrusion',
     'type': 'fill-extrusion',
@@ -716,7 +716,12 @@ function viewLeftPanel(e) {
       },
       'fill-extrusion-opacity': 0.7
     }
-  })
+  });
+
+  // reset zoom level of inset map
+  subMap.setZoom(12);
+
+
   let yearList = [];
   let address = [];
   let timelineOfAddress = {};
@@ -1507,7 +1512,8 @@ async function placeInput(place) {
       place[0].includes('Northwest') || place[0].includes('Northeast') ||
       place[0].includes('NW') || place[0].includes('NE') ||
       place[0].includes('Southwest') || place[0].includes('Southeast') ||
-      place[0].includes('SW') || place[0].includes('SE')) {
+      place[0].includes('SW') || place[0].includes('SE')||
+      place[0].includes('way')) {
       document.getElementById('location-api').value = '';
       document.getElementById('address-api').value = place[0].trim();
     } else {
@@ -1679,9 +1685,6 @@ map.on('style.load', async function () {
   let selectedYear = parseInt(document.getElementById('slider-bar').value);
   let selectedLocality = document.querySelector(".dropdown-item-checked").text;
   updateMap(selectedYear, selectedLocality);
-
-
-
 
 });
 
@@ -2023,7 +2026,7 @@ map.on('click', function (e) {
 });
 
 
-// Yufei: return function on report an issue panel
+// Return function on report an issue panel
 document.getElementById('return-btn').addEventListener('click', function () {
   marker.remove();
   if (!(document.getElementById('report-issue').classList.contains('d-none'))) {
@@ -2054,7 +2057,6 @@ document.getElementById('add-observation-container').addEventListener('click', f
 });
 
 // add an observation button - if map
-
 function makeAlert(alertText) {
   let alert = document.getElementById("alert-modal");
   let alertTextBox = document.getElementById("alert-text");
@@ -2062,20 +2064,3 @@ function makeAlert(alertText) {
   let alertModal = new bootstrap.Modal(alert);
   alertModal.show();
 }
-
-// // Yufei: handeling context lost
-// var canvas = document.getElementById("map");
-// canvas.addEventListener("webglcontextlost", function(event) {
-//     event.preventDefault();
-// }, false);
-
-// canvas.addEventListener(
-//   "webglcontextrestored", setupWebGLStateAndResources, false);
-
-// // helper function setupWebGLStateAndResources
-// function setupWebGLStateAndResources() {
-//   var canvas = document.getElementById("map");
-//   console.log("Context restored!");
-//   // reset all the map elements here
-
-// }
