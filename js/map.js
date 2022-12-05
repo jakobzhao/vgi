@@ -360,6 +360,7 @@ function toPolygonGEOJSON(data) {
         'year': element.properties.year,
         'vid': element.properties.vid,
         'vsid': element.properties.vsid,
+        'center': JSON.parse(JSON.stringify(element.geometry)),
         'height': (element.properties.year - 1950) * 10,
         'base': 0,
         'color': color,
@@ -469,7 +470,7 @@ document.getElementById("functioning-layer").onclick = switchLayer;
 function switchLayer(layer) {
   // light-v10
   // satellite-v9
-  satLyrStatus  = map.getLayer('satellite-layer');
+  satLyrStatus = map.getLayer('satellite-layer');
 
   if (satLyrStatus == undefined) {
     map.addSource("mapbox-satellite", {
@@ -490,7 +491,7 @@ function switchLayer(layer) {
     document.getElementById("functioning-layer").src = "assets/imgs/light.PNG";
 
   } else if (satLyrStatus) {
-    if(satLyrStatus.visibility == 'visible') {
+    if (satLyrStatus.visibility == 'visible') {
       map.setLayoutProperty("satellite-layer", 'visibility', "none");
       document.getElementById('default-basemap').src = "assets/imgs/light.PNG";
       document.getElementById("functioning-layer").src = "assets/imgs/satellite.PNG";
@@ -503,24 +504,27 @@ function switchLayer(layer) {
       document.getElementById("functioning-layer").src = "assets/imgs/light.PNG";
 
 
-    } 
+    }
 
   } else {
-    exit -1;
+    exit - 1;
   }
 
 };
 
 
-function removeAllLayers() {
+function removeAllLayers(exclusion) {
   let layers = ['observation-cubes', 'nearby-observations', 'buffer-point', 'year-block', 'year-block-line', 'poi-labels', 'venue-slice-cones'];
   let sources = ['venues', 'buffer-point', 'year-block', 'year-block-line'];
+  
+  layers = layers.filter(item => item !== exclusion)
+  sources = sources.filter(item => item !== exclusion)
   for (let layer of layers) {
-    if (map.getLayer(layer)) {
+    if (map.getLayer(layer)  ) {
       map.removeLayer(layer);
     };
   }
-  for (let source of sources) {
+  for (let source of sources ) {
     if (map.getSource(source)) {
       map.removeSource(source);
     };
@@ -535,17 +539,62 @@ subMap.on('load', function () {
     button.classList.add('btn');
     button.classList.add('btn-primary');
     button.classList.add('my-3');
-    button.textContent = 'Open the venue info in ' + e.features[0].properties.year + '.';
+    button.textContent = 'Visit the venue info in ' + e.features[0].properties.year + '.';
     let vsid = e.features[0].properties.vsid;
+    let geometry = JSON.parse(e.features[0].properties.center);
     let selectedYear = e.features[0].properties.year;
     let selectedLocality = document.querySelector(".dropdown-item-checked").text;
     button.addEventListener('click', function () {
       goToButton(vsid);
-      updateMap(selectedYear, selectedLocality);
+      updateMap(selectedYear, selectedLocality, exclusion="buffer-point");
       document.getElementById('year-label').innerHTML = selectedYear;
       document.getElementById('slider-bar').value = selectedYear;
 
       // highlight the venue slice
+      // map.on('click', 'data', venueSliceLoad); 
+      // venueSliceLoad(e);
+      ////////////////////////////////////////////////////////////
+
+      //add buffer
+      //Bo: I temporarily hide the buffer since it locates at a wrong center. try smaller radius
+      let turfPoint = turf.point([parseFloat(geometry.coordinates[0]), parseFloat(geometry.coordinates[1])]);
+      //fly to where the venue locates
+      map.flyTo({
+        center: geometry.coordinates
+      });
+
+      subMap.flyTo({
+        center: geometry.coordinates
+      });
+
+      let buffer = turf.buffer(turfPoint, 100, {
+        units: 'meters'
+      });
+
+      if (!map.getLayer('buffer-point')) {
+        map.addLayer({
+          id: 'buffer-point',
+          source: {
+            type: 'geojson',
+            data: {
+              "type": "FeatureCollection",
+              "features": []
+            }
+          },
+          type: "fill",
+          paint: {
+            'fill-color': 'red',
+            'fill-opacity': 0.1
+          }
+        });
+      }
+
+      map.getSource('buffer-point').setData(buffer);
+
+
+
+      ////////////////////////////////////////////////////////////
+
 
 
 
@@ -556,16 +605,16 @@ subMap.on('load', function () {
     // document.getElementById('subMap-info').innerHTML = "<strong>Address: </strong>" + e.features[0].properties.name + '<br>'  + referenceList[e.features[0].properties.year];
     document.getElementById('subMap-info').appendChild(button);
 
-    
+
   });
 
 
-  subMap.on('mouseenter','year-extrusion', (e)=> {
+  subMap.on('mouseenter', 'year-extrusion', (e) => {
 
     subMap.getCanvas().style.cursor = 'pointer';
   });
 
-  subMap.on('mouseleave','year-extrusion', (e)=> {
+  subMap.on('mouseleave', 'year-extrusion', (e) => {
 
     subMap.getCanvas().style.cursor = '';
   });
@@ -593,7 +642,7 @@ function viewLeftPanel(e) {
   if (codes == null) {
     codes = "";
   }
-  
+
   for (let i = 0; i < codes.length; i++) {
     codes[i] = codes[i].replaceAll('\'', '');
   }
@@ -693,7 +742,7 @@ function infoNullCheck(string) {
   return ((string != "null") ? string : 'data unavailable');
 }
 // left panel functionalities (validate observation marker view, selected marker view, map zoom to selected point)
-async function addLeftPanelActions(feature, marker, e) {
+async function addLeftPanelActions(feature, marker) {
   sessionStorage.removeItem("defaultCheckbox");
   let coordinates = feature.geometry.coordinates.slice();
   //for those in the list (no specific latlng was found, the program should skip the following lines.)
@@ -1524,7 +1573,7 @@ yearSlider.addEventListener('change', async function () {
 // });
 
 
-async function updateMap(selectedYear, selectedLocality) {
+async function updateMap(selectedYear, selectedLocality, exclusion) {
 
   venues = await getVenues(selectedLocality);
   let observationData = await getObservations(selectedLocality);
@@ -1539,7 +1588,7 @@ async function updateMap(selectedYear, selectedLocality) {
   current_observation_data = filteredYearObservationData;
   current_venue_data = filteredYearData;
 
-  removeAllLayers();
+  removeAllLayers(exclusion);
 
   // load all codes
   let code_data = await allCodes();
@@ -1707,8 +1756,8 @@ map.on('mouseleave', 'year-block', () => {
 });
 
 // trigger location information on click of location point of map
-
-map.on('click', 'data', async function (e) {
+map.on('click', 'data', venueSliceLoad);
+async function venueSliceLoad(e) {
   // Bo: Perhaps highlight the nearby and label their names.
   if (map.getLayer('nearby-observations')) {
     map.removeLayer('nearby-observations');
@@ -1751,11 +1800,11 @@ map.on('click', 'data', async function (e) {
   // add all left panel actions (including zoom and adding data points)
   let feature = e.features[0];
   viewLeftPanel(feature);
-  addLeftPanelActions(feature, marker, e);
+  addLeftPanelActions(feature, marker);
 
   //add buffer
-  // Bo: I temporarily hide the buffer since it locates at a wrong center. try smaller radius
-  let turfPoint = turf.point([feature.geometry.coordinates[0]+0.001, feature.geometry.coordinates[1]]);
+  //Bo: I temporarily hide the buffer since it locates at a wrong center. try smaller radius
+  let turfPoint = turf.point([feature.geometry.coordinates[0] + 0.001, feature.geometry.coordinates[1]]);
   let buffer = turf.buffer(turfPoint, 100, {
     units: 'meters'
   });
@@ -1778,7 +1827,7 @@ map.on('click', 'data', async function (e) {
   map.getSource('buffer-point').setData(buffer);
   // indicate that this point is a venue
   let venueIndicator = document.getElementById('venue-indicator');
-  if (e.features[0].properties.v_id !== undefined) {
+  if (feature.properties.v_id !== undefined) {
     venueIndicator.innerHTML = "this is a confirmed venue";
   } else {
     venueIndicator.innerHTML = '';
@@ -1829,7 +1878,7 @@ map.on('click', 'data', async function (e) {
   constructReviews(reviewData);
   // get all photos of the location by the google API
   getEvidenceInfo(feature);
-});
+};
 
 // helper function to submit new review
 function submitNewReview(e) {

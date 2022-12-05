@@ -28,7 +28,8 @@
         "Streetview",
         "toggleable",
         "toggleview",
-        "vcolors"
+        "vcolors",
+        "vsid"
     ],
     "liveServer.settings.port": 5501
 }
