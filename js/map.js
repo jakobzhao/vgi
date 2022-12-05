@@ -1496,7 +1496,8 @@ async function placeInput(place) {
       place[0].includes('Northwest') || place[0].includes('Northeast') ||
       place[0].includes('NW') || place[0].includes('NE') ||
       place[0].includes('Southwest') || place[0].includes('Southeast') ||
-      place[0].includes('SW') || place[0].includes('SE')) {
+      place[0].includes('SW') || place[0].includes('SE')||
+      place[0].includes('way')) {
       document.getElementById('location-api').value = '';
       document.getElementById('address-api').value = place[0].trim();
     } else {
