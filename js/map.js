@@ -544,7 +544,7 @@ subMap.on('load', function () {
     let geometry = JSON.parse(e.features[0].properties.center);
     let selectedYear = e.features[0].properties.year;
     let selectedLocality = document.querySelector(".dropdown-item-checked").text;
-    button.addEventListener('click', function () {
+    button.addEventListener('click', async function () {
       goToButton(vsid);
       updateMap(selectedYear, selectedLocality, exclusion="buffer-point");
       document.getElementById('year-label').innerHTML = selectedYear;
@@ -592,14 +592,25 @@ subMap.on('load', function () {
       map.getSource('buffer-point').setData(buffer);
 
 
-  // // Create underlying observation
-  // let observations =  getObservationsVID(vid, selectedYear);
-  // // Check if cube layer exists in map
-  // if (map.getLayer('cube-observation')) {
-  //   map.removeLayer('cube-observation');
-  // }
-  // let cubeCreate =  import('./addObservationCubes.js');
-  // cubeCreate.createCubes(observations.features);
+  // update frontend with new divs for each comment
+  // publish comment on click
+
+  // Create underlying observation
+  let observations = await getObservationsVSID(vsid, selectedYear);
+  // Check if cube layer exists in map
+  if (map.getLayer('cube-observation')) {
+    map.removeLayer('cube-observation');
+  }
+  let cubeCreate = await import('./addObservationCubes.js');
+  cubeCreate.createCubes(observations.features);
+
+  document.getElementById('publish-btn').removeEventListener('click', submitNewReview);
+  document.getElementById('publish-btn').addEventListener('click', submitNewReview);
+  // get all comments of the location
+  let reviewData = await getReviews(vsid);
+  constructReviews(reviewData);
+  // get all photos of the location by the google API
+  getEvidenceInfo(feature);
       ////////////////////////////////////////////////////////////
 
 
