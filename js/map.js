@@ -1748,8 +1748,9 @@ map.on('click', 'data', async function (e) {
   addLeftPanelActions(feature, marker, e);
 
   //add buffer
-  let turfPoint = turf.point(feature.geometry.coordinates);
-  let buffer = turf.buffer(turfPoint, 500, {
+  // Bo: I temporarily hide the buffer since it locates at a wrong center. try smaller radius
+  let turfPoint = turf.point([feature.geometry.coordinates[0]+0.001, feature.geometry.coordinates[1]]);
+  let buffer = turf.buffer(turfPoint, 100, {
     units: 'meters'
   });
   map.addLayer({
