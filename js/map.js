@@ -287,12 +287,12 @@ async function getObservations(locality) {
 };
 
 // get vid observations and per year
-async function getObservationsVID(vsid, year) {
+async function getObservationsVSID(vsid, year) {
   try {
-    let getObservationsVidData = await fetch(`https://lgbtqspaces-api.herokuapp.com/api/relatedobservations/${vsid}/${year}`, {
+    let getObservationsVsidData = await fetch(`https://lgbtqspaces-api.herokuapp.com/api/relatedobservations/${vsid}/${year}`, {
       method: 'GET'
     });
-    let returnData = await getObservationsVidData.json();
+    let returnData = await getObservationsVsidData.json();
     return toGEOJSON(returnData);
   } catch (err) {
     console.log(err);
@@ -1862,7 +1862,7 @@ async function venueSliceLoad(e) {
   // ** test observation contains vsid information, first observation table does not
   let vsid = parseInt(e.features[0].properties.vsid);
   // Create underlying observation
-  let observations = await getObservationsVID(vsid, e.features[0].properties.year);
+  let observations = await getObservationsVSID(vsid, e.features[0].properties.year);
   // Check if cube layer exists in map
   if (map.getLayer('cube-observation')) {
     map.removeLayer('cube-observation');
