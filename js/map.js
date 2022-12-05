@@ -98,8 +98,6 @@ let map = new mapboxgl.Map({
 });
 
 
-
-
 let subMap = new mapboxgl.Map({
   container: 'subMap', // container ID
   style: 'mapbox://styles/mapbox/light-v10', // style URL
@@ -551,7 +549,20 @@ subMap.on('load', function () {
     document.getElementById('subMap-info').innerHTML = "";
     // document.getElementById('subMap-info').innerHTML = "<strong>Address: </strong>" + e.features[0].properties.name + '<br>'  + referenceList[e.features[0].properties.year];
     document.getElementById('subMap-info').appendChild(button);
-  })
+  });
+
+
+  subMap.on('mouseenter','year-extrusion', (e)=> {
+
+    subMap.getCanvas().style.cursor = 'pointer';
+  });
+
+  subMap.on('mouseleave','year-extrusion', (e)=> {
+
+    subMap.getCanvas().style.cursor = '';
+  });
+
+
 })
 // function slide-in left panel
 function viewLeftPanel(e) {
