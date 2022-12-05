@@ -93,13 +93,11 @@
 
     async function reportResize() {
       if (window.innerHeight >  800 && window.innerWidth > 1200) {
-
         document.getElementById("size").style.visibility = "hidden";
       } 
       else
       {
         document.getElementById("size").style.visibility = "visible";
-          $('#size').show();
           console.log(window.innerHeight);
           console.log(window.innerWidth);
           $('#size').css({
