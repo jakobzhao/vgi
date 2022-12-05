@@ -863,6 +863,7 @@ p#venue-indicator {
   right: 0;
   margin-bottom: 35px;
   margin-right: 1%;
+  cursor: pointer;
 }
 
 #basemap-selection {

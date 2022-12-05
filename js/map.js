@@ -80,7 +80,7 @@ const materialOnHover = new THREE.MeshPhysicalMaterial({
   opacity: 1
 });
 
-const cubeGeometry = new THREE.BoxGeometry(10,10,10);
+const cubeGeometry = new THREE.BoxGeometry(10, 10, 10);
 const lineGeometry = new THREE.CylinderGeometry(1, 1, 25, 10);
 
 
@@ -335,7 +335,7 @@ function toPolygonGEOJSON(data) {
   let polygonRadius;
   // lgbtq flag color
   let colorCode = {
-    6: ['', '', '', '', '','#9e0142', '#a90d45', '#b41a47', '#c0264a', '#cb334d'],
+    6: ['', '', '', '', '', '#9e0142', '#a90d45', '#b41a47', '#c0264a', '#cb334d'],
     7: ['#d63f4f', '#dc494c', '#e2524a', '#e95c47', '#ef6545', '#f47044', '#f67d4a', '#f88a50', '#fa9757', '#fdbb6c'],
     8: ['#fdc575', '#fed07d', '#feda86', '#fee38f', '#fee99a', '#feefa4', '#fdb164', '#feefa4', '#fff6af', '#fffcba'],
     9: ['#fcfebb', '#f7fcb3', '#f2faab', '#edf8a3', '#e8f69b', '#dff299', '#d3ed9c', '#c7e89e', '#bbe3a1', '#afdea3'],
@@ -347,8 +347,8 @@ function toPolygonGEOJSON(data) {
   // const insetlegend = document.getElementById('inset-legend');
   for (const element of data) {
     let coordinates = element.geometry.coordinates.slice();
-    color = colorCode[parseInt(element.properties.year%100/10)][element.properties.year%10];
-    polygonRadius = 0.2-0.001*countColor;
+    color = colorCode[parseInt(element.properties.year % 100 / 10)][element.properties.year % 10];
+    polygonRadius = 0.2 - 0.001 * countColor;
     countColor += 1;
     let temp = {
       "type": "Feature",
@@ -464,53 +464,59 @@ function addVenueLayer(map, obsData) {
   });
 };
 
-// basemap switching/styling
-var layerList = document.getElementsByClassName('layers-input-container');
+// assign switch layer function for all radio button inputs
+// var layerList = document.getElementsByClassName('layers-input-container');
+document.getElementById("functioning-layer").onclick = switchLayer;
 
 function switchLayer(layer) {
+  // light-v10
+  // satellite-v9
+  satLyrStatus  = map.getLayer('satellite-layer');
 
-// light-v10
-// satellite-v9
-if(map.getLayer('satellite-layer')){
-  document.getElementById('default-basemap').src = "assets/imgs/light.PNG";
+  if (satLyrStatus == undefined) {
+    map.addSource("mapbox-satellite", {
+      "type": "raster",
+      "url": "mapbox://mapbox.satellite",
+      "tileSize": 256
+    });
+    map.addLayer({
+        'id': 'satellite-layer',
+        'type': 'raster',
+        'source': 'mapbox-satellite',
+        'paint': {}
+      },
+      'road-label'
+    );
 
-}
-else{
-map.addSource("mapbox-satellite", {
-  "type": "raster",
-  "url": "mapbox://mapbox.satellite",
-  "tileSize": 256
-});
-  map.addLayer(
-  {
-  'id': 'satellite-layer',
-  'type': 'raster',
-  'source': 'mapbox-satellite',
-  'paint': {}
-  },
-  'road-label'
-  );
-}
-
-let layerId = layer.target.id;
-if(layerId=='satellite-v9') {
-
-    map.setLayoutProperty("satellite-layer", 'visibility',"visible");
     document.getElementById('default-basemap').src = "assets/imgs/satellite.PNG";
-}
-else {
-  map.setLayoutProperty("satellite-layer", 'visibility',"none");
-}
+    document.getElementById("functioning-layer").src = "assets/imgs/light.PNG";
+
+  } else if (satLyrStatus) {
+    if(satLyrStatus.visibility == 'visible') {
+      map.setLayoutProperty("satellite-layer", 'visibility', "none");
+      document.getElementById('default-basemap').src = "assets/imgs/light.PNG";
+      document.getElementById("functioning-layer").src = "assets/imgs/satellite.PNG";
+
+    } else {
+
+      map.setLayoutProperty("satellite-layer", 'visibility', "visible");
+      // satLyrStatus.visibility = 'none';
+      document.getElementById('default-basemap').src = "assets/imgs/satellite.PNG";
+      document.getElementById("functioning-layer").src = "assets/imgs/light.PNG";
+
+
+    } 
+
+  } else {
+    exit -1;
+  }
+
 };
 
-// assign switch layer function for all radio button inputs
-for (const element of layerList) {
-  element.onclick = switchLayer;
-};
 
 function removeAllLayers() {
   let layers = ['observation-cubes', 'nearby-observations', 'buffer-point', 'year-block', 'year-block-line', 'poi-labels', 'venue-slice-cones'];
-  let sources = ['venues','buffer-point','year-block', 'year-block-line'];
+  let sources = ['venues', 'buffer-point', 'year-block', 'year-block-line'];
   for (let layer of layers) {
     if (map.getLayer(layer)) {
       map.removeLayer(layer);
@@ -523,7 +529,7 @@ function removeAllLayers() {
   }
 }
 
-subMap.on('load', function(){
+subMap.on('load', function () {
   subMap.on('click', 'year-extrusion', function (e) {
     let button = document.createElement('button');
     button.setAttribute('id', 'go-btn');
@@ -535,7 +541,7 @@ subMap.on('load', function(){
     let vsid = e.features[0].properties.vsid;
     let selectedYear = e.features[0].properties.year;
     let selectedLocality = document.querySelector(".dropdown-item-checked").text;
-    button.addEventListener('click', function() {
+    button.addEventListener('click', function () {
       goToButton(vsid);
       updateMap(selectedYear, selectedLocality);
       document.getElementById('year-label').innerHTML = selectedYear;
@@ -555,7 +561,7 @@ function viewLeftPanel(e) {
 
   // parse the codes to increase readability
   let codes = infoNullCheck(e.properties.descriptorlist);
-  if (typeof(codes) == 'string') {
+  if (typeof (codes) == 'string') {
     let codeString = "";
     for (const element of codes) {
       if (element !== '[' && element !== '"' && element !== '.' && element !== ']' && element !== "'") {
@@ -568,11 +574,11 @@ function viewLeftPanel(e) {
     codes[i] = codes[i].replaceAll('\'', '');
   }
   document.getElementById('code').innerHTML = '';
-  for (const element of codes){
+  for (const element of codes) {
     let code = document.createElement("button");
     code.innerText = element;
     code.className = 'descriptor';
-    code.addEventListener('click', function() {
+    code.addEventListener('click', function () {
       document.getElementById('clear-button').click();
       document.getElementById(element).click();
     });
@@ -739,7 +745,7 @@ async function addLeftPanelActions(feature, marker, e) {
       if (document.getElementById('info').classList.contains('leftCollapse')) {
         document.getElementById('info').classList.remove('leftCollapse')
       }
-      document.getElementById('alert-cls-btn').addEventListener('click', function() {
+      document.getElementById('alert-cls-btn').addEventListener('click', function () {
         marker.remove();
       })
     }
@@ -852,51 +858,51 @@ function code_div(codes, venueSlices, observedData, year) {
     }
     let categoryMenu = document.getElementById(code.name.replace(/\s+/g, '').toLowerCase());
     let codeItem = document.createElement('li');
-    codeItem.innerHTML = '<a class="dropdown-item" href="#">' + code.code + ' (' + filterCount + ')'+ '</a>';
+    codeItem.innerHTML = '<a class="dropdown-item" href="#">' + code.code + ' (' + filterCount + ')' + '</a>';
     codeItem.id = code.code;
     ////////////////
     // for each code_div add event listener on click to add filter features of the map
 
     codeItem.addEventListener('click', function () {
-      if (current_code_filter.length >0) {
+      if (current_code_filter.length > 0) {
         makeAlert('You can only select one filter at one time');
       } else {
         codeParent.classList.add('d-none');
         // map.setFilter('data', ['in', code.code, ['get', 'codedescriptorlist']]);
         ///////////////////////////////////////////////////////////////////////////////////////////
-      //remove 3D layer
+        //remove 3D layer
 
-      let result = codeFilter(venueSlices.features, year, code);
-      let resultObserve = codeFilter(observedData.features, year, code);
-      on_Screen_Data_Venue = result;
-      on_Screen_Data_Observe = resultObserve;
-      if (map.getLayer('venue-slice-cones')) {
-        map.removeLayer('venue-slice-cones');
-      };
-      if (map.getLayer('observation-cubes')) {
-        map.removeLayer('observation-cubes');
-      }
-      if (map.getLayer('poi-labels')) {
-        map.removeLayer('poi-labels');
-        map.removeSource('venues');
-      };
-      if (venue_status && observation_status) {
-        addCubes(resultObserve, false)
-        addCones(result, false);
-      } else if (venue_status) {
-        addCones(result, false)
-      } else if (observation_status) {
-        addCubes(resultObserve, false)
-      }
-      ///////////////////////////////////////////////////////////////////////////////////////////
+        let result = codeFilter(venueSlices.features, year, code);
+        let resultObserve = codeFilter(observedData.features, year, code);
+        on_Screen_Data_Venue = result;
+        on_Screen_Data_Observe = resultObserve;
+        if (map.getLayer('venue-slice-cones')) {
+          map.removeLayer('venue-slice-cones');
+        };
+        if (map.getLayer('observation-cubes')) {
+          map.removeLayer('observation-cubes');
+        }
+        if (map.getLayer('poi-labels')) {
+          map.removeLayer('poi-labels');
+          map.removeSource('venues');
+        };
+        if (venue_status && observation_status) {
+          addCubes(resultObserve, false)
+          addCones(result, false);
+        } else if (venue_status) {
+          addCones(result, false)
+        } else if (observation_status) {
+          addCubes(resultObserve, false)
+        }
+        ///////////////////////////////////////////////////////////////////////////////////////////
         document.getElementById("code-filter-btn").innerText = 'Current Filter: ' + codeItem.id;
         document.getElementById("clear-button").innerHTML = '<a class="dropdown-item" title="Clear all selected filters" href="#"> The filter <span id="applied-filter">' + code.code + '</span> is applied. \n  </br> Click here to remove this filter. </a>';
-        }
-      });
-
-      if (filterCount != 0) {
-        categoryMenu.appendChild(codeItem);
       }
+    });
+
+    if (filterCount != 0) {
+      categoryMenu.appendChild(codeItem);
+    }
   });
 
 
@@ -947,10 +953,10 @@ function code_div(codes, venueSlices, observedData, year) {
 function codeFilter(features, year, code) {
   let result = [];
   features.filter(function (feature) {
-    if (feature.properties.year == year){
+    if (feature.properties.year == year) {
       let dlist = feature.properties.descriptorlist;
-      if (Array.isArray(dlist)){
-        for (i = 0; i <  dlist.length; i++) {
+      if (Array.isArray(dlist)) {
+        for (i = 0; i < dlist.length; i++) {
           if (dlist[i].includes(code.code)) {
             result.push(feature);
           }
@@ -969,7 +975,7 @@ function codeIncludes(codeData, year) {
     let codeObj = codeData[codeInfo];
     //Temporarily disabling this until we find a better way to implement ity
     //if (codeObj.years.includes(year.toString())) {
-      result[codeInfo] = codeObj;
+    result[codeInfo] = codeObj;
     //}
   }
   return result;
@@ -978,18 +984,18 @@ function codeIncludes(codeData, year) {
 function getEvidenceInfo(feature) {
 
   let streetviewDiv = document.getElementById('streetview-evidence');
-  streetviewDiv.setAttribute('href', 'http://maps.google.com/maps?q=&layer=c&cbll='+ feature.geometry.coordinates[1] +','+ feature.geometry.coordinates[0] +'&cbp=');
+  streetviewDiv.setAttribute('href', 'http://maps.google.com/maps?q=&layer=c&cbll=' + feature.geometry.coordinates[1] + ',' + feature.geometry.coordinates[0] + '&cbp=');
 
   let photoDiv = document.getElementById('image-evidence');
   try {
-  photoDiv.setAttribute('href', 'https://www.google.com/search?tbm=isch&q=venue '+ feature.properties.observedvenuename + ' in ' + feature.properties.locality + ', ' + feature.properties.state + ' in the year ' + feature.properties.year);
+    photoDiv.setAttribute('href', 'https://www.google.com/search?tbm=isch&q=venue ' + feature.properties.observedvenuename + ' in ' + feature.properties.locality + ', ' + feature.properties.state + ' in the year ' + feature.properties.year);
   } catch (err) {
-    photoDiv.setAttribute('href', 'https://www.google.com/search?tbm=isch&q=venue '+ feature.properties.observedvenuename + ' in ' + feature.properties.locality +  ' in the year ' + feature.properties.year);
+    photoDiv.setAttribute('href', 'https://www.google.com/search?tbm=isch&q=venue ' + feature.properties.observedvenuename + ' in ' + feature.properties.locality + ' in the year ' + feature.properties.year);
 
   }
 
   let tweetsDiv = document.getElementById('tweets-evidence');
-  tweetsDiv.setAttribute('href', 'https://twitter.com/search?q='+ feature.properties.observedvenuename +'%20geocode%3A'+feature.geometry.coordinates[1]+'%2C'+feature.geometry.coordinates[0]+'%2C.1km&src=typed_query&f=top');
+  tweetsDiv.setAttribute('href', 'https://twitter.com/search?q=' + feature.properties.observedvenuename + '%20geocode%3A' + feature.geometry.coordinates[1] + '%2C' + feature.geometry.coordinates[0] + '%2C.1km&src=typed_query&f=top');
 
 }
 
@@ -1934,19 +1940,19 @@ document.getElementById('return-btn').addEventListener('click', function () {
 });
 
 // Add a new observation button - remove corresponding layers
-document.getElementById('add-observation-container').addEventListener('click', function() {
-  if(isLoggedIn()){
-    if(map.getLayer('buffer-point')) {
+document.getElementById('add-observation-container').addEventListener('click', function () {
+  if (isLoggedIn()) {
+    if (map.getLayer('buffer-point')) {
       map.removeLayer('buffer-point');
       map.removeSource('buffer-point');
     }
     // remove 3D shapes
-    if(map.getLayer('year-block')) {
+    if (map.getLayer('year-block')) {
       map.removeLayer('year-block');
       map.removeSource('year-block');
     }
 
-    if(map.getLayer('year-block-line')) {
+    if (map.getLayer('year-block-line')) {
       map.removeLayer('year-block-line');
       map.removeSource('year-block-line');
     }
