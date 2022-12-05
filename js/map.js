@@ -685,7 +685,7 @@ function viewLeftPanel(e) {
   subMap.addSource('dataByYear', {
     'type': 'geojson',
     'data': toPolygonGEOJSON(filteredLocalData)
-  })
+  });
   subMap.addLayer({
     'id': 'year-extrusion',
     'type': 'fill-extrusion',
@@ -705,7 +705,12 @@ function viewLeftPanel(e) {
       },
       'fill-extrusion-opacity': 0.7
     }
-  })
+  });
+
+  // reset zoom level of inset map
+  subMap.setZoom(12);
+
+
   let yearList = [];
   let address = [];
   let timelineOfAddress = {};
@@ -2052,20 +2057,3 @@ function makeAlert(alertText) {
   let alertModal = new bootstrap.Modal(alert);
   alertModal.show();
 }
-
-// // Yufei: handeling context lost
-// var canvas = document.getElementById("map");
-// canvas.addEventListener("webglcontextlost", function(event) {
-//     event.preventDefault();
-// }, false);
-
-// canvas.addEventListener(
-//   "webglcontextrestored", setupWebGLStateAndResources, false);
-
-// // helper function setupWebGLStateAndResources
-// function setupWebGLStateAndResources() {
-//   var canvas = document.getElementById("map");
-//   console.log("Context restored!");
-//   // reset all the map elements here
-
-// }
