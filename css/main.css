@@ -31,6 +31,7 @@
 #loader {
   position: fixed;
   width: 100%;
+  align-items: center;
   height: 100vh;
   top: 0;
   bottom: 0;
@@ -38,6 +39,20 @@
   background: url("../assets/imgs/loading.gif") 50% 50% no-repeat white;
   opacity: 1;
 }
+
+#size {
+  position: fixed;
+  color:#800026;
+  padding: 0.2em;
+  background-color: rgba(136, 136, 136, 0.479);
+  border-radius: 0.5rem;
+font-size: 20pt;
+z-index: 9999;
+visibility: hidden;
+}
+
+
+
 
 #nextTimeSwitcher {
   position: relative;
