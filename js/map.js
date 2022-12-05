@@ -1688,13 +1688,12 @@ map.on('click', 'year-block', function (e) {
   // popup
   new mapboxgl.Popup()
     .setLngLat(e.lngLat)
-    .setHTML(`<p>
-            ${e.features[0].properties.name}</br>
+    .setHTML(`<p><b>
+            ${e.features[0].properties.name}</b></br>
             Year:
             ${stringYear} </br>
             Data Source: ${stringDataSource} </br>
-            Date added: ${dateData}
-            </p>`)
+            Date added: ${dateData}</p>`)
     .addTo(map);
   // highlight extrusion on hover
   // display popup for location information of extrusion

@@ -97,6 +97,10 @@
   font-size: small;
 }
 
+.mapboxgl-popup-content > p {
+  margin-bottom: 0;
+}
+
 #instructions-info {
   margin-top: 1.5em;
   right: 0;
