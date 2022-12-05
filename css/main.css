@@ -31,7 +31,7 @@
 #loader {
   position: fixed;
   width: 100%;
-  align-items: center;
+
   height: 100vh;
   top: 0;
   bottom: 0;
@@ -43,6 +43,8 @@
 #size {
   position: fixed;
   color:#800026;
+  align-items: center;
+  text-align: center;
   padding: 0.2em;
   background-color: rgba(136, 136, 136, 0.479);
   border-radius: 0.5rem;
