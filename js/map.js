@@ -544,11 +544,19 @@ subMap.on('load', function () {
       updateMap(selectedYear, selectedLocality);
       document.getElementById('year-label').innerHTML = selectedYear;
       document.getElementById('slider-bar').value = selectedYear;
+
+      // highlight the venue slice
+
+
+
+
     })
 
     document.getElementById('subMap-info').innerHTML = "";
     // document.getElementById('subMap-info').innerHTML = "<strong>Address: </strong>" + e.features[0].properties.name + '<br>'  + referenceList[e.features[0].properties.year];
     document.getElementById('subMap-info').appendChild(button);
+
+    
   });
 
 
@@ -581,6 +589,11 @@ function viewLeftPanel(e) {
     }
     codes = codeString.split(',');
   }
+  //@jakobzhao: if no code in the code list
+  if (codes == null) {
+    codes = "";
+  }
+  
   for (let i = 0; i < codes.length; i++) {
     codes[i] = codes[i].replaceAll('\'', '');
   }
@@ -1213,8 +1226,6 @@ function addCones(data, active) {
       let highlighted = [];
 
       //add mousing interactions
-      // @jakobzhao: just confine it to the data layer? map.on('click',  function (e) {???
-      // @jakobzhao:  'venue-slice-cones' is added by Bo.
       map.on('click', 'data', function (e) {
         // Yufei: Make sure when click another venue, the report-issue panel cleared
         marker.remove();
@@ -1520,7 +1531,6 @@ async function updateMap(selectedYear, selectedLocality) {
   let filteredYearData = venues.features.filter(function (feature) {
     return feature.properties.year == selectedYear
   });
-  //addVenueLayer(map, venues);
 
   addVenueLayer(map, toSecondaryGEOJSON(filteredYearData));
   let filteredYearObservationData = observationData.features.filter(function (feature) {
@@ -1528,12 +1538,7 @@ async function updateMap(selectedYear, selectedLocality) {
   });
   current_observation_data = filteredYearObservationData;
   current_venue_data = filteredYearData;
-  // observation data
-  // observations = await getObservations(selectedLocality);
-  // addObservationLayer(map, toSecondaryGEOJSON(filteredYearObservationData));
-  // let filteredYearObservations = observations.features.filter(function (feature) {
-  //   return feature.properties.year == selectedYear
-  // });
+
   removeAllLayers();
 
   // load all codes
@@ -1701,7 +1706,8 @@ map.on('mouseleave', 'year-block', () => {
   hoveredStateId = null;
 });
 
-// trigger review/location information on click of location point of map
+// trigger location information on click of location point of map
+
 map.on('click', 'data', async function (e) {
   // Bo: Perhaps highlight the nearby and label their names.
   if (map.getLayer('nearby-observations')) {
