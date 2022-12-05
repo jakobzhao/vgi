@@ -1690,8 +1690,6 @@ map.on('click', 'year-block', function (e) {
   // process date
   let dateList = JSON.parse(e.features[0].properties.dateadded);
   let dateData = dateList.toString();
-
-  console.log(e.features[0]);
   // process address
   let addressList = JSON.parse(e.features[0].properties.address);
   let uniqueAddress = [...new Set(addressList)];
