@@ -287,9 +287,9 @@ async function getObservations(locality) {
 };
 
 // get vid observations and per year
-async function getObservationsVID(vid, year) {
+async function getObservationsVID(vsid, year) {
   try {
-    let getObservationsVidData = await fetch(`https://lgbtqspaces-api.herokuapp.com/api/relatedobservations/${vid}/${year}`, {
+    let getObservationsVidData = await fetch(`https://lgbtqspaces-api.herokuapp.com/api/relatedobservations/${vsid}/${year}`, {
       method: 'GET'
     });
     let returnData = await getObservationsVidData.json();
@@ -1859,11 +1859,10 @@ async function venueSliceLoad(e) {
 
   // update frontend with new divs for each comment
   // publish comment on click
-  // ** database only supports location with existing vids
-  let vid = parseInt(document.getElementById('vid-review').innerHTML);
-
+  // ** test observation contains vsid information, first observation table does not
+  let vsid = parseInt(e.features[0].properties.vsid);
   // Create underlying observation
-  let observations = await getObservationsVID(vid, e.features[0].properties.year);
+  let observations = await getObservationsVID(vsid, e.features[0].properties.year);
   // Check if cube layer exists in map
   if (map.getLayer('cube-observation')) {
     map.removeLayer('cube-observation');
@@ -1880,7 +1879,7 @@ async function venueSliceLoad(e) {
   document.getElementById('publish-btn').removeEventListener('click', submitNewReview);
   document.getElementById('publish-btn').addEventListener('click', submitNewReview);
   // get all comments of the location
-  let reviewData = await getReviews(vid);
+  let reviewData = await getReviews(vsid);
   constructReviews(reviewData);
   // get all photos of the location by the google API
   getEvidenceInfo(feature);
