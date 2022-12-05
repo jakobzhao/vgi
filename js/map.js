@@ -592,7 +592,14 @@ subMap.on('load', function () {
       map.getSource('buffer-point').setData(buffer);
 
 
-
+  // // Create underlying observation
+  // let observations =  getObservationsVID(vid, selectedYear);
+  // // Check if cube layer exists in map
+  // if (map.getLayer('cube-observation')) {
+  //   map.removeLayer('cube-observation');
+  // }
+  // let cubeCreate =  import('./addObservationCubes.js');
+  // cubeCreate.createCubes(observations.features);
       ////////////////////////////////////////////////////////////
 
 
