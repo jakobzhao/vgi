@@ -1691,6 +1691,17 @@ map.on('click', 'year-block', function (e) {
   let dateList = JSON.parse(e.features[0].properties.dateadded);
   let dateData = dateList.toString();
 
+  console.log(e.features[0]);
+  // process address
+  let addressList = JSON.parse(e.features[0].properties.address);
+  let uniqueAddress = [...new Set(addressList)];
+  let stringUniqueAddress = uniqueAddress.join(",");
+
+  // process descriptorlist
+  let descriptorList = JSON.parse(e.features[0].properties.descriptorlist);
+  let descriptorListString = descriptorList.toString();
+
+
   // popup
   new mapboxgl.Popup()
     .setLngLat(e.lngLat)
@@ -1699,7 +1710,10 @@ map.on('click', 'year-block', function (e) {
             Year:
             ${stringYear} </br>
             Data Source: ${stringDataSource} </br>
-            Date added: ${dateData}</p>`)
+            Date added: ${dateData} </br>
+            Address: ${stringUniqueAddress} </br>
+            Descriptors: ${descriptorListString}
+            </p>`)
     .addTo(map);
   // highlight extrusion on hover
   // display popup for location information of extrusion

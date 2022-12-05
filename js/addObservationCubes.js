@@ -84,6 +84,7 @@ function cubeLine(data) {
 function processDataForCubes(data, isLine) {
   // Condense data if same longitude and latitude
     let condensedData = new Object();
+    console.log(data);
     data.forEach( (observation, index) => {
         // if they are the same coordinates, then we add together
         // coordinate as key
@@ -91,13 +92,20 @@ function processDataForCubes(data, isLine) {
         if(!condensedData.hasOwnProperty(coordinates) || condensedData[coordinates].name != observation.properties.observedvenuename) {
             condensedData[coordinates] = {"years": [],
                                           "name": observation.properties.observedvenuename,
+                                          "address": [],
                                           "datasource": [],
-                                          "dateadded": []
+                                          "dateadded": [],
+                                          "descriptorlist": []
                                         }
         }
         condensedData[coordinates].years.push(observation.properties.year);
+        condensedData[coordinates].address.push(observation.properties.address);
         condensedData[coordinates].datasource.push(observation.properties.source);
         condensedData[coordinates].dateadded.push(new Date(observation.properties.dateadded).toLocaleDateString());
+        console.log(observation.properties.codedescriptorlist);
+        if(observation.properties.codedescriptorlist != null) {
+          condensedData[coordinates].descriptorlist.push(observation.properties.codedescriptorlist.join(","));
+        }
     })
 
     // Sort observation years in numerical ascending order
@@ -131,6 +139,8 @@ function createFeatures(condensedData,  isLine) {
       'type':'Feature',
       'properties': {'name': condensedData[key].name,
                     'years': condensedData[key].years,
+                    'address': condensedData[key].address,
+                    'descriptorlist': condensedData[key].descriptorlist,
                     'datasource': condensedData[key].datasource,
                     'dateadded': condensedData[key].dateadded,
                     'height': 60,
