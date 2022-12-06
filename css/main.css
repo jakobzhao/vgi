@@ -45,13 +45,23 @@
   color:#800026;
   align-items: center;
   text-align: center;
-  padding: 0.2em;
+  padding: 1em;
   background-color: rgba(136, 136, 136, 0.479);
   border-radius: 0.5rem;
-font-size: 20pt;
+font-size: 15pt;
 z-index: 9999;
 visibility: hidden;
 }
+
+#resize-note{
+  position: relative;
+  display: flex; 
+  margin-top: 2em;
+  justify-content: flex-end;
+  font-size: 12pt;
+  font-style: italic;
+
+} 
 
 
 

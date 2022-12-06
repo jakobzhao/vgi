@@ -98,6 +98,8 @@
       else
       {
         document.getElementById("size").style.visibility = "visible";
+        document.getElementById("resize-size").innerHTML = "This map can be better viewed in a size larger than 1200 (Width) * 800 (Height). <br/>The current size is " + window.innerWidth + " * " + window.innerHeight+ "."
+        // This map can be better viewed in a size larger than 1200 (Width) * 800 (Height).
           console.log(window.innerHeight);
           console.log(window.innerWidth);
           $('#size').css({
