@@ -134,17 +134,24 @@ h4 {
 }
 
 .about-social-link {
-  width: 30px;
-  height: 30px;
-  border: 1px solid #ddd;
+  /* width: 30px;
+  height: 30px; */
+  /* border: 1px solid #ddd; */
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #666;
+
   border-radius: 50%;
   transition: all 0.3s;
+  padding: 0.5rem;
   /* font-size: 0.9rem; */
 }
+
+.about-social-link > i {
+font-size: 1.5rem;
+color: rgb(247 247 247 /70%);
+}
+
 
 #about-contact {
   display: grid;
