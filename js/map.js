@@ -97,6 +97,7 @@ let map = new mapboxgl.Map({
   hash: true
 });
 
+map.addControl(new mapboxgl.NavigationControl());
 
 let subMap = new mapboxgl.Map({
   container: 'subMap', // container ID
