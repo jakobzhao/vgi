@@ -1208,17 +1208,17 @@ function makeLocalityList(localityID, data, selectedYear) {
       let rowDiv = document.createElement('div');
       rowDiv.classList.add('row', "m-1");
       let Name = document.createElement('div');
-      let PlaceType = document.createElement('div');
+      // let PlaceType = document.createElement('div');
       Name.classList.add('col');
-      PlaceType.classList.add("col", "col-sm-3");
+      // PlaceType.classList.add("col", "col-sm-3");
 
       let placetype = type;
 
       Name.innerHTML = element.properties.observedvenuename;
-      PlaceType.innerHTML = placetype;
+      // PlaceType.innerHTML = placetype;
 
       rowDiv.appendChild(Name);
-      rowDiv.appendChild(PlaceType);
+      // rowDiv.appendChild(PlaceType);
 
       localityParent.appendChild(rowDiv);
       rowDiv.addEventListener('click', function () {
