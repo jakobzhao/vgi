@@ -142,7 +142,7 @@ function createFeatures(condensedData,  isLine) {
                     'datasource': condensedData[key].datasource,
                     'dateadded': condensedData[key].dateadded,
                     'height': 60,
-                    'base': isLine ? 40 : 50,
+                    'base': isLine ? 0 : 50,
                     'paint': scaleTest[0]},
       'geometry': {
         'type': 'Polygon',
