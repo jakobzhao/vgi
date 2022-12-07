@@ -57,7 +57,7 @@ const origMaterial = new THREE.MeshPhysicalMaterial({
   flatShading: true,
   color: '#D3B1C2',
   transparent: true,
-  opacity: 0.6
+  opacity: 0.8
 });
 
 const transMaterial = new THREE.MeshPhysicalMaterial({
@@ -593,32 +593,27 @@ subMap.on('load', function () {
       map.getSource('buffer-point').setData(buffer);
 
 
-  // update frontend with new divs for each comment
-  // publish comment on click
+    // update frontend with new divs for each comment
+    // publish comment on click
 
-  // Create underlying observation
-  let observations = await getObservationsVSID(vsid, selectedYear);
-  // Check if cube layer exists in map
-  if (map.getLayer('cube-observation')) {
-    map.removeLayer('cube-observation');
-  }
-  let cubeCreate = await import('./addObservationCubes.js');
-  cubeCreate.createCubes(observations.features);
+    // Create underlying observation
+    let observations = await getObservationsVSID(vsid, selectedYear);
+    // Check if cube layer exists in map
+    if (map.getLayer('cube-observation')) {
+      map.removeLayer('cube-observation');
+    }
+    let cubeCreate = await import('./addObservationCubes.js');
+    cubeCreate.createCubes(observations.features, [geometry.coordinates[0], geometry.coordinates[1]]);
 
-  document.getElementById('publish-btn').removeEventListener('click', submitNewReview);
-  document.getElementById('publish-btn').addEventListener('click', submitNewReview);
-  // get all comments of the location
-  let reviewData = await getReviews(vsid);
-  constructReviews(reviewData);
-  // get all photos of the location by the google API
-  getEvidenceInfo(feature);
+    document.getElementById('publish-btn').removeEventListener('click', submitNewReview);
+    document.getElementById('publish-btn').addEventListener('click', submitNewReview);
+    // get all comments of the location
+    let reviewData = await getReviews(vsid);
+    constructReviews(reviewData);
+    // get all photos of the location by the google API
+    getEvidenceInfo(feature);
       ////////////////////////////////////////////////////////////
-
-
-
-
-
-    })
+  })
 
     document.getElementById('subMap-info').innerHTML = "";
     // document.getElementById('subMap-info').innerHTML = "<strong>Address: </strong>" + e.features[0].properties.name + '<br>'  + referenceList[e.features[0].properties.year];
@@ -629,7 +624,6 @@ subMap.on('load', function () {
 
 
   subMap.on('mouseenter', 'year-extrusion', (e) => {
-
     subMap.getCanvas().style.cursor = 'pointer';
   });
 
@@ -1682,11 +1676,9 @@ async function updateMap(selectedYear, selectedLocality, exclusion) {
 
 // MAP ON LOAD
 map.on('style.load', async function () {
-
   let selectedYear = parseInt(document.getElementById('slider-bar').value);
   let selectedLocality = document.querySelector(".dropdown-item-checked").text;
   updateMap(selectedYear, selectedLocality);
-
 });
 
 ////////////////////////////////////////////////////
@@ -1893,8 +1885,10 @@ async function venueSliceLoad(e) {
   if (map.getLayer('cube-observation')) {
     map.removeLayer('cube-observation');
   }
+
+  let featureCoordinate = [feature.geometry.coordinates[0], feature.geometry.coordinates[1]];
   let cubeCreate = await import('./addObservationCubes.js');
-  cubeCreate.createCubes(observations.features);
+  cubeCreate.createCubes(observations.features, featureCoordinate);
 
   let reviewParent = document.getElementById('reviews-container');
 

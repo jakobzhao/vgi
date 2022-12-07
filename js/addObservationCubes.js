@@ -1,9 +1,8 @@
-export function createCubes(data) {
+export function createCubes(data, featureCoordinate) {
     let layer = cubeLayer(data);
     map.addLayer(layer);
-    let lineLayer = cubeLine(data);
+    let lineLayer = cubeLine(data, featureCoordinate);
     map.addLayer(lineLayer);
-
     // change pointer when mouse enters cube
     map.on('mouseenter', 'year-block', function() {
       map.getCanvas().style.cursor = 'pointer';
@@ -13,6 +12,9 @@ export function createCubes(data) {
       map.getCanvas().style.cursor = '';
     })
 
+    map.moveLayer('year-block-line', 'venue-slice-cones');
+    map.moveLayer('year-block', 'venue-slice-cones');
+    map.moveLayer('buffer-point', 'venue-slice-cones');
 }
 
 function cubeLayer(data) {
@@ -48,8 +50,8 @@ function cubeLayer(data) {
     return layer;
 }
 
-function cubeLine(data) {
-  let sourceData = processDataForCubes(data, true);
+function cubeLine(data,featureCoordinate) {
+  let sourceData = processDataForCubes(data, featureCoordinate, true);
   let layer = {
     'id': 'year-block-line',
     'type': 'fill-extrusion',
@@ -81,7 +83,7 @@ function cubeLine(data) {
   return layer;
 }
 
-function processDataForCubes(data, isLine) {
+function processDataForCubes(data, featureCoordinate = null, isLine) {
   // Condense data if same longitude and latitude
     let condensedData = new Object();
     data.forEach( (observation, index) => {
@@ -113,12 +115,12 @@ function processDataForCubes(data, isLine) {
 
     let cubesData = {
         'type': 'FeatureCollection',
-        'features': createFeatures(condensedData, isLine)
+        'features': createFeatures(condensedData, featureCoordinate, isLine)
     };
     return cubesData;
 }
 
-function createFeatures(condensedData,  isLine) {
+function createFeatures(condensedData, featureCoordinate, isLine) {
   let result = [];
   let polygonRadius = isLine ? 0.001 : 0.01;
   let options = {
@@ -133,6 +135,12 @@ function createFeatures(condensedData,  isLine) {
     for(let element in keyFloat) {
       parseFloat(element);
     }
+
+
+    // Error threshold between two locations
+    let longDifference = Math.abs(featureCoordinate[0] - keyFloat[0]);
+    let latDifference = Math.abs(featureCoordinate[1] - keyFloat[1]);
+
     let feature = {
       'type':'Feature',
       'properties': {'name': condensedData[key].name,
@@ -142,7 +150,7 @@ function createFeatures(condensedData,  isLine) {
                     'datasource': condensedData[key].datasource,
                     'dateadded': condensedData[key].dateadded,
                     'height': 60,
-                    'base': isLine ? 0 : 50,
+                    'base': isLine ? ((longDifference < 0.0001 && latDifference < 0.0001) ? 0 : 40) : 50,
                     'paint': scaleTest[0]},
       'geometry': {
         'type': 'Polygon',
