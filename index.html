@@ -91,7 +91,7 @@
             <a class="nav-link active" href="about.html">About</a>
           </li>
 
-   
+
           <li class="nav-item">
             <a class="nav-link active" data-intro="submit your feedback of your comments to this platform."
               data-step="1" target="_blank"
@@ -100,13 +100,15 @@
 
 
           <li class="nav-item">
-            <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fhgis.uw.edu%2Fvgi&amp;src=sdkpreparse" class="nav-link bi bi-facebook active" aria-current="page" ></a>
+            <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fhgis.uw.edu%2Fvgi&amp;src=sdkpreparse"
+              class="nav-link bi bi-facebook active" aria-current="page"></a>
           </li>
           <li class="nav-item">
-            <a href="https://twitter.com/intent/tweet?url=https://hgis.uw.edu/covid19-workers/&text=Check out this geospatial platform that allow local experts to contribution data about lgbtgq spaces." class="nav-link bi bi-twitter active" aria-current="page" ></a>
+            <a href="https://twitter.com/intent/tweet?url=https://hgis.uw.edu/covid19-workers/&text=Check out this geospatial platform that allow local experts to contribution data about lgbtgq spaces."
+              class="nav-link bi bi-twitter active" aria-current="page"></a>
           </li>
-          
-          
+
+
           <li data-intro="Log in to contribute to this platform." data-step="2">
             <button id="log-out-btn" class="btn btn-outline-light d-none">Log out</button>
           </li>
@@ -138,7 +140,8 @@
                       <!-- <label class="form-label "><h5 class="modal-title">How could I get a passphrase?</h5></label> -->
                       <label class="form-label passphrase-content">
                         <img src="assets/imgs/lock.png"></img>
-                        Please enter your passphrase above. One box for each word of the passphrase. We welcome and encourage contributions to our dataset! To protect your privacy, we are
+                        Please enter your passphrase above. One box for each word of the passphrase. We welcome and
+                        encourage contributions to our dataset! To protect your privacy, we are
                         <b>NOT</b> asking you to login to the portal in a way that results in any personal information
                         about you being collected. No UserID, no password, no user profile! Instead we ask that you
                         click here and tell us the locality or localities about which you have knowledge, the source of
@@ -146,10 +149,14 @@
                         kind of information you have to offer (correction, new information, something else). Once we
                         receive your offer we will send you a temporary pass phrase that you can use to login to the
                         portal and make your contribution. Pass phrases will change accidentally, so you will likely
-                        have to request a new one if you wish to make multiple contributions to the portal. This is to protect
-                        against potentially malicious attacks on our platform and dataset. <b>To obtain our passphrase, please follow the <a
-                          href="agreement.html" target="_blank">link</a> </b>. If you have any questions,
-                          concerns, or suggestions, you can also provide those through <a target="_blank" href="https://docs.google.com/forms/d/1jWU5GIj7rqiej5j0aX3fm2IkM5v3K0PlGDWk0_GNcj4/viewform?edit_requested=true">the feedback page</a>. 
+                        have to request a new one if you wish to make multiple contributions to the portal. This is to
+                        protect
+                        against potentially malicious attacks on our platform and dataset. <b>To obtain our passphrase,
+                          please follow the <a href="agreement.html" target="_blank">link</a> </b>. If you have any
+                        questions,
+                        concerns, or suggestions, you can also provide those through <a target="_blank"
+                          href="https://docs.google.com/forms/d/1jWU5GIj7rqiej5j0aX3fm2IkM5v3K0PlGDWk0_GNcj4/viewform?edit_requested=true">the
+                          feedback page</a>.
                       </label>
 
                     </div>
@@ -169,9 +176,10 @@
   </nav>
 
   <main role="main">
-    <div id="size"><p id="resize-size">This map can be better viewed in a size larger than 1200 (Width) * 800 (Height).</p>
-    <p id="resize-note"><b>Note: </b> You can resize the browser window by dragging the edge of the browser</p>
-  </div>
+    <div id="size">
+      <p id="resize-size">This map can be better viewed in a size larger than 1200 (Width) * 800 (Height).</p>
+      <p id="resize-note"><b>Note: </b> You can resize the browser window by dragging the edge of the browser</p>
+    </div>
     <!-- LOADER -->
     <div id="loader"></div>
     <!-- Welcome Panel -->
@@ -307,28 +315,28 @@
         </div>
         <!-- <hr id="divider-1"> -->
         <div id="submap-title">Life trajectory map of the selected venue</div>
-        <div id="subMap"> 
-        <div id="subMap-info"></div>
+        <div id="subMap">
+          <div id="subMap-info"></div>
         </div>
         <div class="sub-legend-row sub-legend-colors"></div>
-      <div class="sub-legend-row">
-        <div class="sub-legend-label">1965</div>
-        <div class="sub-legend-label">1975</div>
-        <div class="sub-legend-label">1985</div>
-        <div class="sub-legend-label">1995</div>
-        <div class="sub-legend-label">2005</div>
-        <div class="sub-legend-label">2014</div>
+        <div class="sub-legend-row">
+          <div class="sub-legend-label">1965</div>
+          <div class="sub-legend-label">1975</div>
+          <div class="sub-legend-label">1985</div>
+          <div class="sub-legend-label">1995</div>
+          <div class="sub-legend-label">2005</div>
+          <div class="sub-legend-label">2014</div>
+        </div>
+        <p id="evidence-desc">Help us look for evidence from external sources below. </p>
+        <div id="evidence-info">
+          <a id="streetview-evidence" target="_blank" title="watch streetview of this address." class="evidence"><img
+              src="assets/imgs/streetview.png"></a>
+          <a id="image-evidence" target="_blank" title="explore photos of this venue" class="evidence"><img
+              src="assets/imgs/photo.png"></a>
+          <a id="tweets-evidence" target="_blank" title="read how people talk about this venue on Twitter"
+            class="evidence"><img src="assets/imgs/tweets.png"></a>
+        </div>
       </div>
-      <p id="evidence-desc">Help us look for evidence from external sources below. </p>
-      <div id="evidence-info">
-        <a id="streetview-evidence" target="_blank" title="watch streetview of this address." class="evidence"><img
-        src="assets/imgs/streetview.png"></a>
-        <a id="image-evidence" target="_blank" title="explore photos of this venue" class="evidence"><img 
-            src="assets/imgs/photo.png"></a>
-        <a id="tweets-evidence" target="_blank" title="read how people talk about this venue on Twitter"
-          class="evidence"><img  src="assets/imgs/tweets.png"></a>
-      </div>
-    </div>
       <hr id="divider-2">
       <!-- left dashboard - validate observation div -->
       <form id="report-issue" class="issuePanel d-flex flex-column d-none mx-3 mt-5">
@@ -708,7 +716,8 @@
 
             <button id="venue-layer" class="accordion-button light-text-title" type="button" data-bs-toggle="collapse"
               data-bs-target="#collapseVenue" aria-expanded="false" aria-controls="collapseVenue">
-              Venues &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              Venues
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
               <!-- <i class="fa fa-play fa-fw fa-rotate-90" style="color:lightskyblue"></i> -->
             </button>
@@ -774,8 +783,7 @@
       <div id="basemap-selection" class="d-flex flex-row box-shadow-default d-none">
         <div class="layers-container m-1">
           <div class="layers-input-container">
-            <img id="functioning-layer" class="input-container"  src="assets/imgs/satellite.PNG"
-              name="rtoggle">
+            <img id="functioning-layer" class="input-container" src="assets/imgs/satellite.PNG" name="rtoggle">
           </div>
         </div>
       </div>
