@@ -17,7 +17,7 @@
 
   <!-- google font -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,800" rel="stylesheet" />
-  
+
     <link rel="stylesheet" href="css/simplebar.css" />
     <link href="css/common.css" rel='stylesheet' />
     <link rel='stylesheet' href="css/pages.css" />
@@ -37,7 +37,7 @@
     <!-- to use MapBox GL Geocoder in IE 11. -->
     <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.min.js"></script>
-    
+
 
 </head>
 
@@ -50,7 +50,7 @@
                 <div id="project-name">Shifting LGBTQ+ Spaces</div>
                 <div class="beta" >beta</div>
             </a>
-            
+
             <div id="navbar-tabs">
                 <ul class="navbar-nav me-auto mb-2 mb-md-0">
                     <li class="nav-item">
@@ -75,7 +75,7 @@
                         <a class="nav-link active" target="_blank"
                             href="https://docs.google.com/forms/d/1jWU5GIj7rqiej5j0aX3fm2IkM5v3K0PlGDWk0_GNcj4">Feedback</a>
                     </li>
-                    
+
           <li class="nav-item">
             <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fhgis.uw.edu%2Fvgi&amp;src=sdkpreparse" class="nav-link bi bi-facebook active" aria-current="page" ></a>
           </li>
@@ -97,131 +97,158 @@
                     <!-- <img class="border border-secondary" style="float:right; margin-left: 20px"
                         src="assets\screenshot.png" alt="dashboard overview" width="700px"> -->
                     <!-- <h2>Data</h2> -->
-                    <p>We have begun construction of the data base by consulting local experts in various localities,
-                        collaborating with colleagues elsewhere who have worked with similar data (a shoutout to our
-                        friends at mappingthegayguides.org!), and extracting data from LGBTQ+ travel guides published
-                        from the 1960s through the mid-2010s. We recognize that the accuracy of this sort of
-                        information, from these sorts of sources, will always be both uncertain and contested. For this
-                        reason we try to "ground truth" as much of the data as possible (using a variety of methods) and
-                        have included an indication for each piece of data as to how accurate we believe it to be. Your
-                        contributions to this process will help immensely with that process!
-                        <br>
+                    <div>
+                      <span>We have begun construction of the data base by consulting local experts in various localities,
+                      collaborating with colleagues elsewhere who have worked with similar data (a shoutout to our
+                      friends at <a href="https://www.mappingthegayguides.org/">mappingthegayguides.org<a>!), and extracting data from LGBTQ+ travel guides published
+                      from the 1960s through the mid-2010s. We recognize that the accuracy of this sort of
+                      information, from these sorts of sources, will always be both uncertain and contested. For this
+                      reason we try to "ground truth" as much of the data as possible (using a variety of methods) and
+                      have included an indication for each piece of data as to how accurate we believe it to be. Your
+                      contributions to this process will help immensely with that process!
+                      </span>
+                      <br>
                         For reference, the data associated with the table is explained below:
                         <table>
                             <tr>
                                 <th>Attribute Name</th>
                                 <th>Description</th>
+                                <th>Example Data</th>
                               </tr>
                           <tr>
                             <th>vsid</th>
                             <td>Unique identifier for a venue at a specific year</th>
+                            <td>1234</td>
                           </tr>
                           <tr>
                             <th>vid</th>
-                            <td>Unique identifier for a venue across time</td>
+                            <td>Unique identifier for a venue that stays consistent over time</td>
+                            <td>123</td>
                           </tr>
                           <tr>
                             <th>observedvenuename</th>
                             <td>Name for the specific venue</td>
+                            <td>R Place</td>
                           </tr>
                           <tr>
                             <th>category</th>
                             <td>The type of venue(bar, gym, bookstores, etc)</td>
+                            <td>Bars</td>
                           </tr>
                           <tr>
-                            <th>codedescriptorlist</th>
+                            <th>codedescriptorlist<a href="#note1"><sup>1<sup></a></th>
                             <td>Notation used in Damron Guides for the venue, if applicable</td>
-                          </tr>
-                          <tr>
-                            <th>placetype</th>
-                            <td>Whether the venue can be represented as a data type other than a point (polygon, lines)</td>
+                            <td>NH</td>
                           </tr>
                           <tr>
                             <th>address</th>
                             <td>Street address, intersection, or major institution name (e.g., Shopping Mall, School, Park, etc.)</td>
+                            <td>619 E Pine St.</td>
                           </tr>
                           <tr>
                             <th>placenotes</th>
-                            <td>Additional information about the menu</td>
+                            <td>Any additional information about the venue, provided by the data source</td>
+                            <td>1p-2am</td>
                           </tr>
                           <tr>
                             <th>locality</th>
                             <td>Secondary geographical level, can be city, county or area</td>
+                            <td>Seattle</td>
                           </tr>
                           <tr>
                             <th>city</th>
-                            <td>the city where the venue is located</td>
+                            <td>The city where the venue is located</td>
+                            <td>Seattle</td>
                           </tr>
                           <tr>
                             <th>state</th>
                             <td>The state where the venue is located</td>
+                            <td>Washington</td>
                           </tr>
                           <tr>
                             <th>zip</th>
-                            <td>the zip code where the venue is located, if applicable</td>
+                            <td>The zip code where the venue is located, if applicable</td>
+                            <td>98122</td>
                           </tr>
                           <tr>
                             <th>confidence</th>
-                            <td>The confidence level of the geocoder verifying the address</td>
+                            <td>The confidence level we have in the geocoded address</td>
+                            <td>Completely confident</td>
                           </tr>
                           <tr>
                             <th>formaladdress</th>
-                            <td>Geocoded full address</td>
+                            <td>Full postal address, as returned by the geocoder</td>
+                            <td>619 E Pine St, Seattle, WA 98122, USA</td>
                           </tr>
                           <tr>
-                            <th>ggl_measurementtype</th>
+                            <th>ggl_measurementtype<a href="#note2"><sup>2<sup></a></th>
                             <td>The type of measurement Google used to find the geocoded address</td>
+                            <td>ROOFTOP</td>
                           </tr>
                           <tr>
                             <th>latitude</th>
                             <td>The latitude of the venue's physical address, computed using geocoder</td>
+                            <td>47.6150594</td>
                           </tr>
                           <tr>
                             <th>longitude</th>
                             <td>The longitude of the venue's physical address, computed using geocoder</td>
+                            <td>-122.3236654</td>
                           </tr>
                           <tr>
                             <th>year</th>
-                            <td>The year this entry belongs to</td>
+                            <td>The year which this data applies to</td>
+                            <td>1992</td>
                           </tr>
                           <tr>
                             <th>comments</th>
-                            <td>Additional comments from the research team, if applicable</td>
+                            <td>Additional comments from our research team, if applicable</td>
+                            <td>2 stories</td>
                           </tr>
                           <tr>
                             <th>source</th>
-                            <td>The source of the information</td>
-                          </tr>
-                          <tr>
-                            <th>createdby</th>
-                            <td>The identifier of the researcher who completed the data entry</td>
-                          </tr>
-                          <tr>
-                            <th>geocoder</th>
-                            <td>The geocoder used to verify the location (Google/Mapbox)</td>
+                            <td>The primary data source of the information</td>
+                            <td>Damron M</td>
                           </tr>
                           <tr>
                             <th>dateadded</th>
                             <td>The date when this entry was added to the table</td>
+                            <td>2022-09-02</td>
                           </tr>
                           <tr>
                             <th>lastmodified</th>
                             <td>The date when this entry was last modified</td>
+                            <td>2023-01-03</td>
                           </tr>
                           <tr>
-                            <th>ggl_placetype</th>
+                            <th>ggl_placetype<a href="#note2"><sup>2<sup></a></th>
                             <td>The place type of the current day location, provided by google</td>
+                            <td>premise</td>
                           </tr>
                           <tr>
-                            <th>descriptorlist</th>
+                            <th>descriptorlist<a href="#note1"><sup>1<sup></a></th>
                             <td>Any descriptors used by the platform to identify and classify venues</td>
+                            <td>Bar/Nightclub</td>
                           </tr>
                           <tr>
-                            <th>newcodelist</th>
-                            <td>Any new descriptors that were added since the data was originally added to the table</td>
+                            <th>newcodelist<a href="#note1"><sup>1<sup></a></th>
+                            <td>New descriptors to be added, as suggested by users</td>
+                            <td>null</td>
                           </tr>
                         </table>
-                    </p>
+                      <span id="note1"><sup>1</sup> The reason there are two systems of classification is that historically the LGBTQ+ community has faced
+                        countless discrimination using obscure or coded language to communicate was a way of combating social stigma. Our data sources
+                        too made use of coded language for their listings. However, as the meanings of some of these symbols and codes changed over time, they can be
+                        very inconsistent from year to year, this is especially true since earlier publications sometimes contained degoratory/discriminatory
+                        phrasings by today's standards. We have developed a modern classification system using some of those code words as the basis,
+                        which better reflects our values. However the old codes are kept as part of the dataset for those who may have use for it.</span>
+                      <br><br>
+                      <span id="note2"><sup>2</sup> For more information on how to interpret results returned from the geocoder, please refer to the
+                      <a href=https://developers.google.com/maps/documentation/geocoding/requests-reverse-geocoding>official documentation<a>
+                      for the Google Maps Platform API.</span>
+
+
+                    </div>
                     <p>
                         <!-- <a href="https://lgbtqspaces-api.herokuapp.com/api/download_venue_slice">Download our venue data</a>-->
                     </p>
