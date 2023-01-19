@@ -92,19 +92,25 @@
   }
 
   async function reportResize() {
-    if (window.innerHeight > 800 && window.innerWidth > 1200) {
-      document.getElementById("size").style.visibility = "hidden";
-    } else {
-      document.getElementById("size").style.visibility = "visible";
-      document.getElementById("resize-size").innerHTML = "This map can be better viewed in a size larger than 1200 (Width) * 800 (Height). <br/>The current size is " + window.innerWidth + " * " + window.innerHeight + "."
-      // This map can be better viewed in a size larger than 1200 (Width) * 800 (Height).
-      console.log(window.innerHeight);
-      console.log(window.innerWidth);
-      $('#size').css({
-        top: '50%',
-        left: '50%',
-        margin: '-' + ($('#size').height() / 2) + 'px 0 0 -' + ($('#size').width() / 2) + 'px'
-      });
+    if (localStorage.getItem('resizeState') != 'shown') {
+      if (window.innerHeight > 800 && window.innerWidth > 1200) {
+        document.getElementById("size").style.visibility = "hidden";
+      } else {
+        document.getElementById("size").style.visibility = "visible";
+        document.getElementById("resize-size").innerHTML = "This map can be better viewed in a size larger than 1200 (Width) * 800 (Height). <br/>The current size is " + window.innerWidth + " * " + window.innerHeight + "."
+        // This map can be better viewed in a size larger than 1200 (Width) * 800 (Height).
+        document.getElementById("acknowledge-screen-size").addEventListener("click", function(){
+          localStorage.setItem('resizeState', 'shown');
+          document.getElementById("size").style.visibility = "hidden";
+        })
+        console.log(window.innerHeight);
+        console.log(window.innerWidth);
+        $('#size').css({
+          top: '50%',
+          left: '50%',
+          margin: '-' + ($('#size').height() / 2) + 'px 0 0 -' + ($('#size').width() / 2) + 'px'
+        });
+      }
     }
   }
   async function suggestNewEdit() {
