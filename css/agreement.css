@@ -32,3 +32,25 @@
     display: flex;
     gap: 1rem;
 }
+
+section {
+  width: 60%;
+  text-align: center;
+  margin: auto;
+}
+
+#agreement-feedback {
+  width: 600px;
+  height: 400px;
+  display: block;
+}
+
+.g-recaptcha{
+   margin: 15px auto !important;
+   width: auto !important;
+   height: auto !important;
+   text-align: -webkit-center;
+   text-align: -moz-center;
+   text-align: -o-center;
+   text-align: -ms-center;
+}
