@@ -6,6 +6,9 @@ main {
   overflow-x: hidden;
 }
 
+#agreement {
+  overflow-y: auto;
+}
 
 /* side panel background */
 .bg-opaque-white {
