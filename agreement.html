@@ -71,8 +71,14 @@
                         <a class="nav-link active" aria-current="page" href="team.html">Team</a>
                     </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">About</a>
+                    <li class="nav-item dropdown" onmouseover="dropdownOpen()">
+                        <a href="#" class="nav-link active dropdown-toggle" id="navbarDropdown" role="button">
+                          About
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown" onmouseover="dropdownOpen()" onmouseout="dropdownClose()">
+                          <li><a class="dropdown-item" href="about.html">About</a></li>
+                          <li><a class="dropdown-item" href="agreement.html">Agreement</a></li>
+                        </ul>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link active" target="_blank"
@@ -116,7 +122,7 @@
 
             </div>
             <form id="agreement-form">
-                <textarea id="agreement-feedback" placeholder="Share your story..."></textarea>
+                <textarea id="agreement-feedback" placeholder=" Share your story..."></textarea>
                 <input id="agreement-input" type="checkbox">
                 <label id="agreement-input">I have read and agree with the policies and regulations above.</label>
                 <div class="g-recaptcha" data-sitekey="6LeGhy0kAAAAAFo9R87bYdc2R7NLzzHpS-VUGr01"></div>

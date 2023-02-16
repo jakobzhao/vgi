@@ -439,3 +439,19 @@ th {
 .collapsed:after {
   content: "\2796"; /* Unicode character for "minus" sign (-) */
 }
+
+
+/* Style for dropdown menu */
+
+.navbar-dark .navbar-nav .nav-link .dropdown-menu{
+  color: white; 
+}
+.nav-item:hover .dropdown-menu {
+display: block;
+}
+
+.dropdown-menu {
+display: none;
+position: absolute;
+z-index: 1000;
+}
