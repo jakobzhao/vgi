@@ -517,7 +517,7 @@ function switchLayer(layer) {
 function removeAllLayers(exclusion) {
   let layers = ['observation-cubes', 'nearby-observations', 'buffer-point', 'year-block', 'year-block-line', 'poi-labels', 'venue-slice-cones'];
   let sources = ['venues', 'buffer-point', 'year-block', 'year-block-line'];
-  
+
   layers = layers.filter(item => item !== exclusion)
   sources = sources.filter(item => item !== exclusion)
   for (let layer of layers) {
@@ -552,7 +552,7 @@ subMap.on('load', function () {
       document.getElementById('slider-bar').value = selectedYear;
 
       // highlight the venue slice
-      // map.on('click', 'data', venueSliceLoad); 
+      // map.on('click', 'data', venueSliceLoad);
       // venueSliceLoad(e);
       ////////////////////////////////////////////////////////////
 

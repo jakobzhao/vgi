@@ -16,8 +16,14 @@ export function isValidYear(elementID) {
 }
 
 export function isValidZip(elementID) {
-    let element = document.getElementById(elementID);
-    return !isNaN(element.value) && isNotEmpty(elementID);
+  let element = document.getElementById(elementID);
+  let zipRegex = /^\d{5}$/; // regular expression for 5-digit US ZIP code
+  let value = element.value.trim();
+  if (value === '') {
+    element.value = '00000'; // Set input value to '00000' if it's empty
+    value = '00000';
+  }
+  return value.match(zipRegex) ? value : false;
 }
 
 function showSuccess(elementID, errMessage) {
