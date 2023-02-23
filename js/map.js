@@ -52,7 +52,7 @@ function myBrowser() {
 myBrowser();
 
 // initialize geometry and material of our cube object
-const geometry = new THREE.ConeGeometry(15, 40, 64);
+const geometry = new THREE.CylinderGeometry(15, 15, 64, 32);
 const origMaterial = new THREE.MeshPhysicalMaterial({
   flatShading: true,
   color: '#D3B1C2',
@@ -515,7 +515,7 @@ function switchLayer(layer) {
 
 
 function removeAllLayers(exclusion) {
-  let layers = ['observation-cubes', 'nearby-observations', 'buffer-point', 'year-block', 'year-block-line', 'poi-labels', 'venue-slice-cones'];
+  let layers = ['observation-cubes', 'nearby-observations', 'buffer-point', 'year-block', 'year-block-line', 'poi-labels', 'venue-slice-layer'];
   let sources = ['venues', 'buffer-point', 'year-block', 'year-block-line'];
 
   layers = layers.filter(item => item !== exclusion)
@@ -967,8 +967,8 @@ function code_div(codes, venueSlices, observedData, year) {
         let resultObserve = codeFilter(observedData.features, year, code);
         on_Screen_Data_Venue = result;
         on_Screen_Data_Observe = resultObserve;
-        if (map.getLayer('venue-slice-cones')) {
-          map.removeLayer('venue-slice-cones');
+        if (map.getLayer('venue-slice-layer')) {
+          map.removeLayer('venue-slice-layer');
         };
         if (map.getLayer('observation-cubes')) {
           map.removeLayer('observation-cubes');
@@ -979,9 +979,9 @@ function code_div(codes, venueSlices, observedData, year) {
         };
         if (venue_status && observation_status) {
           addCubes(resultObserve, false)
-          addCones(result, false);
+          addVenues(result, false);
         } else if (venue_status) {
-          addCones(result, false)
+          addVenues(result, false)
         } else if (observation_status) {
           addCubes(resultObserve, false)
         }
@@ -1012,8 +1012,8 @@ function code_div(codes, venueSlices, observedData, year) {
     document.getElementById('code-filter-btn').innerText = 'Filter';
     clear.innerHTML = '<a class="dropdown-item" title="Clear all selected filters" href="#"> No filter is currently applied. </a>';
 
-    if (map.getLayer('venue-slice-cones')) {
-      map.removeLayer('venue-slice-cones');
+    if (map.getLayer('venue-slice-layer')) {
+      map.removeLayer('venue-slice-layer');
     };
     if (map.getLayer('observation-cubes')) {
       map.removeLayer('observation-cubes');
@@ -1024,10 +1024,10 @@ function code_div(codes, venueSlices, observedData, year) {
     };
 
     if (venue_status && observation_status) {
-      addCones(current_venue_data, false);
+      addVenues(current_venue_data, false);
       addCubes(current_observation_data, false);
     } else if (venue_status) {
-      addCones(current_venue_data, false);
+      addVenues(current_venue_data, false);
     } else if (observation_status) {
       addCubes(current_observation_data, false);
     }
@@ -1149,7 +1149,7 @@ function setImgURL(service, placeId) {
 };
 
 
-// add names to the cones
+// add names to the venue geometry
 function addLabels(data) {
   let result = {}
   result.type = "FeatureCollection";
@@ -1235,9 +1235,9 @@ function makeLocalityList(localityID, data, selectedYear) {
   }
 }
 
-function addCones(data, active) {
-  if (map.getLayer('venue-slice-cones')) {
-    map.removeLayer('venue-slice-cones');
+function addVenues(data, active) {
+  if (map.getLayer('venue-slice-layer')) {
+    map.removeLayer('venue-slice-layer');
   }
   if (data.length == 0) {
     document.getElementById("year-notes").innerHTML = "No venues from this locale of this year has been found in our database. If you know any venue does not shown on this database, please help us improve. "
@@ -1248,7 +1248,7 @@ function addCones(data, active) {
   addLabels(data);
 
   map.addLayer({
-    id: 'venue-slice-cones',
+    id: 'venue-slice-layer',
     type: 'custom',
     renderingMode: '3d',
     onAdd: function (map, mbxContext) {
@@ -1352,7 +1352,7 @@ function addCubes(data, active) {
     type: 'custom',
     renderingMode: '3d',
     onAdd: function (map, mbxContext) {
-      if (!map.getLayer('venue-slice-cones')) {
+      if (!map.getLayer('venue-slice-layer')) {
         mbxContext = map.getCanvas().getContext('webgl');
         window.tb = new Threebox(
           map,
@@ -1538,8 +1538,8 @@ venueCheckbox.addEventListener('click', function (e) {
   }
   if (venueCheckbox.checked != true) {
     venue_status = false;
-    if (map.getLayer('venue-slice-cones')) {
-      map.removeLayer('venue-slice-cones');
+    if (map.getLayer('venue-slice-layer')) {
+      map.removeLayer('venue-slice-layer');
     }
     if (observation_status) {
       if (map.getLayer('observation-cubes')) {
@@ -1553,13 +1553,13 @@ venueCheckbox.addEventListener('click', function (e) {
     }
   } else {
     venue_status = true;
-    if (map.getLayer('venue-slice-cones')) {
-      map.removeLayer('venue-slice-cones');
+    if (map.getLayer('venue-slice-layer')) {
+      map.removeLayer('venue-slice-layer');
     }
     if (current_code_filter.length > 0) {
-      addCones(on_Screen_Data_Venue, false);
+      addVenues(on_Screen_Data_Venue, false);
     } else {
-      addCones(current_venue_data, false);
+      addVenues(current_venue_data, false);
     }
   }
 
@@ -1621,19 +1621,19 @@ async function updateMap(selectedYear, selectedLocality, exclusion) {
   //switch event
   if (current_code_filter.length > 0) {
     if (venue_status && observation_status) {
-      addCones(on_Screen_Data_Venue, active);
+      addVenues(on_Screen_Data_Venue, active);
       addCubes(on_Screen_Data_Observe, active);
     } else if (venue_status) {
-      addCones(on_Screen_Data_Venue, active);
+      addVenues(on_Screen_Data_Venue, active);
     } else if (observation_status) {
       addCubes(on_Screen_Data_Observe, active);
     }
   } else {
     if (venue_status && observation_status) {
-      addCones(filteredYearData, active);
+      addVenues(filteredYearData, active);
       addCubes(filteredYearObservationData, active);
     } else if (venue_status) {
-      addCones(filteredYearData, active);
+      addVenues(filteredYearData, active);
     } else if (observation_status) {
       addCubes(filteredYearObservationData, active);
     }

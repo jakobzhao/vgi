@@ -12,9 +12,9 @@ export function createCubes(data, featureCoordinate) {
       map.getCanvas().style.cursor = '';
     })
 
-    map.moveLayer('year-block-line', 'venue-slice-cones');
-    map.moveLayer('year-block', 'venue-slice-cones');
-    map.moveLayer('buffer-point', 'venue-slice-cones');
+    map.moveLayer('year-block-line', 'venue-slice-layer');
+    map.moveLayer('year-block', 'venue-slice-layer');
+    map.moveLayer('buffer-point', 'venue-slice-layer');
 }
 
 function cubeLayer(data) {
