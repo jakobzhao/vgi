@@ -1212,3 +1212,17 @@ p#venue-indicator {
   position: absolute;
   z-index: 1000;
 }
+
+/* inset map hover text style */
+
+.hover-popup .mapboxgl-popup-content {
+  background-color: transparent;
+  transform:none !important;
+  right: 60%;
+  font-size: 16px;
+  font-weight: 400;
+  
+}
+.hover-popup .mapboxgl-popup-tip {
+  border-top-color: transparent;
+}

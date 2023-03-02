@@ -615,6 +615,7 @@ subMap.on('load', function () {
       ////////////////////////////////////////////////////////////
   })
 
+
     document.getElementById('subMap-info').innerHTML = "";
     // document.getElementById('subMap-info').innerHTML = "<strong>Address: </strong>" + e.features[0].properties.name + '<br>'  + referenceList[e.features[0].properties.year];
     document.getElementById('subMap-info').appendChild(button);
@@ -622,14 +623,37 @@ subMap.on('load', function () {
 
   });
 
+  const popup = new mapboxgl.Popup({
+    closeButton: false,
+    closeOnClick: false,
+    className: "hover-popup"
+  });
 
-  subMap.on('mouseenter', 'year-extrusion', (e) => {
+  subMap.on('mousemove', 'year-extrusion', (e) => {
+
+    // let geometry = JSON.parse(e.features[0].properties.center);
+  //   if (!popup.isOpen()) {
+  //     this.className = '';
+  //     popup.setLngLat(subMap.getCenter());
+  //     popup.setHTML(e.features[0].properties.year);
+  //     popup.addTo(subMap)
+  // } else {
+  //     this.className = 'active';
+  //     popup.remove();
+  // }
+    popup.setLngLat(subMap.getCenter())
+    .setHTML(e.features[0].properties.year)
+    .addTo(subMap);
+
+    //console.log(e.features[0].properties.year);
+
     subMap.getCanvas().style.cursor = 'pointer';
   });
 
   subMap.on('mouseleave', 'year-extrusion', (e) => {
 
     subMap.getCanvas().style.cursor = '';
+    popup.remove();
   });
 
 
