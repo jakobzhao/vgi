@@ -1218,7 +1218,7 @@ p#venue-indicator {
 .hover-popup .mapboxgl-popup-content {
   background-color: transparent;
   transform:none !important;
-  right: 60%;
+  right: 100%;
   font-size: 16px;
   font-weight: 400;
   
