@@ -444,7 +444,7 @@ th {
 /* Style for dropdown menu */
 
 .navbar-dark .navbar-nav .nav-link .dropdown-menu{
-  color: white; 
+  color: white;
 }
 .nav-item:hover .dropdown-menu {
 display: block;

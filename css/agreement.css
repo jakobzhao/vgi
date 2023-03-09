@@ -41,7 +41,7 @@ section {
 
 #agreement-feedback {
   width: 600px;
-  height: 400px;
+  height: 300px;
   display: block;
 }
 
@@ -53,4 +53,17 @@ section {
    text-align: -moz-center;
    text-align: -o-center;
    text-align: -ms-center;
+}
+
+#error-text {
+  color: red;
+}
+
+#show-content {
+  font-size: 24px;
+}
+
+#data-pass {
+  font-weight: bold;
+  color: red;
 }

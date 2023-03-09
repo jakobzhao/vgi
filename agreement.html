@@ -2,140 +2,143 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Shifting LGBTQ+ Spaces</title>
-    <link rel="icon" type="image/x-icon" href="assets/imgs/logo.png">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
-    <!-- external CSS & js -->
-    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,800" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <!-- font awesome kit -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Shifting LGBTQ+ Spaces</title>
+  <link rel="icon" type="image/x-icon" href="assets/imgs/logo.png">
+  <!-- <link href="css/bootstrap.min.css" rel="stylesheet"> -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+  <!-- external CSS & js -->
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,800" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <!-- font awesome kit -->
+  <!-- <script src="https://use.fontawesome.com/releases/v5.15.3/js/all.js" crossorigin="anonymous"></script> -->
 
-    <link rel="stylesheet" href="css/simplebar.css" />
-    <link rel='stylesheet' href="css/common.css" />
-    <link rel='stylesheet' href="css/pages.css" />
-    <style>
-        html,
-        body,
-        main {
 
-            color: black !important;
-            /* background-color:black !important */
-        }
-    </style>
+  <link rel="stylesheet" href="css/simplebar.css" />
+  <link href="css/common.css" rel='stylesheet' />
+  <link rel='stylesheet' href="css/pages.css" />
 
-    <script src="https://code.jquery.com/jquery-3.6.1.min.js"
-        integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+  <link rel='stylesheet' href="css/agreement.css" />
+  <script src="./js/agreement.js"></script>
 
-    <!-- bootstrap 5.1 is required for the overall structure of the platform -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous">
-        </script>
-    <script src="js/simplebar.min.js"></script>
-    <link rel="stylesheet" href="./css/agreement.css">
+  <script src="https://code.jquery.com/jquery-3.6.1.min.js"
+    integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
 
-    <script src="https://www.google.com/recaptcha/api.js?render=6LdLdC0kAAAAAEj9UrF9YLg1XBW-uPauZPNjFvy"></script>
+  <!-- bootstrap 5.1 is required for the overall structure of the platform -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous">
+    </script>
+  <script src="js/simplebar.min.js"></script>
 
-    <!-- Promise polyfill script is required -->
-    <!-- to use MapBox GL Geocoder in IE 11. -->
-    <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.min.js"></script>
-    <script src="./js/agreement.js"></script>
+<script src="https://www.google.com/recaptcha/api.js?render=6LdLdC0kAAAAAEj9UrF9YLg1XBW-uPauZPNjFvy"></script>
+
+  <!-- Promise polyfill script is required -->
+  <!-- to use MapBox GL Geocoder in IE 11. -->
+  <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.min.js"></script>
 
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-md navbar-dark bg-dark">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="index.html"><img src="assets/imgs/logo.png"></img>
-                <div id="project-name">Shifting LGBTQ+ Spaces</div>
-                <div class="beta">beta</div>
-            </a>
 
-            <div id="navbar-tabs">
-                <ul class="navbar-nav me-auto mb-2 mb-md-0">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="index.html">Map</a>
-                    </li>
+  <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="index.html"><img src="assets/imgs/logo.png"></img>
+        <div id="project-name">Shifting LGBTQ+ Spaces</div>
+        <div class="beta">beta</div>
+      </a>
 
-                    <!-- <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="methodology.html">Methodology</a>
-                          </li> -->
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="data.html">Data</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="team.html">Team</a>
-                    </li>
+      <div id="navbar-tabs">
+        <ul class="navbar-nav me-auto mb-2 mb-md-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="index.html">Map</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="data.html">Data</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="methodology">Methodology</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="ethics.html">Ethics</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="team.html">Team</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="about.html">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" target="_blank"
+              href="https://docs.google.com/forms/d/1jWU5GIj7rqiej5j0aX3fm2IkM5v3K0PlGDWk0_GNcj4">Feedback</a>
+          </li>
 
-                    <li class="nav-item dropdown" onmouseover="dropdownOpen()">
-                        <a href="#" class="nav-link active dropdown-toggle" id="navbarDropdown" role="button">
-                          About
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown" onmouseover="dropdownOpen()" onmouseout="dropdownClose()">
-                          <li><a class="dropdown-item" href="about.html">About</a></li>
-                          <li><a class="dropdown-item" href="agreement.html">Agreement</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" target="_blank"
-                            href="https://docs.google.com/forms/d/1jWU5GIj7rqiej5j0aX3fm2IkM5v3K0PlGDWk0_GNcj4">Feedback</a>
-                    </li>
+          <li class="nav-item">
+            <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fhgis.uw.edu%2Fvgi&amp;src=sdkpreparse"
+              class="nav-link bi bi-facebook active" aria-current="page"></a>
+          </li>
+          <li class="nav-item">
+            <a href="https://twitter.com/intent/tweet?url=https://hgis.uw.edu/covid19-workers/&text=Check out this geospatial platform that allow local experts to contribution data about lgbtgq spaces."
+              class="nav-link bi bi-twitter active" aria-current="page"></a>
+          </li>
 
-                    <li class="nav-item">
-                        <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fhgis.uw.edu%2Fvgi&amp;src=sdkpreparse"
-                            class="nav-link bi bi-facebook active" aria-current="page"></a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="https://twitter.com/intent/tweet?url=https://hgis.uw.edu/covid19-workers/&text=Check out this geospatial platform that allow local experts to contribution data about lgbtgq spaces."
-                            class="nav-link bi bi-twitter active" aria-current="page"></a>
-                    </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
 
-                </ul>
+  <main>
+    <div data-simplebar data-simplebar-auto-hide="false" class="grid-container">
+      <div class="grid-box">
+        <div class="about-main-content">
+          <section id="agreement">
+            <div id ="passcode-main-agreement">
+              <div id="statement">
+                  <h3>Shifting LGBTQ+ Spaces: Our User Agreement</h3>
+                  <p>We welcome and encourage contributions to our dataset! To protect against potentially
+                      malicious attacks on our platform and dataset, we require that you agree to not intentionally submit
+                      incorrect or false data. Once you agree to these conditions, you may start making contributions
+                      to the portal. Note that this process will <b>NOT</b>
+                      create a profile for you. We value your privacy and we do not collect any personal information,
+                      the passphrase and your contributions will not in any way be associated with your identity.
+                      Please also keep in mind that pass phrases will change occasionally for security reasons, so you may
+                      need to
+                      repeat this process if you wish to make additional contributions to the portal in the future. </p>
+                  <p>(Optional) We would also like to hear what brings you to our platform, your motivations for
+                      contributing your knowledge, and your stories about how you came to be familiar with the local
+                      community.
+                      If your're comfortable sharing any of these, or if there's anything you may want us to know, please
+                      let us know in the text field below.
+                      Note that this process will <b>NOT</b> affect gaining access to a passphrase.</p>
+
+              </div>
+              <form id="agreement-form">
+                  <textarea id="agreement-feedback" placeholder=" Share your story..."></textarea>
+                  <input id="agreement-input" type="checkbox">
+                  <label id="agreement-input">I have read and agree with the <a href="ethics.html">Ethical Guidelines</a> and the agreement above.</label>
+                  <p id="error-text"></p>
+                  <div class="g-recaptcha" data-sitekey="6LeGhy0kAAAAAFo9R87bYdc2R7NLzzHpS-VUGr01"></div>
+                  <input type="submit" id="user-submit" value="Submit"></input>
+              </form>
+              <div id="show-content" class="d-none">
+                  <h2>Thank you for your interest in contributing to our project!</h2>
+                  <div id="content">
+                      <p>The current passphrase is:</p>
+                      <p id="data-pass"></p>
+                  </div>
+                  <p>Please be advised that the passphrase may be updated in the future, for instance, in the case of updates to our agreements.
+                    In such events, you may be required to repeat this process.</p>
+              </div>
+              <div class="logo"><a href="https://uw.edu" target="_blank"><img src="assets/imgs/uw.png" width="250px"></a></div>
             </div>
-
-
+          </section>
         </div>
-    </nav>
-    <main data-simplebar data-simplebar-auto-hide="false" id="agreement">
-        <section id="passcode-main-agreement">
-            <div>
-                <h3>Shifting LGBTQ+ Spaces: Our User Agreement</h3>
-                <p>We welcome and encourage contributions to our dataset! To protect against potentially
-                    malicious attacks on our platform and dataset, we require that you agree to not intentionally submit
-                    incorrect or false data. Once you agree to these conditions, you may start making contributions
-                    to the portal. Note that this process will <b>NOT</b>
-                    create a profile for you. We value your privacy and we do not collect any personal information,
-                    the passphrase and your contributions will not in any way be associated with your identity.
-                    Please also keep in mind that pass phrases will change occasionally for security reasons, so you may
-                    need to
-                    repeat this process if you wish to make additional contributions to the portal in the future. </p>
-                <p>(Optional) We would also like to hear what brings you to our platform, your motivations for
-                    contributing your knowledge, and your stories about how you came to be familiar with the local
-                    community.
-                    If your're comfortable sharing any of these, or if there's anything you may want us to know, please
-                    let us know in the text field below.
-                    Note that this process will <b>NOT</b> affect gaining access to a passphrase.</p>
-
-            </div>
-            <form id="agreement-form">
-                <textarea id="agreement-feedback" placeholder=" Share your story..."></textarea>
-                <input id="agreement-input" type="checkbox">
-                <label id="agreement-input">I have read and agree with the policies and regulations above.</label>
-                <div class="g-recaptcha" data-sitekey="6LeGhy0kAAAAAFo9R87bYdc2R7NLzzHpS-VUGr01"></div>
-                <input type="submit" value="Submit"></input>
-            </form>
-            <div id="show-content" class="d-none">
-                <div id="content">
-                    <p>Current passphrase:</p>
-                    <p id="data-pass"></p>
-                </div>
-            </div>
-            <div class="logo"><a href="https://uw.edu" target="_blank"><img src="assets/imgs/uw.png" width="250px"></a>
-          </div>
-        </section>
-    </main>
+      </div>
+    </div>
+  </main>
 </body>
+
+</html>
