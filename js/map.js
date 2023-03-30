@@ -52,7 +52,7 @@ function myBrowser() {
 myBrowser();
 
 // initialize geometry and material of our cube object
-const geometry = new THREE.CylinderGeometry(15, 15, 64, 32);
+const geometry = new THREE.CylinderGeometry(15, 15, 32, 32);
 const origMaterial = new THREE.MeshPhysicalMaterial({
   flatShading: true,
   color: '#D3B1C2',
@@ -347,7 +347,7 @@ function toPolygonGEOJSON(data) {
   for (const element of data) {
     let coordinates = element.geometry.coordinates.slice();
     color = colorCode[parseInt(element.properties.year % 100 / 10)][element.properties.year % 10];
-    polygonRadius = 0.2 - 0.001 * countColor;
+    polygonRadius = 0.2;
     countColor += 1;
     let temp = {
       "type": "Feature",
@@ -362,8 +362,8 @@ function toPolygonGEOJSON(data) {
         'vid': element.properties.vid,
         'vsid': element.properties.vsid,
         'center': JSON.parse(JSON.stringify(element.geometry)),
-        'height': (element.properties.year - 1950) * 10,
-        'base': 0,
+        'height': (element.properties.year - 1964) * 20 - 500,
+        'base': (element.properties.year - 1965) * 20 - 500,
         'color': color,
       }
     }
@@ -733,7 +733,7 @@ function viewLeftPanel(e) {
         'type': 'identity',
         'property': 'base'
       },
-      'fill-extrusion-opacity': 0.7
+      'fill-extrusion-opacity': 0.9
     }
   });
 
