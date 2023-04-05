@@ -1226,3 +1226,21 @@ p#venue-indicator {
 .hover-popup .mapboxgl-popup-tip {
   border-top-color: transparent;
 }
+
+#rectangleBox {
+  width: 95%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+#color_icon {
+  font-size: 12px;
+  color: black;
+  position: absolute;
+  top: 50%;
+  left: 90%;
+  transform: translate(-50%, -50%);
+  display: none;
+}

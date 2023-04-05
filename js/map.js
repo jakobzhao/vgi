@@ -367,8 +367,11 @@ function toPolygonGEOJSON(data) {
         'color': color,
       }
     }
+
     feature_list.push(temp);
   }
+
+  console.log(feature_list)
   // add into feature_list
   // combine with geojson final format with feature collection and feature as feature list
   return {
@@ -648,12 +651,16 @@ subMap.on('load', function () {
     //console.log(e.features[0].properties.year);
 
     subMap.getCanvas().style.cursor = 'pointer';
+    var color_icon = document.getElementById('color_icon');
+    color_icon.style.display = 'block';
+    color_icon.style.left = (e.features[0].properties.year - 1965)* 2 + '%';
   });
 
   subMap.on('mouseleave', 'year-extrusion', (e) => {
 
     subMap.getCanvas().style.cursor = '';
     popup.remove();
+    color_icon.style.display = 'none';
   });
 
 
@@ -710,6 +717,7 @@ function viewLeftPanel(e) {
   subMap.setCenter(e.geometry.coordinates);
   if (subMap.getLayer('year-extrusion')) {
     subMap.removeLayer('year-extrusion');
+    subMap.removeLayer('year-indicator');
     subMap.removeSource('dataByYear');
   };
   subMap.addSource('dataByYear', {
@@ -734,6 +742,24 @@ function viewLeftPanel(e) {
         'property': 'base'
       },
       'fill-extrusion-opacity': 0.9
+    }
+  });
+
+  subMap.addLayer({
+    'id': 'year-indicator',
+    'type': 'fill-extrusion',
+    'source': 'dataByYear',
+    'paint': {
+      'fill-extrusion-color': {
+        'type': 'identity',
+        'property': '#D3D3D3'
+      },
+      'fill-extrusion-height': {
+        'type': 'identity',
+        'property': 'height'
+      },
+      'fill-extrusion-base': 0,
+      'fill-extrusion-opacity': 0.1
     }
   });
 
