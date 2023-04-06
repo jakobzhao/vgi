@@ -55,13 +55,13 @@ visibility: hidden;
 
 #resize-note{
   position: relative;
-  display: flex; 
+  display: flex;
   margin-top: 2em;
   justify-content: flex-end;
   font-size: 12pt;
   font-style: italic;
 
-} 
+}
 
 
 
@@ -280,7 +280,8 @@ visibility: hidden;
     -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
     background-color: #4285F4;
 
-  }
+}
+
 h2#name,
 p#venue-indicator {
   position: relative;
@@ -774,7 +775,7 @@ p#venue-indicator {
 
 
 #info {
-  padding-bottom: 150px; 
+  padding-bottom: 150px;
 }
 
 #name{
@@ -1176,7 +1177,7 @@ p#venue-indicator {
 #evidence-info > a:hover {
   padding-bottom: 2.3em;
   border: white 1px;
-} 
+}
 .evidence {
   position: relative;
   line-height: 2em;
@@ -1201,7 +1202,7 @@ p#venue-indicator {
 /* Style for dropdown menu */
 
 .navbar-dark .navbar-nav .nav-link .dropdown-menu{
-    color: white; 
+    color: white;
 }
 .nav-item:hover .dropdown-menu {
   display: block;
@@ -1221,7 +1222,7 @@ p#venue-indicator {
   right: 100%;
   font-size: 16px;
   font-weight: 400;
-  
+
 }
 .hover-popup .mapboxgl-popup-tip {
   border-top-color: transparent;

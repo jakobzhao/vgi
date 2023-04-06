@@ -269,16 +269,21 @@
       <div id="info-default" class="d-none">
         <!-- Location information-->
         <div class="d-flex flex-column rounded mx-3">
-
           <div class="my-2">
             <h2 id="name"></h2>
             <p id="venue-indicator"></p>
           </div>
           <!-- left dashboard - location information on clicked point div -->
           <div class="my-2 d-flex flex-column" id="feature-list">
+            <span id="name-tip" class="bubble-icon ms-2 d-none" data-bs-toggle="tooltip">
+              <i class="fas fa-exclamation-circle"></i>
+            </span>
             <div class="d-flex flex-row my-1">
               <b>Address:</b>
               <div id="address" class="ms-2"></div>
+              <span id="address-tip" class="bubble-icon ms-2 d-none" data-bs-toggle="tooltip" title="This venue may have moved over the years, or there may have been inaccurate information. Please see the life trajectory map below for more information.">
+                <i class="fas fa-exclamation-circle"></i>
+              </span>
             </div>
             <div class="d-flex flex-row my-1">
               <!-- <img src="assets/imgs/year.svg">  -->

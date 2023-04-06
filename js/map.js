@@ -350,8 +350,13 @@ function toPolygonGEOJSON(data) {
   };
 
   let countColor = 0;
+  // Create a Set to store unique names
+  let uniqueNames = new Set();
+  let uniqueAddress = new Set();
   // const insetlegend = document.getElementById('inset-legend');
   for (const element of data) {
+    uniqueNames.add(element.properties.observedvenuename.trim());
+    uniqueAddress.add(element.properties.address.trim());
     let coordinates = element.geometry.coordinates.slice();
     color = colorCode[parseInt(element.properties.year % 100 / 10)][element.properties.year % 10];
     polygonRadius = 0.2;
@@ -374,11 +379,24 @@ function toPolygonGEOJSON(data) {
         'color': color,
       }
     }
-
     feature_list.push(temp);
   }
 
-  console.log(feature_list)
+  // Compare the size of the Set with the length of the array
+  if (uniqueNames.size < 2) {
+    document.getElementById("name-tip").classList.add('d-none');
+  } else {
+    const aliases = Array.from(uniqueNames).join(', ');
+    // Update the title attribute of the tooltip icon element
+    document.getElementById("name-tip").setAttribute('title', "May also be known as: " + aliases + ". This venue may have changed its over the years, or there may have been inaccurate information in the data entry/archiving process. Please reach out to us through the 'Suggest an edit' button below if you think we have made a mistake.");
+    document.getElementById("name-tip").classList.remove('d-none');
+  }
+  if (uniqueAddress.size < 2) {
+    document.getElementById("address-tip").classList.add('d-none');
+  } else {
+    document.getElementById("address-tip").classList.remove('d-none')
+  }
+
   // add into feature_list
   // combine with geojson final format with feature collection and feature as feature list
   return {
