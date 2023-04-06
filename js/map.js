@@ -27,8 +27,15 @@ const localities = {
   'cleveland': {
     center: [-81.6944, 41.4993],
     zoom: 14
+  },
+  'kansas city': {
+    center: [-94.5762, 39.102116],
+    zoom: 14
+  },
+  'phoenix': {
+    center: [-112.072754, 33.44277],
+    zoom: 14
   }
-
 };
 
 // check window size and close the left panel
@@ -911,7 +918,7 @@ function createLocalityList() {
 
     let localityItem = document.createElement("li");
 
-    let localityName = locality[0].charAt(0).toUpperCase() + locality[0].slice(1);
+    let localityName = capitalizeWords(locality[0]);
     if (localityName == "Seattle") {
       localityItem.innerHTML = '<a class="dropdown-item dropdown-item-checked" href="#">' + localityName + '</a>';
     } else {
@@ -951,6 +958,14 @@ function createLocalityList() {
 
   });
 
+}
+
+// simple function that capitalizes words so that locality names are correctly formatted
+function capitalizeWords(str) {
+  return str
+    .split(' ') // Split the string into words by space
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1)) // Capitalize the first letter of each word
+    .join(' '); // Join the words back together with spaces
 }
 
 // create and style all incoming reviews from API request
