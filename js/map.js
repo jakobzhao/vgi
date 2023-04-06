@@ -359,7 +359,8 @@ function toPolygonGEOJSON(data) {
     uniqueAddress.add(element.properties.address.trim());
     let coordinates = element.geometry.coordinates.slice();
     color = colorCode[parseInt(element.properties.year % 100 / 10)][element.properties.year % 10];
-    polygonRadius = 0.2;
+    // polygon radious
+    polygonRadius = 0.1;
     countColor += 1;
     let temp = {
       "type": "Feature",
@@ -770,23 +771,25 @@ function viewLeftPanel(e) {
     }
   });
 
-  subMap.addLayer({
-    'id': 'year-indicator',
-    'type': 'fill-extrusion',
-    'source': 'dataByYear',
-    'paint': {
-      'fill-extrusion-color': {
-        'type': 'identity',
-        'property': '#D3D3D3'
-      },
-      'fill-extrusion-height': {
-        'type': 'identity',
-        'property': 'height'
-      },
-      'fill-extrusion-base': 0,
-      'fill-extrusion-opacity': 0.1
-    }
-  });
+// shadow of missing year value 
+
+  // subMap.addLayer({
+  //   'id': 'year-indicator',
+  //   'type': 'fill-extrusion',
+  //   'source': 'dataByYear',
+  //   'paint': {
+  //     'fill-extrusion-color': {
+  //       'type': 'identity',
+  //       'property': '#D3D3D3'
+  //     },
+  //     'fill-extrusion-height': {
+  //       'type': 'identity',
+  //       'property': 'height'
+  //     },
+  //     'fill-extrusion-base': 0,
+  //     'fill-extrusion-opacity': 0.1
+  //   }
+  // });
 
   // reset zoom level of inset map
   subMap.setZoom(12);
