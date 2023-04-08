@@ -750,6 +750,9 @@ function viewLeftPanel(e) {
   subMap.setCenter(e.geometry.coordinates);
   if (subMap.getLayer('year-extrusion')) {
     subMap.removeLayer('year-extrusion');
+    subMap.removeSource('dataByYear');
+  };
+  if (subMap.getLayer('year-indicator')) {
     subMap.removeLayer('year-indicator');
     subMap.removeSource('dataByYear');
   };
