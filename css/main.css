@@ -502,6 +502,10 @@ p#venue-indicator {
   font-size: small;
 }
 
+.accordion-item {
+  padding-bottom:1em;
+}
+
 #venue-switch {
   position: relative;
   top: 0.3em;

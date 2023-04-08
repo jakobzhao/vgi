@@ -1532,6 +1532,7 @@ document.getElementById('reliability-switch').addEventListener('click', function
   tb.repaint();
 });
 
+
 //Code filters in the missing venues and report
 function createCodeCategories(data) {
   let dataSlice = [
@@ -1621,7 +1622,7 @@ async function placeInput(place) {
 }
 
 // switch cube and cone layers, require coordination
-let venueCheckbox = document.getElementById('venue-flexSwitchCheckChecked');
+/*let venueCheckbox = document.getElementById('venue-flexSwitchCheckChecked');
 
 venueCheckbox.addEventListener('click', function (e) {
 
@@ -1661,7 +1662,7 @@ venueCheckbox.addEventListener('click', function (e) {
 
 
 })
-
+*/
 ////////////////////////////////////////////////////////////////////////////////////
 
 // YEAR SLIDING
@@ -1688,23 +1689,27 @@ yearSlider.addEventListener('change', async function () {
 async function updateMap(selectedYear, selectedLocality, exclusion) {
 
   venues = await getVenues(selectedLocality);
+  let venueNamesSet = new Set();
   let observationData = await getObservations(selectedLocality);
   let filteredYearData = venues.features.filter(function (feature) {
-    return feature.properties.year == selectedYear
-  });
-
-  let observedVenueNamesSet = new Set();
-  addVenueLayer(map, toSecondaryGEOJSON(filteredYearData));
-  let filteredYearObservationData = observationData.features.filter(function (feature) {
-    if (feature.properties.year == selectedYear && !observedVenueNamesSet.has(feature.properties.observedvenuename)) {
-      // If the observedvenuename is unique, add it to the Set
-      observedVenueNamesSet.add(feature.properties.observedvenuename);
-      return true;
+    // filters out duplicates to prevent rendering issues
+    if  (feature.properties.year == selectedYear) {
+      let venuename = feature.properties.observedvenuename.trim();
+      if (!venueNamesSet.has(feature.properties.vid)) {
+        venueNamesSet.add(feature.properties.vid);
+        return true;
       }
+    }
     return false;
   });
+
+  addVenueLayer(map, toSecondaryGEOJSON(filteredYearData));
+  let filteredYearObservationData = observationData.features.filter(function (feature) {
+    if (feature.properties.year == selectedYear) {
+      return true;
+      }
+  });
   current_observation_data = filteredYearObservationData;
-  console.log(filteredYearObservationData.length)
   current_venue_data = filteredYearData;
 
   removeAllLayers(exclusion);
