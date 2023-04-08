@@ -282,11 +282,26 @@ visibility: hidden;
 
 }
 
-h2#name,
+.name-container,
 p#venue-indicator {
   position: relative;
   font-size: x-large;
   top: 2.7em;
+}
+
+#alt-names {
+  position: relative;
+  display: inline;
+  top: 3.6em;
+}
+
+#name, #name-tip {
+  display: inline;
+}
+
+.smalltext {
+  font-size: small;
+  margin: 0;
 }
 
 #feature-list {

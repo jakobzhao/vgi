@@ -270,21 +270,25 @@
         <!-- Location information-->
         <div class="d-flex flex-column rounded mx-3">
           <div class="my-2">
-            <h2 id="name"></h2>
+            <div class="name-container">
+              <h2 id="name"></h2>
+              <span id="name-tip" class="bubble-icon ms-2 d-none" data-bs-toggle="tooltip" title='This venue may have undergone name changes over the years, or inaccuracies may have been introduced during the data entry or archiving process. If you believe there is an error in the information provided, please use the "Suggest an edit" button located below to let us know.'>
+                <i class="fas fa-exclamation-circle"></i>
+              </span>
+            </div>
+            <p id="alt-names" class="d-none">May also be known as:</p>
             <p id="venue-indicator"></p>
           </div>
           <!-- left dashboard - location information on clicked point div -->
           <div class="my-2 d-flex flex-column" id="feature-list">
-            <span id="name-tip" class="bubble-icon ms-2 d-none" data-bs-toggle="tooltip">
-              <i class="fas fa-exclamation-circle"></i>
-            </span>
             <div class="d-flex flex-row my-1">
               <b>Address:</b>
               <div id="address" class="ms-2"></div>
-              <span id="address-tip" class="bubble-icon ms-2 d-none" data-bs-toggle="tooltip" title="This venue may have moved over the years, or there may have been inaccurate information. Please see the life trajectory map below for more information.">
+              <span id="address-tip" class="bubble-icon ms-2 d-none" data-bs-toggle="tooltip">
                 <i class="fas fa-exclamation-circle"></i>
               </span>
             </div>
+            <p id="address-disclaimer" class="smalltext d-none">*This venue may have moved over the years, or there may have be inaccurate information. Please see the life trajectory map below for more information.</p>
             <div class="d-flex flex-row my-1">
               <!-- <img src="assets/imgs/year.svg">  -->
               <b>Year: </b>
