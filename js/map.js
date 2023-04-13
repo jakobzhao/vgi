@@ -63,14 +63,14 @@ const geometry = new THREE.CylinderGeometry(15, 15, 32, 32);
 const origMaterial = new THREE.MeshPhysicalMaterial({
   flatShading: true,
   color: '#D3B1C2',
-  transparent: true,
+  transparent: false,
   opacity: 0.8
 });
 
 const transMaterial = new THREE.MeshPhysicalMaterial({
   flatShading: true,
   color: '#D3B1C2',
-  transparent: true,
+  transparent: false,
   opacity: 0.2
 });
 
@@ -647,7 +647,7 @@ subMap.on('load', function () {
     let reviewData = await getReviews(vsid);
     constructReviews(reviewData);
     // get all photos of the location by the google API
-    getEvidenceInfo(feature);
+    //getEvidenceInfo(feature);
       ////////////////////////////////////////////////////////////
   })
 
@@ -1436,6 +1436,7 @@ function addVenues(data, active) {
       tb.update();
     }
   });
+  paintConfidence(document.getElementById('reliability-switch').checked);
 };
 
 function addCubes(data, active) {
@@ -1497,9 +1498,7 @@ function addCubes(data, active) {
   });
 }
 
-// this can be used to colorize the venue based on confidence level.
-document.getElementById('reliability-switch').addEventListener('click', function () {
-
+function paintConfidence(isChecked) {
   let materials = [];
   let vcolors = chroma.scale('YlOrRd').colors(5);
   for (let i = 0; i < vcolors.length; i++) {
@@ -1507,12 +1506,12 @@ document.getElementById('reliability-switch').addEventListener('click', function
       flatShading: true,
       color: vcolors[i],
       transparent: true,
-      opacity: 0.4
+      opacity: 0.8
     }));
   }
 
 
-  if (this.checked) {
+  if (isChecked) {
 
     tb.world.children.slice(1).forEach(feature => {
       if (feature.userData.properties.confidence.toLowerCase() == "not confident at all") {
@@ -1533,7 +1532,14 @@ document.getElementById('reliability-switch').addEventListener('click', function
     })
   }
   tb.repaint();
+}
+
+// this can be used to colorize the venue based on confidence level.
+document.getElementById('reliability-switch').addEventListener('click', function () {
+  paintConfidence(this.checked);
 });
+
+document.getElementById('reliability-switch').checked = true;
 
 
 //Code filters in the missing venues and report
@@ -1692,14 +1698,14 @@ yearSlider.addEventListener('change', async function () {
 async function updateMap(selectedYear, selectedLocality, exclusion) {
 
   venues = await getVenues(selectedLocality);
-  let venueNamesSet = new Set();
+  let vidSet = new Set();
   let observationData = await getObservations(selectedLocality);
   let filteredYearData = venues.features.filter(function (feature) {
     // filters out duplicates to prevent rendering issues
     if  (feature.properties.year == selectedYear) {
-      let venuename = feature.properties.observedvenuename.trim();
-      if (!venueNamesSet.has(feature.properties.vid)) {
-        venueNamesSet.add(feature.properties.vid);
+      let vid = feature.properties.vid;
+      if (!vidSet.has(vid)) {
+        vidSet.add(vid);
         return true;
       }
     }
