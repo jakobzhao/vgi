@@ -272,11 +272,10 @@
           <div class="my-2">
             <div class="name-container">
               <h2 id="name"></h2>
-              <span id="name-tip" class="bubble-icon ms-2 d-none" data-bs-toggle="tooltip" title='This venue may have undergone name changes over the years, or inaccuracies may have been introduced during the data entry or archiving process. If you believe there is an error in the information provided, please use the "Suggest an edit" button located below to let us know.'>
+              <span id="name-tip" class="bubble-icon ms-2 d-none" data-bs-toggle="tooltip" title=''>
                 <i class="fas fa-exclamation-circle"></i>
               </span>
             </div>
-            <p id="alt-names" class="d-none">May also be known as:</p>
             <p id="venue-indicator"></p>
           </div>
           <!-- left dashboard - location information on clicked point div -->
@@ -288,7 +287,7 @@
                 <i class="fas fa-exclamation-circle"></i>
               </span>
             </div>
-            <p id="address-disclaimer" class="smalltext d-none">*This venue may have moved over the years, or there may have be inaccurate information. Please see the life trajectory map below for more information.</p>
+
             <div class="d-flex flex-row my-1">
               <!-- <img src="assets/imgs/year.svg">  -->
               <b>Year: </b>
@@ -311,7 +310,13 @@
             </div>
             <!-- <p>()</p> -->
             <div class="d-flex flex-row my-1">
-              <!-- <img src="assets/imgs/category.svg"> -->
+              <p id="name-disclaimer" class="smalltext d-none">*This venue may have undergone name changes over the years.</p>
+            </div>
+            <div class="d-flex flex-row my-1">
+              <p id="address-disclaimer" class="smalltext d-none">*This venue may have moved over the years. Please see the life trajectory map below for more information.</p>
+            </div>
+            <div class="d-flex flex-row my-1">
+              <p class="smalltext">If you believe there is an error in any of the information provided, please use the "Suggest an edit" button located below to let us know.</p>
             </div>
           </div>
 
@@ -333,7 +338,7 @@
           <div class="sub-legend-label">2005</div>
           <div class="sub-legend-label">2014</div>
         </div>
-        <p id="evidence-desc">Help us look for evidence from external sources below. </p>
+        <!-- <p id="evidence-desc">Help us look for evidence from external sources below. </p>
         <div id="evidence-info">
           <a id="streetview-evidence" target="_blank" title="watch streetview of this address." class="evidence"><img
               src="assets/imgs/streetview.png"></a>
@@ -341,7 +346,7 @@
               src="assets/imgs/photo.png"></a>
           <a id="tweets-evidence" target="_blank" title="read how people talk about this venue on Twitter"
             class="evidence"><img src="assets/imgs/tweets.png"></a>
-        </div>
+        </div> -->
       </div>
       <hr id="divider-2">
       <!-- left dashboard - validate observation div -->
@@ -379,7 +384,7 @@
           <div class="col">
             <div class="form-floating mb-1">
               <input id="zip-edit" type="text" class="form-control">
-              <label for="zip-edit">ZIP Code(optional):</label>
+              <label for="zip-edit">ZIP(optional):</label>
               <small id="zip-edit-small" class="d-none"></small>
             </div>
           </div>
@@ -542,7 +547,7 @@
               <label for="lat-api">Latitude:</label>
             </div>
           </div>
-          <small class="form-text text-muted">Please help us improve our knowledge of the venue by selecting any matching descriptors listed below:</small>
+          <small class="form-text text-muted">Please help us improve our knowledge of the venue by selecting any matching descriptors listed below (click on a category to expand):</small>
           <div id="accordionEntry" class="mb-1">
             <div class="accordion-item">
               <h2 class="accordion-header">

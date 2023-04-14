@@ -389,14 +389,14 @@ function toPolygonGEOJSON(data) {
 
   // Compare the size of the Set with the length of the array
   if (uniqueNames.size < 2) {
-    document.getElementById("alt-names").classList.add('d-none');
     document.getElementById("name-tip").classList.add('d-none');
+    document.getElementById("name-disclaimer").classList.add('d-none');
   } else {
     const aliases = Array.from(uniqueNames).join(', ');
     // Update the title attribute of the tooltip icon element
-    document.getElementById("alt-names").innerText = "*May also be known as: " + aliases + "."
-    document.getElementById("alt-names").classList.remove('d-none');
+    document.getElementById("name-tip").setAttribute('title', 'May also be known as: ' + aliases + '.');
     document.getElementById("name-tip").classList.remove('d-none');
+    document.getElementById("name-disclaimer").classList.remove('d-none');
   }
   if (uniqueAddress.size < 2) {
     document.getElementById("address-tip").classList.add('d-none');
@@ -404,7 +404,7 @@ function toPolygonGEOJSON(data) {
   } else {
     const aliases = Array.from(uniqueAddress).join(', ');
     // Update the title attribute of the tooltip icon element
-    document.getElementById("address-tip").setAttribute('title', "Other locations throughout the years: " + aliases);
+    document.getElementById("address-tip").setAttribute('title', "Other possible addresses over the years: " + aliases);
     document.getElementById("address-tip").classList.remove('d-none')
     document.getElementById("address-disclaimer").classList.remove('d-none')
   }
