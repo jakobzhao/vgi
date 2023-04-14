@@ -35,7 +35,11 @@ const localities = {
   'phoenix': {
     center: [-112.072754, 33.44277],
     zoom: 14
-  }
+  },
+  'billings': {
+    center: [-108.489304, 45.787636],
+    zoom: 14
+  },
 };
 
 // check window size and close the left panel
