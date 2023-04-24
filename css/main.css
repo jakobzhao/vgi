@@ -467,7 +467,7 @@ p#venue-indicator {
 /* legend */
 #legend {
   position: absolute;
-  width: 31em;
+  width: 24em;
   bottom: 5em;
   left: 0em;
   margin-left: 0.5em;
@@ -524,7 +524,7 @@ p#venue-indicator {
   display: flex;
   justify-content: center;
   /* height: 2em; */
-  width: 30em;
+  width: 24em;
 }
 
 .colorscheme > i {
@@ -558,10 +558,10 @@ p#venue-indicator {
 
 .color-labels {
   position: relative;
-  display: flex;
+  display: inline-block;
   top: 0.5em;
-  left: 3em;
-  width: 45em;
+  left: 2em;
+  width: 36em;
   font-size: x-small;
 }
 
@@ -1263,4 +1263,10 @@ p#venue-indicator {
   left: 90%;
   transform: translate(-50%, -50%);
   display: none;
+}
+
+.legend-note {
+  font-size: 12px;
+  padding-left: 2em;
+  margin: auto;
 }
