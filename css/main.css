@@ -1264,3 +1264,13 @@ p#venue-indicator {
   transform: translate(-50%, -50%);
   display: none;
 }
+
+#color_year {
+  font-size: 12px;
+  color: black;
+  position: absolute;
+  left: 90%;
+  transform: translate(-50%, -50%);
+  display: none;
+}
+

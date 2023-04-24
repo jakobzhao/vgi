@@ -689,8 +689,10 @@ subMap.on('load', function () {
 
     subMap.getCanvas().style.cursor = 'pointer';
     var color_icon = document.getElementById('color_icon');
+    var color_year = document.getElementById('color_year');
     color_icon.style.display = 'block';
     color_icon.style.left = (e.features[0].properties.year - 1965)* 2 + '%';
+    color_year.style.left = (e.features[0].properties.year - 1964)* 2 + '%';
   });
 
   subMap.on('mouseleave', 'year-extrusion', (e) => {
@@ -785,25 +787,25 @@ function viewLeftPanel(e) {
     }
   });
 
-// shadow of missing year value
+//shadow of missing year value
 
-  // subMap.addLayer({
-  //   'id': 'year-indicator',
-  //   'type': 'fill-extrusion',
-  //   'source': 'dataByYear',
-  //   'paint': {
-  //     'fill-extrusion-color': {
-  //       'type': 'identity',
-  //       'property': '#D3D3D3'
-  //     },
-  //     'fill-extrusion-height': {
-  //       'type': 'identity',
-  //       'property': 'height'
-  //     },
-  //     'fill-extrusion-base': 0,
-  //     'fill-extrusion-opacity': 0.1
-  //   }
-  // });
+  subMap.addLayer({
+    'id': 'year-indicator',
+    'type': 'fill-extrusion',
+    'source': 'dataByYear',
+    'paint': {
+      'fill-extrusion-color': {
+        'type': 'identity',
+        'property': '#D3D3D3'
+      },
+      'fill-extrusion-height': {
+        'type': 'identity',
+        'property': 'height'
+      },
+      'fill-extrusion-base': 0,
+      'fill-extrusion-opacity': 0.1
+    }
+  });
 
   // reset zoom level of inset map
   subMap.setZoom(12);
