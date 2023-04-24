@@ -379,8 +379,8 @@ function toPolygonGEOJSON(data) {
         'vid': element.properties.vid,
         'vsid': element.properties.vsid,
         'center': JSON.parse(JSON.stringify(element.geometry)),
-        'height': (element.properties.year - 1964) * 20 - 500,
-        'base': (element.properties.year - 1965) * 20 - 500,
+        'height': (element.properties.year - 1964) * 20,
+        'base': (element.properties.year - 1965) * 20,
         'color': color,
       }
     }
@@ -808,7 +808,7 @@ function viewLeftPanel(e) {
   });
 
   // reset zoom level of inset map
-  subMap.setZoom(12);
+  subMap.setZoom(12.8);
 
 
   let yearList = [];
