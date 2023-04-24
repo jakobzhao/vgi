@@ -212,7 +212,7 @@ function sortCodes(data) {
 
 // getReviews
 // Obtain data from database containing information for all the reviews of a specific location
-async function getReviews(vid) {
+/* async function getReviews(vid) {
   try {
     let id = vid;
     let getReview = await fetch(`https://lgbtqspaces-api.herokuapp.com/api/comment/${id}`, {
@@ -263,7 +263,7 @@ function confirmationReview() {
   setTimeout(function () {
     reviewCheck.classList.add('d-none')
   }, 3000);
-}
+} */
 
 // getVenues
 // Obtain the data from the database given the input values from the year slider
@@ -645,11 +645,11 @@ subMap.on('load', function () {
     let cubeCreate = await import('./addObservationCubes.js');
     cubeCreate.createCubes(observations.features, [geometry.coordinates[0], geometry.coordinates[1]]);
 
-    document.getElementById('publish-btn').removeEventListener('click', submitNewReview);
-    document.getElementById('publish-btn').addEventListener('click', submitNewReview);
+    // document.getElementById('publish-btn').removeEventListener('click', submitNewReview);
+    // document.getElementById('publish-btn').addEventListener('click', submitNewReview);
     // get all comments of the location
-    let reviewData = await getReviews(vsid);
-    constructReviews(reviewData);
+    // let reviewData = await getReviews(vsid);
+    // constructReviews(reviewData);
     // get all photos of the location by the google API
     //getEvidenceInfo(feature);
       ////////////////////////////////////////////////////////////
@@ -749,7 +749,7 @@ function viewLeftPanel(e) {
   document.getElementById('state').innerHTML = infoNullCheck(e.properties.state);
 
   //vid for comment
-  document.getElementById('vid-review').innerHTML = e.properties.vid;
+  // document.getElementById('vid-review').innerHTML = e.properties.vid;
 
   // Inset map, extrusion, and functions
   // subMap.on('load', function () {
@@ -875,66 +875,71 @@ async function addLeftPanelActions(feature, marker) {
 
   // if "report an issue" button is clicked, display movable marker
   let reportIssue = document.getElementById('report-issue-btn');
-  reportIssue.addEventListener('click', async function () {
-    // ensure that user is logged-in
-    let check = logInCheck();
-    if (check) {
-      if (typeof map.getLayer('selectedMarker') !== "undefined") {
-        map.removeLayer('selectedMarker');
-        map.removeSource('selectedMarker');
-      }
+  reportIssue.removeEventListener('click', populateEditForm);
+  reportIssue.addEventListener('click', populateEditForm);
 
-      map.addSource('selectedMarker', {
-        "type": 'geojson',
-        'data': feature,
-        'tolerance': 0
-      });
 
-      map.addLayer({
-        'id': 'selectedMarker',
-        'type': 'symbol',
-        'source': 'selectedMarker',
-        'tolerance': 0,
-        'layout': {
-          'icon-image': 'red-marker',
-          // 'icon-allow-overlap': true,
-          // 'text-allow-overlap': true
-        },
-        'paint': {
-          'icon-opacity': 0,
-          'icon-color': '#7b2941'
-        }
-      });
+}
 
-      // Populate/Organize checkbox for clientele, amenity, caution, organization
-      let checkbox = await import('./checkboxEdit.js');
-      let populateInput = await import('./populateInputFields.js');
-
-      // Populate Input Fields
-      populateInput.populateInputFields(feature);
-      // Autofill checkboxes to corresponding values
-      checkbox.autoFill(feature);
-      // left panel view toggle
-      // Submit Edit and send POST request
-      marker.setLngLat(coordinates).addTo(map);
-
-      function onDragEnd() {
-        let lngLat = marker.getLngLat();
-        document.getElementById('long-edit').value = lngLat.lng;
-        document.getElementById('lat-edit').value = lngLat.lat;
-      }
-      marker.on('dragend', onDragEnd);
-      onDragEnd();
-      toggleLeftPanelView('report-issue');
-      document.getElementById('ground-truth-btns').classList.toggle('d-none');
-      if (document.getElementById('info').classList.contains('leftCollapse')) {
-        document.getElementById('info').classList.remove('leftCollapse')
-      }
-      document.getElementById('alert-cls-btn').addEventListener('click', function () {
-        marker.remove();
-      })
+async function populateEditForm() {
+  // ensure that user is logged-in
+  let check = logInCheck();
+  if (check) {
+    if (typeof map.getLayer('selectedMarker') !== "undefined") {
+      map.removeLayer('selectedMarker');
+      map.removeSource('selectedMarker');
     }
-  });
+
+    map.addSource('selectedMarker', {
+      "type": 'geojson',
+      'data': feature,
+      'tolerance': 0
+    });
+
+    map.addLayer({
+      'id': 'selectedMarker',
+      'type': 'symbol',
+      'source': 'selectedMarker',
+      'tolerance': 0,
+      'layout': {
+        'icon-image': 'red-marker',
+        // 'icon-allow-overlap': true,
+        // 'text-allow-overlap': true
+      },
+      'paint': {
+        'icon-opacity': 0,
+        'icon-color': '#7b2941'
+      }
+    });
+
+    // Populate/Organize checkbox for clientele, amenity, caution, organization
+    let checkbox = await import('./checkboxEdit.js');
+    let populateInput = await import('./populateInputFields.js');
+
+    // Populate Input Fields
+    populateInput.populateInputFields(feature);
+    // Autofill checkboxes to corresponding values
+    checkbox.autoFill(feature);
+    // left panel view toggle
+    // Submit Edit and send POST request
+    marker.setLngLat(coordinates).addTo(map);
+
+    function onDragEnd() {
+      let lngLat = marker.getLngLat();
+      document.getElementById('long-edit').value = lngLat.lng;
+      document.getElementById('lat-edit').value = lngLat.lat;
+    }
+    marker.on('dragend', onDragEnd);
+    onDragEnd();
+    toggleLeftPanelView('report-issue');
+    document.getElementById('ground-truth-btns').classList.toggle('d-none');
+    if (document.getElementById('info').classList.contains('leftCollapse')) {
+      document.getElementById('info').classList.remove('leftCollapse')
+    }
+    document.getElementById('alert-cls-btn').addEventListener('click', function () {
+      marker.remove();
+    })
+  }
 }
 
 // if a specific locality is selected, recenter the map to that locality
@@ -1003,7 +1008,7 @@ function capitalizeWords(str) {
 }
 
 // create and style all incoming reviews from API request
-function constructReviews(reviewData) {
+/* function constructReviews(reviewData) {
   let reviewParent = document.getElementById('reviews-container');
 
   for (let element of reviewData) {
@@ -1012,7 +1017,7 @@ function constructReviews(reviewData) {
     reviewDiv.classList.add('review-box');
     reviewParent.append(reviewDiv);
   }
-}
+}*/
 
 // add div for the codes corresponding to selected year on the map
 function code_div(codes, venueSlices, observedData, year) {
@@ -1174,7 +1179,7 @@ function codeIncludes(codeData, year) {
   return result;
 }
 
-function getEvidenceInfo(feature) {
+/* function getEvidenceInfo(feature) {
 
   let streetviewDiv = document.getElementById('streetview-evidence');
   streetviewDiv.setAttribute('href', 'http://maps.google.com/maps?q=&layer=c&cbll=' + feature.geometry.coordinates[1] + ',' + feature.geometry.coordinates[0] + '&cbp=');
@@ -1190,7 +1195,7 @@ function getEvidenceInfo(feature) {
   let tweetsDiv = document.getElementById('tweets-evidence');
   tweetsDiv.setAttribute('href', 'https://twitter.com/search?q=' + feature.properties.observedvenuename + '%20geocode%3A' + feature.geometry.coordinates[1] + '%2C' + feature.geometry.coordinates[0] + '%2C.1km&src=typed_query&f=top');
 
-}
+}*/
 
 // getPhotos
 // Function that utilizes the Google Maps and Places Javascript Library to obtain a default image of a location
@@ -1198,7 +1203,7 @@ function getEvidenceInfo(feature) {
 // Parameters:
 //  feature: javascript object that contains complete data of a clicked location
 
-function getPhotos(feature) {
+/*function getPhotos(feature) {
   let imgParent = document.getElementById('venue-imgs');
   let locationBias = new google.maps.LatLng(feature.geometry.coordinates[1], feature.geometry.coordinates[0]);
   // set request data location name and set location bias
@@ -1226,9 +1231,9 @@ function getPhotos(feature) {
       imgParent.appendChild(imgChildError);
     }
   });
-};
+};*/
 
-function setImgURL(service, placeId) {
+/*function setImgURL(service, placeId) {
   // new request to get imageURL
   let newRequest = {
     placeId: placeId,
@@ -1248,7 +1253,7 @@ function setImgURL(service, placeId) {
     }
   });
   return imgElement;
-};
+};*/
 
 
 // add names to the venue geometry
@@ -1322,7 +1327,7 @@ function makeLocalityList(localityID, data, selectedYear) {
 
         viewLeftPanel(element);
         addLeftPanelActions(element, marker);
-        getEvidenceInfo(element);
+        // getEvidenceInfo(element);
         if (document.getElementById('info-default').classList.contains('d-none')) {
 
           toggleLeftPanelView('info-default');
@@ -1938,8 +1943,8 @@ async function venueSliceLoad(e) {
   };
 
   // clear review box is open
-  let reviewBox = document.getElementById('type-review-box');
-  reviewBox.classList.add('d-none');
+  // let reviewBox = document.getElementById('type-review-box');
+  // reviewBox.classList.add('d-none');
 
   // add all left panel actions (including zoom and adding data points)
   let feature = e.features[0];
@@ -1979,28 +1984,28 @@ async function venueSliceLoad(e) {
 
   // add reviews
   // if add review button is clicked, display add review div box
-  let addReview = document.getElementById('add-review-btn');
+  /* let addReview = document.getElementById('add-review-btn');
   addReview.addEventListener('click', () => {
     let reviewBox = document.getElementById('type-review-box');
     let textBox = document.getElementById('user-review-input');
     textBox.value = '';
     reviewBox.classList.remove('d-none');
-  });
+  }); */
 
-  let reviewCloseBtn = document.getElementById('cancel-review-btn');
+  /*let reviewCloseBtn = document.getElementById('cancel-review-btn');
   reviewCloseBtn.addEventListener('click', () => {
     let reviewBox = document.getElementById('type-review-box');
     let textBox = document.getElementById('user-review-input');
     textBox.value = '';
     reviewBox.classList.add('d-none');
-  });
+  }); */
 
   // update frontend with new divs for each comment
   // publish comment on click
   // ** test observation contains vsid information, first observation table does not
-  let vsid = parseInt(e.features[0].properties.vsid);
+  // let vsid = parseInt(e.features[0].properties.vsid);
   // Create underlying observation
-  let observations = await getObservationsVSID(vsid, e.features[0].properties.year);
+  /* let observations = await getObservationsVSID(vsid, e.features[0].properties.year);
   // Check if cube layer exists in map
   if (map.getLayer('cube-observation')) {
     map.removeLayer('cube-observation');
@@ -2020,13 +2025,13 @@ async function venueSliceLoad(e) {
   document.getElementById('publish-btn').addEventListener('click', submitNewReview);
   // get all comments of the location
   let reviewData = await getReviews(vsid);
-  constructReviews(reviewData);
+  constructReviews(reviewData); */
   // get all photos of the location by the google API
-  getEvidenceInfo(feature);
+  // getEvidenceInfo(feature);
 };
 
 // helper function to submit new review
-function submitNewReview(e) {
+/* function submitNewReview(e) {
   let vid = parseInt(document.getElementById('vid-review').innerHTML);
   let submitCheck = document.getElementById('user-review-input').value;
   // check if
@@ -2040,7 +2045,7 @@ function submitNewReview(e) {
     // add new review
     addNewReview(e, vid);
   }
-};
+};*/
 
 // go back button
 document.getElementById('go-back-btn').addEventListener('click', function () {
@@ -2170,12 +2175,3 @@ document.getElementById('add-observation-container').addEventListener('click', f
     }
   }
 });
-
-// add an observation button - if map
-function makeAlert(alertText) {
-  let alert = document.getElementById("alert-modal");
-  let alertTextBox = document.getElementById("alert-text");
-  alertTextBox.innerHTML = alertText;
-  let alertModal = new bootstrap.Modal(alert);
-  alertModal.show();
-}

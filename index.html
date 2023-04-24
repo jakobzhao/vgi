@@ -653,14 +653,15 @@
       <!-- left dashboard - buttons -->
       <div id="ground-truth-btns" class="mx-3 d-flex flex-row flex-wrap">
         <button id="report-issue-btn" type="button" class="btn btn-primary mx-3">Suggest an edit</button>
-        <button id="add-review-btn" type="button" class="btn btn-primary mx-3">Review this venue</button>
+        <!-- <button id="add-review-btn" type="button" class="btn btn-primary mx-3">Review this venue</button> -->
         <button id="go-back-btn" type="button" class="btn btn-primary mx-3"> Close</button>
       </div>
 
+
       <!-- start a review box -->
-      <div id="type-review-box" class="info-review-box box-shadow-info d-none">
+      <!--<div id="type-review-box" class="info-review-box box-shadow-info d-none"> -->
         <!-- textbox div -->
-        <div class="textbox-div">
+        <!--<div class="textbox-div">
           <textarea id="user-review-input" rows="6" placeholder="Type review here..."></textarea>
         </div>
         <div class="button-review-div">
@@ -668,18 +669,19 @@
           <button id="cancel-review-btn" type="button" class="btn btn-secondary mx-1">Cancel</button>
           <button id="publish-btn" type="button" class="btn btn-primary mx-1">Publish</button>
         </div>
-      </div>
+      </div> -->
 
       <!-- submitted review confirm -->
-      <div id="reviews-confirmation" class="icon-center d-none">
+      <!-- <div id="reviews-confirmation" class="icon-center d-none">
         <i class="fas fa-check-circle fa-2x text-success"></i>
         <p>Review has been submitted.</p>
       </div>
+    -->
 
       <!-- all reviews container -->
-      <div id="reviews-container" class="mx-3">
+      <!-- <div id="reviews-container" class="mx-3">
         TEST
-      </div>
+      </div> -->
 
     </div>
 
@@ -728,9 +730,7 @@
 
             <button id="venue-layer" class="accordion-button light-text-title" type="button" data-bs-toggle="collapse"
               data-bs-target="#collapseVenue" aria-expanded="false" aria-controls="collapseVenue">
-              Venues
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
+              Unlocatable Venues(click to expand)
               <!-- <i class="fa fa-play fa-fw fa-rotate-90" style="color:lightskyblue"></i> -->
             </button>
             <!--<div class="form-check form-switch" id="venue-switch">
@@ -757,6 +757,7 @@
 
             </div>
           </div>
+          <p class="legend-note"> Each cylinder represents the location of a venue at a given year.</p>
           <div class="form-check form-switch">
             <input class="form-check-input" type="checkbox" id="reliability-switch">
             <label class="form-check-label" for="reliability-switch">Color by how confident we are about data
