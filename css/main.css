@@ -506,6 +506,17 @@ p#venue-indicator {
   padding-bottom:1em;
 }
 
+.accordion-button {
+  &:not(.collapsed) {
+    &::after {
+      transform: rotate(360deg);
+    }
+  }
+  &::after {
+    transform: rotate(180deg);
+  }
+}
+
 #venue-switch {
   position: relative;
   top: 0.3em;
@@ -1268,5 +1279,6 @@ p#venue-indicator {
 .legend-note {
   font-size: 12px;
   padding-left: 2em;
+  padding-right: 2em;
   margin: auto;
 }
