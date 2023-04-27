@@ -127,6 +127,14 @@ h4 {
   text-indent: 1em;
 }
 
+.box-container {
+  width: 50%;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .about-img-thumbnail {
   padding: .25rem;
   background-color: #fff;

@@ -91,81 +91,84 @@
   <main>
     <div data-simplebar data-simplebar-auto-hide="false" class="grid-container">
       <div class="grid-box">
-        <div class="about-main-content">
-          <h2>What is the project about?
-          </h2>
+        <div class="box-container">
+          <div class="about-main-content">
+            <h2>What is the project about?
+            </h2>
+  
+            <p>At present our project is focused on building a nationwide database data base of LGBTQ+ spaces and places in the U.S. from the mid-1960s through the mid-2010s. The data base is meant to be expandable to the present but for the moment is focused on the time period indicated.  In the longer term, we plan to analyze the data to see what it can contribute to existing theory and knowledge about a) overall trends in spatial patterns and processes regarding LGBTQ+ space; 2) cultural (i.e., gender, racial, ethnic), regional, and scale differences in these; and 3) qualitative changes in the character of LGBTQ+ spaces over time.
+            </p>
+            <h2>What data sources are used for the project?
+            </h2>
+  
+            <p>Building the data base is an ongoing process involving multiple data sources and techniques.  These will evolve as the data base grows.  To date the process is comprised of two primary pieces: a) collecting and systematizing date from available published sources, most notably – but by no means exclusively – LGBTQ+ travel guides, and b) constructing a geospatial platform through which data can be described, visualized, and corrected or added to by users (you!)
+            </p>
+  
+            <p>Initial data has come from Damron travel guides, the only extant annually published sources listing LGBTQ+ venues nationally since the mid-twentieth century.  These were obtained or borrowed from a combination of ProQuest’s Alexander Street online repository, the University of Southern California’s ONE Archive, our colleagues at http://mappingthegayguides.org, the Damron organization, and direct purchase from rare book vendors.  Data from the Women’s 1993 guide and Men’s 2012 guide are not included due to those particular guides being unavailable or inaccessible.  In a few additional cases data are missing for particular years, locations, or venues due to missing or damaged pages in the guides.
+            </p>
+  
+            <p>Damron guides have certain unique advantages as a source of data for this project:
+            </p>
+  
+            <ol>
+              <li>They are the only existing source of data about LGBTQ+ spaces in the U.S. that has been collected systematically over a long period of time (over 50 years);</li>
+              <li>The data contained in them are relatively reliable, in that they were collected and packaged with the specific goal of providing consistent, reliable information in mind;</li>
+              <li>The data contained in them are relatively valid, in that they capture what they were intended to (i.e., spaces designed for and/or used by LGBTQ+ people, albeit in ways that may have shifted over time); and</li>
+              <li>They offer a useful degree of geographic precision, via street addresses and/or references to specific locations/landmarks. That said, the guides are far from perfect sources of data.</li>
+            </ol>
+  
+            <h2>Are there any limitations to using the Damron Guides?
+            </h2>
+  
+            <p>While they are broadly consistent over time in the way they organize and present data, they are not perfectly consistent and sometimes contain errors.  These range from minor typographical errors to more significant ones such as incorrect or ambiguous locations.  Moreover, the guides capture a relatively narrow range of LGBTQ+ spaces and experience, especially in the early years of their publication.  They began, after all, as a project of a single gay white man in mid-20th Century homophobic United States who was interested in meeting other men for sex. While the guides’ breadth in acknowledging other forms and expressions of sexuality and community has grown over time (including the publication, beginning in 1990, of separate men’s and women’s guide), their partial, situated knowledge cannot be ignored.  Damron guides clearly therefore cannot be the only source of data for this project.  The other primary source of data – for the moment – is that provided by visitors to this site like you, via interaction with the geospatial platform we have created.
+            </p>
+  
+            <p>Collecting data from Damron guides is a labor-intensive process.  First, spreadsheets are designed that contain fields for city/locality, state, year, street address (or equivalent), descriptors of various kinds, and additional explanatory comments contained in the guides or from the person inputting the data.  Then researchers and research assistants enter data from the guides into these fields.  Where errors, ambiguities, or inconsistencies are discovered or suspected, researchers and research assistants investigate to resolve these problems.  But sometimes resolution is impossible, in which case the data are either omitted or, more commonly, entered into spreadsheets with comments explaining the problem or uncertainty.
+            </p>
+  
+            <h2>How is data from the Damron Guides located or verified? Can I contribute location information to this project?
+            </h2>
+  
+            <p>With respect to locational data in particular, automated mapping software helps us to pinpoint and verify locations of venues.  However we also rely on our own investigations and users like you to provide, correct, or verify data.  For user-provided data we have created a feature that allows users to provide data directly.  This feature includes all the same fields as our spreadsheets – including comment fields – as well as an indicator of the user’s confidence in the information they have provided.  This helps us to investigate and verify the user-provided data as well as to determine our own level of confidence in it.  Once verified the user-provided data is added to the data base and published as part of the interactive map.
+            </p>
+            <h2>How was the geospatial platform designed? What are some of the guiding design principles?
+            </h2>
+  
+            <p>The geospatial platform and its centerpiece, the interactive map, were constructed using Mapbox and other software with numerous features that allow venues and patterns to be visualized in particular ways (including by searching and filtering the database) and additional data to be collected from users (you!).  Hence, this geospatial platform, as an instantiation of GIS, aims to decentralize the influence of the travel guides and their sociospatial imagination, but also to support multiple geographical imaginations. To achieve this, the platform follows three main design and development criteria: 1) an open system architecture, 2) inclusive data structure and management, and 3) an interactive map that represents diverse geographical perspectives, as illustrated by Figure 1.
+            </p>
+  
+            <figure>
+              <img src="assets/imgs/design-principle.svg" alt="a figure showing intersecting concepts of architecture, diversity, representation, inclusivity, data and open(ness). With GIS sitting at the center of the intersection." width="600px">
+              <figcaption>Figure 1. the diagram of design/development principles</figcaption>
+            </figure>
+  
+            <p>The first design criterion for this platform is an open system architecture, which allows for a more inclusive and collaborative approach to development. This includes allowing multiple stakeholders, such as local experts, researchers, and the public, to participate and contribute observations to the platform. Additionally, the platform utilizes a combination of both open-source libraries, such as PostgreSQL, Node.js, and QGIS, as well as proprietary software, such as ArcGIS and Tableau. Additionally, this principle of openness is also applied to data usage, by utilizing a variety of open data APIs and open base maps, such as OpenStreetMap and Google Street Views.
+            </p>
+  
+            <p>The second design criterion is an inclusive approach to data structuring and management. Unlike traditional GIS, which only stores the most accurate or scientifically precise measurements, this platform allows for the inclusion of various observations of an object from different types of users familiar with the study area. This enables the capture of diverse perspectives on an object, in this case a venue at a specific point in time, referred to as a "venue slice."
+            </p>
+  
+            <p>Lastly, this platform aims to preserve and represent a diverse range of geographical perspectives. Users are able to contribute their own knowledge, including personal experiences, second-hand knowledge, documents, or other information, about localities to the platform. To protect users' privacy, the platform does not collect personal information. Instead, it provides users with a temporary passphrase that they can use to log in and make their contributions. This way, multiple geographical perspectives from different contributors can be preserved in the database. The contributed data can also be used to verify the accuracy of the venue datasets. Additionally, the contributed data is plotted onto the map to show how venues are imagined differently by different contributors, providing a more comprehensive understanding of the area.
+            </p>
+  
+            <!--<b>WORK IN PROGRESS- THIS SECTION WILL NEED SOME MORE SPECIFIC TEXT WRITTEN BY SOMEONE KNOWLEDGABLE ABOUT DETAILS OF THE PLATFORM’S CONSTRUCTION.</b>-->
+  
+            <h2>Where is the geospatial platform hosted?
+            </h2>
+  
+            <p>The geospatial platform is currently hosted on a Server provided by UW’s Center for Studies in Demography and Ecology (CSDE), and its database is hosted on Heroku and The platform will remain there for the foreseeable future.  Also in the future we intend to conduct analyses of shifts in spatial patterns and processes over time suggested by the data, including at different spatial scales.  We also intend to analyze how – and perhaps why -- the character of what “counts” as LGBTQ+ space in the U.S. has changed over time.  Information on the design and methods used to conduct those analyses will be provided as our project progresses.  Watch this space!
+            </p>
+  
+            <h2>What kind of data processing was done?</h2>
+  
+            <p>We handle a large amount of data, and sometimes mistakes can happen during data entry. This, along with potential issues in the original data source, can make it difficult to keep track of venue changes over the years. To tackle this, we use an algorithm that tries to match entries from different years that likely refer to the same venue. A process that also helps us locate potential errors in our data.
+            We currently use similarity thresholds for venue names and addresses to minimize errors, but algorithm alone will never be enough. There could be cases where venues are grouped incorrectly or not grouped at all. The quality of the input data also plays a role in the matching process, so any errors in the original data source could affect the results.
+            When using this data, please be mindful of these limitations and be cautious when interpreting the results. We're always working on improving our methods and welcome feedback to help us identify any issues or areas that need improvement.
+            </p>
+  
+            <div class="logo"><a href="https://uw.edu" target="_blank"><img src="assets/imgs/uw.png" width="250px"></a></div>
+          </div>
 
-          <p>At present our project is focused on building a nationwide database data base of LGBTQ+ spaces and places in the U.S. from the mid-1960s through the mid-2010s. The data base is meant to be expandable to the present but for the moment is focused on the time period indicated.  In the longer term, we plan to analyze the data to see what it can contribute to existing theory and knowledge about a) overall trends in spatial patterns and processes regarding LGBTQ+ space; 2) cultural (i.e., gender, racial, ethnic), regional, and scale differences in these; and 3) qualitative changes in the character of LGBTQ+ spaces over time.
-          </p>
-          <h2>What data sources are used for the project?
-          </h2>
-
-          <p>Building the data base is an ongoing process involving multiple data sources and techniques.  These will evolve as the data base grows.  To date the process is comprised of two primary pieces: a) collecting and systematizing date from available published sources, most notably – but by no means exclusively – LGBTQ+ travel guides, and b) constructing a geospatial platform through which data can be described, visualized, and corrected or added to by users (you!)
-          </p>
-
-          <p>Initial data has come from Damron travel guides, the only extant annually published sources listing LGBTQ+ venues nationally since the mid-twentieth century.  These were obtained or borrowed from a combination of ProQuest’s Alexander Street online repository, the University of Southern California’s ONE Archive, our colleagues at http://mappingthegayguides.org, the Damron organization, and direct purchase from rare book vendors.  Data from the Women’s 1993 guide and Men’s 2012 guide are not included due to those particular guides being unavailable or inaccessible.  In a few additional cases data are missing for particular years, locations, or venues due to missing or damaged pages in the guides.
-          </p>
-
-          <p>Damron guides have certain unique advantages as a source of data for this project:
-          </p>
-
-          <ol>
-            <li>They are the only existing source of data about LGBTQ+ spaces in the U.S. that has been collected systematically over a long period of time (over 50 years);</li>
-            <li>The data contained in them are relatively reliable, in that they were collected and packaged with the specific goal of providing consistent, reliable information in mind;</li>
-            <li>The data contained in them are relatively valid, in that they capture what they were intended to (i.e., spaces designed for and/or used by LGBTQ+ people, albeit in ways that may have shifted over time); and</li>
-            <li>They offer a useful degree of geographic precision, via street addresses and/or references to specific locations/landmarks. That said, the guides are far from perfect sources of data.</li>
-          </ol>
-
-          <h2>Are there any limitations to using the Damron Guides?
-          </h2>
-
-          <p>While they are broadly consistent over time in the way they organize and present data, they are not perfectly consistent and sometimes contain errors.  These range from minor typographical errors to more significant ones such as incorrect or ambiguous locations.  Moreover, the guides capture a relatively narrow range of LGBTQ+ spaces and experience, especially in the early years of their publication.  They began, after all, as a project of a single gay white man in mid-20th Century homophobic United States who was interested in meeting other men for sex. While the guides’ breadth in acknowledging other forms and expressions of sexuality and community has grown over time (including the publication, beginning in 1990, of separate men’s and women’s guide), their partial, situated knowledge cannot be ignored.  Damron guides clearly therefore cannot be the only source of data for this project.  The other primary source of data – for the moment – is that provided by visitors to this site like you, via interaction with the geospatial platform we have created.
-          </p>
-
-          <p>Collecting data from Damron guides is a labor-intensive process.  First, spreadsheets are designed that contain fields for city/locality, state, year, street address (or equivalent), descriptors of various kinds, and additional explanatory comments contained in the guides or from the person inputting the data.  Then researchers and research assistants enter data from the guides into these fields.  Where errors, ambiguities, or inconsistencies are discovered or suspected, researchers and research assistants investigate to resolve these problems.  But sometimes resolution is impossible, in which case the data are either omitted or, more commonly, entered into spreadsheets with comments explaining the problem or uncertainty.
-          </p>
-
-          <h2>How is data from the Damron Guides located or verified? Can I contribute location information to this project?
-          </h2>
-
-          <p>With respect to locational data in particular, automated mapping software helps us to pinpoint and verify locations of venues.  However we also rely on our own investigations and users like you to provide, correct, or verify data.  For user-provided data we have created a feature that allows users to provide data directly.  This feature includes all the same fields as our spreadsheets – including comment fields – as well as an indicator of the user’s confidence in the information they have provided.  This helps us to investigate and verify the user-provided data as well as to determine our own level of confidence in it.  Once verified the user-provided data is added to the data base and published as part of the interactive map.
-          </p>
-          <h2>How was the geospatial platform designed? What are some of the guiding design principles?
-          </h2>
-
-          <p>The geospatial platform and its centerpiece, the interactive map, were constructed using Mapbox and other software with numerous features that allow venues and patterns to be visualized in particular ways (including by searching and filtering the database) and additional data to be collected from users (you!).  Hence, this geospatial platform, as an instantiation of GIS, aims to decentralize the influence of the travel guides and their sociospatial imagination, but also to support multiple geographical imaginations. To achieve this, the platform follows three main design and development criteria: 1) an open system architecture, 2) inclusive data structure and management, and 3) an interactive map that represents diverse geographical perspectives, as illustrated by Figure 1.
-          </p>
-
-          <figure>
-            <img src="assets/imgs/design-principle.svg" alt="a figure showing intersecting concepts of architecture, diversity, representation, inclusivity, data and open(ness). With GIS sitting at the center of the intersection." width="600px">
-            <figcaption>Figure 1. the diagram of design/development principles</figcaption>
-          </figure>
-
-          <p>The first design criterion for this platform is an open system architecture, which allows for a more inclusive and collaborative approach to development. This includes allowing multiple stakeholders, such as local experts, researchers, and the public, to participate and contribute observations to the platform. Additionally, the platform utilizes a combination of both open-source libraries, such as PostgreSQL, Node.js, and QGIS, as well as proprietary software, such as ArcGIS and Tableau. Additionally, this principle of openness is also applied to data usage, by utilizing a variety of open data APIs and open base maps, such as OpenStreetMap and Google Street Views.
-          </p>
-
-          <p>The second design criterion is an inclusive approach to data structuring and management. Unlike traditional GIS, which only stores the most accurate or scientifically precise measurements, this platform allows for the inclusion of various observations of an object from different types of users familiar with the study area. This enables the capture of diverse perspectives on an object, in this case a venue at a specific point in time, referred to as a "venue slice."
-          </p>
-
-          <p>Lastly, this platform aims to preserve and represent a diverse range of geographical perspectives. Users are able to contribute their own knowledge, including personal experiences, second-hand knowledge, documents, or other information, about localities to the platform. To protect users' privacy, the platform does not collect personal information. Instead, it provides users with a temporary passphrase that they can use to log in and make their contributions. This way, multiple geographical perspectives from different contributors can be preserved in the database. The contributed data can also be used to verify the accuracy of the venue datasets. Additionally, the contributed data is plotted onto the map to show how venues are imagined differently by different contributors, providing a more comprehensive understanding of the area.
-          </p>
-
-          <!--<b>WORK IN PROGRESS- THIS SECTION WILL NEED SOME MORE SPECIFIC TEXT WRITTEN BY SOMEONE KNOWLEDGABLE ABOUT DETAILS OF THE PLATFORM’S CONSTRUCTION.</b>-->
-
-          <h2>Where is the geospatial platform hosted?
-          </h2>
-
-          <p>The geospatial platform is currently hosted on a Server provided by UW’s Center for Studies in Demography and Ecology (CSDE), and its database is hosted on Heroku and The platform will remain there for the foreseeable future.  Also in the future we intend to conduct analyses of shifts in spatial patterns and processes over time suggested by the data, including at different spatial scales.  We also intend to analyze how – and perhaps why -- the character of what “counts” as LGBTQ+ space in the U.S. has changed over time.  Information on the design and methods used to conduct those analyses will be provided as our project progresses.  Watch this space!
-          </p>
-
-          <h2>What kind of data processing was done?</h2>
-
-          <p>We handle a large amount of data, and sometimes mistakes can happen during data entry. This, along with potential issues in the original data source, can make it difficult to keep track of venue changes over the years. To tackle this, we use an algorithm that tries to match entries from different years that likely refer to the same venue. A process that also helps us locate potential errors in our data.
-          We currently use similarity thresholds for venue names and addresses to minimize errors, but algorithm alone will never be enough. There could be cases where venues are grouped incorrectly or not grouped at all. The quality of the input data also plays a role in the matching process, so any errors in the original data source could affect the results.
-          When using this data, please be mindful of these limitations and be cautious when interpreting the results. We're always working on improving our methods and welcome feedback to help us identify any issues or areas that need improvement.
-          </p>
-
-          <div class="logo"><a href="https://uw.edu" target="_blank"><img src="assets/imgs/uw.png" width="250px"></a></div>
         </div>
       </div>
   </main>

@@ -2,264 +2,280 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Shifting LGBTQ+ Spaces</title>
-    <link rel="icon" type="image/x-icon" href="assets/imgs/logo.png">
-    <!-- <link href="css/bootstrap.min.css" rel="stylesheet"> -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
-    <!-- external CSS & js -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <!-- font awesome kit -->
-    <!-- <script src="https://use.fontawesome.com/releases/v5.15.3/js/all.js" crossorigin="anonymous"></script> -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Shifting LGBTQ+ Spaces</title>
+  <link rel="icon" type="image/x-icon" href="assets/imgs/logo.png">
+  <!-- <link href="css/bootstrap.min.css" rel="stylesheet"> -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+  <!-- external CSS & js -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <!-- font awesome kit -->
+  <!-- <script src="https://use.fontawesome.com/releases/v5.15.3/js/all.js" crossorigin="anonymous"></script> -->
 
   <!-- google font -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,800" rel="stylesheet" />
 
-    <link rel="stylesheet" href="css/simplebar.css" />
-    <link href="css/common.css" rel='stylesheet' />
-    <link rel='stylesheet' href="css/pages.css" />
+  <link rel="stylesheet" href="css/simplebar.css" />
+  <link href="css/common.css" rel='stylesheet' />
+  <link rel='stylesheet' href="css/pages.css" />
 
-    <script src="https://code.jquery.com/jquery-3.6.1.min.js"
-        integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.6.1.min.js"
+    integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
 
-    <!-- bootstrap 5.1 is required for the overall structure of the platform -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous">
-        </script>
-    <script src="js/simplebar.min.js"></script>
+  <!-- bootstrap 5.1 is required for the overall structure of the platform -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous">
+    </script>
+  <script src="js/simplebar.min.js"></script>
 
 
 
-    <!-- Promise polyfill script is required -->
-    <!-- to use MapBox GL Geocoder in IE 11. -->
-    <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.min.js"></script>
+  <!-- Promise polyfill script is required -->
+  <!-- to use MapBox GL Geocoder in IE 11. -->
+  <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.min.js"></script>
 
 
 </head>
 
 <body>
 
-    <nav class="navbar navbar-expand-md  navbar-dark bg-dark">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="index.html"><img src="assets/imgs/logo.png"></img>
-                <div id="project-name">Shifting LGBTQ+ Spaces</div>
-                <div class="beta" >beta</div>
-            </a>
+  <nav class="navbar navbar-expand-md  navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="index.html"><img src="assets/imgs/logo.png"></img>
+        <div id="project-name">Shifting LGBTQ+ Spaces</div>
+        <div class="beta">beta</div>
+      </a>
 
-            <div id="navbar-tabs">
-                <ul class="navbar-nav me-auto mb-2 mb-md-0">
-                  <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="about.html">About</a>
-                  </li>
-                  <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="index.html">Map</a>
-                    </li>
-                      <li class="nav-item">
-                        <a class="nav-link" href="#">Data</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link active" aria-current="page" href="methodology.html">Design & Methodology</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link active" aria-current="page" href="ethics.html">Ethics</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="team.html">Team</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" target="_blank"
-                            href="https://docs.google.com/forms/d/1jWU5GIj7rqiej5j0aX3fm2IkM5v3K0PlGDWk0_GNcj4">Feedback</a>
-                    </li>
-
+      <div id="navbar-tabs">
+        <ul class="navbar-nav me-auto mb-2 mb-md-0">
           <li class="nav-item">
-            <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fhgis.uw.edu%2Fvgi&amp;src=sdkpreparse" class="nav-link bi bi-facebook active" aria-current="page" ></a>
+            <a class="nav-link active" aria-current="page" href="about.html">About</a>
           </li>
           <li class="nav-item">
-            <a href="https://twitter.com/intent/tweet?url=https://hgis.uw.edu/covid19-workers/&text=Check out this geospatial platform that allow local experts to contribution data about lgbtgq spaces." class="nav-link bi bi-twitter active" aria-current="page" ></a>
+            <a class="nav-link active" aria-current="page" href="index.html">Map</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Data</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="methodology.html">Design & Methodology</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="ethics.html">Ethics</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="team.html">Team</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" target="_blank"
+              href="https://docs.google.com/forms/d/1jWU5GIj7rqiej5j0aX3fm2IkM5v3K0PlGDWk0_GNcj4">Feedback</a>
           </li>
 
-                </ul>
+          <li class="nav-item">
+            <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fhgis.uw.edu%2Fvgi&amp;src=sdkpreparse"
+              class="nav-link bi bi-facebook active" aria-current="page"></a>
+          </li>
+          <li class="nav-item">
+            <a href="https://twitter.com/intent/tweet?url=https://hgis.uw.edu/covid19-workers/&text=Check out this geospatial platform that allow local experts to contribution data about lgbtgq spaces."
+              class="nav-link bi bi-twitter active" aria-current="page"></a>
+          </li>
+
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+
+    <div data-simplebar data-simplebar-auto-hide="false" class="grid-container">
+      <div class="grid-box">
+        <div class="box-container">
+          <div class="about-main-content">
+            <div>
+              <span>We have begun construction of the data base by consulting local experts in various localities,
+                collaborating with colleagues elsewhere who have worked with similar data (a shoutout to our
+                friends at <a href="https://www.mappingthegayguides.org/">mappingthegayguides.org<a>!), and extracting
+                    data from LGBTQ+ travel guides published
+                    from the 1960s through the mid-2010s. We recognize that the accuracy of this sort of
+                    information, from these sorts of sources, will always be both uncertain and contested. For this
+                    reason we try to "ground truth" as much of the data as possible (using a variety of methods) and
+                    have included an indication for each piece of data as to how accurate we believe it to be. Your
+                    contributions to this process will help immensely with that process!
+              </span>
+              <br><br>
+              <span>In keeping with the principles of open and accessible scholarship, we are making our compiled data
+                available to everyone.
+                To ensure compliance with our terms and policy, please take a moment to read and accept them
+                before downloading the data.
+              </span>
+              <br><br>
+              <div>
+                By accessing this data, I affirm that I will use it solely for lawful and ethical purposes.
+                I understand that any unauthorized or malicious use of the data, such as harassment of individuals,
+                organizations, or businesses associated with the entries, is strictly prohibited.
+                The data is intended for research or personal use only, and commercial usage is not permitted.
+                I acknowledge that any violation of these terms may result in legal consequences.
+                <br><a href="https://lgbtqspaces-api.herokuapp.com/api/download_venue_slice">Acknowledge and
+                  download</a>
+              </div>
+              <br>For reference, the data associated with the table is explained below:
+              <table>
+                <tr>
+                  <th>Attribute Name</th>
+                  <th>Description</th>
+                  <th>Example Data</th>
+                </tr>
+                <tr>
+                  <th>vsid</th>
+                  <td>Unique identifier for a venue at a specific year</th>
+                  <td>1234</td>
+                </tr>
+                <tr>
+                  <th>vid</th>
+                  <td>Unique identifier for a venue that stays consistent over time</td>
+                  <td>123</td>
+                </tr>
+                <tr>
+                  <th>observedvenuename</th>
+                  <td>Name for the specific venue</td>
+                  <td>R Place</td>
+                </tr>
+                <tr>
+                  <th>category</th>
+                  <td>The type of venue(bar, gym, bookstores, etc)</td>
+                  <td>Bars</td>
+                </tr>
+                <tr>
+                  <th>codedescriptorlist<a href="#note1"><sup>1<sup></a></th>
+                  <td>Notation used in Damron Guides for the venue, if applicable</td>
+                  <td>NH</td>
+                </tr>
+                <tr>
+                  <th>address</th>
+                  <td>Street address, intersection, or major institution name (e.g., Shopping Mall, School, Park, etc.)
+                  </td>
+                  <td>619 E Pine St.</td>
+                </tr>
+                <tr>
+                  <th>placenotes</th>
+                  <td>Any additional information about the venue, provided by the data source</td>
+                  <td>1p-2am</td>
+                </tr>
+                <tr>
+                  <th>locality</th>
+                  <td>Secondary geographical level, can be city, county or area</td>
+                  <td>Seattle</td>
+                </tr>
+                <tr>
+                  <th>city</th>
+                  <td>The city where the venue is located</td>
+                  <td>Seattle</td>
+                </tr>
+                <tr>
+                  <th>state</th>
+                  <td>The state where the venue is located</td>
+                  <td>Washington</td>
+                </tr>
+                <tr>
+                  <th>zip</th>
+                  <td>The zip code where the venue is located, if applicable</td>
+                  <td>98122</td>
+                </tr>
+                <tr>
+                  <th>confidence</th>
+                  <td>The confidence level we have in the geocoded address</td>
+                  <td>Completely confident</td>
+                </tr>
+                <tr>
+                  <th>formaladdress</th>
+                  <td>Full postal address, as returned by the geocoder</td>
+                  <td>619 E Pine St, Seattle, WA 98122, USA</td>
+                </tr>
+                <tr>
+                  <th>ggl_measurementtype<a href="#note2"><sup>2<sup></a></th>
+                  <td>The type of measurement Google used to find the geocoded address</td>
+                  <td>ROOFTOP</td>
+                </tr>
+                <tr>
+                  <th>latitude</th>
+                  <td>The latitude of the venue's physical address, computed using geocoder</td>
+                  <td>47.6150594</td>
+                </tr>
+                <tr>
+                  <th>longitude</th>
+                  <td>The longitude of the venue's physical address, computed using geocoder</td>
+                  <td>-122.3236654</td>
+                </tr>
+                <tr>
+                  <th>year</th>
+                  <td>The year which this data applies to</td>
+                  <td>1992</td>
+                </tr>
+                <tr>
+                  <th>comments</th>
+                  <td>Additional comments from our research team, if applicable</td>
+                  <td>2 stories</td>
+                </tr>
+                <tr>
+                  <th>source</th>
+                  <td>The primary data source of the information</td>
+                  <td>Damron M</td>
+                </tr>
+                <tr>
+                  <th>dateadded</th>
+                  <td>The date when this entry was added to the table</td>
+                  <td>2022-09-02</td>
+                </tr>
+                <tr>
+                  <th>lastmodified</th>
+                  <td>The date when this entry was last modified</td>
+                  <td>2023-01-03</td>
+                </tr>
+                <tr>
+                  <th>ggl_placetype<a href="#note2"><sup>2<sup></a></th>
+                  <td>The place type of the current day location, provided by google</td>
+                  <td>premise</td>
+                </tr>
+                <tr>
+                  <th>descriptorlist<a href="#note1"><sup>1<sup></a></th>
+                  <td>Any descriptors used by the platform to identify and classify venues</td>
+                  <td>Bar/Nightclub</td>
+                </tr>
+                <tr>
+                  <th>newcodelist<a href="#note1"><sup>1<sup></a></th>
+                  <td>New descriptors to be added, as suggested by users</td>
+                  <td>null</td>
+                </tr>
+              </table>
+              <span id="note1"><sup>1</sup> The reason there are two systems of classification is that historically the
+                LGBTQ+ community has faced
+                countless discrimination using obscure or coded language to communicate was a way of combating social
+                stigma. Our data sources
+                too made use of coded language for their listings. However, as the meanings of some of these symbols and
+                codes changed over time, they can be
+                very inconsistent from year to year, this is especially true since earlier publications sometimes
+                contained degoratory/discriminatory
+                phrasings by today's standards. We have developed a modern classification system using some of those
+                code words as the basis,
+                which better reflects our values. However the old codes are kept as part of the dataset for those who
+                may have use for it.</span>
+              <br><br>
+              <span id="note2"><sup>2</sup> For more information on how to interpret results returned from the geocoder,
+                please refer to the
+                <a href=https://developers.google.com/maps/documentation/geocoding/requests-reverse-geocoding>official
+                  documentation<a>
+                    for the Google Maps Platform API.</span>
             </div>
+            <div class="logo"><a href="https://uw.edu" target="_blank"><img src="assets/imgs/uw.png" width="250px"></a>
+            </div>
+          </div>
         </div>
-    </nav>
-
-    <main>
-
-        <div data-simplebar data-simplebar-auto-hide="false" class="grid-container">
-            <div class="grid-box">
-                <div class="about-main-content">
-                    <div>
-                      <span>We have begun construction of the data base by consulting local experts in various localities,
-                      collaborating with colleagues elsewhere who have worked with similar data (a shoutout to our
-                      friends at <a href="https://www.mappingthegayguides.org/">mappingthegayguides.org<a>!), and extracting data from LGBTQ+ travel guides published
-                      from the 1960s through the mid-2010s. We recognize that the accuracy of this sort of
-                      information, from these sorts of sources, will always be both uncertain and contested. For this
-                      reason we try to "ground truth" as much of the data as possible (using a variety of methods) and
-                      have included an indication for each piece of data as to how accurate we believe it to be. Your
-                      contributions to this process will help immensely with that process!
-                      </span>
-                      <br><br>
-                      <span>In keeping with the principles of open and accessible scholarship, we are making our compiled data available to everyone.
-                        To ensure compliance with our terms and policy, please take a moment to read and accept them
-                        before downloading the data.
-                      </span>
-                      <br><br>
-                      <div>
-                        By accessing this data, I affirm that I will use it solely for lawful and ethical purposes.
-                        I understand that any unauthorized or malicious use of the data, such as harassment of individuals,
-                        organizations, or businesses associated with the entries, is strictly prohibited.
-                        The data is intended for research or personal use only, and commercial usage is not permitted.
-                        I acknowledge that any violation of these terms may result in legal consequences.
-                        <br><a href="https://lgbtqspaces-api.herokuapp.com/api/download_venue_slice">Acknowledge and download</a>
-                      </div>
-                      <br>For reference, the data associated with the table is explained below:
-                      <table>
-                          <tr>
-                            <th>Attribute Name</th>
-                            <th>Description</th>
-                            <th>Example Data</th>
-                          </tr>
-                          <tr>
-                            <th>vsid</th>
-                            <td>Unique identifier for a venue at a specific year</th>
-                            <td>1234</td>
-                          </tr>
-                          <tr>
-                            <th>vid</th>
-                            <td>Unique identifier for a venue that stays consistent over time</td>
-                            <td>123</td>
-                          </tr>
-                          <tr>
-                            <th>observedvenuename</th>
-                            <td>Name for the specific venue</td>
-                            <td>R Place</td>
-                          </tr>
-                          <tr>
-                            <th>category</th>
-                            <td>The type of venue(bar, gym, bookstores, etc)</td>
-                            <td>Bars</td>
-                          </tr>
-                          <tr>
-                            <th>codedescriptorlist<a href="#note1"><sup>1<sup></a></th>
-                            <td>Notation used in Damron Guides for the venue, if applicable</td>
-                            <td>NH</td>
-                          </tr>
-                          <tr>
-                            <th>address</th>
-                            <td>Street address, intersection, or major institution name (e.g., Shopping Mall, School, Park, etc.)</td>
-                            <td>619 E Pine St.</td>
-                          </tr>
-                          <tr>
-                            <th>placenotes</th>
-                            <td>Any additional information about the venue, provided by the data source</td>
-                            <td>1p-2am</td>
-                          </tr>
-                          <tr>
-                            <th>locality</th>
-                            <td>Secondary geographical level, can be city, county or area</td>
-                            <td>Seattle</td>
-                          </tr>
-                          <tr>
-                            <th>city</th>
-                            <td>The city where the venue is located</td>
-                            <td>Seattle</td>
-                          </tr>
-                          <tr>
-                            <th>state</th>
-                            <td>The state where the venue is located</td>
-                            <td>Washington</td>
-                          </tr>
-                          <tr>
-                            <th>zip</th>
-                            <td>The zip code where the venue is located, if applicable</td>
-                            <td>98122</td>
-                          </tr>
-                          <tr>
-                            <th>confidence</th>
-                            <td>The confidence level we have in the geocoded address</td>
-                            <td>Completely confident</td>
-                          </tr>
-                          <tr>
-                            <th>formaladdress</th>
-                            <td>Full postal address, as returned by the geocoder</td>
-                            <td>619 E Pine St, Seattle, WA 98122, USA</td>
-                          </tr>
-                          <tr>
-                            <th>ggl_measurementtype<a href="#note2"><sup>2<sup></a></th>
-                            <td>The type of measurement Google used to find the geocoded address</td>
-                            <td>ROOFTOP</td>
-                          </tr>
-                          <tr>
-                            <th>latitude</th>
-                            <td>The latitude of the venue's physical address, computed using geocoder</td>
-                            <td>47.6150594</td>
-                          </tr>
-                          <tr>
-                            <th>longitude</th>
-                            <td>The longitude of the venue's physical address, computed using geocoder</td>
-                            <td>-122.3236654</td>
-                          </tr>
-                          <tr>
-                            <th>year</th>
-                            <td>The year which this data applies to</td>
-                            <td>1992</td>
-                          </tr>
-                          <tr>
-                            <th>comments</th>
-                            <td>Additional comments from our research team, if applicable</td>
-                            <td>2 stories</td>
-                          </tr>
-                          <tr>
-                            <th>source</th>
-                            <td>The primary data source of the information</td>
-                            <td>Damron M</td>
-                          </tr>
-                          <tr>
-                            <th>dateadded</th>
-                            <td>The date when this entry was added to the table</td>
-                            <td>2022-09-02</td>
-                          </tr>
-                          <tr>
-                            <th>lastmodified</th>
-                            <td>The date when this entry was last modified</td>
-                            <td>2023-01-03</td>
-                          </tr>
-                          <tr>
-                            <th>ggl_placetype<a href="#note2"><sup>2<sup></a></th>
-                            <td>The place type of the current day location, provided by google</td>
-                            <td>premise</td>
-                          </tr>
-                          <tr>
-                            <th>descriptorlist<a href="#note1"><sup>1<sup></a></th>
-                            <td>Any descriptors used by the platform to identify and classify venues</td>
-                            <td>Bar/Nightclub</td>
-                          </tr>
-                          <tr>
-                            <th>newcodelist<a href="#note1"><sup>1<sup></a></th>
-                            <td>New descriptors to be added, as suggested by users</td>
-                            <td>null</td>
-                          </tr>
-                        </table>
-                      <span id="note1"><sup>1</sup> The reason there are two systems of classification is that historically the LGBTQ+ community has faced
-                        countless discrimination using obscure or coded language to communicate was a way of combating social stigma. Our data sources
-                        too made use of coded language for their listings. However, as the meanings of some of these symbols and codes changed over time, they can be
-                        very inconsistent from year to year, this is especially true since earlier publications sometimes contained degoratory/discriminatory
-                        phrasings by today's standards. We have developed a modern classification system using some of those code words as the basis,
-                        which better reflects our values. However the old codes are kept as part of the dataset for those who may have use for it.</span>
-                      <br><br>
-                      <span id="note2"><sup>2</sup> For more information on how to interpret results returned from the geocoder, please refer to the
-                      <a href=https://developers.google.com/maps/documentation/geocoding/requests-reverse-geocoding>official documentation<a>
-                      for the Google Maps Platform API.</span>
-                    </div>
-                    <div class="logo"><a href="https://uw.edu" target="_blank"><img src="assets/imgs/uw.png"
-                                width="250px"></a></div>
-                </div>
-            </div>
-    </main>
+      </div>
+  </main>
 
 </body>
 

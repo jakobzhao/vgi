@@ -92,116 +92,119 @@
 
     <div data-simplebar data-simplebar-auto-hide="false" class="grid-container">
       <div class="grid-box">
-        <div class="about-main-content">
-          <!-- <img class="border border-secondary" style="float:right; margin-left: 20px"
-                        src="assets\screenshot.png" alt="dashboard overview" width="700px"> -->
-          <h2>Project Overview</h2>
-          <p>Shifting LGBTQ+ Spaces is an effort by a team of faculty and students at the University of
-            Washington to build and eventually analyze a nationwide data base of LGBTQ+ spaces and places in
-            the U.S.from the mid-1960s through the mid-2010s. The data base is meant to be expandable to the
-            present but for the moment is focused on the time period indicated. Our project is funded by the
-            National Science Foundation (Grant #1951072) with support from the UW Center for Studies in
-            Demography & Ecology, the UW Department of Geography, the UW Humanistic GIS Laboratory, and the
-            University of Washington Tacoma. We invite contributions and corrections to the data from
-            visitors to this site (see instructions below) and welcome other kinds of feedback as well. Feel
-            free to use the tools we offer here or you can contact us directly at xxxx@uw.edu.
-          </p>
-          <p>
-            <!-- <a href="https://lgbtqspaces-api.herokuapp.com/api/download_venue_slice">Download our venue data</a>-->
-          </p>
-          <h2>How to use this platform</h2>
-
-          <p>This geospatial platform allows visitors to:
-            i) view the locations of LGBTQ+ venues certain U.S. cities, between 1965-2014;
-            ii)offer additions or corrections to the data, and
-            iii) download data.
-            Below, we will introduce each of three major functions one by one.
-          </p>
-
-          <button type="button" class="collapsible">1. Viewing the map of LGBTQ+ venues in urban spaces of major U.S.
-            cities</button>
-          <div class="content">
-            <img src="assets/imgs/about/guide.png" style="width: 60%; height: auto; float: left; margin: 1em" alt="Guide">
-<br>
-            <p>1. At the top-left is a “time slider” (for choosing the year you want to look at).</p>
-            <p>2. At the top-right are a “Filter” button (for viewing types or characteristics of venues),
-              a “Localities” button (for choosing the city you want to view”), and a locality “Search” button.</p>
-            <p>3. Just below the top-right tool bar, a set of plus and minus buttons let you zoom in or zoom out on the
-              map,
-              the compass button below reorients the map to face north.</p>
-            <p>4. Venues are represented by cylinders on the map, clicking on one would open up the left side info panel.
-              Several smaller cylinders may show up showing alternative interpretations of the venue</p>
-            <p>5. Clicking one of the descriptors in this area sets the current filter to that descriptor</p>
-            <p>6. In the middle of the info panel is a life trajectory map of the current venue. This map shows where
-              the venue
-              is located at any point in time.</p>
-            <p>7. Clicking on the bar expands/collapses a list of venues that are difficult to locate or do not have a physical location.</p>
-            <p>8. At the bottom of the profile you may suggest an edit if you believe there's inaccuracy in the
-              information,
-              share a review of the venue, or close the info panel.</p>
-            <p>9. A toggleable option that colors venue icons accordingto the confidence level of our data
+        <div class="box-container">
+          <div class="about-main-content">
+            <!-- <img class="border border-secondary" style="float:right; margin-left: 20px"
+                          src="assets\screenshot.png" alt="dashboard overview" width="700px"> -->
+            <h2>Project Overview</h2>
+            <p>Shifting LGBTQ+ Spaces is an effort by a team of faculty and students at the University of
+              Washington to build and eventually analyze a nationwide data base of LGBTQ+ spaces and places in
+              the U.S.from the mid-1960s through the mid-2010s. The data base is meant to be expandable to the
+              present but for the moment is focused on the time period indicated. Our project is funded by the
+              National Science Foundation (Grant #1951072) with support from the UW Center for Studies in
+              Demography & Ecology, the UW Department of Geography, the UW Humanistic GIS Laboratory, and the
+              University of Washington Tacoma. We invite contributions and corrections to the data from
+              visitors to this site (see instructions below) and welcome other kinds of feedback as well. Feel
+              free to use the tools we offer here or you can contact us directly at xxxx@uw.edu.
             </p>
-            <p>10. The large plus button is for suggesting missing venues. If you know of a venue that is not currently
-              on the map,
-              please fill out the form and help us find it!</p>
-            <p>11. You can switch the “base map” to a current satellite image by hovering over the map below the “+”
-              sign on the bottom-right and clicking on the satellite image button.</p>
-            <p>*Please note that currently we only have data uploaded for seven U.S. cities (Atlanta, Billings, Cleveland,
-              Kansas City, Nashville, Phoenix and Seattle). We will continue to update our data and add more localities over time.
+            <p>
+              <!-- <a href="https://lgbtqspaces-api.herokuapp.com/api/download_venue_slice">Download our venue data</a>-->
             </p>
-          </div>
-          <button type="button" class="collapsible">2. Making Contributions to the Database</button>
-          <div class="content">
-            <p>You can currently make two types of contributions to this database: adding a missing venue or suggesting
-              an edit to an existing venue.
-              To protect your privacy, we are NOT asking you to login to the portal in a way that results in any
-              personal information
-              about you being collected. Instead, you will need to log in to the platform using a temporary passphrase.
-              If you do not already have a passphrase, <a target="_self" href="agreement.html">click here to obtain
-                one</a>. Once you have a passphrase,
-              click the log in button at the top-right of the map. A login panel will pop up. Then simply input the
-              three terms of the passphrase
-              and click “log in”. A notice will appear indicating that you have successfully logged in. If the login
-              fails, please try again
-              or contact us for help at XXX@uw.edu.</p>
-
-            <p>To add a missing venue, click the “+” button at the bottom-right of the main map. A panel will then open
-              where you can make your contribution. To suggest an edit to an existing venue, click on the cone
-              representing
-              the venue on the map. A panel will again open where you can suggest an edit. Just click on the “Suggest an
-              edit”
-              button at the bottom of the panel. Click the “Submit” button when you are done. Please note that your
-              contribution
-              will not immediately appear on the map, as it takes time to process contributions. </p>
-          </div>
-          <button type="button" class="collapsible">3. Downloading Data</button>
-          <div class="content">
-            <p>Our data can be downloaded free of charge but we ask that you agree to certain terms regarding how you
-              use the data.
-              See our <a href="data.html">data</a> page for more information.</p>
-          </div>
-          <!-- acknowledgement -->
-          <hr>
-          <h2>Acknowledgement</h2>
-
-          <div class="attribution">
-
-            <p class="text-left">
-              Our project is funded by the National Science Foundation (Grant #1951072) with support from
-              the UW Center for Studies in Demography & Ecology, the UW Department of Geography, the UW
-              Humanistic GIS Laboratory, and the University of Washington Tacoma.
-
+            <h2>How to use this platform</h2>
+  
+            <p>This geospatial platform allows visitors to:
+              i) view the locations of LGBTQ+ venues certain U.S. cities, between 1965-2014;
+              ii)offer additions or corrections to the data, and
+              iii) download data.
+              Below, we will introduce each of three major functions one by one.
             </p>
-            <!-- <p class="text-left"> Hosted upon the server offered by <a target="_blank"
-                                href="https://csde.washington.edu/">UW's Center for Studies in Demography and Ecology
-                                (CSDE)</a>;</p>
-                        <p class="text-left"> Maintained by <a href="https://hgis.uw.edu" target="_blank">the UW's
-                                Humanistic GIS Laboratory</a>. For more details about this project, please contact <a
-                                href="mailto://zhaobo@uw.edu">Bo Zhao</a>.</p> -->
-          </div>
+  
+            <button type="button" class="collapsible">1. Viewing the map of LGBTQ+ venues in urban spaces of major U.S.
+              cities</button>
+            <div class="content">
+              <img src="assets/imgs/about/guide.png" style="width: 60%; height: auto; float: left; margin: 1em" alt="Guide">
+              <br>
+              <p>1. At the top-left is a “time slider” (for choosing the year you want to look at).</p>
+              <p>2. At the top-right are a “Filter” button (for viewing types or characteristics of venues),
+                a “Localities” button (for choosing the city you want to view”), and a locality “Search” button.</p>
+              <p>3. Just below the top-right tool bar, a set of plus and minus buttons let you zoom in or zoom out on the
+                map,
+                the compass button below reorients the map to face north.</p>
+              <p>4. Venues are represented by cylinders on the map, clicking on one would open up the left side info panel.
+                Several smaller cylinders may show up showing alternative interpretations of the venue</p>
+              <p>5. Clicking one of the descriptors in this area sets the current filter to that descriptor</p>
+              <p>6. In the middle of the info panel is a life trajectory map of the current venue. This map shows where
+                the venue
+                is located at any point in time.</p>
+              <p>7. Clicking on the bar expands/collapses a list of venues that are difficult to locate or do not have a physical location.</p>
+              <p>8. At the bottom of the profile you may suggest an edit if you believe there's inaccuracy in the
+                information,
+                share a review of the venue, or close the info panel.</p>
+              <p>9. A toggleable option that colors venue icons accordingto the confidence level of our data
+              </p>
+              <p>10. The large plus button is for suggesting missing venues. If you know of a venue that is not currently
+                on the map,
+                please fill out the form and help us find it!</p>
+              <p>11. You can switch the “base map” to a current satellite image by hovering over the map below the “+”
+                sign on the bottom-right and clicking on the satellite image button.</p>
+              <p>*Please note that currently we only have data uploaded for seven U.S. cities (Atlanta, Billings, Cleveland,
+                Kansas City, Nashville, Phoenix and Seattle). We will continue to update our data and add more localities over time.
+              </p>
+            </div>
+            <button type="button" class="collapsible">2. Making Contributions to the Database</button>
+            <div class="content">
+              <p>You can currently make two types of contributions to this database: adding a missing venue or suggesting
+                an edit to an existing venue.
+                To protect your privacy, we are NOT asking you to login to the portal in a way that results in any
+                personal information
+                about you being collected. Instead, you will need to log in to the platform using a temporary passphrase.
+                If you do not already have a passphrase, <a target="_self" href="agreement.html">click here to obtain
+                  one</a>. Once you have a passphrase,
+                click the log in button at the top-right of the map. A login panel will pop up. Then simply input the
+                three terms of the passphrase
+                and click “log in”. A notice will appear indicating that you have successfully logged in. If the login
+                fails, please try again
+                or contact us for help at XXX@uw.edu.</p>
+  
+              <p>To add a missing venue, click the “+” button at the bottom-right of the main map. A panel will then open
+                where you can make your contribution. To suggest an edit to an existing venue, click on the cone
+                representing
+                the venue on the map. A panel will again open where you can suggest an edit. Just click on the “Suggest an
+                edit”
+                button at the bottom of the panel. Click the “Submit” button when you are done. Please note that your
+                contribution
+                will not immediately appear on the map, as it takes time to process contributions. </p>
+            </div>
+            <button type="button" class="collapsible">3. Downloading Data</button>
+            <div class="content">
+              <p>Our data can be downloaded free of charge but we ask that you agree to certain terms regarding how you
+                use the data.
+                See our <a href="data.html">data</a> page for more information.</p>
+            </div>
+            <!-- acknowledgement -->
+            <hr>
+            <h2>Acknowledgement</h2>
+  
+            <div class="attribution">
+  
+              <p class="text-left">
+                Our project is funded by the National Science Foundation (Grant #1951072) with support from
+                the UW Center for Studies in Demography & Ecology, the UW Department of Geography, the UW
+                Humanistic GIS Laboratory, and the University of Washington Tacoma.
+  
+              </p>
+              <!-- <p class="text-left"> Hosted upon the server offered by <a target="_blank"
+                                  href="https://csde.washington.edu/">UW's Center for Studies in Demography and Ecology
+                                  (CSDE)</a>;</p>
+                          <p class="text-left"> Maintained by <a href="https://hgis.uw.edu" target="_blank">the UW's
+                                  Humanistic GIS Laboratory</a>. For more details about this project, please contact <a
+                                  href="mailto://zhaobo@uw.edu">Bo Zhao</a>.</p> -->
+            </div>
+  
+            <div class="logo"><a href="https://uw.edu" target="_blank"><img src="assets/imgs/uw.png" width="250px"></a>
+            </div>
 
-          <div class="logo"><a href="https://uw.edu" target="_blank"><img src="assets/imgs/uw.png" width="250px"></a>
-          </div>
+        </div>
 
 
 
