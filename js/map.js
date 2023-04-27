@@ -273,7 +273,7 @@ async function getVenues(locality) {
 
     let venueData = [];
     let getVenueData = await fetch(`https://lgbtqspaces-api.herokuapp.com/api/venues/${locality}`, {
-      method: 'GET', mode: "no-cors"
+      method: 'GET'
     });
     getVenueData = await getVenueData.json();
     venueData = venueData.concat(getVenueData);
@@ -289,7 +289,7 @@ async function getObservations(locality) {
   try {
 
     let getObservationData = await fetch(`https://lgbtqspaces-api.herokuapp.com/api/observations/${locality}`, {
-      method: 'GET', mode: "no-cors"
+      method: 'GET'
     });
     let observationData = await getObservationData.json();
     return toGEOJSON(observationData);
