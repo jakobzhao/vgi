@@ -379,8 +379,8 @@ function toPolygonGEOJSON(data) {
         'vid': element.properties.vid,
         'vsid': element.properties.vsid,
         'center': JSON.parse(JSON.stringify(element.geometry)),
-        'height': (element.properties.year - 1964) * 20,
-        'base': (element.properties.year - 1965) * 20,
+        'height': (element.properties.year - 1964) * 10,
+        'base': (element.properties.year - 1965) * 10,
         'color': color,
       }
     }
