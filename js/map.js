@@ -273,7 +273,7 @@ async function getVenues(locality) {
 
     let venueData = [];
     let getVenueData = await fetch(`https://lgbtqspaces-api.herokuapp.com/api/venues/${locality}`, {
-      method: 'GET'
+      method: 'GET', mode: "no-cors"
     });
     getVenueData = await getVenueData.json();
     venueData = venueData.concat(getVenueData);
