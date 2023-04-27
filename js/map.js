@@ -289,7 +289,7 @@ async function getObservations(locality) {
   try {
 
     let getObservationData = await fetch(`https://lgbtqspaces-api.herokuapp.com/api/observations/${locality}`, {
-      method: 'GET'
+      method: 'GET', mode: "no-cors"
     });
     let observationData = await getObservationData.json();
     return toGEOJSON(observationData);
