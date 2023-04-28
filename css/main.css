@@ -510,7 +510,7 @@ p#venue-indicator {
   padding-bottom:1em;
 }
 
-.accordion-button {
+#venue-layer.accordion-button {
   &:not(.collapsed) {
     &::after {
       transform: rotate(360deg);

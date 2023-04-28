@@ -754,7 +754,8 @@ function viewLeftPanel(e) {
   // Inset map, extrusion, and functions
   // subMap.on('load', function () {
   subMap.setCenter(e.geometry.coordinates);
-  if (subMap.getLayer('year-extrusion')) {
+  // Remove 'year-extrusion' layer if it exists
+if (subMap.getLayer('year-extrusion')) {
     subMap.removeLayer('year-extrusion');
 }
 
