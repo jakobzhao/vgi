@@ -96,6 +96,10 @@ visibility: hidden;
   padding-right: 3.5em;
 }
 
+.mapboxgl-ctrl-geocoder {
+  width: 245px;
+}
+
 /* side panel background */
 .bg-opaque-white {
   padding: 10px;

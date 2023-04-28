@@ -49,12 +49,12 @@
       document.getElementById('basemap-selection').classList.add('d-none');
     })
 
-    document.getElementById('instructions-info').addEventListener('click', function (event) {
-      introJs().setOptions({
-        showProgress: true,
-      }).start()
+    // document.getElementById('instructions-info').addEventListener('click', function (event) {
+    //   introJs().setOptions({
+    //     showProgress: true,
+    //   }).start()
 
-    });
+    // });
 
     $("#nextTimeSwitcher input").on("click", function () {
       if ($("#nextTimeSwitcher input:checked").val() === "on") {
