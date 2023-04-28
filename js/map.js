@@ -881,8 +881,10 @@ async function addLeftPanelActions(feature, marker) {
 
   // if "report an issue" button is clicked, display movable marker
   let reportIssue = document.getElementById('report-issue-btn');
-  reportIssue.removeEventListener('click', populateEditForm);
-  reportIssue.addEventListener('click', populateEditForm);
+  if (!reportIssue.hasEventListener) {
+    reportIssue.addEventListener('click', populateEditForm);
+    reportIssue.hasEventListener = true;
+  }
 
   async function populateEditForm() {
     // ensure that user is logged-in
