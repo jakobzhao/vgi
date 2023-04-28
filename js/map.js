@@ -756,12 +756,17 @@ function viewLeftPanel(e) {
   subMap.setCenter(e.geometry.coordinates);
   if (subMap.getLayer('year-extrusion')) {
     subMap.removeLayer('year-extrusion');
-    subMap.removeSource('dataByYear');
-  };
-  if (subMap.getLayer('year-indicator')) {
+}
+
+// Remove 'year-indicator' layer if it exists
+if (subMap.getLayer('year-indicator')) {
     subMap.removeLayer('year-indicator');
+}
+
+// Once both layers are removed, remove 'dataByYear' source if it exists
+if (subMap.getSource('dataByYear')) {
     subMap.removeSource('dataByYear');
-  };
+}
   subMap.addSource('dataByYear', {
     'type': 'geojson',
     'data': toPolygonGEOJSON(filteredLocalData)
@@ -878,67 +883,65 @@ async function addLeftPanelActions(feature, marker) {
   reportIssue.removeEventListener('click', populateEditForm);
   reportIssue.addEventListener('click', populateEditForm);
 
-
-}
-
-async function populateEditForm() {
-  // ensure that user is logged-in
-  let check = logInCheck();
-  if (check) {
-    if (typeof map.getLayer('selectedMarker') !== "undefined") {
-      map.removeLayer('selectedMarker');
-      map.removeSource('selectedMarker');
-    }
-
-    map.addSource('selectedMarker', {
-      "type": 'geojson',
-      'data': feature,
-      'tolerance': 0
-    });
-
-    map.addLayer({
-      'id': 'selectedMarker',
-      'type': 'symbol',
-      'source': 'selectedMarker',
-      'tolerance': 0,
-      'layout': {
-        'icon-image': 'red-marker',
-        // 'icon-allow-overlap': true,
-        // 'text-allow-overlap': true
-      },
-      'paint': {
-        'icon-opacity': 0,
-        'icon-color': '#7b2941'
+  async function populateEditForm() {
+    // ensure that user is logged-in
+    let check = logInCheck();
+    if (check) {
+      if (typeof map.getLayer('selectedMarker') !== "undefined") {
+        map.removeLayer('selectedMarker');
+        map.removeSource('selectedMarker');
       }
-    });
 
-    // Populate/Organize checkbox for clientele, amenity, caution, organization
-    let checkbox = await import('./checkboxEdit.js');
-    let populateInput = await import('./populateInputFields.js');
+      map.addSource('selectedMarker', {
+        "type": 'geojson',
+        'data': feature,
+        'tolerance': 0
+      });
 
-    // Populate Input Fields
-    populateInput.populateInputFields(feature);
-    // Autofill checkboxes to corresponding values
-    checkbox.autoFill(feature);
-    // left panel view toggle
-    // Submit Edit and send POST request
-    marker.setLngLat(coordinates).addTo(map);
+      map.addLayer({
+        'id': 'selectedMarker',
+        'type': 'symbol',
+        'source': 'selectedMarker',
+        'tolerance': 0,
+        'layout': {
+          'icon-image': 'red-marker',
+          // 'icon-allow-overlap': true,
+          // 'text-allow-overlap': true
+        },
+        'paint': {
+          'icon-opacity': 0,
+          'icon-color': '#7b2941'
+        }
+      });
 
-    function onDragEnd() {
-      let lngLat = marker.getLngLat();
-      document.getElementById('long-edit').value = lngLat.lng;
-      document.getElementById('lat-edit').value = lngLat.lat;
+      // Populate/Organize checkbox for clientele, amenity, caution, organization
+      let checkbox = await import('./checkboxEdit.js');
+      let populateInput = await import('./populateInputFields.js');
+
+      // Populate Input Fields
+      populateInput.populateInputFields(feature);
+      // Autofill checkboxes to corresponding values
+      checkbox.autoFill(feature);
+      // left panel view toggle
+      // Submit Edit and send POST request
+      marker.setLngLat(coordinates).addTo(map);
+
+      function onDragEnd() {
+        let lngLat = marker.getLngLat();
+        document.getElementById('long-edit').value = lngLat.lng;
+        document.getElementById('lat-edit').value = lngLat.lat;
+      }
+      marker.on('dragend', onDragEnd);
+      onDragEnd();
+      toggleLeftPanelView('report-issue');
+      document.getElementById('ground-truth-btns').classList.toggle('d-none');
+      if (document.getElementById('info').classList.contains('leftCollapse')) {
+        document.getElementById('info').classList.remove('leftCollapse')
+      }
+      document.getElementById('alert-cls-btn').addEventListener('click', function () {
+        marker.remove();
+      })
     }
-    marker.on('dragend', onDragEnd);
-    onDragEnd();
-    toggleLeftPanelView('report-issue');
-    document.getElementById('ground-truth-btns').classList.toggle('d-none');
-    if (document.getElementById('info').classList.contains('leftCollapse')) {
-      document.getElementById('info').classList.remove('leftCollapse')
-    }
-    document.getElementById('alert-cls-btn').addEventListener('click', function () {
-      marker.remove();
-    })
   }
 }
 
@@ -1425,6 +1428,9 @@ function addVenues(data, active) {
         // calculate objects intersecting the picking ray
         let intersect = tb.queryRenderedFeatures(e.point)[0];
         let intersectionExists = typeof intersect == "object";
+
+        // make sure the confidence level colors don't get overwritten
+        paintConfidence(document.getElementById('reliability-switch').checked);
 
         // if intersect exists, highlight it
         if (intersect) {
