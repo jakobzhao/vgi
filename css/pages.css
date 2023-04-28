@@ -155,6 +155,24 @@ h4 {
  
 }
 
+.about-main-content > div {
+  margin-top: 2em;
+}
+
+.about-main-content > div > div {
+  margin-bottom: 1em !important;
+}
+
+.about-main-content h5 {
+  margin-bottom: .5em !important;
+}
+p.small {
+
+  font-size:small;
+  text-align: center;
+}
+
+
 .box-container {
   width: 70%;
   margin: auto;
