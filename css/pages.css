@@ -62,8 +62,7 @@ h4 {
 .logo {
   position: relative;
   text-align: center;
-  margin-top: 20px;
-  padding-bottom: 50px;
+  margin-top: 80px;
 }
 
 .attribution p {
@@ -82,7 +81,9 @@ h4 {
 }
 
 .simplebar-track.simplebar-vertical .simplebar-scrollbar:before {
-  background-image: linear-gradient(#2EAAFA, #8C04DB);
+  /* background-image: linear-gradient(#2EAAFA, #8C04DB); */
+  background-image: linear-gradient(45deg, red, orange, yellow, green, blue, indigo, violet, red);
+  height:300px;
 }
 
 
@@ -116,19 +117,46 @@ h4 {
 
 /* About Page CSS */
 .about-main-content {
-  padding-top: 2em;
-  padding-bottom: 1em;
+  /* padding-top: 2em; */
+  padding-bottom: 15em;
   padding-left: 3em;
   padding-right: 3em;
   text-align: left;
 }
 
 .about-main-content p {
-  text-indent: 1em;
+  /* text-indent: 1em; */
+  text-align: justify;
+  font-size: medium;
+ 
+}
+
+.about-main-content h2 {
+  font-size:x-large;
+  text-align:left;
+  margin-top: 1.5em;
+  /* margin-bottom: 1em; */
+}
+
+.about-main-content table {
+  /* text-indent: 1em; */
+  text-align: justify;
+  font-size: medium;
+  font-size: small;
+ 
+}
+
+.about-main-content figure {
+  /* text-indent: 1em; */
+  /* text-align: justify; */
+  text-align: center;
+  font-size: medium;
+  font-size: small;
+ 
 }
 
 .box-container {
-  width: 50%;
+  width: 70%;
   margin: auto;
   display: flex;
   justify-content: center;
