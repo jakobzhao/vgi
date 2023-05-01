@@ -157,7 +157,7 @@ function initiateGeocoder() {
   let geocoder = new MapboxGeocoder({
     accessToken: mapboxgl.accessToken,
     mapboxgl: mapboxgl,
-    placeholder: "Search a location on MapBox",
+    placeholder: "Search for an address on MapBox ...",
     enableGeoLocation: true
   }).onAdd(map);
 
