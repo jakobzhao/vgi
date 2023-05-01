@@ -1991,30 +1991,33 @@ async function venueSliceLoad(e) {
     venueIndicator.innerHTML = '';
   };
 
+  /*
   // add reviews
   // if add review button is clicked, display add review div box
-  /* let addReview = document.getElementById('add-review-btn');
+  let addReview = document.getElementById('add-review-btn');
   addReview.addEventListener('click', () => {
     let reviewBox = document.getElementById('type-review-box');
     let textBox = document.getElementById('user-review-input');
     textBox.value = '';
     reviewBox.classList.remove('d-none');
-  }); */
+  });
 
-  /*let reviewCloseBtn = document.getElementById('cancel-review-btn');
+  let reviewCloseBtn = document.getElementById('cancel-review-btn');
   reviewCloseBtn.addEventListener('click', () => {
     let reviewBox = document.getElementById('type-review-box');
     let textBox = document.getElementById('user-review-input');
     textBox.value = '';
     reviewBox.classList.add('d-none');
-  }); */
+  });
+  */
 
   // update frontend with new divs for each comment
   // publish comment on click
+
   // ** test observation contains vsid information, first observation table does not
-  // let vsid = parseInt(e.features[0].properties.vsid);
+  let vsid = parseInt(e.features[0].properties.vsid);
   // Create underlying observation
-  /* let observations = await getObservationsVSID(vsid, e.features[0].properties.year);
+  let observations = await getObservationsVSID(vsid, e.features[0].properties.year);
   // Check if cube layer exists in map
   if (map.getLayer('cube-observation')) {
     map.removeLayer('cube-observation');
@@ -2024,6 +2027,7 @@ async function venueSliceLoad(e) {
   let cubeCreate = await import('./addObservationCubes.js');
   cubeCreate.createCubes(observations.features, featureCoordinate);
 
+  /*
   let reviewParent = document.getElementById('reviews-container');
 
   while (reviewParent.firstChild) {
@@ -2034,13 +2038,15 @@ async function venueSliceLoad(e) {
   document.getElementById('publish-btn').addEventListener('click', submitNewReview);
   // get all comments of the location
   let reviewData = await getReviews(vsid);
-  constructReviews(reviewData); */
+  constructReviews(reviewData);
   // get all photos of the location by the google API
   // getEvidenceInfo(feature);
+  */
 };
 
+/*
 // helper function to submit new review
-/* function submitNewReview(e) {
+function submitNewReview(e) {
   let vid = parseInt(document.getElementById('vid-review').innerHTML);
   let submitCheck = document.getElementById('user-review-input').value;
   // check if
@@ -2054,7 +2060,8 @@ async function venueSliceLoad(e) {
     // add new review
     addNewReview(e, vid);
   }
-};*/
+};
+*/
 
 // go back button
 document.getElementById('go-back-btn').addEventListener('click', function () {
