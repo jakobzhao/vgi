@@ -294,9 +294,9 @@ async function getObservations(locality) {
 };
 
 // get vid observations and per year
-async function getObservationsVID(vsid, year) {
+async function getObservationsVID(vid, year) {
   try {
-    let getObservationsVidData = await fetch(`https://lgbtqspaces-api.herokuapp.com/api/relatedobservations/${vsid}/${year}`, {
+    let getObservationsVidData = await fetch(`https://lgbtqspaces-api.herokuapp.com/api/relatedobservations/${vid}/${year}`, {
       method: 'GET'
     });
     let returnData = await getObservationsVidData.json();
@@ -576,7 +576,7 @@ subMap.on('load', function () {
     button.classList.add('btn-primary');
     button.classList.add('my-3');
     button.textContent = 'Visit the venue info in ' + e.features[0].properties.year + '.';
-    let vsd = e.features[0].properties.vid;
+    let vsid = e.features[0].properties.vsid;
     let geometry = JSON.parse(e.features[0].properties.center);
     let selectedYear = e.features[0].properties.year;
     let selectedLocality = document.querySelector(".dropdown-item-checked").text;
@@ -1867,9 +1867,9 @@ async function venueSliceLoad(e) {
   // publish comment on click
 
   // ** test observation contains vsid information, first observation table does not
-  let vsid = parseInt(e.features[0].properties.vsid);
+  let vid = parseInt(e.features[0].properties.vid);
   // Create underlying observation
-  let observations = await getObservationsVID(vsid, e.features[0].properties.year);
+  let observations = await getObservationsVID(vid, e.features[0].properties.year);
 
   let featureCoordinate = [feature.geometry.coordinates[0], feature.geometry.coordinates[1]];
   let cubeCreate = await import('./addObservationCubes.js');
