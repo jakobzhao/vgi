@@ -2,13 +2,9 @@ mapboxgl.accessToken = config.accessToken;
 
 let current_category = ''; // record the category of current clicked venue
 let current_confidence = ''; // record the confidence level of current clicked venue
-let current_observation_data; // record the overall observation data of selected year
 let current_venue_data; // record the overall venue data of selected year
 let current_code_filter = []; // tracking the filters user selected
 let on_Screen_Data_Venue; // venue data with the filter
-let on_Screen_Data_Observe; // observation data with the filter
-let venue_status = true; // if venue layer is on
-let observation_status = false; // if observation layer is on
 let referenceList = {};
 
 const localities = {
@@ -287,7 +283,6 @@ async function getVenues(locality) {
 // getObservations
 async function getObservations(locality) {
   try {
-
     let getObservationData = await fetch(`https://lgbtqspaces-api.herokuapp.com/api/observations/${locality}`, {
       method: 'GET'
     });
@@ -555,7 +550,7 @@ function switchLayer(layer) {
 
 
 function removeAllLayers(exclusion) {
-  let layers = ['observation-cubes', 'nearby-observations', 'buffer-point', 'year-block', 'year-block-line', 'poi-labels', 'venue-slice-layer'];
+  let layers = ['buffer-point', 'year-block', 'year-block-line', 'poi-labels', 'venue-slice-layer'];
   let sources = ['venues', 'buffer-point', 'year-block', 'year-block-line'];
 
   layers = layers.filter(item => item !== exclusion)
@@ -638,10 +633,6 @@ subMap.on('load', function () {
 
     // Create underlying observation
     let observations = await getObservationsVSID(vsid, selectedYear);
-    // Check if cube layer exists in map
-    if (map.getLayer('cube-observation')) {
-      map.removeLayer('cube-observation');
-    }
     let cubeCreate = await import('./addObservationCubes.js');
     cubeCreate.createCubes(observations.features, [geometry.coordinates[0], geometry.coordinates[1]]);
 
@@ -1026,7 +1017,7 @@ function capitalizeWords(str) {
 }*/
 
 // add div for the codes corresponding to selected year on the map
-function code_div(codes, venueSlices, observedData, year) {
+function code_div(codes, venueSlices, year) {
   let codeFilterBtn = document.getElementById("code-filter-btn");
   let codeParent = document.getElementById('codeDescriptorList');
 
@@ -1047,7 +1038,7 @@ function code_div(codes, venueSlices, observedData, year) {
   let codeNames = [];
 
   Object.values(codes).forEach(code => {
-    let filterCount = (codeFilter(venueSlices.features, year, code).length + codeFilter(observedData.features, year, code).length);
+    let filterCount = (codeFilter(venueSlices.features, year, code).length);
     if (!codeNames.includes(code.name)) {
       codeNames.push(code.name);
       let codeSubCategory = document.createElement('li');
@@ -1077,27 +1068,15 @@ function code_div(codes, venueSlices, observedData, year) {
         //remove 3D layer
 
         let result = codeFilter(venueSlices.features, year, code);
-        let resultObserve = codeFilter(observedData.features, year, code);
         on_Screen_Data_Venue = result;
-        on_Screen_Data_Observe = resultObserve;
         if (map.getLayer('venue-slice-layer')) {
           map.removeLayer('venue-slice-layer');
         };
-        if (map.getLayer('observation-cubes')) {
-          map.removeLayer('observation-cubes');
-        }
         if (map.getLayer('poi-labels')) {
           map.removeLayer('poi-labels');
           map.removeSource('venues');
         };
-        if (venue_status && observation_status) {
-          addCubes(resultObserve, false)
-          addVenues(result, false);
-        } else if (venue_status) {
-          addVenues(result, false)
-        } else if (observation_status) {
-          addCubes(resultObserve, false)
-        }
+        addVenues(result, false);
         ///////////////////////////////////////////////////////////////////////////////////////////
         document.getElementById("code-filter-btn").innerText = 'Current Filter: ' + codeItem.id;
         document.getElementById("clear-button").innerHTML = '<a class="dropdown-item" title="Clear all selected filters" href="#"> The filter <span id="applied-filter">' + code.code + '</span> is applied. \n  </br> Click here to remove this filter. </a>';
@@ -1128,22 +1107,11 @@ function code_div(codes, venueSlices, observedData, year) {
     if (map.getLayer('venue-slice-layer')) {
       map.removeLayer('venue-slice-layer');
     };
-    if (map.getLayer('observation-cubes')) {
-      map.removeLayer('observation-cubes');
-    }
     if (map.getLayer('poi-labels')) {
       map.removeLayer('poi-labels');
       map.removeSource('venues');
     };
-
-    if (venue_status && observation_status) {
-      addVenues(current_venue_data, false);
-      addCubes(current_observation_data, false);
-    } else if (venue_status) {
-      addVenues(current_venue_data, false);
-    } else if (observation_status) {
-      addCubes(current_observation_data, false);
-    }
+    addVenues(current_venue_data, false);
   });
 
   codeParent.appendChild(divider);
@@ -1365,17 +1333,14 @@ function addVenues(data, active) {
     type: 'custom',
     renderingMode: '3d',
     onAdd: function (map, mbxContext) {
-      if (!map.getLayer('observation-cubes')) {
-        mbxContext = map.getCanvas().getContext('webgl');
-        window.tb = new Threebox(
-          map,
-          mbxContext, {
-            defaultLights: true,
-            antialias: true
-          }
-        );
-
-      }
+      mbxContext = map.getCanvas().getContext('webgl');
+      window.tb = new Threebox(
+        map,
+        mbxContext, {
+          defaultLights: true,
+          antialias: true
+        }
+      );
 
       data.forEach(function (datum) {
         // longitude, latitude, altitude
@@ -1458,65 +1423,6 @@ function addVenues(data, active) {
   });
   paintConfidence(document.getElementById('reliability-switch').checked);
 };
-
-function addCubes(data, active) {
-  if (map.getLayer('observation-cubes')) {
-    map.removeLayer('observation-cubes');
-  }
-
-  map.addLayer({
-    id: 'observation-cubes',
-    type: 'custom',
-    renderingMode: '3d',
-    onAdd: function (map, mbxContext) {
-      if (!map.getLayer('venue-slice-layer')) {
-        mbxContext = map.getCanvas().getContext('webgl');
-        window.tb = new Threebox(
-          map,
-          mbxContext, {
-            defaultLights: true
-          }
-        );
-      }
-      data.forEach(function (datum) {
-        let baseCube = new THREE.Mesh(cubeGeometry, origMaterial);
-        let baseLine = new THREE.Mesh(lineGeometry, transMaterial);
-        cube = tb.Object3D({
-            obj: baseCube,
-            units: 'meters'
-          })
-          .set({
-            rotation: {
-              x: 0,
-              y: 0,
-              z: 0
-            }
-          });
-        line = tb.Object3D({
-            obj: baseLine,
-            units: 'meters'
-          })
-          .set({
-            rotation: {
-              x: 90,
-              y: 0,
-              z: 0
-            }
-          });
-        line.setCoords([datum.geometry.coordinates[0], datum.geometry.coordinates[1], 70]);
-        //the third parameter indicates the height of the cube.
-        cube.setCoords([datum.geometry.coordinates[0], datum.geometry.coordinates[1], 80]);
-        cube.userData.properties = datum.properties;
-        tb.add(cube);
-        tb.add(line);
-      })
-
-    },
-    render: function () {
-      tb.update();
-    }
-  });
-}
 
 function paintConfidence(isChecked) {
   let materials = [];
@@ -1719,7 +1625,6 @@ async function updateMap(selectedYear, selectedLocality, exclusion) {
 
   venues = await getVenues(selectedLocality);
   let vidSet = new Set();
-  let observationData = await getObservations(selectedLocality);
   let filteredYearData = venues.features.filter(function (feature) {
     // filters out duplicates to prevent rendering issues
     if  (feature.properties.year == selectedYear) {
@@ -1733,12 +1638,6 @@ async function updateMap(selectedYear, selectedLocality, exclusion) {
   });
 
   addVenueLayer(map, toSecondaryGEOJSON(filteredYearData));
-  let filteredYearObservationData = observationData.features.filter(function (feature) {
-    if (feature.properties.year == selectedYear) {
-      return true;
-      }
-  });
-  current_observation_data = filteredYearObservationData;
   current_venue_data = filteredYearData;
 
   removeAllLayers(exclusion);
@@ -1748,64 +1647,23 @@ async function updateMap(selectedYear, selectedLocality, exclusion) {
   createCodeCategories(code_data);
 
   let defaultCodes = codeIncludes(code_data, selectedYear)
-  code_div(defaultCodes, venues, observationData, selectedYear);
+  code_div(defaultCodes, venues, selectedYear);
   let active = false;
   // three js 3D object
 
   //switch event
   if (current_code_filter.length > 0) {
-    if (venue_status && observation_status) {
-      addVenues(on_Screen_Data_Venue, active);
-      addCubes(on_Screen_Data_Observe, active);
-    } else if (venue_status) {
-      addVenues(on_Screen_Data_Venue, active);
-    } else if (observation_status) {
-      addCubes(on_Screen_Data_Observe, active);
-    }
+    addVenues(on_Screen_Data_Venue, active);
   } else {
-    if (venue_status && observation_status) {
-      addVenues(filteredYearData, active);
-      addCubes(filteredYearObservationData, active);
-    } else if (venue_status) {
-      addVenues(filteredYearData, active);
-    } else if (observation_status) {
-      addCubes(filteredYearObservationData, active);
-    }
+    addVenues(filteredYearData, active);
   }
   // create venue list and observation list
   makeLocalityList('locality-venues', venues, selectedYear);
 
-  // If these two layers were not added to the map, abort
-  if (!map.getLayer('observation') || !map.getLayer('data')) {
+  // If the venue layer was not added to the map, abort
+  if (!map.getLayer('data')) {
     return;
   }
-  // Enumerate ids of the layers.
-  let observationLyrBtn = document.getElementById('observation-layer');
-  let venueLyrBtn = document.getElementById('venue-layer');
-  const toggleableLayerIds = [observationLyrBtn, venueLyrBtn];
-
-  toggleableLayerIds.forEach(element => {
-    element.addEventListener('click', function (e) {
-      e.preventDefault();
-      e.stopPropagation();
-      let clickedLayer = element.id;
-      // get visibility status of current layer
-      const visibility = map.getLayoutProperty(
-        clickedLayer,
-        'visibility'
-      );
-      // Toggle layer visibility by changing the layout object's visibility property.
-      if (visibility === 'none') {
-        map.setLayoutProperty(clickedLayer, 'visibility', 'visible');
-      } else {
-        map.setLayoutProperty(
-          clickedLayer,
-          'visibility',
-          'none'
-        );
-      }
-    })
-  })
 }
 
 // MAP ON LOAD
@@ -1916,12 +1774,6 @@ map.on('mouseleave', 'year-block', () => {
 // trigger location information on click of location point of map
 map.on('click', 'data', venueSliceLoad);
 async function venueSliceLoad(e) {
-  // Bo: Perhaps highlight the nearby and label their names.
-  if (map.getLayer('nearby-observations')) {
-    map.removeLayer('nearby-observations');
-    map.removeSource('nearby-observations');
-  }
-
   //left collapse control
 
   if (document.getElementById('info').classList.contains('leftCollapse')) {
@@ -2018,10 +1870,6 @@ async function venueSliceLoad(e) {
   let vsid = parseInt(e.features[0].properties.vsid);
   // Create underlying observation
   let observations = await getObservationsVSID(vsid, e.features[0].properties.year);
-  // Check if cube layer exists in map
-  if (map.getLayer('cube-observation')) {
-    map.removeLayer('cube-observation');
-  }
 
   let featureCoordinate = [feature.geometry.coordinates[0], feature.geometry.coordinates[1]];
   let cubeCreate = await import('./addObservationCubes.js');
@@ -2076,12 +1924,6 @@ document.getElementById('go-back-btn').addEventListener('click', function () {
     marker.remove();
     map.removeLayer('selectedMarker');
     map.removeSource('selectedMarker');
-  };
-
-  if (typeof map.getLayer('nearby-observations') !== "undefined") {
-    marker.remove();
-    map.removeLayer('nearby-observations');
-    map.removeSource('nearby-observations');
   };
 
   if (typeof map.getLayer('buffer-point') !== "undefined") {
