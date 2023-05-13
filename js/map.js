@@ -399,6 +399,10 @@ function toPolygonGEOJSON(data) {
     document.getElementById("name-tip").classList.add('d-none');
     document.getElementById("name-disclaimer").classList.add('d-none');
   } else {
+    let nameElement = document.getElementById("name").innerText.trim();
+    if (nameElement && uniqueNames.has(nameElement)) {
+        uniqueNames.delete(nameElement);
+    }
     const aliases = Array.from(uniqueNames).join(', ');
     // Update the title attribute of the tooltip icon element
     document.getElementById("name-tip").setAttribute('title', 'May also be known as: ' + aliases + '.');
@@ -409,6 +413,10 @@ function toPolygonGEOJSON(data) {
     document.getElementById("address-tip").classList.add('d-none');
     document.getElementById("address-disclaimer").classList.add('d-none');
   } else {
+    let addressElement = document.getElementById("address").innerText.trim().toLowerCase();
+    if (addressElement && uniqueAddress.has(addressElement)) {
+        uniqueAddress.delete(addressElement);
+    }
     const aliases = Array.from(uniqueAddress).join(', ');
     // Update the title attribute of the tooltip icon element
     document.getElementById("address-tip").setAttribute('title', "Other possible addresses over the years: " + aliases);
@@ -1580,7 +1588,6 @@ yearSlider.addEventListener('input', function () {
 yearSlider.addEventListener('change', async function () {
   let selectedYear = parseInt(document.getElementById('slider-bar').value);
   let selectedLocality = document.querySelector(".dropdown-item-checked").text.split(",")[0];
-  console.log
   updateMap(selectedYear, selectedLocality);
 })
 
