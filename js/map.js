@@ -10,35 +10,43 @@ let referenceList = {};
 const localities = {
   'seattle': {
     center: [-122.3321, 47.6062],
-    zoom: 14
+    zoom: 14,
+    state: 'WA'
   },
   'atlanta': {
     center: [-84.3880, 33.7490],
-    zoom: 14
+    zoom: 14,
+    state: 'GA'
   },
   'nashville': {
     center: [-86.7816, 36.1627],
-    zoom: 14
+    zoom: 14,
+    state: 'TN'
   },
   'cleveland': {
     center: [-81.6944, 41.4993],
-    zoom: 14
+    zoom: 14,
+    state: 'OH'
   },
   'kansas city': {
     center: [-94.5762, 39.102116],
-    zoom: 14
+    zoom: 14,
+    state: 'MO'
   },
   'phoenix': {
     center: [-112.072754, 33.44277],
-    zoom: 14
+    zoom: 14,
+    state: 'AZ'
   },
   'billings': {
     center: [-108.489304, 45.787636],
-    zoom: 14
+    zoom: 14,
+    state: 'MT'
   },
-  'Mobile': {
+  'mobile': {
     center: [-88.039894, 30.695366],
-    zoom: 14
+    zoom: 14,
+    state: 'AL'
   },
 };
 
@@ -583,7 +591,7 @@ subMap.on('load', function () {
     let vsid = e.features[0].properties.vsid;
     let geometry = JSON.parse(e.features[0].properties.center);
     let selectedYear = e.features[0].properties.year;
-    let selectedLocality = document.querySelector(".dropdown-item-checked").text;
+    let selectedLocality = document.querySelector(".dropdown-item-checked").text.split(",")[0];
     button.addEventListener('click', async function () {
       goToButton(vsid);
       updateMap(selectedYear, selectedLocality, exclusion="buffer-point");
@@ -960,9 +968,9 @@ function createLocalityList() {
 
     let localityName = capitalizeWords(locality[0]);
     if (localityName == "Seattle") {
-      localityItem.innerHTML = '<a class="dropdown-item dropdown-item-checked" href="#">' + localityName + '</a>';
+      localityItem.innerHTML = '<a class="dropdown-item dropdown-item-checked" href="#">' + localityName + ", " + locality[1].state + '</a>';
     } else {
-      localityItem.innerHTML = '<a class="dropdown-item" href="#">' + localityName + '</a>';
+      localityItem.innerHTML = '<a class="dropdown-item" href="#">' + localityName + ", " + locality[1].state + '</a>';
     }
 
     localityList.appendChild(localityItem);
@@ -988,7 +996,7 @@ function createLocalityList() {
       localityItem.querySelector("a").classList.add("dropdown-item-checked");
 
 
-      let selectedLocality = this.innerText;
+      let selectedLocality = this.innerText.split(",")[0];
       let selectedYear = parseInt(document.getElementById('slider-bar').value);
 
       updateMap(selectedYear, selectedLocality);
@@ -1571,7 +1579,8 @@ yearSlider.addEventListener('input', function () {
 
 yearSlider.addEventListener('change', async function () {
   let selectedYear = parseInt(document.getElementById('slider-bar').value);
-  let selectedLocality = document.querySelector(".dropdown-item-checked").text;
+  let selectedLocality = document.querySelector(".dropdown-item-checked").text.split(",")[0];
+  console.log
   updateMap(selectedYear, selectedLocality);
 })
 
@@ -1631,7 +1640,7 @@ async function updateMap(selectedYear, selectedLocality, exclusion) {
 // MAP ON LOAD
 map.on('style.load', async function () {
   let selectedYear = parseInt(document.getElementById('slider-bar').value);
-  let selectedLocality = document.querySelector(".dropdown-item-checked").text;
+  let selectedLocality = document.querySelector(".dropdown-item-checked").text.split(",")[0];
   updateMap(selectedYear, selectedLocality);
 });
 
