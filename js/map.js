@@ -36,6 +36,10 @@ const localities = {
     center: [-108.489304, 45.787636],
     zoom: 14
   },
+  'Mobile': {
+    center: [-88.039894, 30.695366],
+    zoom: 14
+  },
 };
 
 // check window size and close the left panel
@@ -1556,48 +1560,6 @@ async function placeInput(place) {
   }
 }
 
-// switch cube and cone layers, require coordination
-/*let venueCheckbox = document.getElementById('venue-flexSwitchCheckChecked');
-
-venueCheckbox.addEventListener('click', function (e) {
-
-  if (map.getLayer('poi-labels')) {
-    map.removeLayer('poi-labels');
-    map.removeSource('venues');
-  }
-  if (venueCheckbox.checked != true) {
-    venue_status = false;
-    if (map.getLayer('venue-slice-layer')) {
-      map.removeLayer('venue-slice-layer');
-    }
-    if (observation_status) {
-      if (map.getLayer('observation-cubes')) {
-        map.removeLayer('observation-cubes');
-      }
-      if (current_code_filter.length > 0) {
-        addCubes(on_Screen_Data_Observe, false);
-      } else {
-        addCubes(current_observation_data, false);
-      }
-    }
-  } else {
-    venue_status = true;
-    if (map.getLayer('venue-slice-layer')) {
-      map.removeLayer('venue-slice-layer');
-    }
-    if (current_code_filter.length > 0) {
-      addVenues(on_Screen_Data_Venue, false);
-    } else {
-      addVenues(current_venue_data, false);
-    }
-  }
-
-  // e.preventDefault();
-  e.stopPropagation();
-
-
-})
-*/
 ////////////////////////////////////////////////////////////////////////////////////
 
 // YEAR SLIDING

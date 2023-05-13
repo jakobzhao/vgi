@@ -299,8 +299,13 @@ p#venue-indicator {
   top: 3.6em;
 }
 
-#name, #name-tip {
+#name {
   display: inline;
+}
+
+#name-tip {
+  display: inline;
+  font-size: 1rem;
 }
 
 .smalltext {
