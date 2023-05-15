@@ -1269,11 +1269,12 @@ p#venue-indicator {
 }
 
 #rectangleBox {
-  width: 95%;
+  width: 90%;
   display: flex;
   justify-content: center;
   align-items: center;
   position: relative;
+  margin-left: 5%;
 }
 
 #color_icon {
@@ -1292,3 +1293,4 @@ p#venue-indicator {
   padding-right: 2em;
   margin: auto;
 }
+

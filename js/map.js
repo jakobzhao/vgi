@@ -702,7 +702,7 @@ subMap.on('load', function () {
     var color_icon = document.getElementById('color_icon');
     var color_year = document.getElementById('color_year');
     color_icon.style.display = 'block';
-    color_icon.style.left = (e.features[0].properties.year - 1965)* 2 + '%';
+    color_icon.style.left =   (e.features[0].properties.year - 1964)* 2 + '%';
     color_year.style.left = (e.features[0].properties.year - 1964)* 2 + '%';
   });
 
