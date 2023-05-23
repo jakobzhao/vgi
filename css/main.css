@@ -308,6 +308,10 @@ p#venue-indicator {
   font-size: 1rem;
 }
 
+.fa-info-circle:hover {
+  cursor: pointer;
+}
+
 .smalltext {
   font-size: small;
   margin: 0;

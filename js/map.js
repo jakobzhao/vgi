@@ -6,6 +6,7 @@ let current_venue_data; // record the overall venue data of selected year
 let current_code_filter = []; // tracking the filters user selected
 let on_Screen_Data_Venue; // venue data with the filter
 let referenceList = {};
+let clickedFeature = null;
 
 const localities = {
   'seattle': {
@@ -570,7 +571,7 @@ function switchLayer(layer) {
 
 
 function removeAllLayers(exclusion) {
-  let layers = ['buffer-point', 'year-block', 'year-block-line', 'poi-labels', 'venue-slice-layer'];
+  let layers = ['buffer-point', 'year-block', 'year-block-line', 'poi-labels', 'venue-slice-layer', 'highlighted-year'];
   let sources = ['venues', 'buffer-point', 'year-block', 'year-block-line'];
 
   layers = layers.filter(item => item !== exclusion)
@@ -589,90 +590,47 @@ function removeAllLayers(exclusion) {
 
 subMap.on('load', function () {
   subMap.on('click', 'year-extrusion', function (e) {
-    let button = document.createElement('button');
-    button.setAttribute('id', 'go-btn');
-    button.setAttribute('type', 'button');
-    button.classList.add('btn');
-    button.classList.add('btn-primary');
-    button.classList.add('my-3');
-    button.textContent = 'Visit the venue info in ' + e.features[0].properties.year + '.';
-    let vsid = e.features[0].properties.vsid;
-    let geometry = JSON.parse(e.features[0].properties.center);
-    let selectedYear = e.features[0].properties.year;
-    let selectedLocality = document.querySelector(".dropdown-item-checked").text.split(",")[0];
-    button.addEventListener('click', async function () {
-      goToButton(vsid);
-      updateMap(selectedYear, selectedLocality, exclusion="buffer-point");
-      document.getElementById('year-label').innerHTML = selectedYear;
-      document.getElementById('slider-bar').value = selectedYear;
 
-      // highlight the venue slice
-      // map.on('click', 'data', venueSliceLoad);
-      // venueSliceLoad(e);
-      ////////////////////////////////////////////////////////////
-
-      //add buffer
-      //Bo: I temporarily hide the buffer since it locates at a wrong center. try smaller radius
-      let turfPoint = turf.point([parseFloat(geometry.coordinates[0]), parseFloat(geometry.coordinates[1])]);
-      //fly to where the venue locates
-      map.flyTo({
-        center: geometry.coordinates
-      });
-
-      subMap.flyTo({
-        center: geometry.coordinates
-      });
-
-      let buffer = turf.buffer(turfPoint, 100, {
-        units: 'meters'
-      });
-
-      if (!map.getLayer('buffer-point')) {
-        map.addLayer({
-          id: 'buffer-point',
-          source: {
-            type: 'geojson',
-            data: {
-              "type": "FeatureCollection",
-              "features": []
-            }
-          },
-          type: "fill",
-          paint: {
-            'fill-color': 'red',
-            'fill-opacity': 0.1
-          }
-        });
+    // get the venue data from the clicked feature
+    let data = venues.features.filter(function (feature) {
+      return feature.properties.vsid == e.features[0].properties.vsid
+    });
+    let codes = infoNullCheck(data[0].properties.descriptorlist);
+    if (typeof (codes) == 'string') {
+      let codeString = "";
+      for (const element of codes) {
+        if (element !== '[' && element !== '"' && element !== '.' && element !== ']' && element !== "'") {
+          codeString += element;
+        }
       }
+      codes = codeString.split(',');
+    }
+    if (codes == null) {
+      codes = "";
+    }
 
-      map.getSource('buffer-point').setData(buffer);
+    for (let i = 0; i < codes.length; i++) {
+      codes[i] = codes[i].replaceAll('\'', '');
+    }
+    document.getElementById('code').innerHTML = '';
+    for (const element of codes) {
+      let code = document.createElement("button");
+      code.innerText = element;
+      code.className = 'descriptor';
+      code.addEventListener('click', function () {
+        document.getElementById('clear-button').click();
+        document.getElementById(element).click();
+      });
+      document.getElementById('code').appendChild(code);
+    }
 
-
-    // update frontend with new divs for each comment
-    // publish comment on click
-
-    // Create underlying observation
-    let observations = await getObservationsVID(vid, selectedYear);
-    let cubeCreate = await import('./addObservationCubes.js');
-    cubeCreate.createCubes(observations.features, [geometry.coordinates[0], geometry.coordinates[1]]);
-
-    // document.getElementById('publish-btn').removeEventListener('click', submitNewReview);
-    // document.getElementById('publish-btn').addEventListener('click', submitNewReview);
-    // get all comments of the location
-    // let reviewData = await getReviews(vsid);
-    // constructReviews(reviewData);
-    // get all photos of the location by the google API
-    //getEvidenceInfo(feature);
-      ////////////////////////////////////////////////////////////
+    // left panel location information
+    document.getElementById('name').innerHTML = infoNullCheck(data[0].properties.observedvenuename);
+    document.getElementById('address').innerHTML = infoNullCheck(data[0].properties.address);
+    document.getElementById('year-info').innerHTML = infoNullCheck(data[0].properties.year);
+    document.getElementById('city').innerHTML = infoNullCheck(data[0].properties.city);
+    document.getElementById('state').innerHTML = infoNullCheck(data[0].properties.state);
   })
-
-
-    document.getElementById('subMap-info').innerHTML = "";
-    // document.getElementById('subMap-info').innerHTML = "<strong>Address: </strong>" + e.features[0].properties.name + '<br>'  + referenceList[e.features[0].properties.year];
-    document.getElementById('subMap-info').appendChild(button);
-
-
-  });
 
   const popup = new mapboxgl.Popup({
     closeButton: false,
@@ -681,6 +639,10 @@ subMap.on('load', function () {
   });
 
   subMap.on('mousemove', 'year-extrusion', (e) => {
+    let bufferedFeature = turf.buffer(e.features[0], 0.01, {units: 'kilometers'});
+    subMap.getSource('highlighted-year').setData(bufferedFeature);
+
+    
 
     // let geometry = JSON.parse(e.features[0].properties.center);
   //   if (!popup.isOpen()) {
@@ -696,6 +658,7 @@ subMap.on('load', function () {
     .setHTML(e.features[0].properties.year)
     .addTo(subMap);
 
+
     //console.log(e.features[0].properties.year);
 
     subMap.getCanvas().style.cursor = 'pointer';
@@ -707,14 +670,29 @@ subMap.on('load', function () {
   });
 
   subMap.on('mouseleave', 'year-extrusion', (e) => {
+    subMap.getSource('highlighted-year').setData({
+      type: 'FeatureCollection',
+      features: []
+    });
 
     subMap.getCanvas().style.cursor = '';
     popup.remove();
     color_icon.style.display = 'none';
   });
 
-
+  subMap.on('click', function (e) {
+    // Clear the clicked feature if the click was not on the 'year-extrusion' layer
+    if (e.originalEvent.target.id !== 'highlighted-year') {
+      clickedFeature = null;
+    }
+  });
 })
+
+// updates left info panel data to current highlighted year:
+
+function displayHoverYear() {
+
+}
 // function slide-in left panel
 function viewLeftPanel(e) {
   let filteredLocalData = venues.features.filter(function (feature) {
@@ -824,8 +802,30 @@ if (subMap.getSource('dataByYear')) {
     }
   });
 
-  // reset zoom level of inset map
-  subMap.setZoom(12.8);
+  subMap.addLayer({
+    id: 'highlighted-year',
+    type: 'fill-extrusion',
+    source: {
+      type: 'geojson',
+      data: {
+        type: 'FeatureCollection',
+        features: []
+      }
+    },
+    paint: {
+      'fill-extrusion-color': 'red',
+      'fill-extrusion-height': {
+        'type': 'identity',
+        'property': 'height'
+      },
+      'fill-extrusion-base': {
+        'type': 'identity',
+        'property': 'base'
+      },
+      'fill-extrusion-opacity': 0.9
+    }
+  });
+
 
 
   let yearList = [];
