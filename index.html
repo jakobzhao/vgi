@@ -278,17 +278,15 @@
           <!-- left dashboard - location information on clicked point div -->
           <div class="my-2 d-flex flex-column" id="feature-list">
             <div class="d-flex flex-row my-1">
+              <b>Year:</b>
+              <div id="year-info" class="ms-2"></div>
+            </div>
+            <div class="d-flex flex-row my-1">
               <b>Address:</b>
               <div id="address" class="ms-2"></div>
               <span id="address-tip" class="bubble-icon ms-2 d-none" data-bs-toggle="tooltip">
                 <i class="fas fa-info-circle"></i>
               </span>
-            </div>
-
-            <div class="d-flex flex-row my-1">
-              <!-- <img src="assets/imgs/year.svg">  -->
-              <b>Year: </b>
-              <div id="year-info" class="ms-2"></div>
             </div>
             <div class="d-flex flex-row my-1">
               <!-- <img src="assets/imgs/city.svg"> -->
@@ -725,17 +723,10 @@
       <div id="accordion" class="m-2">
         <div class="accordion-item">
           <h2 class="accordion-header">
-
             <button id="venue-layer" class="accordion-button light-text-title" type="button" data-bs-toggle="collapse"
               data-bs-target="#collapseVenue" aria-expanded="false" aria-controls="collapseVenue">
               Venues of Interest &nbsp; <span style="color:darkgray; font-weight:500; font-size: small;"> (click to expand)</span>
-              <!-- <i class="fa fa-play fa-fw fa-rotate-90" style="color:lightskyblue"></i> -->
             </button>
-            <!--<div class="form-check form-switch" id="venue-switch">
-              <input class="form-check-input" type="checkbox" id="venue-flexSwitchCheckChecked" checked>
-              <label class="form-check-label" for="venue-flexSwitchCheckChecked">CONE</label> -->
-            <!--</div> -->
-
           </h2>
           <div id="collapseVenue" class="accordion-collapse collapse show">
             <div class="accordion-body">
@@ -752,11 +743,9 @@
               </div>
               <div id="locality-venues" class="venue-list container">
               </div>
-
             </div>
           </div>
           <p class="legend-note"> Venues are represented by the cylinders on screen. Click on any of them to retrieve and visualize detailed information.</p>
-
           <div class="colorscheme">
             <i class="color-1">not very</i>
             <i class="color-2">slightly</i>
@@ -769,13 +758,6 @@
             <label class="form-check-label" for="reliability-switch">Color the venues by how confident we are about data
               accuracy. </label>
           </div>
-          <!-- <div class="color-labels">
-            <span>not at all</span>
-            <span>slightly</span>
-            <span>somewhat</span>
-            <span>fairly</span>
-            <span>very</span>
-          </div> -->
         </div>
       </div>
     </div>

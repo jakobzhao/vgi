@@ -186,6 +186,19 @@ function venueList(data) {
   }
 }
 
+document.addEventListener('DOMContentLoaded', function() {
+  var venueLayer = document.getElementById('venue-layer');
+  venueLayer.addEventListener('click', function() {
+      var isExpanded = venueLayer.getAttribute('aria-expanded') === 'true';
+      var spanText = venueLayer.querySelector('span');
+      if (isExpanded) {
+          spanText.textContent = ' (click to collapse)';
+      } else {
+          spanText.textContent = ' (click to expand)';
+      }
+  });
+});
+
 // allCodes
 // Obtain data from database containing information for all the damron codes that appear in
 // given years according to issued Damron book
@@ -641,19 +654,9 @@ subMap.on('load', function () {
   subMap.on('mousemove', 'year-extrusion', (e) => {
     let bufferedFeature = turf.buffer(e.features[0], 0.01, {units: 'kilometers'});
     subMap.getSource('highlighted-year').setData(bufferedFeature);
+    subMap.setPaintProperty('highlighted-year', 'fill-extrusion-height', e.features[0].properties.height + 1);
+    subMap.setPaintProperty('highlighted-year', 'fill-extrusion-base', e.features[0].properties.height - 10);
 
-    
-
-    // let geometry = JSON.parse(e.features[0].properties.center);
-  //   if (!popup.isOpen()) {
-  //     this.className = '';
-  //     popup.setLngLat(subMap.getCenter());
-  //     popup.setHTML(e.features[0].properties.year);
-  //     popup.addTo(subMap)
-  // } else {
-  //     this.className = 'active';
-  //     popup.remove();
-  // }
     popup.setLngLat(subMap.getCenter())
     .setHTML(e.features[0].properties.year)
     .addTo(subMap);
@@ -688,11 +691,6 @@ subMap.on('load', function () {
   });
 })
 
-// updates left info panel data to current highlighted year:
-
-function displayHoverYear() {
-
-}
 // function slide-in left panel
 function viewLeftPanel(e) {
   let filteredLocalData = venues.features.filter(function (feature) {
