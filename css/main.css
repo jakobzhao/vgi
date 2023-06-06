@@ -63,9 +63,6 @@ visibility: hidden;
 
 }
 
-
-
-
 #nextTimeSwitcher {
   position: relative;
   left: -12em;
@@ -114,14 +111,14 @@ visibility: hidden;
 
 /* damron code filter */
 #code-filter {
-  top: 5.8em;
-  right: 27em;
+  top: 9em;
+  right: 14.25em;
 }
 
 /* category default filter */
 #locality-filter {
-  top: 5.8em;
-  right: 20em;
+  top: 9em;
+  right: 6.5em;
 }
 
 .mapboxgl-ctrl-geocoder--input {
@@ -364,7 +361,7 @@ p#venue-indicator {
 
 #ground-truth-btns {
   position: relative;
-  top: 0.5em;
+  top: 1.5em;
   left: 2%;
 }
 
@@ -754,24 +751,14 @@ p#venue-indicator {
 }
 
 .Chrome #slider-bar {
-  top: -4.2em;
-  left: 8em;
+  top: -2em;
+  left: -1em;
   position: relative;
   width: 20em;
   background: transparent;
   margin-left: 1em;
   z-index: 1;
   -webkit-appearance: none;
-}
-
-#slider-bar {
-  top: -4.2em;
-  left: 8em;
-  position: relative;
-  width: 20em;
-  background: transparent;
-  margin-left: 1em;
-  z-index: 1;
 }
 
 #slider-bar:focus {
@@ -1188,14 +1175,6 @@ p#venue-indicator {
   padding: 0em;
   width: 1em;
   font-size: 15px !important;
-}
-
-#divider-2 {
-  position: relative;
-  /* display: inline-flex; */
-  top: 2em;
-  margin-left: 1em;
-  margin-right: 1em;
 }
 
 #evidence-desc {
