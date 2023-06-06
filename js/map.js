@@ -603,10 +603,22 @@ function removeAllLayers(exclusion) {
 
 subMap.on('load', function () {
   subMap.on('click', 'year-extrusion', function (e) {
-
-    // get the venue data from the clicked feature
+    let vsid = e.features[0].properties.vsid;
+    let geometry = JSON.parse(e.features[0].properties.center);
+    let selectedYear = e.features[0].properties.year;
+    let selectedLocality = document.querySelector(".dropdown-item-checked").text.split(",")[0];
+    updateMap(selectedYear, selectedLocality, exclusion="buffer-point");
+    document.getElementById('year-label').innerHTML = selectedYear;
+    document.getElementById('slider-bar').value = selectedYear;
+      //fly to where the venue locates
+      map.flyTo({
+        center: geometry.coordinates
+      });
+      subMap.flyTo({
+        center: geometry.coordinates
+      });
     let data = venues.features.filter(function (feature) {
-      return feature.properties.vsid == e.features[0].properties.vsid
+      return feature.properties.vsid == vsid
     });
     let codes = infoNullCheck(data[0].properties.descriptorlist);
     if (typeof (codes) == 'string') {
@@ -673,10 +685,12 @@ subMap.on('load', function () {
   });
 
   subMap.on('mouseleave', 'year-extrusion', (e) => {
-    subMap.getSource('highlighted-year').setData({
-      type: 'FeatureCollection',
-      features: []
-    });
+    if (!map.getLayer('highlighted-year')) {
+      subMap.getSource('highlighted-year').setData({
+        type: 'FeatureCollection',
+        features: []
+      });
+    }
 
     subMap.getCanvas().style.cursor = '';
     popup.remove();
@@ -755,6 +769,7 @@ if (subMap.getLayer('year-indicator')) {
 if (subMap.getSource('dataByYear')) {
     subMap.removeSource('dataByYear');
 }
+
   subMap.addSource('dataByYear', {
     'type': 'geojson',
     'data': toPolygonGEOJSON(filteredLocalData)
@@ -799,7 +814,9 @@ if (subMap.getSource('dataByYear')) {
       'fill-extrusion-opacity': 0.1
     }
   });
+  
 
+if (!subMap.getLayer('highlighted-year')) {
   subMap.addLayer({
     id: 'highlighted-year',
     type: 'fill-extrusion',
@@ -823,6 +840,8 @@ if (subMap.getSource('dataByYear')) {
       'fill-extrusion-opacity': 0.9
     }
   });
+}
+  
 
 
 
