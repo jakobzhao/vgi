@@ -1137,6 +1137,9 @@ p#venue-indicator {
 }
 
 .sub-legend-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin-left:1.5em;
   height: 12px;
   width: 24.3em;
@@ -1154,8 +1157,6 @@ p#venue-indicator {
   margin-bottom: 5px;
 }
 .sub-legend-label{
-  width: 15.9%;
-  display: inline-block;
   text-align: center;
   font-size: smaller;
 }

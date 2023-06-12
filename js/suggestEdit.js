@@ -22,7 +22,7 @@ async function reportIssue(event) {
       }
       let response = await fetch('https://lgbtqspaces-api.herokuapp.com/api/suggest-an-edit', settings);
       if(response.status == 200) {
-        makeAlert("Observation recorded! You can now suggest another edit, or go back to the map.");
+        makeAlert("Observation recorded! It will take some time for our team to review the information before any changes are reflected. You can now suggest another edit, or go back to the map.");
         defaultInputFields();
         document.getElementById('ground-truth-btns').classList.remove('d-none');
       }
