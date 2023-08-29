@@ -49,6 +49,11 @@ const localities = {
     zoom: 14,
     state: 'AL'
   },
+  'ann arbor': {
+    center: [-83.732124, 42.279594],
+    zoom: 14,
+    state: 'MI'
+  }
 };
 
 // check window size and close the left panel
@@ -1461,6 +1466,104 @@ function addVenues(data, active) {
   paintConfidence(document.getElementById('reliability-switch').checked);
 };
 
+function addPreviews(data, active) {
+  if (map.getLayer('preview-layer')) {
+    map.removeLayer('preview-layer');
+  }
+  addLabels(data);
+
+  map.addLayer({
+    id: 'preview-layer',
+    type: 'custom',
+    renderingMode: '3d',
+    onAdd: function (map, mbxContext) {
+      mbxContext = map.getCanvas().getContext('webgl');
+      window.tb = new Threebox(
+        map,
+        mbxContext, {
+          defaultLights: true,
+          antialias: true
+        }
+      );
+
+      data.forEach(function (datum) {
+        let baseCone = new THREE.Mesh(geometry, origMaterial);
+        cone = tb.Object3D({
+          obj: baseCone,
+          units: 'meters'
+        }).set({
+          rotation: {
+            x: -90,
+            y: 0,
+            z: 0
+          }
+        });
+
+        cone.setCoords([datum.geometry.coordinates[0], datum.geometry.coordinates[1], 20]);
+        // Bo: Attach properties to each cone.
+        cone.userData.properties = datum.properties
+
+
+        tb.add(cone);
+        // tb.add(line);
+      })
+
+      let highlighted = [];
+
+      //add mousing interactions
+      map.on('click', 'data', function (e) {
+        // Yufei: Make sure when click another venue, the report-issue panel cleared
+        marker.remove();
+        if (!(document.getElementById('report-issue').classList.contains('d-none'))) {
+          document.getElementById('report-issue').classList.add('d-none');
+        }
+        // info-default panel on
+        if (document.getElementById('info-default').classList.contains('d-none')) {
+          document.getElementById('info-default').classList.remove('d-none');
+          document.getElementById('ground-truth-btns').classList.remove('d-none');
+        }
+
+        // Clear old objects
+        highlighted.forEach(function (h) {
+          h.material = origMaterial;
+        });
+        highlighted.length = 0;
+
+        // clear past inset map info
+        document.getElementById('subMap-info').innerHTML = "";
+        // document.getElementById('go-btn').innerHTML = " ";
+
+        // calculate objects intersecting the picking ray
+        let intersect = tb.queryRenderedFeatures(e.point)[0];
+        let intersectionExists = typeof intersect == "object";
+
+        // make sure the confidence level colors don't get overwritten
+        paintConfidence(document.getElementById('reliability-switch').checked);
+
+        // if intersect exists, highlight it
+        if (intersect) {
+          let nearestObject = intersect.object;
+          nearestObject.material = materialOnClick;
+          highlighted.push(nearestObject);
+          current_category = nearestObject.parent.userData.properties.category;
+          // toggleLeftPanelView('info-default');
+          // document.getElementById('info').classList.toggle('leftCollapse');
+        }
+
+        // on state change, fire a repaint
+        if (active !== intersectionExists) {
+          active = intersectionExists;
+          tb.repaint();
+        }
+      });
+    },
+    render: function () {
+      tb.update();
+    }
+  });
+  paintConfidence(document.getElementById('reliability-switch').checked);
+}
+
 function paintConfidence(isChecked) {
   let materials = [];
   let vcolors = chroma.scale('YlOrRd').colors(5);
@@ -1619,6 +1722,7 @@ yearSlider.addEventListener('change', async function () {
 async function updateMap(selectedYear, selectedLocality, exclusion) {
 
   venues = await getVenues(selectedLocality);
+  previews = await getPreviews(selectedLocality);
   let vidSet = new Set();
   let filteredYearData = venues.features.filter(function (feature) {
     // filters out duplicates to prevent rendering issues
