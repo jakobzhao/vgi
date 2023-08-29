@@ -337,6 +337,22 @@ async function getObservationsVID(vid, year) {
   }
 }
 
+async function getPreviews(locality) {
+  try {
+
+    let previewData = [];
+    let getPreviewData = await fetch(`https://lgbtqspaces-api.herokuapp.com/api/previews/${locality}`, {
+      method: 'GET'
+    });
+    getPreviewData = await getPreviewData.json();
+    previewData = previewData.concat(getPreviewData);
+    // }
+    return toGEOJSON(previewData);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 // converts json input  to geojson output
 function toGEOJSON(data) {
   let feature_list = [];
