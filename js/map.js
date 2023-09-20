@@ -53,6 +53,16 @@ const localities = {
     center: [-83.732124, 42.279594],
     zoom: 14,
     state: 'MI'
+  },
+  'san diego': {
+    center: [117.1611, 32.7157],
+    zoom: 14,
+    state: 'CA'
+  },
+  'boston': {
+    center: [-71.0589, 42.3601],
+    zoom: 14,
+    state: 'MA'
   }
 };
 
@@ -631,6 +641,7 @@ subMap.on('load', function () {
     updateMap(selectedYear, selectedLocality, exclusion="buffer-point");
     document.getElementById('year-label').innerHTML = selectedYear;
     document.getElementById('slider-bar').value = selectedYear;
+    
       //fly to where the venue locates
       map.flyTo({
         center: geometry.coordinates
@@ -670,10 +681,32 @@ subMap.on('load', function () {
       document.getElementById('code').appendChild(code);
     }
 
+    if (source == 'Local Expert') {
+      sourceText = 'Local expert contribution';
+    } else if (source == 'Damron' || source == 'Damron M' || source == 'DamronM') {
+      sourceText = 'Damron Men\'s Guide ' +  infoNullCheck(e.properties.year) + ' edition';
+    } else if (source == 'Damron W') {
+      sourceText = 'Damron Women\'s Guide ' +  infoNullCheck(e.properties.year) + ' edition';
+    } else {
+      sourceText = 'Unavailable'
+    } 
+
+    let source = infoNullCheck(data[0].properties.source);
+    if (source == 'Local Expert') {
+      sourceText = 'Local expert contribution';
+    } else if (source == 'Damron' || source == 'Damron M' || source == 'DamronM') {
+      sourceText = 'Damron Men\'s Guide ' +  infoNullCheck(e.properties.year) + ' edition';
+    } else if (source == 'Damron W') {
+      sourceText = 'Damron Women\'s Guide ' +  infoNullCheck(e.properties.year) + ' edition';
+    } else {
+      sourceText = 'Unavailable';
+    } 
+
     // left panel location information
     document.getElementById('name').innerHTML = infoNullCheck(data[0].properties.observedvenuename);
     document.getElementById('address').innerHTML = infoNullCheck(data[0].properties.address);
     document.getElementById('year-info').innerHTML = infoNullCheck(data[0].properties.year);
+    document.getElementById('source').innerHTML = sourceText;
     document.getElementById('city').innerHTML = infoNullCheck(data[0].properties.city);
     document.getElementById('state').innerHTML = infoNullCheck(data[0].properties.state);
   })
@@ -762,11 +795,22 @@ function viewLeftPanel(e) {
     });
     document.getElementById('code').appendChild(code);
   }
+  let source = infoNullCheck(e.properties.source);
+    if (source == 'Local Expert') {
+      sourceText = 'Local expert contribution';
+    } else if (source == 'Damron' || source == 'Damron M' || source == 'DamronM') {
+      sourceText = 'Damron Men\'s Guide ' +  infoNullCheck(e.properties.year) + ' edition';
+    } else if (source == 'Damron W') {
+      sourceText = 'Damron Women\'s Guide ' +  infoNullCheck(e.properties.year) + ' edition';
+    } else {
+      sourceText = 'Unavailable';
+    } 
 
   // left panel location information
   document.getElementById('name').innerHTML = infoNullCheck(e.properties.observedvenuename);
   document.getElementById('address').innerHTML = infoNullCheck(e.properties.address);
   document.getElementById('year-info').innerHTML = infoNullCheck(e.properties.year);
+  document.getElementById('source').innerHTML = sourceText;
   document.getElementById('city').innerHTML = infoNullCheck(e.properties.city);
   document.getElementById('state').innerHTML = infoNullCheck(e.properties.state);
 
