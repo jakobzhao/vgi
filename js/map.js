@@ -138,7 +138,7 @@ let subMap = new mapboxgl.Map({
   container: 'subMap', // container ID
   style: 'mapbox://styles/mapbox/light-v10', // style URL
   center: [-122.33502, 47.61497],
-  zoom: 12, // starting zoom
+  zoom: 13, // starting zoom
   pitch: 60,
   // bearing: -10.8,
   attributionControl: false,
@@ -813,6 +813,17 @@ function viewLeftPanel(e) {
   document.getElementById('source').innerHTML = sourceText;
   document.getElementById('city').innerHTML = infoNullCheck(e.properties.city);
   document.getElementById('state').innerHTML = infoNullCheck(e.properties.state);
+  document.getElementById('last-update').innerText = 
+    "*Our data for this venue was last updated on " + 
+    infoNullCheck(formatDate(e.properties.lastmodified));
+  
+  function formatDate(dateString) {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');  // Months are 0-11, hence adding 1
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
 
   //vid for comment
   // document.getElementById('vid-review').innerHTML = e.properties.vid;
