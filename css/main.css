@@ -82,6 +82,9 @@ visibility: hidden;
 
 .btn {
   font-size: small;
+  background-color: #2C2C2C;
+  border: 3px solid #FF69B4;
+  color: #ffffff;
 }
 
 /* for search bar  */
@@ -112,13 +115,14 @@ visibility: hidden;
 /* damron code filter */
 #code-filter {
   top: 9em;
-  right: 14.25em;
+  right: 14.3em;
 }
 
 /* category default filter */
 #locality-filter {
   top: 9em;
-  right: 6.5em;
+  right: 8.25em;
+}
 }
 
 .mapboxgl-ctrl-geocoder--input {

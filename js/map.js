@@ -55,7 +55,7 @@ const localities = {
     state: 'MI'
   },
   'san diego': {
-    center: [117.1611, 32.7157],
+    center: [-117.1611, 32.7157],
     zoom: 14,
     state: 'CA'
   },
