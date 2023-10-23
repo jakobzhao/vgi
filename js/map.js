@@ -30,15 +30,10 @@ const localities = {
     state: 'OH'
   },
   'kansas city': {
-    center: [-94.5762, 39.102116],
+    center: [-94.59926, 39.102116],
     zoom: 14,
     state: 'MO & KS'
   },
-  // 'kansas city': {
-  //   center: [-94.6491, 39.1201],
-  //   zoom: 14,
-  //   state: 'KS'
-  // },
   'phoenix': {
     center: [-112.072754, 33.44277],
     zoom: 14,
@@ -770,54 +765,83 @@ function viewLeftPanel(e) {
     return feature.properties.vid == e.properties.vid;
   });
 
-  // parse the codes to increase readability
-  let codes = infoNullCheck(e.properties.descriptorlist);
-  if (typeof (codes) == 'string') {
-    let codeString = "";
-    for (const element of codes) {
-      if (element !== '[' && element !== '"' && element !== '.' && element !== ']' && element !== "'") {
-        codeString += element;
+  //find alternative sources for the venue
+  let alternativeSource = venues.features.filter(function (feature) {
+    return feature.properties.vid == e.properties.vid & feature.properties.year == e.properties.year;
+  });
+  
+  let uniqueCodes = new Set();
+  let uniqueSources = new Set();
+
+  for (const e of alternativeSource) {
+    // parse the codes to increase readability
+    let codes = infoNullCheck(e.properties.descriptorlist);
+    if (typeof (codes) == 'string') {
+      let codeString = "";
+      for (const element of codes) {
+        if (element !== '[' && element !== '"' && element !== '.' && element !== ']' && element !== "'") {
+          codeString += element;
+        }
+      }
+      codes = codeString.split(',');
+    }
+    //@jakobzhao: if no code in the code list
+    if (codes == null) {
+      codes = "";
+    }
+    
+    if (codes) {
+      for (const code of codes) {
+        uniqueCodes.add(code.replaceAll('\'', ''));
       }
     }
     codes = codeString.split(',');
   }
-  //@jakobzhao: if no code in the code list
-  if (codes == null) {
-    codes = "";
+
+  let source = infoNullCheck(e.properties.source);
+    if (source) {
+      uniqueSources.add(source);
+    }
+  }
+  
+  document.getElementById('code').innerHTML = '';
+  for (const codeText of uniqueCodes) {
+    let codeButton = document.createElement("button");
+    codeButton.innerText = codeText;
+    codeButton.className = 'descriptor';
+    codeButton.addEventListener('click', function () {
+      document.getElementById('clear-button').click();
+      document.getElementById(codeText).click();
+    });
+    document.getElementById('code').appendChild(codeButton);
   }
 
-  for (let i = 0; i < codes.length; i++) {
-    codes[i] = codes[i].replaceAll('\'', '');
-  }
-  document.getElementById('code').innerHTML = '';
-  for (const element of codes) {
-    let code = document.createElement("button");
-    code.innerText = element;
-    code.className = 'descriptor';
-    code.addEventListener('click', function () {
-      document.getElementById('clear-button').click();
-      document.getElementById(element).click();
-    });
-    document.getElementById('code').appendChild(code);
-  }
-  let source = infoNullCheck(e.properties.source);
+  let sourceText = "";
+  for (const source of uniqueSources) {
     if (source == 'Local Expert') {
-      sourceText = 'Local expert contribution';
+      sourceText += 'Local expert contribution, ';
     } else if (source == 'Damron' || source == 'Damron M' || source == 'DamronM') {
-      sourceText = 'Damron Men\'s Guide ' +  infoNullCheck(e.properties.year) + ' edition';
+      sourceText += 'Damron Men\'s Guide ' + infoNullCheck(e.properties.year) + ' edition, ';
     } else if (source == 'Damron W') {
-      sourceText = 'Damron Women\'s Guide ' +  infoNullCheck(e.properties.year) + ' edition';
+      sourceText += 'Damron Women\'s Guide ' + infoNullCheck(e.properties.year) + ' edition, ';
     } else {
-      sourceText = 'Unavailable';
-    } 
+      sourceText += 'Unavailable, ';
+    }
+  }
+
+  // Remove trailing comma and space
+  if (sourceText.endsWith(', ')) {
+    sourceText = sourceText.slice(0, -2);
+  }
+    
 
   // left panel location information
   document.getElementById('name').innerHTML = infoNullCheck(e.properties.observedvenuename);
-  document.getElementById('address').innerHTML = infoNullCheck(e.properties.address);
-  document.getElementById('year-info').innerHTML = infoNullCheck(e.properties.year);
+  document.getElementById('address').innerHTML = infoNullCheck(e.properties.address) + ',  ' + infoNullCheck(e.properties.city) + ', ' + infoNullCheck(e.properties.state);
+  // document.getElementById('year-info').innerHTML = infoNullCheck(e.properties.year);
   document.getElementById('source').innerHTML = sourceText;
-  document.getElementById('city').innerHTML = infoNullCheck(e.properties.city);
-  document.getElementById('state').innerHTML = infoNullCheck(e.properties.state);
+  // document.getElementById('city').innerHTML = infoNullCheck(e.properties.city);
+  // document.getElementById('state').innerHTML = infoNullCheck(e.properties.state);
   document.getElementById('last-update').innerText = 
     "*Our data for this venue was last updated on " + 
     infoNullCheck(formatDate(e.properties.lastmodified));

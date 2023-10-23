@@ -87,6 +87,12 @@ visibility: hidden;
   color: #ffffff;
 }
 
+.btn:hover {
+  background-color: #3C3C3C; /* Slightly lighter shade for hover */
+  border-color: #FF79C4;     /* Slightly lighter shade of the pink */
+  transform: scale(1.05);    /* Slightly scale the button to give it a "lifted" feel */
+}
+
 /* for search bar  */
 .map-overlay-top {
   position: absolute;
@@ -160,6 +166,13 @@ visibility: hidden;
   padding-left: 4px;
   padding-right: 4px;
   margin: 2px;
+}
+
+#applied-filter:hover,
+.descriptor:hover {
+  background: rgba(193, 193, 193, 0.5);
+  border-color: rgba(0, 0, 0, 0.3);
+  transform: scale(1.03);
 }
 
 #clear-button > a {
