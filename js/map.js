@@ -32,8 +32,13 @@ const localities = {
   'kansas city': {
     center: [-94.5762, 39.102116],
     zoom: 14,
-    state: 'MO'
+    state: 'MO & KS'
   },
+  // 'kansas city': {
+  //   center: [-94.6491, 39.1201],
+  //   zoom: 14,
+  //   state: 'KS'
+  // },
   'phoenix': {
     center: [-112.072754, 33.44277],
     zoom: 14,
