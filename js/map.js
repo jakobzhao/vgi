@@ -795,8 +795,6 @@ function viewLeftPanel(e) {
         uniqueCodes.add(code.replaceAll('\'', ''));
       }
     }
-    codes = codeString.split(',');
-  }
 
   let source = infoNullCheck(e.properties.source);
     if (source) {
