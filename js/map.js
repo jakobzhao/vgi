@@ -63,6 +63,11 @@ const localities = {
     center: [-71.0589, 42.3601],
     zoom: 14,
     state: 'MA'
+  },
+  'portland': {
+    center: [-70.2588, 43.6635],
+    zoom: 14,
+    state: 'ME'
   }
 };
 
